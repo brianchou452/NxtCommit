@@ -313,6 +313,7 @@ export default function Review() {
       if (request !== actionRequest.current || activeId.current !== missionId) return;
       pushToast({ kind: "error", message: apiErrorText(e, t) });
       setBusy(false);
+      load(); // A review may have committed before the release response failed.
     }
   };
 

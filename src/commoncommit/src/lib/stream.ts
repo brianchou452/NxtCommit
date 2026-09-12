@@ -1,4 +1,4 @@
-import { event as adaptEvent } from "./nxtAdapter.js";
+import { event as adaptEvent, mission as adaptMission } from "./nxtAdapter.js";
 import { useEffect, useRef } from "react";
 import type { StreamMessage } from "../../shared/types.js";
 
@@ -29,6 +29,7 @@ export function useStream(
         try {
           const value = JSON.parse(e.data);
           const msg = (value.kind ? value : e.type === "mission_update" ? {kind:e.type,mission:value} : e.type === "run_update" ? {kind:e.type,run:value} : value) as StreamMessage;
+          if (msg.kind === "mission_update" && msg.mission.project) msg.mission = adaptMission(msg.mission) as typeof msg.mission;
           if (msg.kind === "exec_event") msg.event = adaptEvent(msg.event) as typeof msg.event;
           if (msg.kind !== "heartbeat") handlers.current.onMessage(msg);
         } catch {

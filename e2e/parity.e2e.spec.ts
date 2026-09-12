@@ -4,6 +4,7 @@ for(const route of ['/', '/marketplace','/missions/catalog-mermaid','/missions/c
  test(`source UI renders ${route} with no application error`,async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(route);await expect(page.getByRole('heading').first()).toBeVisible();
+ await expect(page.getByRole('heading',{name:'This page could not be loaded',exact:true})).toHaveCount(0);
  await expect(page.getByRole('main').first()).not.toContainText(/NaN%|NaN credits/);
  await page.waitForTimeout(600);expect(errors).toEqual([]);
  if(route==='/missions/catalog-mermaid'||route==='/demo'||route==='/') await page.screenshot({path:info.outputPath('source-parity.png'),fullPage:true,animations:"disabled"});
@@ -50,6 +51,8 @@ test('maintainer guide completes original tempo fixture through actual retry, re
  await page.locator('[data-demo-action="confirm-pledge"]').click();
  await expect(page).toHaveURL(/\/run/);
  await expect(page.locator('[data-demo-action="review-artifact"]')).toBeVisible({timeout:15000});
+ await expect(page.locator('body')).not.toContainText('NaNs');
+ await expect(page.locator('body')).toContainText('2 of 2');
  await page.screenshot({path:info.outputPath('execution-source.png'),fullPage:true,animations:"disabled"});
  await page.locator('[data-demo-action="review-artifact"]').click();
  await expect(page.locator('body')).toContainText('20');

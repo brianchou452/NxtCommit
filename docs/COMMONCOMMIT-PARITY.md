@@ -40,3 +40,12 @@ Source page/component/visual contracts are preserved under `docs/reference/commo
 The frontend uses the source TypeScript index/optional-property settings under strict mode; `tsconfig.check.json` retains the target's stricter settings for server, shared contracts and tests. Existing server regression coverage remains active. Source presentation journeys replace old UI-specific acceptance selectors; the old browser suites remain under explicit legacy projects. Active acceptance also includes the existing GitHub workspace and Agent Lab journeys. Browser screenshots are review evidence, not a claim of byte-identical pixels or an automatically approved golden update.
 
 Rollback uses the release commit's inverse. Migration is additive; a private pre-deployment database backup is retained separately and is never automatically restored over newer user activity.
+
+### Verification recorded on 2026-09-12
+
+- 133 contracts: zero schema errors or missing test files.
+- Production build, strict TypeScript checks and all 173 server tests passed, including tempo feedback rerun with 23 passing tests, release receipt and replay.
+- All 32 active browser journeys passed. After the final execution-count/duration display repair, the full maintainer recovery journey and TypeScript checks passed again.
+- Desktop screenshots cover the landing, catalog detail, demo, execution and review; comparisons retained the source shell, pledge and review-control goldens. Header additions have usable width and responsive wrapping. Mobile was checked at 390×844 for reflow, bilingual content and no horizontal overflow; **mobile visual baseline not covered** by approved goldens.
+- Normal-motion pledge particles, reduced-motion reading state, visible guide targets, keyboard Time Machine navigation, lost pledge responses, protected launch and cross-tab wallet/profile refresh were exercised. Source unknown duration is shown as a dash; final attempt counts are refreshed from the authoritative mission snapshot.
+- The private pre-deployment SQLite backup passed `quick_check` and has mode 0600. No production pledge or reset was used for acceptance testing. CI and live deployment identity are verified separately after publishing this revision.

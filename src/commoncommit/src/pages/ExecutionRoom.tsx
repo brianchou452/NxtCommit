@@ -62,6 +62,7 @@ function pickRun(detail: MissionDetail): ExecutionRun | null {
 }
 
 function fmtDurMs(ms: number): string {
+  if (!Number.isFinite(ms)) return "—";
   return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(1)}s`;
 }
 
@@ -529,13 +530,9 @@ export default function ExecutionRoom() {
         );
       } else if (msg.kind === "run_update") {
         if (msg.run.missionId !== id) return;
-        const switchedRuns = adoptRun(msg.run);
-        if (switchedRuns) {
-          // Revalidate the mission as well as the explicitly selected run. This
-          // also guarantees an early run_update cannot invalidate the initial
-          // mission request and leave the page in its loading state forever.
-          load();
-        }
+        adoptRun(msg.run);
+        // Re-read the adapted attempt counts after every run state update.
+        load();
       } else if (msg.kind === "mission_update") {
         if (msg.mission.id !== id) return;
         setMission(msg.mission);
@@ -788,7 +785,7 @@ export default function ExecutionRoom() {
               <div className="flex items-baseline justify-between gap-2">
                 <dt className="text-dim">{t("run.attempt")}</dt>
                 <dd className="font-mono text-mut">
-                  {run.attempt} {t("run.of")} {run.maxAttempts}
+                  {fmtInt(run.attempt, locale)} {t("run.of")} {fmtInt(run.maxAttempts, locale)}
                 </dd>
               </div>
             </dl>
