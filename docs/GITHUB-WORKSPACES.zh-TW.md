@@ -67,4 +67,4 @@ session；HTTPS 使用 Secure cookie。localhost 以外須使用 HTTPS。每次�
 
 ## 整合驗證 — 2026-09-12
 
-已整合 main `ad026e1`，來源版本為 `0.7.24`，保留 Agent Lab、模型取消、有界 provider 回覆及受保護的 demo reset。通過 163 個後端測試、45 個瀏覽器情境、5 個真實 Docker 工作區流程、typecheck／build、131 份規格與版本／空白檢查。遠端新增的一個 smoke test 在並行負載下曾逾時，單獨與完整套件重跑均通過。以上是本機結果，不代表真實 GitHub 寫入或部署證據。
+已整合 main `ad026e1`，來源版本為 `0.7.24`，保留 Agent Lab、模型取消、有界 provider 回覆及受保護的 demo reset。通過 166 個後端測試、47 個瀏覽器情境、5 個真實 Docker 工作區流程、typecheck／build、131 份規格與版本／空白檢查。遠端新增的一個 smoke test 在並行負載下曾逾時，單獨與完整套件重跑均通過。以上是本機結果，不代表真實 GitHub 寫入或部署證據。

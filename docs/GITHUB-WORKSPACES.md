@@ -81,4 +81,4 @@ The production adapter uses the [GitHub Git Database API](https://docs.github.co
 
 ## Integration verification — 2026-09-12
 
-Integrated with main `ad026e1` at source version `0.7.24`, preserving Agent Lab, model cancellation, bounded provider responses and protected demo reset. Verification passed: 163 backend tests, 45 browser scenarios, 5 real-Docker workspace journeys, typecheck/build, 131 specs and version/whitespace checks. One upstream smoke test initially timed out under concurrent load; its targeted and full-suite reruns passed. These are local results, not live GitHub write or deployment evidence.
+Integrated with main `ad026e1` at source version `0.7.24`, preserving Agent Lab, model cancellation, bounded provider responses and protected demo reset. Verification passed: 166 backend tests, 47 browser scenarios, 5 real-Docker workspace journeys, typecheck/build, 131 specs and version/whitespace checks. One upstream smoke test initially timed out under concurrent load; its targeted and full-suite reruns passed. These are local results, not live GitHub write or deployment evidence.
