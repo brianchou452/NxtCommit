@@ -1,5 +1,15 @@
 # 分支與檔案盤點 — 2026-09-12
 
+## Main 驗證盤點 — 2026-09-12
+
+Fetch 後的 main `f4f1c13` 已包含所有受檢的非 chaos 本機分支：`codex/cloudflare-cicd`、`codex/product-delivery`、`dev/computer-c`，以及獨立 clone 的 `codex/ci-speed-capacity`（`111df8b`）。遠端 A／B 與 `codex/dev-spec-integration` 也沒有 main 以外的提交，因此不需重複合併。`codex/chaos-experiment-agents`（`75c47c2`）仍有六筆獨有提交，依使用者指示排除，未改動其 checkout。
+
+在獨立 `NxtCommit-merge-audit` 檢查單一 mission／ledger authority、C evidence port、Home projections、共用 reset、route registration 與正式 fixture 打包。125 份規格 lint、四項 linter 測試皆通過。正式映像以實際 entrypoint、禁止外部網路驗證 duration 5/5 → approved、retry 3/3 → needs_review，以及 reset。既有 40 張視覺差異詳見整合交接；approved golden 保持不變，Phase 4 視覺審核仍待完成。
+
+另行 Docker 驗證也通過前後端 typecheck、production build、版本 0.7.17、全部 99 項 server tests（零 TODO）與全部 38 條互動瀏覽器流程。
+
+[Main CI 與部署](https://github.com/brianchou452/NxtCommit/actions/runs/34675500228) 已通過；另行 HTTPS smoke 確認 serving SHA `f4f1c13`、四個端點與資料庫健康。執行限 demo 與 bundled fixtures，不以 provider／Langfuse 配置宣稱產品已驗證。下方歷史盤點保留供追溯。
+
 > **整合後續：** `08bead6` 已合併 A／B／C，後續 main merge 納入 delivery tip `7d9fbba`。下方表格與 JSON 保留原始日期快照，不代表目前 branch tip。詳見 [Phase 3 證據](PHASE3-INTEGRATION.zh-TW.md)。
 
 [English](BRANCHES.md) · [協作指南](COLLABORATION.zh-TW.md)

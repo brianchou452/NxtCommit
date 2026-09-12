@@ -1,5 +1,15 @@
 # Branch and file inventory — 2026-09-12
 
+## Verified main audit — 2026-09-12
+
+Fetched main `f4f1c13` already contains every inspected non-chaos local branch: `codex/cloudflare-cicd`, `codex/product-delivery`, `dev/computer-c`, and the independent clone's `codex/ci-speed-capacity` at `111df8b`. Remote A/B and `codex/dev-spec-integration` also have zero commits outside main. No duplicate merge was needed. `codex/chaos-experiment-agents` at `75c47c2` has six exclusive commits and remains excluded by user instruction; its checkout was untouched.
+
+Independent audit in `NxtCommit-merge-audit` checked the single mission/ledger authority, C evidence port, Home projections, shared reset, route registration and production fixture packaging. Specification lint passed for 125 specs; four linter tests passed. The production image passed duration 5/5 → approved, retry 3/3 → needs_review, and reset using its real entrypoint with external networking disabled. See the integration handoff for the existing 40 visual mismatches: approved goldens remain unchanged and Phase 4 visual approval is still pending.
+
+Independent Docker verification also passed frontend/backend typechecks, production build, version 0.7.17, all 99 server tests (zero TODO) and all 38 interactive browser journeys.
+
+[Main CI and deployment](https://github.com/brianchou452/NxtCommit/actions/runs/34675500228) passed. Independent HTTPS smoke confirmed serving SHA `f4f1c13`, all four endpoints and database readiness. Execution is demo and bundled-fixtures-only; provider and Langfuse configuration are not claimed as product verification. Historical inventory below is retained for provenance.
+
 > **Integration follow-up:** `08bead6` combines A/B/C; the subsequent main merge incorporates delivery tip `7d9fbba`. The tables and JSON below remain the original dated inventory, not current branch tips. See [Phase 3 evidence](PHASE3-INTEGRATION.md).
 
 [繁體中文](BRANCHES.zh-TW.md) · [Collaboration](COLLABORATION.md)
