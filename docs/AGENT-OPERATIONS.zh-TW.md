@@ -2,6 +2,8 @@
 
 [English](AGENT-OPERATIONS.md)
 
+目前 main 驗證：[v0.7.20 合併證據](AGENT-MAIN-INTEGRATION.zh-TW.md)。
+
 使用 LangGraph JS 1.4.15 協調既有 TypeScript agents，官方 SQLite checkpointer
 1.0.4 保存階段進度。Langfuse 4.35.0 為獨立本機 Docker Compose 服務。
 流程圖只負責協調；模型仍不能變更測試、工具、指令、部署政策或 Demo 鎖。

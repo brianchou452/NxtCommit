@@ -2,6 +2,8 @@
 
 [繁體中文](AGENT-OPERATIONS.zh-TW.md)
 
+Current main verification: [v0.7.20 merge evidence](AGENT-MAIN-INTEGRATION.md).
+
 LangGraph JS 1.4.15 coordinates the existing TypeScript agents; the official SQLite
 checkpointer 1.0.4 persists stage boundaries. Langfuse 4.35.0 runs as an independent
 local Docker Compose stack. A graph is orchestration, not permission for a model
