@@ -21,6 +21,14 @@ git worktree add ../NxtCommit-docs-task -b codex/docs-task main
 
 新 worktree 再依開發指南安裝依賴；不要將正式 `.env` 複製到分享檔案或 artifact。需要憑證時依 OpenAI runbook 個別設定。
 
+<a id="frontend-design-system"></a>
+
+## 前端 Design System
+
+所有前端貢獻者（含遠端開發者與 coding agent）在修改前端 layout、樣式、元件、互動或視覺資產前，都必須先讀並遵循[Design System](DESIGN-SYSTEM.zh-TW.md)。依文件權威順序核對適用的 design-system YAML、component/page/visual contracts 與 approved golden。逐項完成 design review checklist，於 PR／交接附上 screenshot、contract check 輸出或 issue link；明列未驗證項目與缺少的 mobile 視覺覆蓋。文件更新本身不等於視覺驗收。
+
+[繁中文件](DESIGN-SYSTEM.zh-TW.md)逐字保留使用者提供的 `commoncommit/docs/DESIGN-SYSTEM.md` 來源；英文文件為其翻譯。文件中的 2026-09-12 同步與實作陳述描述來源基準，不代表此 checkout 已重新驗證。本 repo 有 `spec/design-systems/nxtcommit.yaml`、`spec/components/release-update.yaml`、`spec/pages/home.yaml`、`spec/visual/home.yaml` 與宣告的 `e2e/golden/home-desktop-ready.png`，但檔案存在不代表目前 UI 已符合。來源提及的 `src/styles.css` 在本 repo 不存在，請對照本 repo 的 `src/styles/*.css`。若引用的 contract、golden 或實作缺少或不同，先記錄缺口並釐清 canonical artifacts，才可宣稱符合；不可自行推論覆蓋範圍或自動搬入無關實作。
+
 ## 分工與整合
 
 | 工作線 | 主要責任 | 整合時要對齊 |
@@ -53,6 +61,7 @@ git worktree add ../NxtCommit-docs-task -b codex/docs-task main
 
 | Document | Scope |
 | --- | --- |
+| [Design System](DESIGN-SYSTEM.zh-TW.md) | 前端必讀指南、權威順序與 design review checklist |
 | [開發](DEVELOPMENT.zh-TW.md) | 目前 main 的設定與指令 |
 | [分支](BRANCHES.zh-TW.md) | 本機、另一份 clone 與快取遠端分支 |
 | [規格交付](SPEC-DELIVERY.zh-TW.md) | YAML 到測試／實作映射 |
