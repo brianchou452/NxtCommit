@@ -150,7 +150,7 @@ test("guided-demo-maintainer-active", async ({ page }, info) => {
     .click();
   await expect(page).toHaveURL(/\/new\?demo=maintainer$/);
   await expect(page.getByTestId("guide")).toContainText(
-    "The next product control is not available in this slice.",
+    "Use the highlighted product control to continue.",
   );
   await page.screenshot({
     path: info.outputPath("maintainer-missing-target.png"),

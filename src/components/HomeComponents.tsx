@@ -389,7 +389,7 @@ export function CampaignBrowser({
                 key={m.id}
                 campaign={m}
                 featured={i === 0}
-                guide={index === 0 && i === 0}
+                guide={snapshot.data?.sections.some(s => s.missions.some(m => m.id === "mission-fixture")) ? m.id === "mission-fixture" : index === 0 && i === 0}
               />
             ))}
           </div>

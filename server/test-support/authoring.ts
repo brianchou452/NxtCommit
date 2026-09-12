@@ -12,7 +12,7 @@ export async function draftFixture(url: string) {
   return { analysis, draft };
 }
 export async function withAuthoring(run: (server: Awaited<ReturnType<typeof startTestServer>>) => Promise<void>) {
-  const server = await startTestServer(); try { await run(server); } finally { await server.stop(); }
+  const server = await startTestServer({ installMissions: false }); try { await run(server); } finally { await server.stop(); }
 }
 export const authoringCases: Record<string, () => Promise<void>> = {
   'analysis-preserves-observation-boundary': () => withAuthoring(async ({ url }) => {

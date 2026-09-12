@@ -50,53 +50,41 @@ export function GuidedDemo() {
   const navigate = useNavigate();
   const { text } = useLocale();
   const role = new URLSearchParams(location.search).get("demo");
-  const [target, setTarget] = useState<"waiting" | "visible" | "missing">(
-    "waiting",
-  );
+  const [target, setTarget] = useState<"waiting" | "visible" | "missing" | "complete">("waiting");
+  const [step, setStep] = useState("1");
+  const [instruction, setInstruction] = useState<string>("");
   useEffect(() => {
     if (role !== "provider" && role !== "maintainer") return;
-    setTarget("waiting");
     let highlighted: Element | null = null;
+    let timedOut = false;
     let timer: ReturnType<typeof setTimeout>;
-    const selector =
-      role === "provider" && location.pathname === "/marketplace"
-        ? '[data-guide-target="campaign"]'
-        : role === "maintainer" && location.pathname === "/new"
-          ? '[data-guide-target="analyze"]'
-          : '[data-guide-target="next"]';
-    function detect() {
-      highlighted = document.querySelector(selector);
-      if (highlighted) {
-        highlighted.classList.add("guide-target");
-        highlighted.scrollIntoView({ block: "center" });
-        setTarget("visible");
-        observer.disconnect();
+    setTarget("waiting");
+    const detect = () => {
+      if (document.querySelector('[data-guide-complete="true"]')) { setTarget("complete"); highlighted?.classList.remove("guide-target"); return; }
+      const selector = location.pathname === "/marketplace" ? '[data-guide-target="campaign"]' : '[data-guide-target="next"], [data-guide-target="analyze"]';
+      const next = [...document.querySelectorAll<HTMLElement>(selector)].find(node => node.getClientRects().length > 0 && !node.hasAttribute('disabled'));
+      if (next) {
         clearTimeout(timer);
-      }
-    }
-    const observer = new MutationObserver(detect);
-    observer.observe(document.body, { childList: true, subtree: true });
-    timer = setTimeout(() => {
-      observer.disconnect();
-      setTarget("missing");
-    }, 3000);
-    detect();
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-      highlighted?.classList.remove("guide-target");
+        if (highlighted !== next) { highlighted?.classList.remove("guide-target"); highlighted = next; next.classList.add("guide-target"); next.scrollIntoView({ block: "center" }); }
+        setStep(next.dataset.guideStep ?? "1"); setInstruction(next.dataset.guideTitle ?? (role === 'provider' ? 'guide_choose' : 'guide_analyze')); setTarget("visible");
+      } else { highlighted?.classList.remove("guide-target"); highlighted = null; setTarget(timedOut ? "missing" : "waiting"); }
     };
+    const observer = new MutationObserver(detect);
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-guide-target', 'disabled', 'data-guide-complete'] });
+    timer = setTimeout(() => { timedOut = true; if (!highlighted) setTarget("missing"); }, 3000);
+    detect();
+    return () => { clearTimeout(timer); observer.disconnect(); highlighted?.classList.remove("guide-target"); };
   }, [role, location.pathname]);
   if (role !== "provider" && role !== "maintainer") return null;
   return (
     <aside className="guide panel" aria-label={text.demo} data-testid="guide">
       <p className="kicker">
         {text[role === "provider" ? "demo_provider" : "demo_maintainer"]} ·{" "}
-        {text.guide_progress} 1
+        {text.guide_progress} {step}
       </p>
-      <h2>{text[role === "provider" ? "guide_choose" : "guide_analyze"]}</h2>
+      <h2>{target === "complete" ? text.guide_complete : text[instruction as keyof typeof text]}</h2>
       <p role={target === "missing" ? "alert" : "status"}>
-        {target === "waiting"
+        {target === "complete" ? text.guide_complete : target === "waiting"
           ? text.loading
           : target === "missing"
             ? text.guide_missing

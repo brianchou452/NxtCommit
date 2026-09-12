@@ -6,6 +6,12 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.12 — 2026-09-12 (local Phase 3 integration)
+
+- Integrates dev/computer-a, dev/computer-b and dev/computer-c in order. Newly authored duration fixtures now use the same lifecycle authority as funding, execution and local review.
+- Connects Marketplace/profile projections, comments, guide targets, worker readiness and SSE. Rejects stale route responses and stale-run decisions; keeps imported repositories non-executable.
+- Adds cross-slice HTTP and Docker journeys plus an all-baseline verification gate. Approved golden images are preserved; this source integration does not claim visual approval or deployment. See [integration evidence](PHASE3-INTEGRATION.md).
+
 ## v0.7.11 — 2026-09-12 (local Computer A / Phase 2)
 
 - Added SQLite-backed Home/community snapshots, demo graph reset, SSE invalidation,

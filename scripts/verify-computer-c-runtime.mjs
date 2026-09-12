@@ -19,12 +19,13 @@ try {
   const { draft } = await call('/api/campaigns/generate', { analysis, issueId: analysis.issues[0].id, mode: 'demo' });
   const created = await call('/api/missions', { analysis, draft });
   const loaded = await call(`/api/missions/${created.mission.id}`);
-  assert.equal(loaded.mission.status, 'funding'); assert.equal(loaded.mission.project.executable, false);
+  assert.equal(loaded.status, 'funding'); assert.equal(loaded.project.workspace.kind, 'fixture');
+  assert.equal(loaded.project.workspace.path, 'duration-demo');
   const observed = await call('/api/missions/review-demo'); assert.equal(observed.evidence.artifact.testEvidenceSource, 'demo');
   const reviewed = await call('/api/runs/review-demo-run/review', { decision: 'request_changes', comment: 'Add more verification.' }); assert.equal(reviewed.mission.status, 'changes_requested');
   await call('/api/demo/reset', {});
   assert.equal((await call('/api/missions/review-demo')).mission.status, 'needs_review');
   console.log(JSON.stringify({ builtRuntime: 'passed', authoring: 'persisted funding mission', review: 'persisted local request_changes on authored seed', reset: 'restored seed', browserVerified: false }));
 } finally {
-  await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); }); application.close(); rmSync(directory, { recursive: true, force: true });
+  await new Promise(resolve => { server.close(resolve); server.closeAllConnections(); }); await application.close(); rmSync(directory, { recursive: true, force: true });
 }

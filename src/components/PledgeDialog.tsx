@@ -40,7 +40,7 @@ export function PledgeDialog({ mission, wallet, onClose, onSuccess }: { mission:
       <p><strong>{remaining.toLocaleString()}</strong> {text.mission_remaining}</p>
       <label htmlFor="pledge-amount">{text.mission_amount}</label><div className="pledge-input"><input ref={input} id="pledge-amount" type="number" required min="1" max={Math.min(wallet, remaining)} step="1" value={amount} disabled={pending} onChange={event => updateAmount(event.target.value)} /><button type="button" disabled={pending} onClick={() => updateAmount(String(Math.min(wallet, remaining)))}>{text.mission_max}</button></div>
       {error && <p role="alert" className="mission-error">{error}</p>}
-      <footer><button type="button" disabled={pending} onClick={onClose}>{text.mission_cancel}</button><button className="mission-primary" type="submit" disabled={pending}>{pending ? text.mission_submitting : text.mission_confirm}</button></footer>
+      <footer><button type="button" disabled={pending} onClick={onClose}>{text.mission_cancel}</button><button data-guide-target="next" data-guide-step="2" data-guide-title="mission_confirm" className="mission-primary" type="submit" disabled={pending}>{pending ? text.mission_submitting : text.mission_confirm}</button></footer>
     </form>
   </dialog>;
 }

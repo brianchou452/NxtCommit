@@ -23,7 +23,7 @@ for (const [baseline, id, execution, height] of pageBaselines) {
     await page.goto(`${origin}/missions/${id}${execution ? '/run' : ''}`);
     if (id === 'does-not-exist') await expect(page.getByRole('heading', { name: 'Mission not found' })).toBeVisible();
     else if (execution) await expect(page.getByRole('heading', { name: 'Live execution' })).toBeVisible();
-    else { await expect(page.getByTestId('mission-overview')).toBeVisible(); await expect(page.getByTestId('mission-wall')).toContainText('unavailable'); await expect(page.getByTestId('mission-explanation')).toContainText('unavailable'); }
+    else { await expect(page.getByTestId('mission-overview')).toBeVisible(); await expect(page.getByTestId('mission-wall')).toContainText('No notes yet.'); await expect(page.getByTestId('project-explanation-content')).toBeVisible(); }
     if (id === 'mission-running') await expect(page.getByRole('status').filter({ hasText: 'Connection interrupted' })).toHaveCount(0, { timeout: 15000 });
     await page.evaluate(() => document.fonts.ready);
     await expect(page).toHaveScreenshot(`${baseline}.png`, { fullPage: true, animations: 'disabled' });

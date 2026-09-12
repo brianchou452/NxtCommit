@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import type { MissionDetail } from '../../shared/mission.js';
+import type { LocalizedText } from '../../shared/types.js';
 import { useLocale } from '../i18n/LocaleProvider.js';
 import { useMissionSnapshot } from '../components/useMissionSnapshot.js';
 import { MissionOverview } from '../components/MissionOverview.js';
 import { PledgeDialog } from '../components/PledgeDialog.js';
 import { fetchBootstrap } from '../services/api.js';
 import { executeMission, MissionApiError, missionJson, missionPath } from '../services/mission.js';
+import { CommentWall, CommunityVotes } from '../components/Community.js';
 import '../styles/mission.css';
 
-export function MissionDetailPage() { const { id = '' } = useParams(); return <MissionDetailContent key={id} id={id} />; }
+export function MissionDetailPage() { const { id = '' } = useParams(); return <main id="main-content" tabIndex={-1}><MissionDetailContent key={id} id={id} /></main>; }
 export function MissionLoadState({ error, reload }: { error?: unknown; reload(): void }) {
   const { text } = useLocale();
   return <section className="mission-empty" role={error ? 'alert' : 'status'}><h1>{error ? error instanceof MissionApiError && error.status === 404 ? text.mission_missing : text.mission_load_error : text.loading}</h1>{Boolean(error) && <><button onClick={reload}>{text.retry}</button><Link to="/">{text.back_home}</Link></>}</section>;
@@ -18,51 +20,72 @@ export function MissionStateLabel({ mission }: { mission: MissionDetail }) {
   const { text } = useLocale();
   return <span className={`mission-status status-${mission.status}`} data-testid="mission-status">{text[`mission_${mission.status}_state`]}</span>;
 }
-function OptionalRegion({ path, title, unavailable, wall = false }: { path: string; title: string; unavailable: string; wall?: boolean }) {
-  const { text } = useLocale();
-  const [result, setResult] = useState<unknown>();
+type ProjectExplanation = {
+  plain: { generator: 'openai' | 'demo' | 'static'; oneLiner: LocalizedText; technicalSummary: LocalizedText; useCases: LocalizedText[] };
+  impact: { headline: LocalizedText; dataMode: string; basis: 'editorial' | 'measured' };
+  timeline: { kind: 'past' | 'present' | 'future' }[];
+};
+function ProjectExplanationRegion({ path }: { path: string }) {
+  const { text, locale } = useLocale();
+  const [result, setResult] = useState<ProjectExplanation>();
   const [error, setError] = useState(false);
   const [revision, setRevision] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
-    setError(false);
-    void missionJson<unknown>(path, { signal: controller.signal }).then(value => { if (!controller.signal.aborted) setResult(value); }).catch(() => { if (!controller.signal.aborted) setError(true); });
+    setError(false); setResult(undefined);
+    void missionJson<ProjectExplanation>(path, { signal: controller.signal }).then(value => { if (!controller.signal.aborted) setResult(value); }).catch(() => { if (!controller.signal.aborted) setError(true); });
     return () => controller.abort();
   }, [path, revision]);
-  return <section className="mission-story-section" data-testid={wall ? 'mission-wall' : 'mission-explanation'}><h2>{title}</h2>
-    {error ? <><p>{unavailable}</p><button onClick={() => setRevision(value => value + 1)}>{text.retry}</button></> : result === undefined ? <p role="status">{text.loading}</p> : <pre>{JSON.stringify(result, null, 2)}</pre>}
-    {wall && <p className="mission-provenance">{text.mission_wall_note}</p>}
+  return <section className="mission-story-section" data-testid="mission-explanation"><h2>{text.mission_explanation}</h2>
+    {error ? <><p>{text.mission_explanation_unavailable}</p><button onClick={() => setRevision(value => value + 1)}>{text.retry}</button></> : result === undefined ? <p role="status">{text.loading}</p> : <div data-testid="project-explanation-content">
+      <p className="mission-provenance">{text.c_generator}: {text[`c_${result.plain.generator}`]}</p>
+      <p className="mission-story-copy">{result.plain.oneLiner[locale]}</p>
+      {result.plain.useCases.length > 0 && <ul>{result.plain.useCases.map((item, index) => <li key={index}>{item[locale]}</li>)}</ul>}
+      <details><summary>{text.project_technical}</summary><p>{result.plain.technicalSummary[locale]}</p></details>
+      <h3>{text.project_impact}</h3><p>{result.impact.headline[locale]}</p>
+      <p className="mission-provenance">{text.mission_data}: {result.impact.dataMode} · {result.impact.basis === 'measured' ? text.project_measured : text.project_editorial}</p>
+      <h3>{text.project_timeline}</h3><ol>{result.timeline.map(frame => <li key={frame.kind}><strong>{text[`project_${frame.kind}`]}</strong><p>{text[`project_${frame.kind}_note`]}</p></li>)}</ol>
+    </div>}
   </section>;
 }
 function MissionDetailContent({ id }: { id: string }) {
   const { locale, text } = useLocale();
+  const [search] = useSearchParams(); const guide = ['provider', 'maintainer'].includes(search.get('demo') ?? '') ? `?demo=${search.get('demo')}` : '';
   const { data, error, disconnected, reload } = useMissionSnapshot(id);
   const [pledgeOpen, setPledgeOpen] = useState(false);
   const [wallet, setWallet] = useState<number>();
   const [pending, setPending] = useState(false);
   const [mutationError, setMutationError] = useState('');
   const alive = useRef(true);
+  const visit = useRef<AbortController | undefined>(undefined);
   const pendingIntent = useRef(false);
   const navigate = useNavigate();
   useEffect(() => {
     alive.current = true;
     const controller = new AbortController();
+    visit.current = controller;
+    // Browser history can reactivate a previous route before passive cleanup runs.
+    // A dispatch response belongs to its original visit even when the URL returns.
+    const leaveVisit = () => controller.abort();
+    window.addEventListener('popstate', leaveVisit);
+    window.addEventListener('pagehide', leaveVisit);
     void fetchBootstrap(controller.signal).then(value => { if (alive.current) setWallet(value.currentUser.walletBalance); }).catch(() => {});
-    return () => { alive.current = false; controller.abort(); };
+    return () => { alive.current = false; controller.abort(); window.removeEventListener('popstate', leaveVisit); window.removeEventListener('pagehide', leaveVisit); };
   }, []);
   const mission = data?.mission;
   if (!mission) return <MissionLoadState error={error} reload={() => void reload()} />;
   async function execute() {
     if (pendingIntent.current) return;
     pendingIntent.current = true; setPending(true); setMutationError('');
-    try { await executeMission(id); if (alive.current) navigate(`/missions/${encodeURIComponent(id)}/run`); }
+    const signal = visit.current?.signal;
+    try { await executeMission(id, signal); if (alive.current && !signal?.aborted) navigate(`/missions/${encodeURIComponent(id)}/run${guide}`); }
     catch (failure) { if (alive.current) setMutationError(failure instanceof Error ? failure.message : text.mission_dispatch_error); }
     finally { pendingIntent.current = false; if (alive.current) setPending(false); }
   }
   const fixture = mission.project.workspace.kind === 'fixture';
-  const canPledge = ['funding', 'stalled'].includes(mission.status);
-  const canExecute = fixture && ['funded', 'failed'].includes(mission.status);
-  const runLink = `/missions/${encodeURIComponent(id)}/run`;
+  const canPledge = mission.status === 'funding' && mission.project.workspace.kind !== 'none';
+  const canExecute = fixture && ['funded', 'failed', 'changes_requested'].includes(mission.status);
+  const runLink = `/missions/${encodeURIComponent(id)}/run${guide}`;
   const storyKeys = ['what', 'why', 'whoBenefits', 'approach'] as const;
   const storyTitles = [text.mission_what, text.mission_why, text.mission_benefits, text.mission_approach];
   return <div className="mission-page">
@@ -72,13 +95,13 @@ function MissionDetailContent({ id }: { id: string }) {
     <div className="mission-columns"><article className="mission-narrative">
       {storyKeys.map((key, index) => <section className="mission-story-section" key={key}><p className="mission-kicker">0{index + 1} · {storyTitles[index]}</p><h2>{storyTitles[index]}</h2><p className="mission-story-copy">{mission.story[key][locale]}</p><p className="mission-provenance">{text.mission_generator}: {mission.generator}</p></section>)}
       <section className="mission-story-section" id="mission-plan"><h2>{text.mission_criteria}</h2><div className="mission-card">{mission.acceptanceCriteria.map(criterion => <p key={criterion.id}>✓ {criterion.text[locale]} <span className="mission-status">{text[`mission_${criterion.status}`]}</span></p>)}</div><h2>{text.mission_milestones}</h2><div className="mission-milestones">{mission.milestones.map(milestone => <div className="mission-card" key={milestone.id}><h3>{milestone.title[locale]}</h3><p>{(milestone.share * 100).toFixed(0)}%</p><span>{milestone.status}</span></div>)}</div><h3>{text.mission_risk}</h3><p>{text.mission_boundary}</p></section>
-      <OptionalRegion key={mission.project.id} path={`/api/projects/${encodeURIComponent(mission.project.id)}/explain`} title={text.mission_explanation} unavailable={text.mission_explanation_unavailable} />
-      <OptionalRegion path={`${missionPath(id)}/wall`} title={text.mission_wall} unavailable={text.mission_wall_unavailable} wall />
+      <ProjectExplanationRegion key={mission.project.id} path={`/api/projects/${encodeURIComponent(mission.project.id)}/explain`} />
+      <div data-testid="mission-wall"><CommentWall key={id} missionId={id} /></div><CommunityVotes />
     </article><aside className="mission-action-card" data-testid="mission-actions"><p className="mission-kicker">{mission.title[locale]}</p><MissionStateLabel mission={mission} /><h2>{text.mission_funding}</h2><p><strong>{mission.computePledged}</strong> / {mission.computeGoal} {text.mission_credits}</p><progress max={mission.computeGoal} value={mission.computePledged} /><p>{text.mission_units}</p>
-      {canPledge && <button className="mission-primary" disabled={wallet === undefined} onClick={() => setPledgeOpen(true)}>{text.mission_pledge}</button>}
-      {canExecute && <button className="mission-primary" disabled={pending} onClick={() => void execute()}>{pending ? text.mission_dispatching : mission.status === 'failed' ? text.mission_restart : text.mission_execute}</button>}
+      {canPledge && <button data-guide-target={pledgeOpen ? undefined : "next"} data-guide-step="2" data-guide-title="mission_pledge" className="mission-primary" disabled={wallet === undefined} onClick={() => setPledgeOpen(true)}>{text.mission_pledge}</button>}
+      {canExecute && <button data-guide-target="next" data-guide-step="3" data-guide-title="mission_execute" className="mission-primary" disabled={pending} onClick={() => void execute()}>{pending ? text.mission_dispatching : mission.status === 'failed' ? text.mission_restart : text.mission_execute}</button>}
       {mission.status === 'executing' && <Link className="mission-button" to={runLink}>{text.mission_watch}</Link>}
-      {mission.status === 'needs_review' && <Link className="mission-button" to={`/missions/${encodeURIComponent(id)}/review`}>{text.mission_review}</Link>}
+      {mission.status === 'needs_review' && <Link className="mission-button" data-guide-target="next" data-guide-step="4" data-guide-title="mission_review" to={`/missions/${encodeURIComponent(id)}/review${guide}`}>{text.mission_review}</Link>}
       {['approved', 'changes_requested', 'failed', 'stalled'].includes(mission.status) && <Link to={runLink}>{text.mission_history}</Link>}
       {mission.status === 'released' && <Link to={runLink}>{text.mission_release}</Link>}
       {!fixture && <p data-testid="execution-refusal">{text.mission_boundary}</p>}

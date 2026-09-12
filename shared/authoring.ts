@@ -24,7 +24,7 @@ export interface AuthoredMission {
   generator: 'openai' | 'demo'; computeGoal: number; computePledged: number; backerCount: number;
   tags: string[]; progress: { funding: number; development: number; verification: number; adoption: number };
   project: { id: string; slug: string; name: string; description: LocalizedText; repoUrl: string; source: 'fixture' | 'github'; executable: boolean; figuresMode: 'demo' | 'live' };
-  draft: CampaignDraft; latestRunId?: string;
+  draft?: CampaignDraft; latestRunId?: string;
 }
 export interface AssistantResult {
   summary: LocalizedText; evidence: AiEvidence; affectedGate: false;

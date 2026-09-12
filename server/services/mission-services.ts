@@ -4,7 +4,7 @@ import type { ServiceContext } from './context.js';
 import { MissionStore, missionMigration, seedMissions } from '../persistence/mission-store.js';
 import type { ResetParticipant } from '../persistence/reset.js';
 import type { MissionRecord, MissionDetail, RunRequest, PledgeRecord, MissionArtifact } from '../../shared/mission.js';
-import type { RunSummary, TerminalRunStatus, ExecutionEvent, ExecutionEvidence, EventEnvelope } from '../../shared/execution.js';
+import type { RunSummary, TerminalRunStatus, ExecutionEvent, ExecutionEvidence, EventEnvelope, ReviewabilityResult } from '../../shared/execution.js';
 import { MissionError, positiveInteger, assertTransition, allocateRefund, redactEvidence, computeReviewable } from '../domain/mission.js';
 import { executeFixture } from './mission-engine.js';
 import { readCurrentPersona } from '../persistence/seed.js';
@@ -48,15 +48,26 @@ export class MissionServices {
     return { run, events: this.store.events(id), ...(artifact ? { artifact } : {}) };
   }
   getLatestRunEvidence(missionId: string): ExecutionEvidence | undefined { const mission = this.store.get<MissionRecord>('mission', missionId); return mission?.latestRunId ? this.getRunEvidence(mission.latestRunId) : undefined; }
+  reviewabilityForRun(id: string): ReviewabilityResult | undefined {
+    const evidence = this.getRunEvidence(id); if (!evidence) return;
+    const artifact = evidence.artifact; const final = artifact?.dossier.experiments.at(-1);
+    if (evidence.run.status !== 'succeeded' || !artifact || artifact.testEvidenceSource !== 'engine' || !final) return { reviewable: false, reasons: ['fresh_engine_evidence_required'] };
+    return computeReviewable(artifact.dossier.baseline, final, artifact.files, artifact.dossier.qualityGates.length > 0 && artifact.dossier.qualityGates.every(g => g.status === 'passed'));
+  }
+  notifyMission(id: string): void { this.publishMission(id); }
+  resume(): void { this.quiescing = false; }
+  workerHeartbeat(owner: string): void { this.store.put('worker', owner, owner, { heartbeatAt: Date.now() }); }
+  workerReady(): boolean { return this.autoWorker || this.store.list<{ heartbeatAt: number }>('worker').some(worker => Date.now() - worker.heartbeatAt < 15000); }
+  workerStopped(owner: string): void { this.context.store.db.prepare("DELETE FROM b_records WHERE kind='worker' AND id=?").run(owner); }
   private saveMission(mission: MissionRecord): void {
-    const { progress: _progress, pledges: _pledges, ledger: _ledger, latestRun: _latestRun, artifact: _artifact, ...record } = mission as MissionDetail;
+    const { progress: _progress, pledges: _pledges, ledger: _ledger, latestRun: _latestRun, artifact: _artifact, reviewDecision: _review, ...record } = mission as MissionDetail;
     this.store.put('mission', record.id, record.projectId, record);
   }
-  private publish(missionId: string, envelope: EventEnvelope): void { this.events.emit(missionId, envelope); }
+  private publish(missionId: string, envelope: EventEnvelope): void { this.events.emit(missionId, envelope); if (envelope.kind === 'mission_update') this.context.events.publish('mission_update', envelope.mission); }
   private publishMission(id: string): void { this.publish(id, { kind: 'mission_update', mission: this.getMission(id) }); }
   private assertAvailable(): void { if (this.quiescing) throw new MissionError('reset_in_progress', 'Execution is draining.', 409); }
   private eligible(mission: MissionRecord): void {
-    if (mission.project.workspace.kind !== 'fixture' || mission.project.workspace.path !== 'retry-queue') throw new MissionError('workspace_not_executable', 'Only the bundled fixture is executable; GitHub import is metadata-only.');
+    if (mission.project.workspace.kind !== 'fixture' || !['retry-queue', 'duration-demo'].includes(mission.project.workspace.path ?? '')) throw new MissionError('workspace_not_executable', 'Only the bundled fixture is executable; GitHub import is metadata-only.');
     if (!['funded', 'changes_requested', 'failed'].includes(mission.status)) throw new MissionError('mission_ineligible', 'Mission is not ready for execution.');
     if (mission.computePledged - mission.computeConsumed <= 0) throw new MissionError('insufficient_compute', 'No unconsumed credits remain.');
     if (this.context.execution.resolved !== 'demo') throw new MissionError('execution_unavailable', 'Requested real runner is unavailable; explicit mode is not silently downgraded.');
@@ -83,7 +94,7 @@ export class MissionServices {
       mission.computePledged += amount;
       if (mission.computePledged === mission.computeGoal) { assertTransition(mission.status, 'funded'); mission.status = 'funded'; }
       this.saveMission(mission);
-      start = mission.status === 'funded' && mission.project.workspace.kind === 'fixture' && mission.project.workspace.path === 'retry-queue' && this.context.execution.resolved === 'demo';
+      start = mission.status === 'funded' && mission.project.workspace.kind === 'fixture' && ['retry-queue', 'duration-demo'].includes(mission.project.workspace.path ?? '') && this.context.execution.resolved === 'demo';
       if (start) this.dispatch(id);
       const result = { mission: this.getMission(id), wallet: wallet.balance, achievements: [] as never[], executionStarting: start };
       if (key) db.prepare('INSERT INTO b_idempotency(key,fingerprint,response) VALUES (?,?,?)').run(key, fingerprint, JSON.stringify(result));
@@ -120,9 +131,11 @@ export class MissionServices {
     mission.status = 'executing'; mission.latestRunId = run.id; mission.computeReserved = budget;
     this.saveMission(mission); this.store.put('run', run.id, mission.id, run);
     this.store.ledger({ missionId: mission.id, runId: run.id, type: 'reserve', amount: budget });
+    const review = this.store.list<{ comment?: string }>('review', mission.id).at(-1);
+    if (review?.comment) this.persistEvent(run, 'review-feedback', 'maintainer', { title: 'Local review feedback', detail: redactEvidence(review.comment).slice(0, 4000) });
     return run;
   }
-  private persistEvent(run: RunSummary, type: string, source: 'engine' | 'demo', payload: NonNullable<ExecutionEvent['payload']>): ExecutionEvent {
+  private persistEvent(run: RunSummary, type: string, source: 'engine' | 'demo' | 'maintainer', payload: NonNullable<ExecutionEvent['payload']>): ExecutionEvent {
     const redact = (value: unknown): unknown => typeof value === 'string' ? redactEvidence(value) : Array.isArray(value) ? value.map(redact) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, redact(item)])) : value;
     const value = { id: randomUUID(), runId: run.id, missionId: run.missionId, seq: this.store.events(run.id).length + 1, ts: new Date().toISOString(), type, source, verified: source === 'engine', computeDelta: 0, payload: redact(payload) } as ExecutionEvent;
     this.store.put('event', value.id, run.id, value); return value;
@@ -150,7 +163,7 @@ export class MissionServices {
         const result = await executeFixture(run.missionId, run.id, controller.signal, (type, source, payload) => {
           if (!ownsRequest()) throw new MissionError('stale_lease', 'Worker no longer owns this request.', 409);
           this.emit(run.id, type, source, payload, ownership);
-        });
+        }, this.getMission(run.missionId).project.workspace.path);
         if (ownership) this.requireOwner(ownership.requestId, ownership.owner);
         if (!controller.signal.aborted) this.settle(run.id, result.reviewable ? 'succeeded' : 'blocked', ownership, result.artifact);
       } catch (error) {

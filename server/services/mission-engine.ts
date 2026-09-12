@@ -9,7 +9,7 @@ import { computeReviewable, MissionError, redactEvidence } from '../domain/missi
 
 export interface EngineResult { artifact: MissionArtifact; reviewable: boolean }
 export type EngineEmit = (type: string, source: 'engine' | 'demo', payload: NonNullable<ExecutionEvent['payload']>) => void;
-const fixtureRoot = resolve('fixtures/retry-queue');
+
 const cleanEnvironment = { PATH: '/usr/bin:/bin', LANG: 'C', LC_ALL: 'C', HOME: tmpdir(), GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', GIT_TERMINAL_PROMPT: '0' };
 function command(cwd: string, executable: string, args: string[], signal: AbortSignal): Promise<{ stdout: string; exitCode: number }> {
   return new Promise((resolveResult, reject) => {
@@ -51,38 +51,49 @@ async function verify(root: string, args: string[], signal: AbortSignal): Promis
   return { command: `node ${args.join(' ')}`, exitCode: result.exitCode, ...(passed === undefined ? {} : { passed }), ...(failed === undefined ? {} : { failed }), ...(total === undefined ? {} : { total }), output: `<untrusted_evidence>\n${redactEvidence(result.stdout)}\n</untrusted_evidence>` };
 }
 /** Scripted intelligence; only engine commands supply tests/diff/gate evidence. No imported repository is accepted. */
-export async function executeFixture(missionId: string, runId: string, signal: AbortSignal, emit: EngineEmit): Promise<EngineResult> {
+export async function executeFixture(missionId: string, runId: string, signal: AbortSignal, emit: EngineEmit, fixture = 'retry-queue'): Promise<EngineResult> {
+  if (!['retry-queue', 'duration-demo'].includes(fixture)) throw new MissionError('workspace_not_executable', 'Unknown bundled fixture.');
+  const duration = fixture === 'duration-demo';
+  const fixtureRoot = resolve(duration ? 'server/authoring/fixture' : 'fixtures/retry-queue');
+  const source = duration ? 'parser.js' : 'retry.mjs';
+  const regression = duration ? 'compound.test.mjs' : 'retry-negative.test.mjs';
   await files(fixtureRoot);
   const workspace = await mkdtemp(join(tmpdir(), 'nxtcommit-fixture-'));
   // Disposable run outputs are retained for diagnosis; checked-in fixture source is never changed.
   await cp(fixtureRoot, workspace, { recursive: true, dereference: false });
   const config = JSON.parse(await readFile(join(workspace, 'verification.json'), 'utf8')) as { command: string; args: string[]; source: string };
-  if (config.command !== 'node' || JSON.stringify(config.args) !== '["--test","--test-reporter=tap"]' || config.source !== 'retry.mjs') throw new MissionError('invalid_verification', 'Bundled verification facts changed.');
+  if (config.command !== 'node' || JSON.stringify(config.args) !== '["--test","--test-reporter=tap"]' || config.source !== source) throw new MissionError('invalid_verification', 'Bundled verification facts changed.');
   const frozenArgs = Object.freeze([...config.args]);
   const git = (args: string[]) => command(workspace, '/usr/bin/git', ['--no-optional-locks', ...args], signal);
   for (const args of [['init', '-q'], ['add', '--all'], ['-c', 'user.name=Fixture Engine', '-c', 'user.email=fixture@localhost', 'commit', '-qm', 'Fixture baseline']]) {
     if ((await git(args)).exitCode !== 0) throw new MissionError('baseline_failed', 'Cannot establish fixture baseline.');
   }
   const baselineRef = (await git(['rev-parse', 'HEAD'])).stdout.trim();
-  const protectedNames = (await files(workspace)).filter(path => path !== 'retry.mjs');
+  const protectedNames = (await files(workspace)).filter(path => path !== source);
   const protectedSeal = await seal(workspace, protectedNames);
   emit('environment', 'engine', { title: 'Measured execution boundary', isolation: 'process', osIsolated: false, detail: 'Bundled fixture only; no OS sandbox or network-isolation claim.' });
-  emit('workspace', 'engine', { title: 'Copied bundled fixture', baseline: baselineRef, fixture: 'retry-queue' });
+  emit('workspace', 'engine', { title: 'Copied bundled fixture', baseline: baselineRef, fixture });
   const baseline = await verify(workspace, [...frozenArgs], signal);
   emit('test-result', 'engine', { ...baseline, stage: 'baseline', title: 'Baseline suite' });
   if (baseline.exitCode !== 0 || !baseline.passed || baseline.failed !== 0 || !baseline.total) throw new MissionError('baseline_failed', 'Baseline must be green and nonempty.');
   if (await seal(workspace, protectedNames) !== protectedSeal) throw new MissionError('integrity_failed', 'Baseline test changed protected inputs.');
-  emit('plan', 'demo', { title: 'Scripted demo plan', detail: 'Clamp retry delays and add a regression test. This is authored DemoRunner intelligence, not an LLM.' });
-  await writeFile(await assertContainedWorkspacePath(workspace, 'retry.mjs'), 'export function retryDelay(attempt) {\n  return Math.max(0, attempt) * 100;\n}\n');
-  await writeFile(await assertContainedWorkspacePath(workspace, 'retry-negative.test.mjs'), "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { retryDelay } from './retry.mjs';\ntest('negative retries never produce negative delays', () => assert.equal(retryDelay(-1), 0));\n");
-  emit('file-change', 'demo', { title: 'Scripted fixture edit submitted', files: ['retry.mjs', 'retry-negative.test.mjs'] });
+  emit('plan', 'demo', { title: 'Scripted demo plan', detail: duration ? 'Parse compound durations and add regression tests. Scripted intelligence, not an LLM.' : 'Clamp retry delays and add a regression test. Scripted intelligence, not an LLM.' });
+  const patch = duration
+    ? "export function parseDuration(input) {\n  if (!/^\\s*\\d+[smh](?:\\s*\\d+[smh])*\\s*$/.test(input)) return NaN;\n  return [...input.matchAll(/(\\d+)([smh])/g)].reduce((sum, [, amount, unit]) => sum + Number(amount) * { s: 1, m: 60, h: 3600 }[unit], 0);\n}\n"
+    : 'export function retryDelay(attempt) {\n  return Math.max(0, attempt) * 100;\n}\n';
+  const tests = duration
+    ? "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { parseDuration } from './parser.js';\ntest('spaced compound duration', () => assert.equal(parseDuration('1h 30m'), 5400));\ntest('compact compound duration', () => assert.equal(parseDuration('1h30m'), 5400));\ntest('trailing garbage is rejected', () => assert.ok(Number.isNaN(parseDuration('1h30m garbage'))));\n"
+    : "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { retryDelay } from './retry.mjs';\ntest('negative retries never produce negative delays', () => assert.equal(retryDelay(-1), 0));\n";
+  await writeFile(await assertContainedWorkspacePath(workspace, source), patch);
+  await writeFile(await assertContainedWorkspacePath(workspace, regression), tests);
+  emit('file-change', 'demo', { title: 'Scripted fixture edit submitted', files: [source, regression] });
   if (await seal(workspace, protectedNames) !== protectedSeal) throw new MissionError('integrity_failed', 'Runner changed protected verification inputs.');
   const final = await verify(workspace, [...frozenArgs], signal);
   // Re-seal AFTER executable tests and BEFORE any authoritative diff command.
-  const integrity = await seal(workspace, protectedNames) === protectedSeal && (await files(workspace)).every(path => protectedNames.includes(path) || ['retry.mjs', 'retry-negative.test.mjs'].includes(path));
+  const integrity = await seal(workspace, protectedNames) === protectedSeal && (await files(workspace)).every(path => protectedNames.includes(path) || [source, regression].includes(path));
   emit('test-result', 'engine', { ...final, stage: 'final', title: 'Authoritative final suite' });
   if (!integrity) throw new MissionError('integrity_failed', 'Executable test changed protected inputs.');
-  await git(['add', '-N', '--', 'retry-negative.test.mjs']);
+  await git(['add', '-N', '--', regression]);
   const stat = await git(['diff', '--numstat', baselineRef, '--']);
   const changed: ArtifactFile[] = [];
   for (const line of stat.stdout.trim().split('\n').filter(Boolean)) {
@@ -97,7 +108,7 @@ export async function executeFixture(missionId: string, runId: string, signal: A
   emit('guard', 'engine', { title: 'Deterministic reviewability gate', reviewable: gate.reviewable, reasons: gate.reasons });
   const artifact: MissionArtifact = {
     missionId, runId, mode: 'demo', files: changed, testEvidenceSource: 'engine',
-    dossier: { baseline, experiments: [final], qualityGates: [{ id: 'computeReviewable', status: gate.reviewable ? 'passed' : 'failed', reason: gate.reasons.join(', ') || 'Green nonempty suite, bounded diff, test growth and protected integrity.' }], criterionEvidence: [{ criterion: 'retry-delay', status: 'unknown', explanation: 'Suite-level test evidence is real; individual acceptance criteria are not independently proven.' }] },
+    dossier: { baseline, experiments: [final], qualityGates: [{ id: 'computeReviewable', status: gate.reviewable ? 'passed' : 'failed', reason: gate.reasons.join(', ') || 'Green nonempty suite, bounded diff, test growth and protected integrity.' }], criterionEvidence: [{ criterion: duration ? 'compound-duration' : 'retry-delay', status: 'unknown', explanation: 'Suite-level test evidence is real; individual acceptance criteria are not independently proven.' }] },
     review: { source: 'static', affectedGate: false, summary: 'Local fixture diff only. No authenticated approval or upstream write.' },
   };
   return { artifact, reviewable: gate.reviewable };

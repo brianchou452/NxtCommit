@@ -85,7 +85,7 @@ function connect() {
     reconnect = setTimeout(connect, 1500);
   };
 }
-function subscribeSnapshots(callback: () => void) {
+export function subscribeSnapshots(callback: () => void) {
   subscribers.add(callback);
   if (subscribers.size === 1) connect();
   return () => {

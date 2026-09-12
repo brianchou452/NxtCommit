@@ -20,7 +20,7 @@ function RouteFocus() {
   }, [pathname]);
   return null;
 }
-/** A owns this registry. Phase 2 owners replace their placeholders. */
+/** A owns the integrated route registry for the three vertical slices. */
 export function AppRouter() {
   return <BrowserRouter><RouteFocus /><Routes><Route path="/concepts/:concept/*" element={<DesignConcepts />} /><Route path="*" element={<ApplicationShell><RouteErrorBoundary><Routes>
     <Route path="/" element={<HomePage />} />

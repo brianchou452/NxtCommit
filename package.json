@@ -21,7 +21,7 @@
     "check": "npm run typecheck && npm test && npm run build",
     "check-version": "node scripts/check-version.mjs",
     "test:e2e": "bash scripts/playwright-docker.sh",
-    "test:visual": "bash scripts/playwright-docker.sh --project=visual",
+    "test:visual": "bash scripts/playwright-docker.sh --project=visual --project=mission-visual --project=computer-c-visual",
     "test:server": "node scripts/run-tests.mjs"
   },
   "dependencies": {

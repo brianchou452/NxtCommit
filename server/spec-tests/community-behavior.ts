@@ -12,7 +12,7 @@ const post = (url: string, body: unknown) =>
     body: JSON.stringify(body),
   });
 test("contributor-profile-route and mvp-list-route derive local records without fabricated external evidence", async () => {
-  const s = await startTestServer();
+  const s = await startTestServer({ integrateSlices: false });
   try {
     const p = (await (
       await fetch(s.url + "/api/contributors/demo-contributor")
@@ -41,7 +41,7 @@ test("contributor-profile-route and mvp-list-route derive local records without 
 test("one-local-vote-per-category survives concurrent requests and process reopen; wall redacts before storage", async () => {
   const dir = mkdtempSync(join(tmpdir(), "nxt-community-"));
   const path = join(dir, "state.sqlite");
-  let s = await startTestServer({ databasePath: path });
+  let s = await startTestServer({ integrateSlices: false, databasePath: path });
   try {
     const responses = await Promise.all([
       post(s.url + "/api/mvp/backer-0/vote", { contributorId: "spoof" }),
@@ -87,7 +87,7 @@ test("one-local-vote-per-category survives concurrent requests and process reope
       400,
     );
     await s.stop();
-    s = await startTestServer({ databasePath: path });
+    s = await startTestServer({ integrateSlices: false, databasePath: path });
     assert.equal(s.context.home.wall("mermaid").length, 2);
     assert.equal(
       s.context.home.nominees().reduce((n, r) => n + r.votes, 0),

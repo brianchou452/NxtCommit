@@ -28,7 +28,7 @@ export default defineConfig({
     command: 'node --import tsx e2e/mission-fixture-server.ts', url: 'http://127.0.0.1:4191/healthz',
     reuseExistingServer: false, timeout: 30000,
   }, {
-    command: 'node --import tsx e2e/computer-c-fixture-server.ts', url: 'http://127.0.0.1:4192/healthz',
+    command: 'node --import tsx e2e/computer-c-fixture-server.ts', url: 'http://127.0.0.1:4201/healthz',
     reuseExistingServer: false, timeout: 30000,
   }],
   projects: [

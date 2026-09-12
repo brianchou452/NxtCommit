@@ -3,6 +3,7 @@ import type { PersistenceAdapter } from '../persistence/database.js';
 import type { ExecutionEvidenceReader } from '../../shared/types.js';
 import { AuthoringCapabilities } from '../persistence/authoring-capabilities.js';
 import { AuthoringReviewRepository, authoringReviewMigration } from '../persistence/authoring-review.js';
+import type { AuthoringMissionPort } from '../persistence/authoring-review.js';
 import { Assistance } from './assistance.js';
 import type { ModelConfiguration, ObservationSink } from './assistance.js';
 import { bilingual, campaignDraft } from './campaign.js';
@@ -12,6 +13,8 @@ import type { ReviewabilityResult, ExecutionEvidence } from '../../shared/types.
 import { assertRunSummary } from '../../shared/types.js';
 
 export interface AuthoringOptions {
+  missions?: AuthoringMissionPort;
+  reviewabilityForRun?: (runId: string) => ReviewabilityResult | undefined;
   model?: ModelConfiguration; observations?: ObservationSink; fetcher?: typeof fetch; evidence?: ExecutionEvidenceReader;
   /** B supplies measured integrity alongside its evidence reader; never accepted from HTTP input. */
   integrityForRun?: (runId: string) => IntegrityEvidence | undefined;
@@ -25,7 +28,7 @@ export class AuthoringServices {
   private resetting = false;
   constructor(store: PersistenceAdapter, readonly options: AuthoringOptions = {}) {
     store.migrate([authoringReviewMigration]);
-    this.repository = new AuthoringReviewRepository(store);
+    this.repository = new AuthoringReviewRepository(store, options.missions);
     this.assistance = new Assistance(options.model, options.observations, options.fetcher);
     this.evidence = {
       getRunEvidence: id => options.evidence?.getRunEvidence(id) ?? this.repository.getRunEvidence(id),
@@ -46,6 +49,8 @@ export class AuthoringServices {
     if (evidence.artifact.testEvidenceSource === 'demo' && this.repository.getRunEvidence(evidence.run.id)) {
       return { reviewable: true, reasons: ['authored_seed_local_decision_only'] };
     }
+    const owned = this.options.reviewabilityForRun?.(evidence.run.id);
+    if (owned) return owned;
     const integrity = this.options.integrityForRun?.(evidence.run.id);
     if (!integrity || evidence.run.status !== 'succeeded') return { reviewable: false, reasons: ['fresh_reviewability_not_available'] };
     return computeReviewable(evidence.artifact, integrity);

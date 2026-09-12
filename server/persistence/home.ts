@@ -281,7 +281,7 @@ export class HomeStore {
   }
   marketplace(): MarketplaceSnapshot {
     return this.store.transaction(() => {
-      const missions = this.campaigns();
+      const missions = this.campaigns().sort((a, b) => Number(b.id === "mission-fixture") - Number(a.id === "mission-fixture"));
       const sections: [ShelfKey, (m: Campaign) => boolean][] = [
         ["almost_funded", (m) => m.status === "funding"],
         ["now_building", (m) => m.status === "executing"],

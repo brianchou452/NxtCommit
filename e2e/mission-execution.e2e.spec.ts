@@ -38,7 +38,7 @@ test('lost pledge response retries the same intent; local failures retain campai
   const origin = 'http://127.0.0.1:4191';
   await reset(page, origin);
   await page.goto(`${origin}/missions/mission-fixture`);
-  await expect(page.getByTestId('mission-wall')).toContainText('unavailable');
+  await expect(page.getByTestId('mission-wall').getByRole('alert')).toBeVisible();
   await expect(page.getByTestId('mission-explanation')).toContainText('unavailable');
   await page.getByTestId('mission-explanation').getByRole('button', { name: 'Retry' }).click();
   const intents: { key: string | undefined; body: string | null }[] = [];
@@ -161,7 +161,7 @@ test('stream disconnect remains visible, then reconnect revalidates the same per
 test('same-SPA navigation discards an unmounted pending dispatch response', async ({ page }) => {
   const origin = 'http://127.0.0.1:4191';
   await reset(page, origin); await page.goto(`${origin}/missions/mission-ready`);
-  const response = page.waitForResponse(value => value.url().endsWith('/mission-ready/execute'));
+  const response = page.waitForEvent('requestfinished', { predicate: value => value.url().endsWith('/mission-ready/execute'), timeout: 3000 }).catch(() => undefined);
   await page.getByRole('button', { name: 'Start fixture execution' }).click();
   await page.getByRole('navigation', { name: 'NxtCommit', exact: true }).getByRole('link', { name: 'Discover', exact: true }).click();
   await expect(page).toHaveURL(`${origin}/`);

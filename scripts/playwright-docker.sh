@@ -24,6 +24,7 @@ for argument in "${arguments[@]}"; do
   esac
 done
 if [[ " ${arguments[*]} " == *" --project=foundation "* && " ${arguments[*]} " == *" --project=product "* ]]; then report_directory=interactive; fi
+if [[ " ${arguments[*]} " == *" --project=visual "* && " ${arguments[*]} " == *" --project=mission-visual "* && " ${arguments[*]} " == *" --project=computer-c-visual "* ]]; then report_directory=visual-all; fi
 mkdir -p "test-results/docker/$report_directory"
 docker run --rm --init --network=none --shm-size=1g --cap-drop=ALL \
   --user "$(id -u):$(id -g)" \

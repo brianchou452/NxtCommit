@@ -22,7 +22,7 @@ app.get("/__fixture/:name", (request, response) => {
     profileRequests = 0,
     heartbeats = 0;
   let instance: ReturnType<typeof createApplication>;
-  instance = createApplication({
+  instance = createApplication({ integrateSlices: false,
     databasePath: join(dir, "state.sqlite"),
     staticDirectory: resolve("dist"),
     modules: [

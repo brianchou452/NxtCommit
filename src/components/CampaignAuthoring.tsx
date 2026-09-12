@@ -21,6 +21,6 @@ export function CampaignAuthoring({ analysis, issueId, draft, pending, expired, 
       <dl className="c-measurements">{draft.estimate.breakdown.map(part => <div key={part.label}><dt>{part.label}</dt><dd>{part.credits}</dd></div>)}</dl><p>{text.c_allowance}</p><small>{draft.estimate.basis}</small>
       <div className="c-actions"><button disabled={pending || expired} onClick={onCritique}>{text.c_critic}</button></div>
       {critic && <Advisory result={critic} feature="campaign-critic" />}
-      <p className="c-boundary">{text.c_publish_boundary}</p><button className="c-primary" disabled={pending || expired} onClick={onPublish}>{text.c_publish_action}</button>
+      <p className="c-boundary">{text.c_publish_boundary}</p><button className="c-primary" disabled={pending || expired} data-guide-target="next" data-guide-step="3" data-guide-title="c_publish" onClick={onPublish}>{text.c_publish_action}</button>
     </section>;
 }

@@ -16,6 +16,8 @@ const owner = `worker-${randomUUID()}`;
 let stopping = false;
 process.once('SIGTERM', () => { stopping = true; });
 process.once('SIGINT', () => { stopping = true; });
+const heartbeat = setInterval(() => services.workerHeartbeat(owner), 5000);
+heartbeat.unref();
 try {
-  do { const worked = await services.workOnce(owner); if (process.env.WORKER_ONCE === '1') break; if (!worked) await delay(250); } while (!stopping);
-} finally { await services.quiesce(); await application.close(); }
+  do { services.workerHeartbeat(owner); const worked = await services.workOnce(owner); if (process.env.WORKER_ONCE === '1') break; if (!worked) await delay(250); } while (!stopping);
+} finally { clearInterval(heartbeat); await services.quiesce(); services.workerStopped(owner); await application.close(); }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { BootstrapSnapshot } from '../../shared/types.js';
 import { fetchBootstrap, resetDemo } from '../services/api.js';
+import { subscribeSnapshots } from '../services/snapshots.js';
 
 export type SessionState = { status: 'loading' } | { status: 'error' } | { status: 'ready'; data: BootstrapSnapshot };
 /** Nonvisual shell state; approved application-shell rendering is a separate gate. */
@@ -10,6 +11,7 @@ export function useApplicationSession() {
   const request = useRef<AbortController | undefined>(undefined);
   const resetting = useRef(false);
   const mounted = useRef(false);
+  const loaded = useRef(false);
   const reload = useCallback(async () => {
     request.current?.abort();
     const controller = new AbortController();
@@ -17,7 +19,10 @@ export function useApplicationSession() {
     setState({ status: 'loading' });
     try {
       const data = await fetchBootstrap(controller.signal);
-      if (mounted.current && !controller.signal.aborted) setState({ status: 'ready', data });
+      if (mounted.current && !controller.signal.aborted) {
+        loaded.current = true;
+        setState({ status: 'ready', data });
+      }
     } catch {
       if (mounted.current && !controller.signal.aborted) setState({ status: 'error' });
     }
@@ -25,7 +30,9 @@ export function useApplicationSession() {
   useEffect(() => {
     mounted.current = true;
     void reload();
-    return () => { mounted.current = false; request.current?.abort(); };
+    // Preserve the visible initial failure until the user explicitly retries.
+    const unsubscribe = subscribeSnapshots(() => { if (loaded.current) void reload(); });
+    return () => { unsubscribe(); mounted.current = false; request.current?.abort(); };
   }, [reload]);
   async function reset(): Promise<boolean> {
     if (resetting.current) return false;

@@ -16,7 +16,7 @@ export function editorialGroups(snapshot?: MarketplaceSnapshot) {
   return ["everyday", "public-interest", "builder-trend"]
     .map((key) => {
       const missions = [...remaining.values()].filter((m) =>
-        m.tags.includes(key),
+        m.tags.includes(key) || (key === "builder-trend" && !m.tags.some(tag => ["everyday", "public-interest"].includes(tag))),
       );
       missions.forEach((m) => remaining.delete(m.id));
       return { key, missions };

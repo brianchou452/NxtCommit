@@ -13,11 +13,11 @@ import type { ExecutionEvidence } from '../shared/types.js';
 
 test('authoring persists through restart while process capabilities expire', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'nxtcommit-authoring-')); const databasePath = join(directory, 'state.sqlite');
-  let server = await startTestServer({ databasePath });
+  let server = await startTestServer({ installMissions: false, databasePath });
   try {
     const pair = await draftFixture(server.url);
     const created = await request<{ mission: AuthoredMission }>(server.url, '/api/missions', pair);
-    await server.stop(); server = await startTestServer({ databasePath });
+    await server.stop(); server = await startTestServer({ installMissions: false, databasePath });
     const loaded = await request<{ mission: AuthoredMission }>(server.url, `/api/missions/${created.mission.id}`);
     assert.deepEqual(loaded.mission, created.mission);
     await request(server.url, '/api/missions', pair, 400);
@@ -66,7 +66,7 @@ test('trace export contains only bounded metadata; score is feature-bound and si
 
 test('in-flight analysis cannot issue a new capability after reset', async () => {
   let release!: () => void; const barrier = new Promise<void>(resolve => { release = resolve; }); let entered!: () => void; const started = new Promise<void>(resolve => { entered = resolve; });
-  const server = await startTestServer({ authoring: { fetcher: async url => { entered(); await barrier; return Response.json(String(url).includes('/issues?') ? [] : { name: 'prime-agent', private: false }); } } });
+  const server = await startTestServer({ installMissions: false, authoring: { fetcher: async url => { entered(); await barrier; return Response.json(String(url).includes('/issues?') ? [] : { name: 'prime-agent', private: false }); } } });
   try {
     const analysis = request(server.url, '/api/analyze', { source: 'github', url: 'https://github.com/PrimeIntellect-ai/prime-agent' }, 400);
     await started; await request(server.url, '/api/demo/reset', {}); release(); await analysis;
@@ -76,7 +76,7 @@ test('in-flight analysis cannot issue a new capability after reset', async () =>
 test('live review consumes trusted evidence and integrity port, rejects failed gate and persists one decision', async () => {
   let evidence: ExecutionEvidence | undefined;
   let unchanged = false;
-  const server = await startTestServer({ authoring: { evidence: { getRunEvidence: id => evidence?.run.id === id ? evidence : undefined, getLatestRunEvidence: id => evidence?.run.missionId === id ? evidence : undefined }, integrityForRun: () => ({ protectedInputsUnchanged: unchanged, promptInjectionDetected: false, documentationOnly: false, newTestFileObserved: true }) } });
+  const server = await startTestServer({ installMissions: false, authoring: { evidence: { getRunEvidence: id => evidence?.run.id === id ? evidence : undefined, getLatestRunEvidence: id => evidence?.run.missionId === id ? evidence : undefined }, integrityForRun: () => ({ protectedInputsUnchanged: unchanged, promptInjectionDetected: false, documentationOnly: false, newTestFileObserved: true }) } });
   try {
     const created = await request<{ mission: AuthoredMission }>(server.url, '/api/missions', await draftFixture(server.url));
     const mission = created.mission; mission.status = 'needs_review'; mission.latestRunId = 'test-engine-port'; server.context.authoring!.repository.save(mission);
@@ -92,7 +92,7 @@ test('live review consumes trusted evidence and integrity port, rejects failed g
 });
 
 test('mission SSE observes local decision and comments are redacted before storage', async () => {
-  const server = await startTestServer(); const controller = new AbortController();
+  const server = await startTestServer({ installMissions: false }); const controller = new AbortController();
   try {
     const response = await fetch(`${server.url}/api/missions/review-demo/stream`, { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(4000)]) });
     assert.equal(response.status, 200); const reader = response.body!.getReader(); const decoder = new TextDecoder();
@@ -109,7 +109,7 @@ test('mission SSE observes local decision and comments are redacted before stora
 
 test('queue readiness follows the injected worker heartbeat independently of execution consent', async () => {
   let heartbeatFresh = false;
-  const server = await startTestServer({ operations: { runDispatchMode: 'queue', workerReady: () => heartbeatFresh } });
+  const server = await startTestServer({ installMissions: false, operations: { runDispatchMode: 'queue', workerReady: () => heartbeatFresh } });
   try {
     const degraded = await request<{ db: boolean; workerReady: boolean }>(server.url, '/readyz', undefined, 503); assert.equal(degraded.db, true); assert.equal(degraded.workerReady, false);
     heartbeatFresh = true;

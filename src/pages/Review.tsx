@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import type { AuthoredMission, AssistantResult } from '../../shared/authoring.js';
 import type { ExecutionEvidence, ReviewabilityResult } from '../../shared/types.js';
+import type { MissionDetail } from '../../shared/mission.js';
 import { useLocale } from '../i18n/LocaleProvider.js';
 import { productRequest } from '../services/authoring.js';
 import { VerificationDossier, DiffViewer } from '../components/VerificationDossier.js';
@@ -21,7 +22,12 @@ export function Review() {
   const reload = useCallback(async (signal?: AbortSignal) => {
     const sequence = ++latestRequest.current;
     try {
-      const next = await productRequest<ReviewSnapshot>(`/api/missions/${encodeURIComponent(id)}`, undefined, signal);
+      const result = await productRequest<ReviewSnapshot | MissionDetail>(`/api/missions/${encodeURIComponent(id)}`, undefined, signal);
+      const next: ReviewSnapshot = 'mission' in result ? result : {
+        mission: { ...result, backerCount: result.pledges.length, tags: result.tags ?? [], project: { ...result.project, source: result.project.workspace.kind === 'github' ? 'github' : 'fixture', executable: result.project.workspace.kind === 'fixture' } },
+        ...(result.latestRun ? { evidence: await productRequest<ExecutionEvidence>(`/api/runs/${result.latestRun.id}`, undefined, signal) } : {}),
+        reviewability: { reviewable: result.status === 'needs_review' && result.latestRun?.status === 'succeeded' && result.artifact?.testEvidenceSource === 'engine' && result.artifact.dossier.qualityGates.every(g => g.status === 'passed'), reasons: [] },
+      };
       if (signal?.aborted || sequence !== latestRequest.current) return;
       if (activeRun.current !== next.evidence?.run.id) { generation.current++; setExplanation(undefined); setShadow(undefined); activeRun.current = next.evidence?.run.id; }
       setSnapshot(next); setError('');
@@ -76,7 +82,7 @@ export function Review() {
         <div className="c-actions"><button disabled={pending} onClick={() => void advice('explain')}>{text.c_explain}</button><button disabled={pending} onClick={() => void advice('shadow-review')}>{text.c_shadow}</button></div>
         {explanation && <Advisory result={explanation} feature="evidence-explanation" />}{shadow && <Advisory result={shadow} feature="shadow-review" />}
       </section>
-    </div><ReviewControls status={snapshot.mission.status} reviewable={snapshot.reviewability.reviewable} providerPerspective={search.get('perspective') === 'provider'} comment={comment} pending={pending} done={done} onComment={setComment} onDecision={decision => void decide(decision)} /></div>}
-    {error && <p role="alert">{error}</p>}<div className="c-actions"><button onClick={() => void reload()}>{text.c_refresh}</button><Link to={`/missions/${id}`}>{text.c_open_mission}</Link></div>
+    </div><ReviewControls status={snapshot.mission.status} reviewable={snapshot.reviewability.reviewable} providerPerspective={search.get('perspective') === 'provider' || search.get('demo') === 'provider'} comment={comment} pending={pending} done={done} onComment={setComment} onDecision={decision => void decide(decision)} /></div>}
+    {error && <p role="alert">{error}</p>}<div className="c-actions"><button onClick={() => void reload()}>{text.c_refresh}</button><Link to={`/missions/${id}${search.get("demo") ? `?demo=${search.get("demo")}` : ""}`}>{text.c_open_mission}</Link></div>
   </main>;
 }

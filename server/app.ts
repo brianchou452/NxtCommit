@@ -17,6 +17,7 @@ import { missionsRoutes } from './routes/missions.js';
 import { executionRoutes } from './routes/execution.js';
 import { AuthoringServices } from './authoring/services.js';
 import type { AuthoringOptions } from './authoring/services.js';
+import { missionPort, syncMissionProjection } from './services/slice-integration.js';
 
 export interface AppOptions {
   databasePath?: string;
@@ -30,6 +31,8 @@ export interface AppOptions {
   executionTimeoutMs?: number;
   missionOptions?: MissionOptions;
   authoring?: AuthoringOptions;
+  /** Isolated slice harnesses may omit projections; production always integrates. */
+  integrateSlices?: boolean;
   operations?: ServiceContext['operations'];
 }
 
@@ -50,7 +53,7 @@ export function createApplication(options: AppOptions = {}) {
       const currentUser = { ...persona, totalPledged: home.profile(persona.id)!.totalPledged };
       return { currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
     },
-    reset: async () => { await reset.reset().finally(() => authoring.endReset()); events.publish('mission_update', home.campaigns()[0]); },
+    reset: async () => { await reset.reset().finally(() => { authoring.endReset(); missions?.resume(); }); events.publish('mission_update', home.campaigns()[0]); },
   };
   const missions = options.installMissions === false ? undefined : installMissionServices(context, {
     ...options.missionOptions,
@@ -58,17 +61,35 @@ export function createApplication(options: AppOptions = {}) {
     ...(options.autoWorker !== undefined ? { autoWorker: options.autoWorker } : {}),
     ...(options.executionTimeoutMs !== undefined ? { executionTimeoutMs: options.executionTimeoutMs } : {}),
   });
-  const authoring = new AuthoringServices(store, { ...options.authoring, ...((options.authoring?.evidence ?? context.evidence) ? { evidence: (options.authoring?.evidence ?? context.evidence)! } : {}) });
+  const integrated = options.integrateSlices !== false && missions;
+  const authoring = new AuthoringServices(store, {
+    ...(integrated ? { missions: missionPort(missions), reviewabilityForRun: (id: string) => missions.reviewabilityForRun(id) } : {}),
+    ...options.authoring,
+    ...((options.authoring?.evidence ?? context.evidence) ? { evidence: (options.authoring?.evidence ?? context.evidence)! } : {}),
+  });
   context.authoring = authoring; context.evidence = authoring.evidence;
   if (options.operations) context.operations = options.operations;
+  else if (missions) context.operations = { runDispatchMode: missions.dispatchMode, workerReady: () => missions.workerReady(), missionCount: () => new Set([...home.campaigns().map(m => m.id), ...authoring.repository.all().map(m => m.id)]).size };
   const reset = createResetHarness(store, [{
     id: 'foundation-persona', quiesce: async () => {},
     clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
   }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), { id: 'authoring-review', quiesce: async () => { authoring.beginReset(); }, clear: () => authoring.repository.clear(), seed: () => authoring.seed() }, ...options.resetParticipants ?? []]);
+  // A queue worker runs in another process. Bridge persisted changes to the web
+  // process's SSE subscribers, using REST snapshots as the evidence authority.
+  let revision = '';
+  const workerUpdates = integrated && missions.dispatchMode === 'queue' ? setInterval(() => {
+    if (reset.pending) return;
+    const current = missions.store.list<{ id: string }>('mission');
+    const value = JSON.stringify(current);
+    if (revision && revision !== value) for (const mission of current) missions.notifyMission(mission.id);
+    revision = value;
+  }, 500) : undefined;
+  workerUpdates?.unref();
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '32kb' }));
   app.use((_request, response, next) => { response.setHeader('Cache-Control', 'no-store'); next(); });
+  app.use((_request, _response, next) => { if (integrated && !reset.pending) syncMissionProjection(context, missions); next(); });
   app.use((request, response, next) => {
     if (reset.pending && !['GET', 'HEAD', 'OPTIONS'].includes(request.method) && request.path !== '/api/demo/reset') { response.status(503).json({ error: 'Demo reset is in progress.', code: 'reset_in_progress' }); return; }
     next();
@@ -98,5 +119,5 @@ export function createApplication(options: AppOptions = {}) {
     }
   };
   app.use(errors);
-  return { app, context, close: async () => { await missions?.quiesce(); events.close(); store.close(); } };
+  return { app, context, close: async () => { clearInterval(workerUpdates); await missions?.quiesce(); events.close(); store.close(); } };
 }

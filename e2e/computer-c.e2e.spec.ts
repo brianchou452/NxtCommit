@@ -54,9 +54,9 @@ test('wizard publishes one persisted local mission with advisory and estimate pr
   await expect(page.getByRole('heading', { name: 'Local mission created' })).toBeVisible();
   await page.getByRole('link', { name: 'Open local mission', exact: true }).click();
   await expect(page).toHaveURL(/\/missions\/[a-f0-9-]+$/); const url = page.url();
-  await expect(page.getByText('funding', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('mission-actions').getByTestId('mission-status')).toHaveText('Funding');
   await page.reload(); await expect(page).toHaveURL(url); await expect(page.getByRole('heading', { name: 'Parse compound durations' })).toBeVisible();
-  await expect(page.getByText('Repository execution is unavailable in this runtime.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Pledge compute credits', exact: true })).toBeEnabled();
 });
 
 /**
@@ -67,7 +67,7 @@ test('wizard publishes one persisted local mission with advisory and estimate pr
  * Then Coverage identifies metadata observations and UI makes no clone full-tree or execution claim.
  */
 test('public metadata retry preserves input, loading, scope advice and non-executable publication', async ({ page }) => {
-  await page.goto('http://127.0.0.1:4192/new');
+  await page.goto('http://127.0.0.1:4201/new');
   await page.getByRole('radio', { name: /Import from GitHub/ }).check();
   const input = page.getByLabel('Public GitHub repository URL'); await input.fill('https://github.com/PrimeIntellect-ai/prime-agent');
   await page.getByRole('button', { name: 'Analyze repository', exact: true }).click();
@@ -149,7 +149,7 @@ test('request changes requires feedback, persists and updates another tab over S
 test('review empty and initial read/stream failure recover through refresh', async ({ page }) => {
   await page.goto('/missions/missing/review'); await expect(page.getByRole('alert')).toContainText('No review artifact');
   await page.getByRole('button', { name: 'Refresh evidence', exact: true }).click(); await expect(page.getByRole('button', { name: 'Approve local demo', exact: true })).toHaveCount(0);
-  await page.goto('http://127.0.0.1:4192/missions/review-demo/review');
+  await page.goto('http://127.0.0.1:4201/missions/review-demo/review');
   await expect(page.getByRole('alert')).toContainText('No review artifact');
   await page.getByRole('button', { name: 'Refresh evidence', exact: true }).click();
   await expect(page.getByTestId('dossier')).toBeVisible(); await expect(page.getByTestId('mission-status')).toHaveText('needs_review');

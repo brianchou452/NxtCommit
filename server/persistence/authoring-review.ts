@@ -9,10 +9,20 @@ export const authoringReviewMigration: Migration = { id: 30, name: 'authoring-re
     CREATE TABLE authored_demo_evidence (run_id TEXT PRIMARY KEY, mission_id TEXT NOT NULL REFERENCES authored_missions(id), snapshot TEXT NOT NULL CHECK(json_valid(snapshot)));`);
 } };
 
+/** Central integration supplies B's mission authority without exposing its tables to C. */
+export interface AuthoringMissionPort {
+  create(analysis: RepoAnalysis, draft: CampaignDraft): AuthoredMission;
+  get(id: string): AuthoredMission | undefined;
+  all(): AuthoredMission[];
+  save(mission: AuthoredMission): void;
+  decide(missionId: string, decision: ReviewDecision): AuthoredMission;
+}
+
 /** Owns authored local mission creation/decisions. Execution evidence is always read through its port. */
 export class AuthoringReviewRepository implements ExecutionEvidenceReader {
-  constructor(private readonly store: PersistenceAdapter) {}
+  constructor(private readonly store: PersistenceAdapter, private readonly missions?: AuthoringMissionPort) {}
   create(analysis: RepoAnalysis, draft: CampaignDraft): AuthoredMission {
+    if (this.missions) return this.missions.create(analysis, draft);
     const id = randomUUID();
     const { serverToken: _token, ...publicDraft } = draft;
     const mission: AuthoredMission = {
@@ -25,15 +35,17 @@ export class AuthoringReviewRepository implements ExecutionEvidenceReader {
     this.save(mission); return mission;
   }
   save(mission: AuthoredMission): void {
+    if (this.missions?.get(mission.id)) { this.missions.save(mission); return; }
     this.store.db.prepare('INSERT INTO authored_missions VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET snapshot=excluded.snapshot').run(mission.id, JSON.stringify(mission));
   }
   get(id: string): AuthoredMission | undefined {
+    const owned = this.missions?.get(id); if (owned) return owned;
     const row = this.store.db.prepare('SELECT snapshot FROM authored_missions WHERE id=?').get(id);
     return row ? JSON.parse(String(row.snapshot)) as AuthoredMission : undefined;
   }
   byProject(id: string): AuthoredMission | undefined { return this.all().find(mission => mission.project.id === id); }
-  all(): AuthoredMission[] { return this.store.db.prepare('SELECT snapshot FROM authored_missions ORDER BY id').all().map(row => JSON.parse(String(row.snapshot)) as AuthoredMission); }
-  count(): number { return Number(this.store.db.prepare('SELECT count(*) AS count FROM authored_missions').get()?.count); }
+  all(): AuthoredMission[] { return [...(this.missions?.all() ?? []), ...this.store.db.prepare('SELECT snapshot FROM authored_missions ORDER BY id').all().map(row => JSON.parse(String(row.snapshot)) as AuthoredMission)]; }
+  count(): number { return this.all().length; }
   getRunEvidence(runId: string): ExecutionEvidence | undefined {
     const row = this.store.db.prepare('SELECT snapshot FROM authored_demo_evidence WHERE run_id=?').get(runId);
     return row ? JSON.parse(String(row.snapshot)) as ExecutionEvidence : undefined;
@@ -47,6 +59,7 @@ export class AuthoringReviewRepository implements ExecutionEvidenceReader {
     this.store.db.prepare('INSERT INTO authored_demo_evidence VALUES (?, ?, ?)').run(evidence.run.id, evidence.run.missionId, JSON.stringify(evidence));
   }
   decide(missionId: string, decision: ReviewDecision): AuthoredMission {
+    if (this.missions?.get(missionId)) return this.missions.decide(missionId, decision);
     return this.store.transaction(() => {
       const mission = this.get(missionId);
       if (!mission || mission.status !== 'needs_review' || mission.latestRunId !== decision.runId) throw new Error('Mission is not eligible for this review.');

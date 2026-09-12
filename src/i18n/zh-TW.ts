@@ -2,6 +2,11 @@ import type { Dictionary } from './en.js';
 import { missionZhTW } from './mission.js';
 import { authoringZh } from './authoring.js';
 export const zhTW = {
+  guide_complete: '本機導覽已完成，已記錄的操作會保留。',
+  project_technical: '技術摘要', project_impact: '專案影響',
+  project_measured: '已量測證據', project_editorial: '編輯估計，未宣稱已量測影響。',
+  project_timeline: '專案時間軸', project_past: '本機提案', project_present: '目前本機狀態', project_future: '尚未驗證的結果',
+  project_past_note: '不推論上游歷史。', project_present_note: '募資與審核狀態記錄於本機。', project_future_note: '不承諾未來執行或發布。',
   ...missionZhTW,
   ...authoringZh,
   product: 'NxtCommit', discover: 'Discover', new_mission: 'New Mission',

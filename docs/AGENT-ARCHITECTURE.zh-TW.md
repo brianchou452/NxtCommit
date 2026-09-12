@@ -1,5 +1,7 @@
 # Agent 架構與 multi-agent 現況
 
+> **目前重建版本（Phase 3）：** 每個 run 由一個 scripted fixture engine 執行。Web server 與選用的獨立 queue worker 透過 SQLite 共享儲存狀態，是確定性程序，不是協作模型代理。C 輔助僅供建議，B 擁有 engine evidence 與任務狀態決策。下方歷史 LLM／Codex runner 並未由本次重建安裝，詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)。
+
 [English](AGENT-ARCHITECTURE.md)
 
 ## 簡短答案

@@ -1,5 +1,7 @@
 import type { LocalizedText } from './primitives.js';
 import type { MissionStatus, RunArtifact, RunSummary } from './execution.js';
+import type { CampaignDraft } from './authoring.js';
+import type { ReviewDecision } from './execution.js';
 
 export interface MissionProject {
   id: string; slug: string; name: string; description: LocalizedText; repoUrl: string;
@@ -10,7 +12,9 @@ export interface MissionProject {
 export interface MissionRecord {
   id: string; projectId: string; title: LocalizedText; tagline: LocalizedText;
   story: { what: LocalizedText; why: LocalizedText; whoBenefits: LocalizedText; approach: LocalizedText };
-  generator: 'demo'; dataMode: 'demo'; status: MissionStatus;
+  generator: 'demo' | 'openai'; dataMode: 'demo'; status: MissionStatus;
+  draft?: CampaignDraft;
+  tags?: string[];
   computeGoal: number; computePledged: number; computeReserved: number; computeConsumed: number;
   latestRunId?: string;
   acceptanceCriteria: { id: string; text: LocalizedText; status: 'pending' | 'supported' | 'unknown' }[];
@@ -24,6 +28,7 @@ export interface LedgerRecord {
 }
 export interface MissionArtifact extends RunArtifact { missionId: string; mode: 'demo' }
 export interface MissionDetail extends MissionRecord {
+  reviewDecision?: ReviewDecision;
   progress: { funding: number; development: number; verification: number; adoption: number };
   pledges: PledgeRecord[]; ledger: LedgerRecord[]; latestRun?: RunSummary; artifact?: MissionArtifact;
 }

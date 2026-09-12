@@ -52,10 +52,10 @@ test("Home discovery, map pinning, categories, release link and repeated navigat
   await expect(
     page.getByRole("heading", { name: "Wall", exact: true }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Discover", exact: true }).click();
+  await page.getByTestId("shell-header").getByRole("link", { name: "Discover", exact: true }).click();
   await page.locator("#projects .campaign").first().getByRole("link").click();
   await expect(page).toHaveURL(/\/missions\/mermaid$/);
-  await page.getByRole("link", { name: "Discover", exact: true }).click();
+  await page.getByTestId("shell-header").getByRole("link", { name: "Discover", exact: true }).click();
   await page.locator("#map select").selectOption("backer-4");
   await expect(page.locator(".map-detail")).toContainText("Tokyo");
 });
@@ -232,23 +232,16 @@ test("Guide waits for reset, recovers failure, targets a real campaign and never
   await expect(page.getByTestId("guide")).toHaveCount(0);
   await expect(page).toHaveURL(/\/missions\/mermaid$/);
 });
-test("Maintainer guide reports missing authoring control and offers recovery", async ({
-  page,
-}) => {
+test("Maintainer guide targets the integrated analysis control and can exit", async ({ page }) => {
   await fixture(page);
   await page.getByRole("link", { name: "Demo", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Start maintainer walkthrough" })
-    .click();
+  await page.getByRole("button", { name: "Start maintainer walkthrough" }).click();
   await expect(page).toHaveURL(/\/new\?demo=maintainer$/);
-  await expect(page.getByTestId("guide")).toContainText(
-    "The next product control is not available in this slice.",
-  );
-  await page.getByRole("link", { name: "Return to Demo" }).click();
+  await expect(page.locator('[data-guide-target="analyze"]')).toBeVisible();
+  await expect(page.getByTestId("guide")).toContainText("Use the highlighted product control to continue.");
+  await page.getByRole("button", { name: "Exit walkthrough" }).click();
   await expect(page.getByTestId("guide")).toHaveCount(0);
-  await expect(
-    page.getByRole("button", { name: "Start maintainer walkthrough" }),
-  ).toBeVisible();
+  await expect(page).toHaveURL(/\/new$/);
 });
 // Spec: api.global-stream; Scenario: global-stream-revalidates-after-mission-update-and-reconnect.
 for (const mode of ["stream", "reconnect"])
@@ -297,7 +290,7 @@ test("Unknown route recovers through Home and language preference survives repea
   ).toBeVisible();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-TW");
-  await page.getByRole("link", { name: "Discover", exact: true }).click();
+  await page.getByTestId("shell-header").getByRole("link", { name: "Discover", exact: true }).click();
   await expect(page.locator("#hero")).toContainText("探索募資提案");
 });
 test("Loading remains unknown; heartbeat never changes or refetches snapshots", async ({

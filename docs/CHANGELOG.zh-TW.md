@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.12 — 2026-09-12（本機 Phase 3 整合）
+
+- 依序整合 dev/computer-a、dev/computer-b 與 dev/computer-c。新建立的 duration fixture 使用同一個任務狀態來源，串接贊助、執行與本機審核。
+- 接上 Marketplace／profile 投影、留言、導覽目標、worker readiness 與 SSE；拒絕過期頁面回覆及舊 run 決策，匯入的 repository 仍不可執行。
+- 新增跨切片 HTTP／Docker journey 與所有 baseline 的驗證入口。保留 approved golden，不宣稱視覺核准或部署完成。詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)。
+
 ## v0.7.11 — 2026-09-12（本機電腦 A / Phase 2）
 
 - 新增 SQLite Home/community 快照、示範資料重設、SSE 重新驗證、持久化遮罩留言、每類別投票鎖定與本機 contributor 收據。

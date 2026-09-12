@@ -3,6 +3,7 @@ import type { RouteModule } from './types.js';
 import { installMissionServices } from '../services/mission-services.js';
 import { MissionError } from '../domain/mission.js';
 import type { Request, Response, NextFunction } from 'express';
+import { campaignDetail } from '../services/slice-integration.js';
 
 export const missionHandler = (handler: (request: Request, response: Response) => unknown) => (request: Request, response: Response, next: NextFunction) => {
   try { handler(request, response); } catch (error) {
@@ -11,7 +12,13 @@ export const missionHandler = (handler: (request: Request, response: Response) =
 };
 export const missionsRoutes: RouteModule = context => {
   const router = Router(); const service = installMissionServices(context);
-  router.get('/missions/:id', missionHandler((req, res) => res.json(service.getMission(String(req.params.id)))));
+  router.get('/missions/:id', (req, res, next) => {
+    const mission = service.store.detail(req.params.id);
+    if (mission) { res.json(mission); return; }
+    const campaign = context.home.mission(req.params.id);
+    if (campaign) { res.json(campaignDetail(campaign)); return; }
+    next();
+  });
   router.post('/missions/:id/pledge', missionHandler((req, res) => res.json(service.pledge(String(req.params.id), req.body?.amount, req.header('Idempotency-Key')))));
   router.post('/missions/:id/execute', missionHandler((req, res) => { const result = service.dispatch(String(req.params.id), req.body?.feedback); res.status(result.dispatch === 'queue' ? 202 : 200).json(result); }));
   router.post('/missions/:id/cancel', (_req, res) => res.status(403).json({ error: 'Authenticated mission authorization is required.', code: 'auth_required' }));
@@ -27,13 +34,13 @@ export const missionsRoutes: RouteModule = context => {
   router.get('/missions/:id/run-request', missionHandler((req, res) => {
     service.getMission(String(req.params.id)); const request = service.store.latestRequest(String(req.params.id)); res.json({ request: request ? service.publicRequest(request) : null });
   }));
-  router.get('/missions/:id/stream', missionHandler((req, res) => {
-    const id = String(req.params.id); service.getMission(id);
+  router.get('/missions/:id/stream', (req, res, next) => {
+    const id = String(req.params.id); if (!service.store.detail(id)) { next(); return; }
     res.set({ 'Content-Type': 'text/event-stream', Connection: 'keep-alive', 'Cache-Control': 'no-cache' }); res.flushHeaders(); res.write(': connected; revalidate REST snapshots\n\n');
     const listener = (envelope: { kind: string }) => res.write(`event: ${envelope.kind}\ndata: ${JSON.stringify(envelope)}\n\n`);
     service.events.on(id, listener);
     const heartbeat = setInterval(() => res.write(': heartbeat\n\n'), 10000);
     req.on('close', () => { clearInterval(heartbeat); service.events.off(id, listener); });
-  }));
+  });
   return Router().use('/api', router);
 };

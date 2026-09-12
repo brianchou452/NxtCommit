@@ -1,18 +1,8 @@
 # 功能真實性矩陣
 
-> **NxtCommit 黑客松範圍（2026-09-12）：** 此 checkout 包含 [Phase 1 骨架](PHASE1-FOUNDATION.zh-TW.md)及[電腦 A／Phase 2 Home/community 實作](PHASE2-COMPUTER-A.zh-TW.md)。SQLite 聚合、SSE、遮罩留言、類別投票、profile 紀錄與重設都是真實本機機制，資料保留 seed 標示。任務執行與 model call 仍不可用；maintainer 導覽可恢復，但缺少 C 負責的分析控制項。Cloudflare 交付仍僅為基礎設施；現行[維運手冊](cicd/RUNBOOK.zh-TW.md)與 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)不代表產品已部署。下方 CommonCommit 完整功能及 GitLab／Argo 結果是匯入歷史背景，不代表此處已實作或部署。
-
-> **電腦 C／Phase 2 原始碼更新：** `dev/computer-c` 已實作 authoring、本機檢視及 operations；測試邊界與待完成視覺核准（12 條 Docker journey 通過）見[交接文件](PHASE2-C.zh-TW.md)。預設 review evidence 是人工編寫的示範資料。Model／trace adapter 以受控 transport 測試，未宣稱真實模型或外部 Langfuse 成功；此 checkout 仍未包含 B execution runner 與 A community 切片。
-
-
-> **NxtCommit 黑客松範圍（2026-09-12）：** 此 checkout 現在包含[電腦 A／Phase 1 共用骨架](PHASE1-FOUNDATION.zh-TW.md)。Cloudflare 交付仍僅為基礎設施；現行[維運手冊](cicd/RUNBOOK.zh-TW.md)與 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)不代表產品已部署。下方 CommonCommit 完整功能及 GitLab／Argo 結果是匯入歷史背景，不代表此處已實作或部署。
-
 [English canonical](FEATURE-REALITY.md)
 
-電腦 B 的 `dev/computer-b` 原始碼候選新增本機 pledge 帳務與 scripted fixture
-execution，test／diff evidence 由 engine 取得；沒有新增 LLM call 或 imported
-repository execution。範圍與驗證狀態見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)；
-下方歷史清單不代表 A/C 功能已重建。
+> **目前本機原始碼：Phase 3，2026-09-12。** A／B／C 已整合於 `codex/dev-spec-integration`，詳見[證據 ledger](PHASE3-INTEGRATION.zh-TW.md)。公開 repository 分析仍只讀 metadata；本機建立任務、贊助、SQLite 帳務、留言、SSE 與人工決策是真實機制，使用示範身分與點數。Retry／duration fixture 以脚本修改，test 與 diff 則由 engine 實際取得。選用 model／trace transport 保留 provenance；本次未驗證真實 provider 或外部 observability。歷史 seed review 仍明示 demo。未新增任意 repository 執行、認證、付款或上游寫入，也未部署；下方完整歷史清單不是此版本實作或線上狀態的證明。
 
 本文件只回答一個問題：**哪些功能真的串接 LLM 或外部系統，哪些是 demo？**
 這是產品文案、QA 與 coding agent 判斷真實性標籤的 canonical 清單。架構與

@@ -2,6 +2,8 @@
 
 平行實作與整合期間使用這份 ledger。Spec lint 只證明 schema 合法，不證明 runtime 行為。
 
+目前 A → B → C 整合記錄見 [Phase 3 證據](PHASE3-INTEGRATION.zh-TW.md)。
+
 ## 完成狀態
 
 - `unassigned`：尚無 owner。

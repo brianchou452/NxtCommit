@@ -9,7 +9,7 @@ import {
 } from "../../shared/home-domain.js";
 import type { ImpactSnapshot, MarketplaceSnapshot } from "../../shared/home.js";
 test("impact-snapshot-keeps-counts-and-map-provenance-together", async () => {
-  const s = await startTestServer();
+  const s = await startTestServer({ integrateSlices: false });
   try {
     const impact = (await (
       await fetch(s.url + "/api/impact")
@@ -48,7 +48,7 @@ test("impact-snapshot-keeps-counts-and-map-provenance-together", async () => {
   }
 });
 test("marketplace-provides-deduplicable-shelves-and-provenance and ordered editorial assignment", async () => {
-  const s = await startTestServer();
+  const s = await startTestServer({ integrateSlices: false });
   try {
     const m = s.context.home.marketplace();
     assert.equal(m.dataMode, "demo");
@@ -84,7 +84,7 @@ test("marketplace-provides-deduplicable-shelves-and-provenance and ordered edito
   }
 });
 test("reset-restores-home-demo-fixture-only and globally invalidates committed data", async () => {
-  const s = await startTestServer();
+  const s = await startTestServer({ integrateSlices: false });
   const abort = new AbortController();
   try {
     const response = await fetch(s.url + "/api/stream", {
@@ -118,7 +118,7 @@ test("reset-restores-home-demo-fixture-only and globally invalidates committed d
 test("reset blocks concurrent community mutations while draining participants", async () => {
   let release!: () => void;
   const barrier = new Promise<void>((r) => (release = r));
-  const s = await startTestServer({
+  const s = await startTestServer({ integrateSlices: false,
     resetParticipants: [
       {
         id: "test-drain",
@@ -147,7 +147,7 @@ test("reset blocks concurrent community mutations while draining participants", 
 
 test('desktop map labels are bounded and do not collide', async () => {
   const { mapLabels } = await import('../../shared/map-layout.js');
-  const s = await startTestServer();
+  const s = await startTestServer({ integrateSlices: false });
   try {
     const labels = mapLabels(s.context.home.impact().beacons);
     assert.equal(labels.length, 20);

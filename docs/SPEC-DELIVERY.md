@@ -3,6 +3,8 @@
 Use this ledger during parallel implementation and integration. Spec lint proves
 schema validity; it does not prove runtime behavior.
 
+The current A → B → C integration is recorded in [Phase 3 evidence](PHASE3-INTEGRATION.md).
+
 ## Completion states
 
 - `unassigned`: no owner.

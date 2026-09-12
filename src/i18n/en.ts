@@ -1,6 +1,11 @@
 import { missionEn } from './mission.js';
 import { authoringEn } from './authoring.js';
 export const en = {
+  guide_complete: 'The local walkthrough is complete. Your recorded actions remain saved.',
+  project_technical: 'Technical summary', project_impact: 'Project impact',
+  project_measured: 'Measured evidence', project_editorial: 'Editorial estimate; no measured impact is claimed.',
+  project_timeline: 'Project timeline', project_past: 'Local proposal', project_present: 'Current local state', project_future: 'Unverified outcome',
+  project_past_note: 'No upstream history is inferred.', project_present_note: 'Funding and review status are recorded locally.', project_future_note: 'No future execution or publication is promised.',
   ...missionEn,
   ...authoringEn,
   product: 'NxtCommit', discover: 'Discover', new_mission: 'New Mission',

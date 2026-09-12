@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useLocale } from '../i18n/LocaleProvider.js';
 import { useMissionSnapshot } from '../components/useMissionSnapshot.js';
 import { ExecutionActivity } from '../components/ExecutionActivity.js';
@@ -9,9 +9,10 @@ import { fetchBootstrap } from '../services/api.js';
 import type { ExecutionCapability } from '../../shared/bootstrap.js';
 import '../styles/mission.css';
 
-export function ExecutionRoomPage() { const { id = '' } = useParams(); return <ExecutionRoomContent key={id} id={id} />; }
+export function ExecutionRoomPage() { const { id = '' } = useParams(); return <main id="main-content" tabIndex={-1}><ExecutionRoomContent key={id} id={id} /></main>; }
 function ExecutionRoomContent({ id }: { id: string }) {
   const { locale, text } = useLocale();
+  const [search] = useSearchParams(); const guide = ['provider', 'maintainer'].includes(search.get('demo') ?? '') ? `?demo=${search.get('demo')}` : '';
   const { data, error, evidenceError, disconnected, reload } = useMissionSnapshot(id, true);
   const [pending, setPending] = useState(false);
   const [dispatchError, setDispatchError] = useState('');
@@ -46,7 +47,7 @@ function ExecutionRoomContent({ id }: { id: string }) {
     <header className="execution-heading"><h1>{text.mission_execution}</h1><MissionStateLabel mission={mission} />{run && <><span className="mission-status">{run.mode}</span><span className="mission-status" data-testid="run-status">{run.status}</span></>}</header>
     {disconnected && <p role="status">{text.mission_reconnecting}</p>}
     {Boolean(error || evidenceError) && <p role="alert">{text.mission_partial_error}</p>}
-    <div className="execution-actions"><button onClick={() => void reload()}>{text.mission_reload}</button>{canExecute && <button className="mission-primary" disabled={pending} onClick={() => void start()}>{pending ? text.mission_dispatching : text.mission_execute}</button>}{reviewable && <Link className="mission-button" to={`/missions/${encodeURIComponent(id)}/review`}>{text.mission_review}</Link>}</div>
+    <div className="execution-actions"><button onClick={() => void reload()}>{text.mission_reload}</button>{canExecute && <button className="mission-primary" disabled={pending} onClick={() => void start()}>{pending ? text.mission_dispatching : text.mission_execute}</button>}{reviewable && <Link className="mission-button" data-guide-target="next" data-guide-step="4" data-guide-title="mission_review" to={`/missions/${encodeURIComponent(id)}/review${guide}`}>{text.mission_review}</Link>}</div>
     {dispatchError && <p role="alert">{dispatchError}</p>}
     {mission.project.workspace.kind !== 'fixture' && <p data-testid="execution-refusal">{text.mission_boundary}</p>}
     {artifact?.testEvidenceSource === 'demo' && <p className="mission-provenance">{text.mission_seed}</p>}

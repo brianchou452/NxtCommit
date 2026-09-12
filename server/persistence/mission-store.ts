@@ -28,10 +28,11 @@ export class MissionStore {
     const mission = this.get<MissionRecord>('mission', id); if (!mission) return;
     const latestRun = mission.latestRunId ? this.get<RunSummary>('run', mission.latestRunId) : undefined;
     const artifact = latestRun ? this.get<MissionArtifact>('artifact', latestRun.id) : undefined;
-    const { progress: _progress, pledges: _pledges, ledger: _ledger, latestRun: _run, artifact: _artifact, ...record } = mission as MissionDetail;
+    const reviewDecision = latestRun ? this.get<NonNullable<MissionDetail['reviewDecision']>>('review', latestRun.id) : undefined;
+    const { progress: _progress, pledges: _pledges, ledger: _ledger, latestRun: _run, artifact: _artifact, reviewDecision: _review, ...record } = mission as MissionDetail;
     return { ...record, pledges: this.list<PledgeRecord>('pledge', id), ledger: this.list<LedgerRecord>('ledger', id),
       progress: { funding: Math.min(1, mission.computePledged / mission.computeGoal), development: latestRun?.status === 'succeeded' ? 1 : 0, verification: artifact?.testEvidenceSource === 'engine' ? 1 : 0, adoption: 0 },
-      ...(latestRun ? { latestRun } : {}), ...(artifact ? { artifact } : {}) };
+      ...(latestRun ? { latestRun } : {}), ...(artifact ? { artifact } : {}), ...(reviewDecision ? { reviewDecision } : {}) };
   }
   events(runId: string): ExecutionEvent[] { return this.list<ExecutionEvent>('event', runId); }
   latestRequest(missionId: string): RunRequest | null { return this.list<RunRequest>('request', missionId).at(-1) ?? null; }

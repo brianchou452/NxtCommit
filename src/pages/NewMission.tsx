@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import type { RepoAnalysis, CampaignDraft, AuthoredMission, AssistantResult } from '../../shared/authoring.js';
 import { localize } from '../../shared/primitives.js';
 import { useLocale } from '../i18n/LocaleProvider.js';
@@ -10,6 +10,7 @@ import '../styles/authoring.css';
 
 export function NewMission() {
   const { text, locale } = useLocale();
+  const [search] = useSearchParams(); const guide = search.get('demo') === 'maintainer' ? '?demo=maintainer' : '';
   const [source, setSource] = useState<'fixture' | 'github'>('fixture');
   const [url, setUrl] = useState('https://github.com/PrimeIntellect-ai/prime-agent');
   const [analysis, setAnalysis] = useState<RepoAnalysis>(); const [issueId, setIssueId] = useState('');
@@ -34,7 +35,7 @@ export function NewMission() {
         <strong>{value === 'fixture' ? text.c_fixture : text.c_github}</strong><p>{value === 'fixture' ? text.c_fixture_note : text.c_github_boundary}</p>
       </label>)}</div>
       {source === 'github' && <label className="c-field">{text.c_url}<input type="url" required value={url} onChange={event => setUrl(event.target.value)} disabled={pending} /></label>}
-      <div className="c-actions"><button className="c-primary" disabled={pending}>{pending ? text.c_analyzing : text.c_analyze}</button></div>
+      <div className="c-actions"><button data-guide-target="analyze" data-guide-step="1" data-guide-title="guide_analyze" className="c-primary" disabled={pending}>{pending ? text.c_analyzing : text.c_analyze}</button></div>
     </form>}
     {analysis && !mission && <section className="c-card" aria-label={text.c_coverage}>
       <h2>{analysis.name}</h2><p>{analysis.description}</p><p className="c-boundary">{analysis.source === 'github' ? text.c_github_boundary : text.c_fixture_note}</p>
@@ -43,7 +44,7 @@ export function NewMission() {
       {!draft && <><h3>{text.c_issues}</h3>{analysis.issues.length === 0 ? <p>{text.c_empty_issues}</p> : analysis.issues.map(item => <label className="c-issue" key={item.id}><input type="radio" name="issue" checked={issueId === item.id} disabled={pending} onChange={() => { setIssueId(item.id); setAdvice(undefined); }} />{item.title}</label>)}
       {issue && <><p>{issue.body}</p><p>{issue.feasibility.basis}</p><div className="c-actions">
         <button disabled={pending || expired} onClick={() => void action(async () => setAdvice((await productRequest<{ assistant: AssistantResult }>('/api/analysis/assist', { analysis, issueId })).assistant))}>{text.c_assist}</button>
-        <button className="c-primary" disabled={pending || expired} onClick={() => void action(async () => setDraft((await productRequest<{ draft: CampaignDraft }>('/api/campaigns/generate', { analysis, issueId })).draft))}>{text.c_generate}</button>
+        <button data-guide-target="next" data-guide-step="2" data-guide-title="c_generate" className="c-primary" disabled={pending || expired} onClick={() => void action(async () => setDraft((await productRequest<{ draft: CampaignDraft }>('/api/campaigns/generate', { analysis, issueId })).draft))}>{text.c_generate}</button>
         <button disabled={pending || expired} onClick={() => void action(async () => setDraft((await productRequest<{ draft: CampaignDraft }>('/api/campaigns/generate', { analysis, issueId, mode: 'demo' })).draft))}>{text.c_generate_demo}</button>
       </div></>}{advice && <Advisory result={advice} feature="issue-triage" />}</>}
     </section>}
@@ -51,7 +52,7 @@ export function NewMission() {
       onCritique={() => void action(async () => setCritic((await productRequest<{ critique: AssistantResult }>('/api/campaigns/critique', { analysis, draft })).critique))}
       onPublish={() => void action(async () => setMission((await productRequest<{ mission: AuthoredMission }>('/api/missions', { analysis, draft })).mission))} />}
 
-    {mission && <section className="c-card"><h2>{localize(mission.title, locale)}</h2><p>{text.c_publish_boundary}</p><p>{text.c_nonexecutable}</p><Link to={`/missions/${mission.id}`}>{text.c_open_mission}</Link></section>}
+    {mission && <section className="c-card"><h2>{localize(mission.title, locale)}</h2><p>{text.c_publish_boundary}</p><p>{mission.project.executable ? text.mission_units : text.c_nonexecutable}</p><Link data-guide-target="next" data-guide-step="4" data-guide-title="c_open_mission" to={`/missions/${mission.id}${guide}`}>{text.c_open_mission}</Link></section>}
     {pending && <p role="status">{text.c_pending}</p>}{error && <p role="alert">{error}</p>}
     {analysis && <button disabled={pending} onClick={fresh}>{text.c_fresh}</button>}
   </main>;
