@@ -1,6 +1,6 @@
 # Development
 
-> Phase 1 reconstruction uses Node 24.x and the [foundation workflow](PHASE1-FOUNDATION.md). All runner modes remain refused; the older full-application commands below require later-phase modules.
+> Reconstruction uses Node 24.x and the [foundation workflow](PHASE1-FOUNDATION.md). Computer B adds fixture-only demo execution; see [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md) for current verification. Forced real runner modes remain refused; the older full-application commands below are historical context.
 
 [繁體中文](DEVELOPMENT.zh-TW.md)
 

@@ -6,6 +6,14 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.11 — 2026-09-12 (Computer B source candidate)
+
+- Adds the mission/funding/execution vertical slice with local compute accounting,
+  fixture-only demo execution, persisted evidence and mission/execution pages.
+- Central B wiring was explicitly authorized for branch `dev/computer-b`.
+  Verification and remaining limits are recorded in [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
+- This is a source candidate, not a deployment or an approved visual baseline update.
+
 ## v0.7.10 — 2026-09-12 (local Phase 1 source checkpoint)
 
 - Established TypeScript frontend/backend shared contracts, modular HTTP registration,

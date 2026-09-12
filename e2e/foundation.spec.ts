@@ -19,7 +19,7 @@ test('foundation locale persists through navigation and reload; route focus is r
 });
 
 test('declared deep links load the foundation router, not a server 404', async ({ page }) => {
-  for (const route of ['/marketplace', '/new', '/missions/example', '/missions/example/run', '/missions/example/review', '/contributors/example', '/demo', '/concepts/example/overview']) {
+  for (const route of ['/marketplace', '/new', '/missions/example/review', '/contributors/example', '/demo', '/concepts/example/overview']) {
     await page.goto(route);
     await expect(page.getByRole('heading', { name: 'Shared foundation' })).toBeVisible();
     await expect(page.getByText('This route is a Phase 1 placeholder. Product workflows are not implemented yet.')).toBeVisible();
@@ -27,9 +27,9 @@ test('declared deep links load the foundation router, not a server 404', async (
 });
 
 // Spec: component.application-shell; Scenario: shell-preserves-local-demo-and-locale-boundaries.
-test('shell exposes refusal, supports local profile navigation and UI reset', async ({ page }) => {
+test('shell exposes demo mode, supports local profile navigation and UI reset', async ({ page }) => {
   await page.goto('/demo');
-  await expect(page.getByText('Execution unavailable', { exact: true })).toBeVisible();
+  await expect(page.getByText('Demo runner', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('10,000');
   await expect(page.getByText('Local demo identities and compute credits. No authentication, payments or upstream publication.')).toBeVisible();
   await page.getByRole('link', { name: 'My Commitment' }).click();

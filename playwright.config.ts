@@ -21,10 +21,15 @@ export default defineConfig({
   }, {
     command: 'node --import tsx e2e/fixture-server.ts', url: 'http://127.0.0.1:4178/healthz',
     reuseExistingServer: false, timeout: 30000,
+  }, {
+    command: 'node --import tsx e2e/mission-fixture-server.ts', url: 'http://127.0.0.1:4191/healthz',
+    reuseExistingServer: false, timeout: 30000,
   }],
   projects: [
     { name: 'foundation', testMatch: 'foundation.spec.ts' },
-    { name: 'product', testMatch: 'product.e2e.spec.ts' },
+    { name: 'product', testMatch: '*.e2e.spec.ts' },
+    { name: 'mission', testMatch: 'mission-execution.e2e.spec.ts' },
+    { name: 'mission-visual', testMatch: 'mission-execution.visual.spec.ts' },
     { name: 'visual', testMatch: 'visual.spec.ts' },
   ],
 });

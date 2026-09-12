@@ -5,7 +5,7 @@ import { createApplication } from '../server/app.js';
 
 /** Server-owned, isolated foundation error/reset fixture; never part of production startup. */
 const directory = mkdtempSync(join(tmpdir(), 'nxtcommit-shell-fixture-'));
-const application = createApplication({ databasePath: join(directory, 'state.sqlite'), staticDirectory: resolve('dist') });
+const application = createApplication({ databasePath: join(directory, 'state.sqlite'), staticDirectory: resolve('dist'), installMissions: false });
 application.context.store.db.prepare("UPDATE local_personas SET snapshot = json_set(snapshot, '$.walletBalance', 7)").run();
 const bootstrap = application.context.bootstrap;
 let bootstrapRequests = 0;
@@ -22,7 +22,7 @@ application.context.reset = async () => {
 };
 const server = application.app.listen(4178, '127.0.0.1');
 function shutdown() {
-  server.close(() => { application.close(); rmSync(directory, { recursive: true, force: true }); });
+  server.close(() => { void application.close().then(() => rmSync(directory, { recursive: true, force: true })); });
   server.closeAllConnections();
 }
 process.once('SIGTERM', shutdown);

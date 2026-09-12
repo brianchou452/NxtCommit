@@ -1,5 +1,10 @@
 # 安全性與信任邊界
 
+> 重建範圍：電腦 B 實作 scripted bundled-fixture runner、固定 Node verification、
+> protected-file seals、有界且遮罩的 evidence，以及 transaction 內的 queue ownership
+> fence。下方歷史 LLM／Codex tool loop 與 per-run OS isolation 並未實作。
+> Docker 用於 browser tests，不代表產品具備 sandbox 保證。見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+
 [English](SECURITY.md)
 
 NxtCommit 是實驗性原型。其控制措施旨在讓 fixture 示範可供稽核；這些措施不足以在共享或正式環境中執行任意第三方程式碼。

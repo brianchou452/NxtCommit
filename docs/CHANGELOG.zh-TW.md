@@ -6,6 +6,14 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.11 — 2026-09-12（電腦 B 原始碼候選）
+
+- 新增 mission／funding／execution 垂直切片，包含本機 compute accounting、
+  僅限 fixture 的 demo execution、持久化 evidence 與 mission／execution 頁面。
+- 使用者已明確授權 `dev/computer-b` 的 B 中央接線；驗證與剩餘限制記錄於
+  [B 交接文件](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+- 這是原始碼候選，不代表部署或 approved visual baseline 更新。
+
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 
 - 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。
