@@ -22,3 +22,13 @@ Verification: bilingual dictionary/type/build checks and the browser journey
 cover explicit keyboard activation, pending versus confirmed state, reset,
 Chinese navigation and mobile overflow. Existing approved visual goldens are
 not rewritten for this redesign.
+
+## Deployment verification — 2026-09-12
+
+Cloudflare serves `aa64fed092f9ca1fe2bb9c29c80d20331dcacd17` (v0.7.25).
+[Release](https://github.com/brianchou452/NxtCommit/actions/runs/34679340626)
+passed 166 server and 48 browser tests. Independent HTTPS and browser checks
+confirmed the new homepage and playback stopping before simulated confirmation.
+Post-deploy assurance `d2b6eea2-98f6-43cb-b0d4-8df5d24bfba3` passed 38/38
+checks with four real provider calls and 1,878 reported tokens. This verifies
+presentation deployment and assurance execution, not PR-driven rule enforcement.
