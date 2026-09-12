@@ -33,6 +33,14 @@ Regression coverage includes invalid bilingual output, recovery after the 10-sec
 
 `scripts/ci/probe_llm_quality.mjs` performs exactly 12 billable calls on authored examples from the built application root with `OPENAI_API_KEY` supplied in the environment. It prints those authored-case summaries and measured provenance, never credentials. Local raw results are ignored artifacts: `llm-quality-before.jsonl`, `llm-quality-after-pinned.jsonl`, `llm-quality-agents.jsonl`. The first rejected candidate is retained separately as `llm-quality-after.jsonl`.
 
-Cloudflare release, end-to-end and Langfuse readback results are recorded below after deployment verification.
+## Deployed verification
+
+[GitHub deployment 34678108394](https://github.com/brianchou452/NxtCommit/actions/runs/34678108394) passed all CI and deployment checks. HTTPS `/__deployment` served `ad026e1d6b5370763887cb207346cab6ba1b46ee` (source version 0.7.23). The CI assurance probe also required four real provider-backed advisory roles and 38 successful controlled checks.
+
+All six product features returned OpenAI v3 evidence, with no fallback. Fresh HTTP responses ranged 2,365–3,291 ms (mean 2,910 ms); model request mean was 2,065 ms. Two repeated issue requests took 751/511 ms, reported cached=true and zero additional model latency, and retained the exact original response ID and trace ID. Six unique calls consumed 4,067 measured tokens; cached usage describes the original response and must not be added again.
+
+All six GENERATION observations were read back from Langfuse with matching model, usage, positive duration and deployed release. The fixture mission reached fresh engine evidence with 5 passed / 0 failed in 3,533 ms and remained needs_review. Eight subsequent readiness checks returned HTTP 200 with LLM and Langfuse enabled; this is a bounded smoke check, not a load-capacity or uptime guarantee.
+
+Metadata artifacts: `llm-product-v3.json`, `langfuse-product-verified.json`, `llm-v3-readiness.json`. [Langfuse project](https://us.cloud.langfuse.com/project/cmtxyhuhu068yad0cclmultr7/traces).
 
 Local verification: 162 code tests and 42 Docker browser E2E tests passed. E2E_IMAGE isolates image tags across simultaneous worktrees. The Assurance GET probe now supplies the application User-Agent: live default Python UA returned 403 while the application UA returned 200.
