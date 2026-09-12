@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.27 — 2026-09-12
+
+- Redesign Agent Lab around what is tested, measured results and next steps. Group observed checks into practical risk categories; explain role boundaries and collapse diagnostics behind evidence controls. Preserve live, idle, disconnected and provenance states.
+
 ## v0.7.26 — 2026-09-12
 
 - Remove the homepage workflow concept section and restore the discovery button to campaigns.
