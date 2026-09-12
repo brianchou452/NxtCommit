@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.campaign-card
+title: Campaign card desktop component reference
+component_id: component.campaign-card
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: campaign-card-featured-funding, viewport: { width: 1440, height: 1000 }, state: Featured fundable card exposes benefit funding backers status provenance and campaign action., actions: [Open marketplace, wait for shelves, freeze motion, capture first visible featured card], golden_path: e2e/golden/component-campaign-card-featured-funding.png, status: approved }

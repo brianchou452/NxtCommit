@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.repository-analyzer
+title: Repository analyzer desktop component reference
+component_id: component.repository-analyzer
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: repository-analyzer-results, viewport: { width: 1440, height: 1200 }, state: Bundled fixture analysis exposes measured coverage issues provenance and next action., actions: [Open new mission, analyze fixture, wait for results, freeze motion, capture analyzer], golden_path: e2e/golden/component-repository-analyzer-results.png, status: approved }

@@ -1,0 +1,33 @@
+spec_version: 1
+kind: component
+id: component.repository-analyzer
+title: Repository analyzer
+purpose: 選擇 bundled fixture或public GitHub URL並呈現server-observed coverage、unknown measurements、issues與capability expiry。
+inputs: []
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/analyze, purpose: 取得 trusted RepoAnalysis。 }
+states:
+  - { name: source, condition: 尚未分析。, rendering: 顯示fixture/GitHub source選擇與URL validation。 }
+  - { name: analyzing, condition: Request in flight., rendering: 顯示不宣稱clone/test的progress。 }
+  - { name: ready, condition: Capability-bound analysis回傳。, rendering: 顯示measurement coverage、issues、feasibility與unknown。 }
+  - { name: error, condition: Analysis failed或capability expired。, rendering: 保留source input並要求fresh analysis。 }
+interactions:
+  - { trigger: Analyze selected source., result: 將server-issued analysis作為後續step唯一authority。 }
+content:
+  locales:
+    en: { githubBoundary: Public metadata only; the repository is not cloned or executed. }
+    zh-TW: { githubBoundary: 僅讀取公開metadata；不會clone或執行repo。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Source and boundary lead., Observed coverage appears before scores and issue choices.]
+  layout: Source form followed by evidence summary and issue list.
+  geometry: Wide wizard card with bounded result panels.
+  colour_semantics: Unknown and needs-human are warning/neutral not failure.
+  surface: Layered analysis cards.
+  typography: Measurements and capability notes use concise labels.
+  motion: Loading motion cannot imply clone or test execution.
+  visual_anchors: [Source selector, measurement coverage, issue list.]
+scenarios:
+  - { id: github-analysis-stays-metadata-only, given: User selects a public GitHub repository., when: Analysis completes., then: Coverage identifies metadata observations and UI makes no clone full-tree or execution claim., test_file: server/product-spec.bdd.test.ts }

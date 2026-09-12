@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.route-recovery
+title: Route recovery desktop component reference
+component_id: component.route-recovery
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: route-recovery-not-found, viewport: { width: 1440, height: 900 }, state: Unknown route renders an accessible explanation and Home action without internal details., actions: [Open unknown route, freeze motion, capture recovery], golden_path: e2e/golden/component-route-recovery-not-found.png, status: approved }

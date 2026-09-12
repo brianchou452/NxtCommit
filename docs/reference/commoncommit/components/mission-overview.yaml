@@ -1,0 +1,37 @@
+spec_version: 1
+kind: component
+id: component.mission-overview
+title: Mission overview
+purpose: 將 project、campaign story、funding、risk、criteria 與 generator/data provenance 組成可理解的 mission 主敘事。
+inputs:
+  - { name: mission, type: MissionDetail, required: true, description: Current server mission aggregate. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/missions/:id, purpose: 取得 mission 與 project authority。 }
+  - { kind: api, endpoint: /api/projects/:id/explain, purpose: 取得 independently-labelled explanation、impact、timeline。 }
+states:
+  - { name: loading, condition: Mission 尚未回應。, rendering: 顯示不含假數字的 skeleton。 }
+  - { name: missing, condition: Mission 為 404。, rendering: 顯示 not-found recovery。 }
+  - { name: ready, condition: Mission 已載入。, rendering: 顯示 story、progress、risk、criteria 與可得 explanation。 }
+  - { name: explanation_unavailable, condition: Mission 可用但 independently-labelled explanation 失敗或不存在。, rendering: 保留 authoritative campaign story、provenance 與 actions；不以自製 prose 或 zero measurements 取代。 }
+interactions:
+  - { trigger: 選擇 project/repository link。, result: 開啟真實 URL；相鄰 seed figures 不因此升格為 live。 }
+content:
+  locales:
+    en: { provenance: Data and generator labels describe what actually produced each claim. }
+    zh-TW: { provenance: 每一項敘述都由 data 與 generator label 說明實際來源。 }
+  dynamic_labels:
+    - { name: project, source: mission.project.name, fallback: Unknown project }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Mission title and funding state lead; story and evidence follow., Provenance stays adjacent to generated copy and figures.]
+  layout: Main narrative sections with compact evidence cards.
+  geometry: Wide content column with bounded readable measure.
+  colour_semantics: Lifecycle and risk use shared semantic colours; provenance is restrained but readable.
+  surface: Editorial cards on the product canvas.
+  typography: One clear h1 followed by semantic section headings.
+  motion: No claim depends on animation.
+  visual_anchors: [Mission title, funding progress, acceptance criteria.]
+scenarios:
+  - { id: overview-keeps-provenance-with-claims, given: Mission and optional generated explanation are available., when: Overview renders., then: Status generator dataMode and missing measurements remain distinguishable., test_file: server/product-spec.bdd.test.ts }
+  - { id: overview-keeps-unknown-measurements-absent, given: Project popularity adoption or impact was not measured., when: Overview and explanation render., then: Unknown values remain absent or explicitly unknown and demo literals never appear as observed facts., test_file: server/ag03-provenance.test.ts }

@@ -1,0 +1,18 @@
+spec_version: 1
+kind: page
+id: page.contributor-profile
+title: Contributor profile
+route: /contributors/:id
+purpose: 彙整 local demo persona 的 wallet、pledges、compute receipts、run outcomes 與 deterministic achievements。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/contributors/:id, purpose: 取得完整 contributor aggregate。, initial_state: 顯示 skeleton。, error_state: 404 顯示 not-found；其他錯誤可 retry。 }
+composition:
+  - { id: impact, kind: component, spec_id: component.contributor-impact, purpose: 顯示 persona、accounting、achievements、pledges與receipts。, data: Contributor profile., visual_role: Complete local impact record., width: Full content width., relationship_to_previous: First and primary content. }
+page_owned_behaviour:
+  - Persona、wallet 與 achievements 不得呈現為 authenticated identity、money 或 verified external reputation。
+  - Adoption unknown 必須 absent；seed/demo source 必須在 receipt 或 enclosing surface 可見。
+layout: { canvas: Personal impact dashboard., section_rhythm: Identity stats recognition then receipts., desktop: Stat grid and wide receipt cards., relationships: [Every aggregate can be traced to local records.], visual_anchors: [Avatar summary badges and receipt chains.] }
+scenarios:
+  - { id: profile-keeps-demo-identity-visible, given: A local contributor aggregate exists., when: Profile renders., then: Accounting and achievements are traceable while identity and adoption remain honestly labelled., test_file: server/product-spec.bdd.test.ts }

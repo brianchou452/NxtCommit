@@ -1,0 +1,13 @@
+{
+  "name": "tempo-duration",
+  "version": "1.4.2",
+  "description": "Tiny, dependency-free human duration parser and formatter.",
+  "type": "module",
+  "license": "MIT",
+  "main": "src/index.mjs",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["duration", "parse", "time", "human"],
+  "repository": "https://github.com/mira-holt/tempo-duration"
+}

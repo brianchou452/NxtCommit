@@ -12,7 +12,7 @@ test('Agent Lab exposes persisted terminal checks in both languages without fake
   await expect(page.getByRole('cell', {name: 'worker-recovery · 2'})).toBeVisible();
   await expect(page.locator('.assurance-stage.completed')).toHaveCount(6);
   await expect(page.locator('.assurance-stage.running')).toHaveCount(0);
-  await page.getByRole('combobox', {name:'Language'}).selectOption('zh-TW');
+  await page.getByRole('button', {name:/language/i}).click();
   await expect(page.locator('h1')).not.toHaveText('What are the agents testing? See for yourself.');
   await page.setViewportSize({width:390,height:844});
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

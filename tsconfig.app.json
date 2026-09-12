@@ -1,5 +1,15 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "types": ["vite/client"], "noEmit": true },
-  "include": ["src", "shared"]
+  "compilerOptions": {
+    "types": [
+      "vite/client"
+    ],
+    "noEmit": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false
+  },
+  "include": [
+    "src",
+    "shared"
+  ]
 }

@@ -3,6 +3,7 @@ import { join } from 'node:path';
 const output = process.env.E2E_OUTPUT_DIRECTORY ?? 'test-results';
 export default defineConfig({
   testDir: './e2e',
+  timeout: 90000,
   snapshotPathTemplate: '{testDir}/golden/{arg}{ext}',
   outputDir: join(output, 'artifacts'),
   reporter: [['list'], ['json', { outputFile: join(output, 'results.json') }]],
@@ -19,7 +20,7 @@ export default defineConfig({
   }, {
     command: 'node dist-server/server/index.js', url: 'http://127.0.0.1:4177/healthz',
     reuseExistingServer: false, timeout: 30000,
-    env: { HOST: '127.0.0.1', PORT: '4177', AGENT_ASSURANCE_ENABLED: '1', OPENAI_CHECK_TOKEN: 'test-assurance-operator-0000000000', VAR_DIR: '/tmp/nxtcommit-playwright-state', EXECUTION_MODE: 'demo' },
+    env: { HOST: '127.0.0.1', PORT: '4177', DEMO_SPEED: '0.1', AGENT_ASSURANCE_ENABLED: '1', OPENAI_CHECK_TOKEN: 'test-assurance-operator-0000000000', VAR_DIR: '/tmp/nxtcommit-playwright-state', EXECUTION_MODE: 'demo' },
   }, {
     command: 'node --import tsx e2e/fixture-server.ts', url: 'http://127.0.0.1:4178/healthz',
     reuseExistingServer: false, timeout: 30000,
@@ -35,8 +36,10 @@ export default defineConfig({
   }],
   projects: [
     { name: 'github', testMatch: 'github.e2e.spec.ts' },
-    { name: 'foundation', testMatch: 'foundation.spec.ts' },
-    { name: 'product', testMatch: '*.e2e.spec.ts' },
+    { name: 'foundation', testMatch: 'parity-foundation.spec.ts' },
+    { name: 'legacy-foundation', testMatch: 'foundation.spec.ts' },
+    { name: 'product', testMatch: ['parity.e2e.spec.ts', 'github.e2e.spec.ts', 'assurance.e2e.spec.ts'] },
+    { name: 'legacy-product', testMatch: /^(?!parity).*\.e2e\.spec\.ts$/ },
     { name: 'mission', testMatch: 'mission-execution.e2e.spec.ts' },
     { name: 'mission-visual', testMatch: 'mission-execution.visual.spec.ts' },
     { name: 'computer-c', testMatch: 'computer-c.e2e.spec.ts' },

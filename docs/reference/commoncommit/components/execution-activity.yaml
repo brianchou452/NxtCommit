@@ -1,0 +1,42 @@
+spec_version: 1
+kind: component
+id: component.execution-activity
+title: Execution activity
+purpose: 合併 stored 與 current SSE events，顯示 phase、source、verified、tests、files 與 bounded output而不製造 idle activity。
+inputs:
+  - { name: run, type: ExecutionRun, required: false, description: Current run when created. }
+  - { name: events, type: ExecutionEvent array, required: true, description: Ordered deduplicated evidence. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/missions/:id/events, purpose: 取得 persisted history。 }
+  - { kind: event_stream, endpoint: /api/missions/:id/stream, purpose: 接收 current run updates。 }
+states:
+  - { name: idle, condition: 沒有 run與events。, rendering: 顯示 idle instruction而非 spinner或假 event。 }
+  - { name: queued, condition: Run request is queued or leased but no matching run event exists., rendering: 顯示 dispatch/request status並明確說明尚無 runner evidence。 }
+  - { name: running, condition: Run status running。, rendering: 顯示 active phase與 ordered evidence feed。 }
+  - { name: terminal, condition: Run terminal。, rendering: 停止 pulse並保留完整 evidence與 next action。 }
+  - { name: failed_or_stalled, condition: Active run failed stalled cancelled or exhausted its budget., rendering: 停止 pulse、保留 timeline並顯示 server outcome及允許的 recovery action。 }
+  - { name: stream_disconnected, condition: SSE disconnects while REST snapshot remains available., rendering: 保留 snapshot、標示 reconnecting並在重連後 revalidate；不插入 synthetic event。 }
+interactions:
+  - { trigger: Expand bounded output or file/test detail., result: 顯示同一 event payload且不改變 source label。 }
+  - { trigger: Active run id changes after retry or recovery., result: 原子清除前一 run 派生內容並只採用新 run 的 REST/SSE evidence。 }
+content:
+  locales:
+    en: { idle: No run is active. }
+    zh-TW: { idle: 目前沒有進行中的執行。 }
+  dynamic_labels:
+    - { name: phase, source: latest engine event type, fallback: Waiting }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Phase rail leads., Event source and verification precede expandable detail.]
+  layout: Horizontal phase rail above chronological feed.
+  geometry: Dense readable rows with aligned timestamps and badges.
+  colour_semantics: Engine verification uses success semantics; demo/model/static sources retain distinct neutral labels.
+  surface: Operational cards on a restrained canvas.
+  typography: Monospace for commands and output; sans for explanation.
+  motion: Pulse only while actual run status is running.
+  visual_anchors: [Phase rail, source badges, test evidence rows.]
+scenarios:
+  - { id: activity-never-invents-work, given: REST history and SSE may overlap or be empty., when: Events are merged., then: IDs deduplicate order remains stable and empty state shows no fabricated activity., test_file: server/product-spec.bdd.test.ts }
+  - { id: activity-rejects-cross-run-events, given: Stored and live events contain delayed frames from a prior run., when: Activity adopts a new active run., then: Every prior-run frame and derived test/file/phase summary is removed before the new timeline renders., test_file: server/ui01-controls.test.ts }
+  - { id: activity-renders-event-payload-union, given: Environment file-change test-result diff guard budget and terminal events exist for one run., when: Their details are expanded., then: Each bounded payload renders its typed facts while source verified state secrets and unknown fields retain their boundaries., test_file: server/ag03-provenance.test.ts }

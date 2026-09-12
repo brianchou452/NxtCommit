@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.marketplace
+title: Marketplace visual contract
+page_id: page.marketplace
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: marketplace-desktop-ready, viewport: { width: 1440, height: 1000 }, state: Seeded shelves loaded with demo provenance and no expanded overflow groups., actions: [Open /marketplace, wait for marketplace response, freeze motion and reveal content], golden_path: e2e/golden/marketplace-desktop-ready.png, status: approved }

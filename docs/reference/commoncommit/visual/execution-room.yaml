@@ -1,0 +1,12 @@
+spec_version: 1
+kind: visual
+id: visual.execution-room
+title: Execution room visual contract
+page_id: page.execution-room
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: execution-room-idle, viewport: { width: 1440, height: 1000 }, state: Eligible mission has no active run and shows honest idle/start state., actions: [Open seeded mission run route, wait for REST state, freeze motion], golden_path: e2e/golden/execution-room-idle.png, status: approved }
+  - { id: execution-room-terminal, viewport: { width: 1440, height: 1200 }, state: Seeded terminal run shows phase event sources budget tests files and guardrails without pulsing., actions: [Open seeded terminal run route, wait for evidence, freeze motion], golden_path: e2e/golden/execution-room-terminal.png, status: approved }
+  - { id: execution-room-running-demo, viewport: { width: 1440, height: 1200 }, state: Active seeded demo run shows source-labelled activity without implying an LLM or fresh engine verification., actions: [Open canonical seeded executing mission, wait for REST state and events, freeze motion], golden_path: e2e/golden/execution-room-running-demo.png, status: approved }
+  - { id: execution-room-queued, viewport: { width: 1440, height: 1000 }, state: Durable queue request is visible while runner activity and reviewability remain unestablished., actions: [Start web server in queue mode without a worker, fund canonical fixture, wait for queued request snapshot, freeze motion], golden_path: e2e/golden/execution-room-queued.png, status: approved }

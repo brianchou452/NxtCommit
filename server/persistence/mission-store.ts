@@ -30,7 +30,11 @@ export class MissionStore {
     const artifact = latestRun ? this.get<MissionArtifact>('artifact', latestRun.id) : undefined;
     const reviewDecision = latestRun ? this.get<NonNullable<MissionDetail['reviewDecision']>>('review', latestRun.id) : undefined;
     const { progress: _progress, pledges: _pledges, ledger: _ledger, latestRun: _run, artifact: _artifact, reviewDecision: _review, ...record } = mission as MissionDetail;
-    return { ...record, ...(record.catalog ? {backerCount:record.catalog.seededBackerCount + new Set(this.list<PledgeRecord>('pledge', id).filter(p=>!p.id.startsWith('catalog-')).map(p=>p.contributorId)).size} : {}), pledges: this.list<PledgeRecord>('pledge', id), ledger: this.list<LedgerRecord>('ledger', id),
+    return { ...record, ...(record.catalog ? {backerCount:record.catalog.seededBackerCount + new Set(this.list<PledgeRecord>('pledge', id).filter(p=>!p.id.startsWith('catalog-')).map(p=>p.contributorId)).size} : {}), pledges: this.list<PledgeRecord>('pledge', id).map(p => {
+        const row = this.adapter.db.prepare('SELECT snapshot FROM home_contributors WHERE id=?').get(p.contributorId);
+        const persona = row ? JSON.parse(String(row.snapshot)) : undefined;
+        return {...p, ...(persona ? {contributor:{id:persona.id,handle:persona.handle,name:persona.name,avatarColor:persona.avatarColor}} : {})};
+      }), ledger: this.list<LedgerRecord>('ledger', id),
       progress: { funding: Math.min(1, mission.computePledged / mission.computeGoal), development: latestRun?.status === 'succeeded' ? 1 : 0, verification: artifact?.testEvidenceSource === 'engine' ? 1 : 0, adoption: 0 },
       ...(latestRun ? { latestRun } : {}), ...(artifact ? { artifact } : {}), ...(reviewDecision ? { reviewDecision } : {}) };
   }

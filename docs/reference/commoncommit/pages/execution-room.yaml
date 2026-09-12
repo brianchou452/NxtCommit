@@ -1,0 +1,35 @@
+spec_version: 1
+kind: page
+id: page.execution-room
+title: Execution room
+route: /missions/:id/run
+purpose: 顯示 single-runner execution 的 stored/live events、phase、budget、tests、files、guardrails 與 queue/inline dispatch state。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/missions/:id, purpose: 取得 mission 與 latest run context。, initial_state: 顯示 skeleton。, error_state: 顯示 not-found 或 retry。 }
+  - { endpoint: /api/missions/:id/events, purpose: 取得目前 run 的 persisted event history。, initial_state: 空 timeline 表示尚無 run。, error_state: 保留 mission 並允許 reload。 }
+  - { endpoint: /api/missions/:id/run-request, purpose: Queue mode 取得 latest request status。, initial_state: 不假設 queued work。, error_state: 不把 unknown 顯示成 running。 }
+  - { endpoint: /api/missions/:id/execute, purpose: 對 eligible mission dispatch execution。, initial_state: 顯示可用 start action。, error_state: 顯示 dispatch failure。 }
+  - { endpoint: /api/runs/:id, purpose: 重新取得 run、events 與 artifact。, initial_state: Run 建立前省略。, error_state: 保留最後成功 snapshot。 }
+  - { endpoint: /api/missions/:id/stream, purpose: 合併 live run updates 並在 terminal 時 revalidate。, initial_state: REST history 為 authority。, error_state: Reconnect 後重新抓取。 }
+composition:
+  - { id: activity, kind: component, spec_id: component.execution-activity, purpose: 顯示 ordered phases 與 source-labelled event evidence。, data: Run and events., visual_role: Primary chronological surface., width: Main column plus phase rail., relationship_to_previous: Below mission heading. }
+  - { id: facts, kind: page_unique, purpose: 顯示 state、budget、environment、tests、files、guardrails、trace。, data: Run and bounded payload facts., visual_role: Evidence sidebar., width: Sidebar., relationship_to_previous: Parallel to feed. }
+page_owned_behaviour:
+  - Stored/live event 依 id 合併且不得為 idle state 製造事件。
+  - SourceBadge 與 verified 狀態必須逐 event 顯示；runner explanation 不得升格成 engine fact。
+  - Queue request、runner mode、isolation 與 final reviewability 是四個不同事實。
+  - Snapshot、SSE frame、poll response 與 rendered summary 必須同時符合目前 route missionId 與 active runId；切換 run 時原子清除舊 events、tests、files、phase 與 copied state。
+  - Inline execution 以 SSE 為即時路徑；queue execution 在 worker 與 web process 不共享 event bus 時必須輪詢 request/detail，且 queued 或 leased 不得顯示成 runner 正在工作。
+  - Running pulse 只能由 active run status=running 驅動；terminal、failed、stalled、cancelled、unknown 與 idle 都停止 pulse。
+  - Terminal 成功只有在 persisted engine evidence 通過 reviewability gate 且 mission snapshot 進入 needs_review 時才顯示 review action；seeded review state必須明確標示非 fresh verification。
+  - failed、stalled、cancelled、budget exhausted、dispatch refusal、stream disconnect 與 reload failure 各自保留最後成功 evidence，顯示 outcome/recovery，不得退回假 running spinner。
+  - 每次 start/retry mutation 在 response 前 disable duplicate intent；route 或 run 改變後晚到 response 不得採用。
+layout: { canvas: Dense operational room., section_rhythm: Header phase rail then feed and evidence., desktop: Wide feed with structured sidebar., relationships: [Every summary fact must trace to the same run events or run record.], visual_anchors: [Phase rail live feed and test status.] }
+scenarios:
+  - { id: execution-room-preserves-event-authority, given: A run may be idle queued running or terminal., when: REST and SSE evidence are combined., then: Events remain ordered and source-labelled while empty state stays honest., test_file: server/product-spec.bdd.test.ts }
+  - { id: execution-room-isolates-active-run, given: A mission starts a later retry while prior REST and SSE responses remain in flight., when: The active run changes., then: Old-run events tests files phase and summaries are discarded and every accepted update matches both current missionId and runId., test_file: server/ui01-controls.test.ts }
+  - { id: execution-room-reaches-evidenced-terminal, given: An eligible bundled fixture is dispatched in demo mode with bounded compute., when: The runner and engine complete within the documented timeout., then: Persisted runner events remain demo-labelled engine tests and diff remain engine-verified and the page revalidates to needs_review with a reviewable artifact., test_file: server/engine/engine.test.ts }
+  - { id: execution-room-keeps-queue-separate-from-work, given: Queue dispatch returns a request before any worker owns or starts a run., when: The page polls queued leased completed failed or cancelled request states., then: It reports request ownership separately and shows runner activity only after a matching run and events exist., test_file: server/queue.test.ts }
+  - { id: execution-room-preserves-failure-and-recovery, given: A run fails stalls is cancelled loses its stream or is interrupted by restart., when: The page reloads or reconnects., then: The last persisted evidence and explicit recoverable outcome remain visible without invented progress or cross-run data., test_file: server/rec01-recovery.test.ts }

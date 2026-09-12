@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.campaign-authoring
+title: Campaign authoring desktop component reference
+component_id: component.campaign-authoring
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: campaign-authoring-draft, viewport: { width: 1440, height: 1200 }, state: Deterministic fixture draft exposes provenance estimate risk critique and publish control., actions: [Analyze fixture, select first issue, generate draft, freeze motion, capture authoring], golden_path: e2e/golden/component-campaign-authoring-draft.png, status: approved }

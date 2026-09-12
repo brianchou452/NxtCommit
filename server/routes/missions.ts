@@ -21,6 +21,7 @@ export const missionsRoutes: RouteModule = context => {
   });
   router.post('/missions/:id/pledge', missionHandler((req, res) => res.json(service.pledge(String(req.params.id), req.body?.amount, req.header('Idempotency-Key')))));
   router.post('/missions/:id/execute', missionHandler((req, res) => { const result = service.dispatch(String(req.params.id), req.body?.feedback); res.status(result.dispatch === 'queue' ? 202 : 200).json(result); }));
+  router.post('/missions/:id/release', missionHandler((req, res) => res.json({mission:service.releaseLocal(String(req.params.id))})));
   router.post('/missions/:id/cancel', (_req, res) => res.status(403).json({ error: 'Authenticated mission authorization is required.', code: 'auth_required' }));
   router.get('/missions/:id/events', missionHandler((req, res) => {
     const mission = service.getMission(String(req.params.id)); const selected = req.query.runId;

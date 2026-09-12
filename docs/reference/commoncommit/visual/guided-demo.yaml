@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.guided-demo
+title: Guided demo visual contract
+page_id: page.guided-demo
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: guided-demo-ready, viewport: { width: 1440, height: 900 }, state: Demo truth boundary and perspective launch controls visible before reset., actions: [Open /demo, freeze motion], golden_path: e2e/golden/guided-demo-ready.png, status: approved }

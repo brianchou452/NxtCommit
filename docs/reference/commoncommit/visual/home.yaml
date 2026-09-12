@@ -1,0 +1,23 @@
+spec_version: 1
+kind: visual
+id: visual.home
+title: Home desktop happy-path full-page screenshot baseline
+page_id: page.home
+fixture_id: persistence.home-demo-seed
+capture_environment:
+  locale: en
+  timezone: Asia/Taipei
+  animation: frozen
+  browser: Chromium pinned by the end-to-end toolchain
+baselines:
+  - id: home-desktop-ready
+    viewport: { width: 1440, height: 1200 }
+    state: home_ready fixture；所有 Home snapshot 已載入。
+    actions:
+      - open /
+      - wait for impact and marketplace snapshots
+      - scroll each reveal section into the viewport and verify it is visible
+      - return to the top of the page
+      - freeze demo pipeline and capture the full page
+    golden_path: e2e/golden/home-desktop-ready.png
+    status: approved

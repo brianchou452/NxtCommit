@@ -1,0 +1,18 @@
+spec_version: 1
+kind: page
+id: page.design-concepts
+title: Design concepts
+route: /concepts/:concept/*
+purpose: 展示 editorial、kickstarter、network、hybrid 等靜態視覺方向；所有 metrics、identities 與 interactions 都是 design exploration。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.design-concept-shell
+api_dependencies: []
+composition:
+  - { id: concept-nav, kind: page_unique, purpose: 切換 concept home/campaign 與局部語言。, visual_role: Exploration chrome., width: Full concept canvas., relationship_to_previous: First concept element. }
+  - { id: mock-surface, kind: page_unique, purpose: 以 authored cards、flows、evidence 與 funding controls比較視覺方向。, visual_role: Non-production mock product., width: Full concept canvas., relationship_to_previous: Below concept navigation. }
+page_owned_behaviour:
+  - Concept route 不讀寫 product API，button 與數字不得被描述為正式 product behaviour。
+  - Footer 必須揭露 design exploration 與 demo data；硬編 maintainer approved 或 GitHub evidence 只可作為 mock copy。
+layout: { canvas: Concept-specific standalone canvas outside the product shell composition., section_rhythm: Concept navigation then authored long-form mock., desktop: Rich editorial grids., relationships: [All claims remain within the concept disclosure boundary.], visual_anchors: [Concept brand mock campaign and disclosure footer.] }
+scenarios:
+  - { id: concepts-remain-clearly-nonproduction, given: Visitor opens a concept route., when: Static mock interactions render., then: No product API effect occurs and the exploration disclosure remains visible., test_file: server/product-spec.bdd.test.ts }

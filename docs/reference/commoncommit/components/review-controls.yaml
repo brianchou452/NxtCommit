@@ -1,0 +1,36 @@
+spec_version: 1
+kind: component
+id: component.review-controls
+title: Local review controls
+purpose: 在完整 evidence之後讓 server local persona approve或request changes，並阻止 advisory output繞過reviewability。
+inputs:
+  - { name: artifact, type: PullRequestArtifact, required: true, description: Local change evidence. }
+  - { name: missionStatus, type: MissionStatus, required: true, description: Current lifecycle authority. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/runs/:id/review, purpose: 提交 local decision。 }
+states:
+  - { name: unavailable, condition: Artifact missing或mission非needs_review。, rendering: Controls disabled並說明原因。 }
+  - { name: deciding, condition: Artifact可review。, rendering: 顯示approve與request changes actions。 }
+  - { name: feedback_required, condition: User選request changes但comment空白。, rendering: 阻止submit並標示required。 }
+  - { name: complete, condition: Local decision已記錄。, rendering: 顯示新mission state與local-only boundary。 }
+interactions:
+  - { trigger: Approve., result: 提交local approve；不執行GitHub merge/tag/release。 }
+  - { trigger: Request changes with comment., result: 提交feedback供後續engine execution。 }
+content:
+  locales:
+    en: { boundary: Local demo decision only; no branch PR merge tag or package publication occurs. }
+    zh-TW: { boundary: 僅為本機示範決策；不會推送branch、建立PR、merge、tag或發布套件。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Truth boundary and eligibility precede actions., Request-changes feedback appears before submission.]
+  layout: Compact decision card with mutually clear actions.
+  geometry: Sidebar or closing panel with full-width controls.
+  colour_semantics: Approval uses success only when eligible; request changes uses warning not destructive danger.
+  surface: Elevated decision surface distinct from evidence cards.
+  typography: Action labels and boundary text remain explicit.
+  motion: Submission state only.
+  visual_anchors: [Local-only boundary, approve action, feedback field.]
+scenarios:
+  - { id: controls-cannot-bypass-gate, given: Advisory findings may be positive while deterministic gate is not reviewable., when: Controls render., then: Decision remains unavailable until mission state authorizes it and request changes requires feedback., test_file: server/product-spec.bdd.test.ts }

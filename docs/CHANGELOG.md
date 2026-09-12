@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.34 — 2026-09-12
+
+- Port the commoncommit presentation into NxtCommit: 10 pages, 19 components, 35 original animation definitions, nine-stage role demos and guided journeys. Preserve the shared catalog and ledger; add the original tempo fixture with measured failure/recovery and an idempotent local release after approval. Retain Agent Lab and GitHub workspaces. See COMMONCOMMIT-PARITY.md for scope and verification.
+
 ## v0.7.33 — 2026-09-12
 
 - Import all 25 commoncommit repository projects and fundraising missions into the existing catalog, including bilingual scope, risks and clearly labelled demo history. Preserve current records with an additive migration, keep pledge accounting authoritative, exclude historical consumption from new pledges and handle closed stream subscribers safely.

@@ -1,0 +1,37 @@
+spec_version: 1
+kind: component
+id: component.pledge-dialog
+title: Pledge dialog
+purpose: 建立一次 local credit pledge intent，顯示 wallet/goal 邊界並在 retry 時重用相同 idempotency key。
+inputs:
+  - { name: mission, type: MissionWithProject, required: true, description: Mission funding state. }
+  - { name: wallet, type: integer, required: true, description: Current local prototype credit balance. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/missions/:id/pledge, purpose: 原子提交 pledge intent。 }
+states:
+  - { name: closed, condition: User 尚未開始 pledge intent。, rendering: 不保留舊 intent key。 }
+  - { name: editing, condition: Dialog 開啟且尚未提交。, rendering: 顯示 amount、wallet、remaining goal 與 demo disclaimer。 }
+  - { name: submitting, condition: 同一 intent request in flight。, rendering: Disable duplicate action but retain key and amount. }
+  - { name: error, condition: Request failed., rendering: 顯示 server error並允許以同一 key retry。 }
+interactions:
+  - { trigger: User opens a new pledge., result: 建立一個只屬於這次 intent 的 idempotency key。 }
+  - { trigger: User retries failed submission., result: 重用同一 key與 body；修改 intent 則建立新 key。 }
+content:
+  locales:
+    en: { disclaimer: Demo compute credits are not money or provider token settlement. }
+    zh-TW: { disclaimer: 示範算力點數不是金錢，也不是 provider token 結算。 }
+  dynamic_labels:
+    - { name: remaining, source: mission.computeGoal minus mission.computePledged, fallback: Unknown }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Amount and remaining goal lead., Wallet and demo boundary appear before confirmation.]
+  layout: Focused modal with one numeric intent and confirmation row.
+  geometry: Medium dialog with touch-safe actions.
+  colour_semantics: Funding violet for positive action and danger only for validation errors.
+  surface: Elevated modal over inert page content.
+  typography: Clear label-value pairs and concise disclaimer.
+  motion: Opening motion never hides validation or truth text.
+  visual_anchors: [Amount input, remaining goal, confirm action.]
+scenarios:
+  - { id: retry-preserves-pledge-intent, given: A pledge request may fail after submission., when: User retries without changing intent., then: The same idempotency key and amount are reused and credits remain labelled prototype units., test_file: server/product-spec.bdd.test.ts }

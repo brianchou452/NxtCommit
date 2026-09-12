@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.contributor-impact
+title: Contributor impact desktop component reference
+component_id: component.contributor-impact
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: contributor-impact-seeded, viewport: { width: 1440, height: 1200 }, state: Seeded persona shows wallet stats achievements pledges and traceable receipts with demo provenance., actions: [Open current contributor route, wait for profile, freeze motion, capture impact], golden_path: e2e/golden/component-contributor-impact-seeded.png, status: approved }

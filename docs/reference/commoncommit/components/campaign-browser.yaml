@@ -1,0 +1,86 @@
+spec_version: 1
+kind: component
+id: component.campaign-browser
+title: Embedded campaign browser
+purpose: 將 marketplace snapshot 轉成以人為何關心為中心的 campaign shelves，作為首頁 CTA 的目的地。
+inputs:
+  - name: embedded
+    type: boolean
+    required: true
+    description: 在首頁中為 true；隱藏獨立 marketplace 的 hero 與重複 aggregate。
+component_dependencies:
+  - component.campaign-card
+data_dependencies:
+  - kind: api
+    endpoint: /api/marketplace
+    purpose: 取得 mission shelves 和 aggregate。
+  - kind: event_stream
+    endpoint: /api/stream
+    purpose: 收到 mission_update 或 reconnect 後重新取得 marketplace snapshot。
+states:
+  - name: loading
+    condition: 尚未取得 marketplace snapshot。
+    rendering: 顯示兩個 shelf skeleton，不顯示虛構 campaign。
+  - name: error
+    condition: marketplace request 失敗。
+    rendering: 顯示可理解的錯誤與 retry action。
+  - name: embedded_ready
+    condition: embedded 為 true 且 snapshot ready。
+    rendering: 按 everyday、public-interest、builder-trend 三個 editorial category 顯示有內容的 shelves；每 shelf 首張 featured，其餘為 compact cards。
+  - name: standalone_ready
+    condition: embedded 為 false 且 snapshot ready。
+    rendering: 顯示 marketplace intro、provenance aggregate、lifecycle shelves 和建立 mission CTA。
+  - name: no_category_matches
+    condition: snapshot ready 但沒有 mission 帶有 everyday、public-interest 或 builder-trend tag。
+    rendering: embedded mode 不 render 空 category banner 或假 campaign；保留 section heading 與 page 的其他內容。
+interactions:
+  - trigger: 選擇 campaign card。
+    result: 開啟對應 campaign detail；demo journey 可保留 query state。
+  - trigger: 選擇 retry。
+    result: 清除 error 並重新取得 marketplace snapshot。
+content:
+  locales:
+    en:
+      category_kicker: Campaigns by category
+      everyday: Everyday technology
+      independence: More control over digital life
+      frontier: The next wave builders are adopting
+      more: More in this category
+      loading: Loading campaigns
+      error: Something went wrong.
+      retry: Retry
+    zh-TW:
+      category_kicker: 依類別探索提案
+      everyday: 你每天已經在用的技術
+      independence: 讓數位生活更自主
+      frontier: 開發者正在採用的下一波
+      more: 更多同類 Release
+      loading: 正在載入 Campaign
+      error: 發生錯誤。
+      retry: 重試
+  dynamic_labels:
+    - name: category_release_count
+      source: category.missions.length
+      fallback: '0'
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Each editorial category begins with a dark banner containing kicker, title, supporting copy, and release count.
+    - One featured campaign carries the category story; up to four compact campaigns provide comparison.
+    - Within every card, artwork and title lead, benefit and progress follow, and commitment metadata closes the card.
+  layout: embedded mode 依序堆疊 category banner 和規律 card grid；每個 category 先放一張 featured，再放最多四張 compact cards。
+  geometry: Desktop category groups use a large featured card beside a two-by-two compact grid; category groups stack vertically at a consistent content width.
+  colour_semantics: 每個 category banner 使用明亮底色與低對比 dots/orbit，data provenance 由文字 badge 表達。
+  surface: Category banners use deep-indigo gradient panels; cards use white bodies, vivid project artwork, thin neutral borders, and soft elevation.
+  typography: category title 使用 display sans；category count 和 metadata 使用 monospace。
+  motion: category 裝飾可微動，但 card 的資訊與操作不可依賴動畫。
+  visual_anchors:
+    - Banner, featured card, and compact grid align to one category boundary.
+    - Featured artwork and title are visibly larger without changing the card information order.
+    - Progress bars use semantic funding colour and remain subordinate to the campaign benefit.
+scenarios:
+  - id: embedded-browser-groups-deduplicated-campaigns-without-a-second-h1
+    given: 首頁將 campaign browser 以 embedded mode render
+    when: marketplace snapshot ready
+    then: 它以三個 editorial category 顯示去重 campaign，不渲染第二個 h1，並在 mission update 後 refresh
+    test_file: server/home-spec.bdd.test.ts

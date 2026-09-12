@@ -1,0 +1,36 @@
+spec_version: 1
+kind: component
+id: component.commoncommit-presentation
+title: Integrated commoncommit presentation
+purpose: Restore the user-selected commoncommit presentation while preserving NxtCommit as the data and execution authority.
+inputs: []
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/marketplace, purpose: Existing catalog and accounting. }
+  - { kind: api, endpoint: /api/missions/:id/release, purpose: Record only an approved verified local fixture release. }
+states:
+  - { name: ready, condition: Existing API data loaded., rendering: Source pages components and labelled evidence. }
+  - { name: loading, condition: Data request pending., rendering: Source loading state without invented counters. }
+  - { name: error, condition: Request failed., rendering: Visible retry retaining the current intent. }
+interactions:
+  - { trigger: Pledge and retry after a lost response., result: Shared ledger charges the same intent once. }
+  - { trigger: Launch protected provider demo., result: Preserve existing pledges and prepare a bound tempo campaign. }
+  - { trigger: Approve engine artifact., result: Record local review and idempotent local release without upstream publication. }
+content:
+  locales:
+    en: { boundary: Scripted demo planning with actual fixture test evidence and local releases. }
+    zh-TW: { boundary: 腳本示範規劃、實際 fixture 測試證據及本機 Release。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [User-selected commoncommit source composition., Actual evidence and provenance remain explicit.]
+  layout: Source responsive pages with existing Agent Lab and GitHub routes.
+  geometry: Source desktop composition and mobile reflow.
+  colour_semantics: Preserve source funding development verification and adoption colours.
+  surface: Source light narrative and indigo evidence surfaces.
+  typography: Bundled DM Sans and original hierarchy.
+  motion: Original 35 keyframe definitions with reduced-motion fallbacks and visible controls.
+  visual_anchors: [Original hero, repo-specific artwork, nine-stage demo, contextual guide, receipt chain.]
+scenarios:
+  - { id: source-tempo-release, given: A bound tempo campaign., when: User funds executes and approves it., then: Actual failed first attempt and repaired suite precede local release., test_file: server/presentation-parity.test.ts }
+  - { id: source-guided-browser, given: Source presentation over existing APIs., when: User follows the maintainer guide., then: Authoring funding execution review and local release complete., test_file: e2e/parity.e2e.spec.ts }

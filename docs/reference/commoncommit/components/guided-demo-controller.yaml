@@ -1,0 +1,41 @@
+spec_version: 1
+kind: component
+id: component.guided-demo-controller
+title: Guided demo controller
+purpose: 以明示hybrid-demo邊界啟動、推進或結束contributor/maintainer walkthrough並協調local reset。
+inputs: []
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/demo/reset, purpose: 在新journey前原子重置local demo graph。 }
+states:
+  - { name: ready, condition: Demo未啟動。, rendering: 顯示perspective choices與truth disclosure。 }
+  - { name: resetting, condition: Local reset in flight., rendering: 阻止navigation並顯示destructive mutation progress。 }
+  - { name: active, condition: Journey有current step。, rendering: 顯示target instruction、progress與exit。 }
+  - { name: error, condition: Reset或expected target失敗。, rendering: 停止automation並顯示recovery。 }
+interactions:
+  - { trigger: Launch perspective., result: Reset成功後才導航，並在每個 route 指向下一個由使用者操作的 visible UI control。 }
+  - { trigger: Exit demo., result: 停止controller但不把已發生local mutations描述為回滾。 }
+runtime_authority: Launcher owns reset and navigation while each product page owns its real action and publishes the next guide state only after success.
+terminal_outcomes:
+  - Launch never navigates before reset succeeds.
+  - Active guide targets a visible product control and can be exited without claiming rollback.
+test_constraints:
+  - Controller may highlight controls but must not programmatically click state-changing actions.
+  - An external test runner completing the journey is not evidence that the controller performed those actions.
+content:
+  locales:
+    en: { boundary: Real UI automation over demo identities credits fixture and scripted runner. }
+    zh-TW: { boundary: 真實UI automation操作demo身分、credits、fixture與scripted runner。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Hybrid-demo disclosure precedes launch., Active step and exit remain visible.]
+  layout: Launch cards plus fixed contextual guide while active.
+  geometry: Bounded overlay that does not cover its target.
+  colour_semantics: Demo uses neutral/funding treatment not verified engine green.
+  surface: Elevated guide with clear pointer relationship.
+  typography: Short action-oriented instructions.
+  motion: Movement follows actual navigation and respects reduced motion.
+  visual_anchors: [Demo disclosure, launch action, active step counter.]
+scenarios:
+  - { id: controller-waits-for-real-reset, given: A walkthrough needs deterministic local state., when: User launches it., then: Navigation begins only after reset succeeds and scripted intelligence remains disclosed., test_file: server/product-spec.bdd.test.ts }

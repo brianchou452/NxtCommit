@@ -106,6 +106,8 @@ export function enrichContributor(
       projectName: campaign.project.name,
       missionTitle: campaign.title,
     };
+    if (detail?.releaseVersion) enriched.releaseVersion = detail.releaseVersion;
+    if (detail?.releasedAt) enriched.releasedAt = detail.releasedAt;
     if (detail?.catalog?.releaseVersion)
       enriched.releaseVersion = detail.catalog.releaseVersion;
     if (detail?.catalog?.releasedAt)

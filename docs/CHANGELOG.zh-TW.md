@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.34 — 2026-09-12
+
+- 將 commoncommit 的 10 個頁面、19 個元件、35 組原版動畫定義、九階段角色 Demo 與導覽移入 NxtCommit。保留共用專案資料與帳本；補上原版 tempo fixture、實際失敗／修正測試，以及核准後可重試且不重複建立的本機 Release。保留 Agent Lab 與 GitHub 工作區，範圍及驗證見 COMMONCOMMIT-PARITY.zh-TW.md。
+
 ## v0.7.33 — 2026-09-12
 
 - 將 commoncommit 全部 25 個 repo 專案與募資任務加入既有目錄，包含雙語內容、風險及明確標示的示範歷史。追加匯入並保留現有紀錄、維持統一贊助帳本、新贊助不承擔歷史消耗，修正即時更新對已關閉連線的處理。

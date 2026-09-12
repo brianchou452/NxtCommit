@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.review
+title: Review visual contract
+page_id: page.review
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: review-dossier-ready, viewport: { width: 1440, height: 1400 }, state: Seeded reviewable artifact with dossier diff advisory provenance ledger and local decision boundary., actions: [Open seeded review route, wait for artifact, freeze motion], golden_path: e2e/golden/review-dossier-ready.png, status: approved }

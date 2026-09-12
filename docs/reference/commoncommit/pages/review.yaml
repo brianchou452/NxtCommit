@@ -1,0 +1,27 @@
+spec_version: 1
+kind: page
+id: page.review
+title: Change evidence review
+route: /missions/:id/review
+purpose: 讓本機 human 檢視 engine dossier、diff、advisory findings、ledger 與 provenance，再 approve 或 request changes。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/missions/:id, purpose: 取得 mission latest artifact 與 review context。, initial_state: 顯示 evidence skeleton。, error_state: 無 artifact 顯示可理解 empty state。 }
+  - { endpoint: /api/runs/:id/review, purpose: 記錄 local approve 或 request_changes。, initial_state: Controls 依 reviewability 啟用。, error_state: 保留 comment 與 evidence 並顯示錯誤。 }
+  - { endpoint: /api/runs/:id/explain, purpose: 可選 bounded evidence explanation。, initial_state: 不自動產生 AI prose。, error_state: Primary evidence 保持可讀。 }
+  - { endpoint: /api/runs/:id/shadow-review, purpose: 可選 affectedGate false 的 advisory shadow review。, initial_state: 不自動執行。, error_state: Deterministic gate 不受影響。 }
+  - { endpoint: /api/ai/feedback, purpose: 記錄 explanation/shadow helpfulness。, initial_state: Feedback idle。, error_state: 不影響 decision。 }
+  - { endpoint: /api/missions/:id/stream, purpose: Review state 更新後重新驗證 aggregate。, initial_state: 使用 REST evidence。, error_state: Reconnect 後 refetch。 }
+composition:
+  - { id: dossier, kind: component, spec_id: component.verification-dossier, purpose: 顯示 baseline experiments gates criterion evidence 與 residual uncertainty。, data: Verification dossier., visual_role: Primary verification surface., width: Main column., relationship_to_previous: First evidence section. }
+  - { id: diff, kind: component, spec_id: component.diff-viewer, purpose: 顯示 bounded baseline-relative changed files。, data: Artifact files., visual_role: Code evidence surface., width: Main column., relationship_to_previous: Follows dossier. }
+  - { id: advisory, kind: page_unique, purpose: 分離 static/llm judge、explanation 與 shadow findings。, data: Advisory evidence., visual_role: Secondary interpretation., width: Main and sidebar cards., relationship_to_previous: Never precedes deterministic evidence. }
+  - { id: decision, kind: component, spec_id: component.review-controls, purpose: 顯示local truth boundary與 human controls。, data: Reviewability mission and local persona., visual_role: Final decision surface., width: Sidebar or closing panel., relationship_to_previous: After evidence. }
+page_owned_behaviour:
+  - Request changes 必須輸入 comment；approve 不能在非 reviewable artifact 上啟用。
+  - Advisory output 永遠不能遮蔽 failed deterministic gate 或改變 affectedGate。
+  - Local PR/release wording必須明示不會 push、merge、tag 或 publish upstream。
+layout: { canvas: Evidence-first review canvas., section_rhythm: Deterministic facts before interpretation and decision., desktop: Main evidence column with decision sidebar., relationships: [Dossier diff ledger and decision refer to one run id.], visual_anchors: [Gate summary diff files and decision controls.] }
+scenarios:
+  - { id: review-keeps-deterministic-evidence-primary, given: A mission has a local review artifact., when: Human and optional AI review features are used., then: Deterministic evidence remains first and only local lifecycle actions occur., test_file: server/product-spec.bdd.test.ts }

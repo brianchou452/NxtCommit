@@ -1,0 +1,21 @@
+spec_version: 1
+kind: page
+id: page.marketplace
+title: Marketplace
+route: /marketplace
+purpose: 依 local read model 的分類 shelves 探索可支持、執行中、待審與已發布 mission，並保留每筆數字與文案 provenance。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/marketplace, purpose: 取得分類 mission shelves 與 aggregate。, initial_state: 顯示不捏造數字的 skeleton。, error_state: 顯示 retry 與可理解錯誤。 }
+  - { endpoint: /api/stream, purpose: Mission update 後重新驗證 marketplace snapshot。, initial_state: 保留目前 snapshot。, error_state: Reconnect 後 full refetch。 }
+composition:
+  - { id: heading, kind: page_unique, purpose: 說明 marketplace 與 demo provenance。, visual_role: Page orientation., width: Bounded content width., relationship_to_previous: First content below shell. }
+  - { id: shelves, kind: component, spec_id: component.campaign-browser, purpose: 依 category 顯示 featured 與 compact campaign cards。, data: Marketplace sections., visual_role: Primary exploration surface., width: Wide stacked category groups., relationship_to_previous: Continues below heading. }
+  - { id: create, kind: page_unique, purpose: 引導到 new mission wizard。, visual_role: Closing action., width: Bounded callout., relationship_to_previous: Follows all shelves. }
+page_owned_behaviour:
+  - 同一 mission 出現在多個 shelves 時以 id 去重其 demo-tour targeting，但可在各分類中呈現。
+  - Empty、loading、error 與 ready 必須是不同狀態；不得用 seeded constants 假裝 request 成功。
+layout: { canvas: Light editorial marketplace canvas., section_rhythm: Heading then spaced shelves and closing CTA., desktop: Featured card plus supporting grid per category., relationships: [All shelves share one snapshot and provenance label.], visual_anchors: [Category banners and featured campaign cards dominate.] }
+scenarios:
+  - { id: marketplace-route-composes-live-read-model, given: Visitor opens the standalone marketplace., when: Data loads or stream updates arrive., then: Shelves revalidate from API and preserve dataMode and generator labels., test_file: server/product-spec.bdd.test.ts }

@@ -12,6 +12,7 @@ export interface MissionProject {
   workspace: { kind: 'fixture' | 'github' | 'none'; path?: string; url?: string };
 }
 export interface MissionRecord {
+  releaseVersion?: string; releasedAt?: string;
   catalog?: CatalogContent;
   backerCount?: number;
   id: string; projectId: string; title: LocalizedText; tagline: LocalizedText;

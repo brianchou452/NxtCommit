@@ -1,0 +1,27 @@
+spec_version: 1
+kind: page
+id: page.guided-demo
+title: Guided demo
+route: /demo
+purpose: 清楚標示並啟動一段操作真實 UI/API 但使用 demo identity、credits、fixture 與 scripted runner 的導覽。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/demo/reset, purpose: 在明示 destructive local reset 後恢復 deterministic journey。, initial_state: Demo 未啟動。, error_state: 顯示 reset failure 且不假裝流程已重置。 }
+composition:
+  - { id: explanation, kind: page_unique, purpose: 說明哪些互動是真實機制與哪些資料/智能是 demo。, visual_role: Truth-boundary introduction., width: Bounded prose., relationship_to_previous: First content. }
+  - { id: launcher, kind: component, spec_id: component.guided-demo-controller, purpose: 啟動 contributor 或 maintainer walkthrough。, visual_role: Primary demo action., width: Feature cards and contextual overlay., relationship_to_previous: Below explanation. }
+page_owned_behaviour:
+  - Guided demo 會先完成 deterministic reset，再導航並指出下一個真實 UI control；每個 state-changing control 仍由使用者點擊，不得宣稱 one-click automation、authenticated role 或 upstream effect。
+  - Reset 是 destructive local mutation，失敗時不得繼續使用假定已重置的 step state。
+runtime_authority: GuidedDemo launcher owns reset and initial navigation; route pages publish progress only after their normal visible controls and APIs succeed.
+terminal_outcomes:
+  - Successful launch navigates to the selected role route with a persistent guide pointing at a real visible control.
+  - Failed reset remains on the Demo page and exposes an error without starting the walkthrough.
+test_constraints:
+  - The test must observe a real reset request before navigation.
+  - The walkthrough must never click pledge review or other state-changing product controls for the user.
+layout: { canvas: Focused demonstration canvas., section_rhythm: Truth explanation before launcher., desktop: Side-by-side perspective cards., relationships: [Every launch action stays adjacent to demo disclosure.], visual_anchors: [Demo disclaimer and launch controls.] }
+scenarios:
+  - { id: guided-demo-discloses-hybrid-boundary, given: Visitor opens the demo route., when: A walkthrough is launched., then: Real UI automation remains visibly separated from scripted runner and demo identity claims., test_file: server/product-spec.bdd.test.ts }
+  - { id: guided-demo-resets-before-navigation, given: Visitor selects a walkthrough on the Demo route., when: The launcher succeeds., then: A real reset completes before navigation and the destination guide points at a visible product control., test_file: e2e/product.e2e.spec.ts }

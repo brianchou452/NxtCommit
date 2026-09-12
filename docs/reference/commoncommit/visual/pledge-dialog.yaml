@@ -1,0 +1,10 @@
+spec_version: 1
+kind: visual
+id: visual.pledge-dialog
+title: Pledge dialog desktop component reference
+component_id: component.pledge-dialog
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: pledge-dialog-ready, viewport: { width: 1440, height: 1000 }, state: Fundable fixture pledge dialog shows wallet remaining goal amount and confirm boundary., actions: [Open canonical funding mission, open pledge dialog, freeze motion, capture dialog], golden_path: e2e/golden/component-pledge-dialog-ready.png, status: approved }
+  - { id: pledge-dialog-error, viewport: { width: 1440, height: 1000 }, state: Rejected pledge request preserves the intent and exposes an inline recoverable error., actions: [Open pledge dialog, submit a valid amount against a controlled API refusal, freeze motion, capture dialog], golden_path: e2e/golden/component-pledge-dialog-error.png, status: approved }

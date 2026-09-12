@@ -30,7 +30,7 @@ export function missionPort(service: MissionServices): AuthoringMissionPort {
     create(analysis: RepoAnalysis, draft: CampaignDraft) {
       const id = randomUUID();
       // The opaque analysis capability, not the browser's workspace fields, determines eligibility.
-      const fixture = analysis.source === 'fixture' && analysis.repoUrl === 'fixture://duration-demo';
+      const fixture = analysis.source === 'fixture' && ['fixture://duration-demo','fixture://tempo'].includes(analysis.repoUrl);
       const { serverToken: _token, ...publicDraft } = draft;
       const mission: MissionRecord = { id, projectId: `project-${id}`, title: draft.title, tagline: draft.tagline, story: draft.story,
         generator: draft.generator, dataMode: 'demo', status: 'funding', computeGoal: draft.estimate.total, computePledged: 0, computeReserved: 0, computeConsumed: 0,
@@ -39,7 +39,7 @@ export function missionPort(service: MissionServices): AuthoringMissionPort {
         milestones: draft.milestones.map((m, index) => ({ id: `milestone-${index}`, title: m.title, share: m.allocation / 100, status: 'pending' })),
         project: { id: `project-${id}`, name: analysis.name, slug: analysis.name, description: { en: analysis.description, 'zh-TW': analysis.description }, repoUrl: analysis.repoUrl,
           figuresMode: analysis.source === 'fixture' ? 'demo' : 'live', maintainer: { id: 'demo-maintainer', name: 'Demo Maintainer', verified: false },
-          workspace: fixture ? { kind: 'fixture', path: 'duration-demo' } : { kind: 'github', url: analysis.repoUrl } } };
+          workspace: fixture ? { kind: 'fixture', path: analysis.repoUrl === 'fixture://tempo' ? 'tempo' : 'duration-demo' } : { kind: 'github', url: analysis.repoUrl } } };
       service.context.store.transaction(() => service.store.put('mission', id, mission.projectId, mission));
       service.notifyMission(id); return read(id)!;
     },

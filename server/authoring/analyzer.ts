@@ -46,6 +46,15 @@ export async function boundedJson(response: Response, limit = 128_000): Promise<
 
 export async function analyzeRepository(source: unknown, inputUrl: unknown, fetcher: typeof fetch = fetch): Promise<Omit<RepoAnalysis, 'serverToken'>> {
   if (source === 'fixture') {
+    if (inputUrl === 'fixture://tempo') {
+      const directory = resolve('fixtures/tempo');
+      const pkg = JSON.parse(readFileSync(resolve(directory, 'package.json'), 'utf8'));
+      const body = readFileSync(resolve(directory, 'ISSUE.md'), 'utf8');
+      return {source:'fixture',repoUrl:'fixture://tempo',name:'tempo',description:pkg.description,language:'JavaScript',
+        files:readdirSync(directory,{recursive:true,withFileTypes:true}).filter(e=>e.isFile()).length,
+        measured:{metadata:true,filesystem:true,testsExecuted:false,fullTree:true},
+        issues:[{id:'142',title:body.split('\n')[0]!.replace(/^# /,''),body,labels:['enhancement','help wanted'],feasibility:{executable:true,basis:'Bundled commoncommit tempo fixture; tests are run only by the execution engine.'}}]};
+    }
     const directory = resolve('server/authoring/fixture');
     const record = JSON.parse(readFileSync(resolve(directory, 'repository.json'), 'utf8')) as { name: string; description: string; language: string; issues: Array<Omit<ObservedIssue, 'feasibility'>> };
     // Count actual bundled input files. No previous test result is inferred from their presence.

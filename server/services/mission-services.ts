@@ -67,7 +67,7 @@ export class MissionServices {
   private publishMission(id: string): void { this.publish(id, { kind: 'mission_update', mission: this.getMission(id) }); }
   private assertAvailable(): void { if (this.quiescing) throw new MissionError('reset_in_progress', 'Execution is draining.', 409); }
   private eligible(mission: MissionRecord): void {
-    if (mission.project.workspace.kind !== 'fixture' || !['retry-queue', 'duration-demo'].includes(mission.project.workspace.path ?? '')) throw new MissionError('workspace_not_executable', 'Only the bundled fixture is executable; GitHub import is metadata-only.');
+    if (mission.project.workspace.kind !== 'fixture' || !['retry-queue', 'duration-demo', 'tempo'].includes(mission.project.workspace.path ?? '')) throw new MissionError('workspace_not_executable', 'Only the bundled fixture is executable; GitHub import is metadata-only.');
     if (!['funded', 'changes_requested', 'failed'].includes(mission.status)) throw new MissionError('mission_ineligible', 'Mission is not ready for execution.');
     if (mission.computePledged - mission.computeConsumed <= 0) throw new MissionError('insufficient_compute', 'No unconsumed credits remain.');
     if (this.context.execution.resolved !== 'demo') throw new MissionError('execution_unavailable', 'Requested real runner is unavailable; explicit mode is not silently downgraded.');
@@ -95,7 +95,7 @@ export class MissionServices {
       mission.computePledged += amount;
       if (mission.computePledged === mission.computeGoal) { assertTransition(mission.status, 'funded'); mission.status = 'funded'; }
       this.saveMission(mission);
-      start = mission.status === 'funded' && mission.project.workspace.kind === 'fixture' && ['retry-queue', 'duration-demo'].includes(mission.project.workspace.path ?? '') && this.context.execution.resolved === 'demo';
+      start = mission.status === 'funded' && mission.project.workspace.kind === 'fixture' && ['retry-queue', 'duration-demo', 'tempo'].includes(mission.project.workspace.path ?? '') && this.context.execution.resolved === 'demo';
       if (start) this.dispatch(id);
       const result = { mission: this.getMission(id), wallet: wallet.balance, achievements: [] as never[], executionStarting: start };
       if (key) db.prepare('INSERT INTO b_idempotency(key,fingerprint,response) VALUES (?,?,?)').run(key, fingerprint, JSON.stringify(result));
@@ -136,6 +136,23 @@ export class MissionServices {
     if (review?.comment) this.persistEvent(run, 'review-feedback', 'maintainer', { title: 'Local review feedback', detail: redactEvidence(review.comment).slice(0, 4000) });
     return run;
   }
+  releaseLocal(id: string): MissionDetail {
+    this.context.store.transaction(() => {
+      const mission = this.getMission(id);
+      if (mission.status === 'released' && this.store.get('local-release', id)) return;
+      const run = mission.latestRun;
+      if (mission.status !== 'approved' || !run || run.status !== 'succeeded' || run.mode !== 'demo' || mission.project.workspace.kind !== 'fixture' || !mission.artifact || mission.artifact.testEvidenceSource !== 'engine' || !this.reviewabilityForRun(run.id)?.reviewable)
+        throw new MissionError('not_releasable', 'An approved, verified local fixture artifact is required.');
+      assertTransition(mission.status, 'released');
+      const releasedAt = new Date().toISOString();
+      const releaseVersion = `0.0.0-demo.${run.id.replace(/[^a-zA-Z0-9]/g, '').slice(0, 12)}`;
+      this.store.put('local-release', id, id, {missionId:id, runId:run.id, releasedAt, releaseVersion, source:'demo', artifact:mission.artifact, upstreamPublished:false});
+      this.store.put('mission', id, mission.projectId, {...mission, status:'released', releaseVersion, releasedAt});
+      this.persistEvent(run, 'release', 'engine', {title:'Local demo release recorded', version:releaseVersion, upstreamPublished:false});
+    });
+    this.notifyMission(id);
+    return this.getMission(id);
+  }
   private persistEvent(run: RunSummary, type: string, source: 'engine' | 'demo' | 'maintainer', payload: NonNullable<ExecutionEvent['payload']>): ExecutionEvent {
     const redact = (value: unknown): unknown => typeof value === 'string' ? redactEvidence(value) : Array.isArray(value) ? value.map(redact) : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([key, item]) => [key, redact(item)])) : value;
     const value = { id: randomUUID(), runId: run.id, missionId: run.missionId, seq: this.store.events(run.id).length + 1, ts: new Date().toISOString(), type, source, verified: source === 'engine', computeDelta: 0, payload: redact(payload) } as ExecutionEvent;
@@ -164,7 +181,7 @@ export class MissionServices {
         const result = await executeFixture(run.missionId, run.id, controller.signal, (type, source, payload) => {
           if (!ownsRequest()) throw new MissionError('stale_lease', 'Worker no longer owns this request.', 409);
           this.emit(run.id, type, source, payload, ownership);
-        }, this.getMission(run.missionId).project.workspace.path);
+        }, this.getMission(run.missionId).project.workspace.path, this.store.events(run.id).some(e => e.type === "review-feedback"));
         if (ownership) this.requireOwner(ownership.requestId, ownership.owner);
         if (!controller.signal.aborted) this.settle(run.id, result.reviewable ? 'succeeded' : 'blocked', ownership, result.artifact);
       } catch (error) {

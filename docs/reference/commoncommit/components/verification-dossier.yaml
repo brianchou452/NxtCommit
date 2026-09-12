@@ -1,0 +1,33 @@
+spec_version: 1
+kind: component
+id: component.verification-dossier
+title: Verification dossier
+purpose: 以 baseline、experiments、quality gates、criterion evidence 與 residual uncertainty呈現 engine-owned驗證。
+inputs:
+  - { name: dossier, type: VerificationDossier, required: true, description: Persisted engine or visibly authored seed dossier. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/runs/:id, purpose: 取得 artifact verification dossier。 }
+states:
+  - { name: engine, condition: Evidence source is engine., rendering: 顯示 verified observations與每個 command outcome。 }
+  - { name: demo, condition: Evidence source is demo or seed., rendering: 顯示 authored label且不使用 verified treatment。 }
+  - { name: incomplete, condition: Reporter或criterion evidence不可讀/缺少。, rendering: 明示 limitation而非 zero或passed。 }
+interactions:
+  - { trigger: Expand experiment or gate., result: 顯示 exact bounded command、exit code、counts與reason。 }
+content:
+  locales:
+    en: { residual: Passing suites do not prove every acceptance criterion. }
+    zh-TW: { residual: 測試套件通過不代表每一項驗收條件都已證明。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Overall gate and source lead., Baseline and experiments precede criterion claims.]
+  layout: Stacked evidence groups with compact gate rows.
+  geometry: Full main-column card with collapsible detail.
+  colour_semantics: Pass/fail/unknown are separate semantics; unknown never shares pass colour.
+  surface: Evidence card with strong internal dividers.
+  typography: Counts and commands use tabular or monospace treatment.
+  motion: Disclosure only; no animated success inference.
+  visual_anchors: [Evidence source, overall gate, residual uncertainty.]
+scenarios:
+  - { id: dossier-separates-suite-and-criteria, given: Aggregate tests and criterion evidence may differ., when: Dossier renders., then: Suite success is not presented as proof for an unsupported criterion and unreadable stays unknown., test_file: server/product-spec.bdd.test.ts }

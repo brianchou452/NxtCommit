@@ -1,0 +1,33 @@
+spec_version: 1
+kind: component
+id: component.contributor-impact
+title: Contributor impact record
+purpose: 呈現local persona、wallet、stats、achievements、pledges與從funding到release/adoption的可追溯receipts。
+inputs:
+  - { name: profile, type: ContributorProfile, required: true, description: Server contributor aggregate. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/contributors/:id, purpose: 取得profile authority。 }
+states:
+  - { name: empty, condition: 尚無pledges receipts或achievements。, rendering: 顯示honest empty states與demo identity。 }
+  - { name: populated, condition: Local records存在。, rendering: 顯示stats、badge groups、receipt chains與pledge table。 }
+interactions:
+  - { trigger: Select mission from receipt or pledge., result: 開啟matching local mission detail。 }
+content:
+  locales:
+    en: { identity: Local demo persona and prototype credits. }
+    zh-TW: { identity: 本機示範persona與prototype credits。 }
+  dynamic_labels:
+    - { name: handle, source: profile.handle, fallback: Local contributor }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Identity and demo label lead., Accounting precedes achievements and receipts.]
+  layout: Profile header stat grid badge groups and stacked receipts.
+  geometry: Full page-width sections with compact cards.
+  colour_semantics: Receipt stages use lifecycle colours; unknown adoption remains neutral/absent.
+  surface: Light dashboard cards.
+  typography: Numeric stats use tabular emphasis.
+  motion: Achievement decoration cannot imply external verification.
+  visual_anchors: [Persona header, accounting stats, achievements, receipt chain.]
+scenarios:
+  - { id: impact-record-is-locally-traceable, given: Profile includes seeded identity and local observed records., when: Impact renders., then: Every aggregate is traceable and no wallet identity or adoption is promoted beyond its provenance., test_file: server/product-spec.bdd.test.ts }

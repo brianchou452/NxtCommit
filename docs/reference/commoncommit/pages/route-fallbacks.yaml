@@ -1,0 +1,17 @@
+spec_version: 1
+kind: page
+id: page.route-fallbacks
+title: Route fallbacks
+route: /*
+purpose: 為 unknown route、lazy route error 與 missing resource 提供可存取、可恢復且不洩漏內部資訊的狀態。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies: []
+composition:
+  - { id: recovery, kind: component, spec_id: component.route-recovery, purpose: 區分not-found/error並提供Home或reload action。, visual_role: Focused recovery message and control., width: Narrow centered panel., relationship_to_previous: Replaces unavailable route content. }
+page_owned_behaviour:
+  - Not-found 返回 Home；unexpected error 可 reload，兩者都必須有 icon-independent accessible text。
+  - Error surface 不顯示 secret、stack trace 或把 frontend failure誤寫成 mission failure。
+layout: { canvas: Minimal recovery canvas., section_rhythm: One centered message and action., desktop: Narrow panel with generous space., relationships: [Recovery action directly follows explanation.], visual_anchors: [Status icon heading and action.] }
+scenarios:
+  - { id: route-fallbacks-remain-recoverable, given: A route is unknown or lazy rendering throws., when: Fallback renders., then: Accessible recovery text and Home or reload action are available without internal details., test_file: server/product-spec.bdd.test.ts }

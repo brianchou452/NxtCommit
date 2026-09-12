@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.route-fallbacks
+title: Route fallback visual contract
+page_id: page.route-fallbacks
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: route-not-found, viewport: { width: 1440, height: 900 }, state: Unknown route shows accessible not-found copy and Home action., actions: [Open /does-not-exist, freeze motion], golden_path: e2e/golden/route-not-found.png, status: approved }

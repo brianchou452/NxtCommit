@@ -1,0 +1,34 @@
+spec_version: 1
+kind: page
+id: page.new-mission
+title: New mission wizard
+route: /new
+purpose: 從 bundled fixture 或 public GitHub metadata 選 issue、取得有 provenance 的建議與 draft，最後建立 local mission。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/analyze, purpose: 建立 trusted repository analysis capability。, initial_state: 顯示 source selection。, error_state: 保留輸入並顯示可重試錯誤。 }
+  - { endpoint: /api/analysis/assist, purpose: 取得 bounded issue scope suggestions。, initial_state: Assistant 未執行。, error_state: Draft 流程仍可繼續且 fallback 清楚標示。 }
+  - { endpoint: /api/campaigns/generate, purpose: 產生 capability-bound bilingual campaign draft。, initial_state: 顯示 generation progress。, error_state: 保留 analysis 與 issue selection 並允許 retry。 }
+  - { endpoint: /api/campaigns/critique, purpose: 取得不修改 draft 的 advisory critique。, initial_state: Critique 未執行。, error_state: Draft 仍可人工檢視。 }
+  - { endpoint: /api/ai/feedback, purpose: 對 assistant/critic trace 記錄 local helpfulness。, initial_state: Feedback controls idle。, error_state: 不影響 wizard 或 draft。 }
+  - { endpoint: /api/missions, purpose: 以 trusted capabilities 建立 local mission。, initial_state: Publish 尚未開始。, error_state: 保留 draft 並允許 retry；不可重建不同 mission。 }
+composition:
+  - { id: stepper, kind: page_unique, purpose: 顯示 source、issue、draft、publish 進度。, visual_role: Persistent wizard orientation., width: Bounded full row., relationship_to_previous: First content. }
+  - { id: analyzer, kind: component, spec_id: component.repository-analyzer, purpose: 呈現 source form、analysis coverage 與 issue selection。, data: Capability-bound analysis., visual_role: Primary repository evidence surface., width: Wide two-column workspace where appropriate., relationship_to_previous: Directly below stepper. }
+  - { id: authoring, kind: component, spec_id: component.campaign-authoring, purpose: 呈現 assistant、draft、critic 與 local publish result。, data: Capability-bound authoring state., visual_role: Primary campaign authoring surface., width: Wide work area., relationship_to_previous: Replaces analyzer in later steps. }
+page_owned_behaviour:
+  - Client-submitted analysis 或 draft 不是 authority；expired capability 必須要求重新分析。
+  - Generator、model evidence、measurement coverage、estimate confidence 與 fallback label 不得因 wizard step 切換而消失。
+  - GitHub source 完成 mission creation 後仍不可顯示為 executable repository。
+runtime_authority: NewMission page state and authoring APIs own wizard progression; browser tests only perform visible user actions and never substitute hidden API state.
+terminal_outcomes:
+  - Source heading and Analyze control are visibly rendered with non-zero opacity before interaction.
+  - Successful fixture publication exposes a visible link to the newly persisted local mission.
+test_constraints:
+  - Readiness must assert the page-owned heading and primary action rather than only the application shell.
+  - Browser automation must not treat an opacity-zero element as user-visible.
+layout: { canvas: Focused wizard canvas., section_rhythm: Stepper and one active work area., desktop: Form and evidence use balanced columns., relationships: [Every later step depends on server-issued capability from the previous step.], visual_anchors: [Stepper and active evidence card.] }
+scenarios:
+  - { id: wizard-preserves-trusted-capabilities, given: Visitor progresses from analysis to publication., when: Each asynchronous step completes or fails., then: The UI preserves server provenance and never treats client edits as trusted repository facts., test_file: server/product-spec.bdd.test.ts }
+  - { id: wizard-is-semantically-visible, given: Visitor opens the New Mission route in a real browser., when: The initial source step renders., then: The page-owned heading and Analyze control are visibly rendered with non-zero opacity., test_file: e2e/product.e2e.spec.ts }
