@@ -31,8 +31,8 @@ npm run agents:monitor -- verify
 npm run agents:monitor -- stop
 ```
 
-Langfuse 網址為 `http://127.0.0.1:4310`。登入帳號為
-`maintainer@nxtcommit.local`，隨機產生的密碼為 ignored
+Langfuse 網址為 `http://127.0.0.1:4310`。登入帳號為本機設定中的
+`LANGFUSE_INIT_USER_EMAIL`（預設 `maintainer@nxtcommit.local`），密碼為 ignored
 `var/langfuse/.env`（0600 權限）中的 `ADMIN_PASSWORD`。不要把此檔案貼入紀錄或報告。
 專案為 `nxtcommit-agents`。Docker volumes 在 `stop`／`up` 後保留資料。
 映像以 digest 固定，停用註冊與 Langfuse 產品遙測；只有 UI 與 MinIO 4311

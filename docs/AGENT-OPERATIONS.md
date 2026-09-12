@@ -33,8 +33,8 @@ npm run agents:monitor -- verify
 npm run agents:monitor -- stop
 ```
 
-Langfuse UI: `http://127.0.0.1:4310`. Login is
-`maintainer@nxtcommit.local`; the generated password is `ADMIN_PASSWORD` in
+Langfuse UI: `http://127.0.0.1:4310`. Login is the `LANGFUSE_INIT_USER_EMAIL`
+value in the local configuration (default `maintainer@nxtcommit.local`); the password is `ADMIN_PASSWORD` in
 ignored `var/langfuse/.env` (0600). Never paste this file into logs or a report.
 The project is `nxtcommit-agents`. Docker volumes persist across `stop`/`up`.
 Images are pinned by digest, signup and Langfuse product telemetry are disabled,
