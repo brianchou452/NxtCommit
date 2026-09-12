@@ -9,6 +9,8 @@
 
 > **Local resilience update (2026-09-12):** Local resilience CLI adds controlled fault experiments over real modules and optional real model hypotheses/interpretation. It does not enable mission runners or automatic repair; inspect each report’s provenance. [Runbook](CHAOS-AGENTS.md).
 
+> **2026-09-12 source extension:** `/github` adds authenticated public source snapshots, a draft PR on prototype-credit commitment, one bounded Responses implementation, network-disabled Docker tests, and promotion after required CI on the same head. This is a separate workspace workflow; existing metadata/fixture routes are unchanged. It is not deployed or live-upstream-write verified. See [GitHub workspaces](GITHUB-WORKSPACES.md) for limits and tests. Older statements below do not describe this new entrypoint.
+
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 

@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.24 — 2026-09-12
+
+- 新增 GitHub 原始碼工作區、資助時開 draft PR、bounded AI 改碼與 Docker 驗證，以及同 commit CI 通過後轉正式 PR。加入完整瀏覽器／Docker 測試及權限、重試、失敗 gate。尚未部署或驗證真實 GitHub 寫入。
+
 ## v0.7.23 — 2026-09-12
 
 各種 LLM 功能改用精簡雙語提示，保留結構裁切證據；無效回答使用短期負快取，快取命中保留原始 trace。提案評論加入所選議題。實測結果與限制見 `LLM-QUALITY-REPORT.zh-TW.md`。

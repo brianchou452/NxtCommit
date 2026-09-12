@@ -82,6 +82,7 @@ function MissionDetailContent({ id }: { id: string }) {
     catch (failure) { if (alive.current) setMutationError(failure instanceof Error ? failure.message : text.mission_dispatch_error); }
     finally { pendingIntent.current = false; if (alive.current) setPending(false); }
   }
+  const githubWorkspaceId = mission.project.workspace.kind === 'github' && /^[a-f0-9]{32}$/.test(mission.project.workspace.path ?? '') ? mission.project.workspace.path : undefined;
   const fixture = mission.project.workspace.kind === 'fixture';
   const canPledge = mission.status === 'funding' && mission.project.workspace.kind !== 'none';
   const canExecute = fixture && ['funded', 'failed', 'changes_requested'].includes(mission.status);
@@ -91,7 +92,8 @@ function MissionDetailContent({ id }: { id: string }) {
   return <div className="mission-page">
     <nav className="mission-breadcrumb"><Link to="/">{text.discover}</Link> / {mission.project.name}</nav>
     {disconnected && <p role="status">{text.mission_reconnecting}</p>}{Boolean(error) && <p role="alert">{text.mission_partial_error} <button onClick={() => void reload()}>{text.retry}</button></p>}
-    <MissionOverview mission={mission} />
+    {githubWorkspaceId && <p><Link to={`/github?workspace=${githubWorkspaceId}`}>{text.gh_title}</Link></p>}
+      <MissionOverview mission={mission} />
     <div className="mission-columns"><article className="mission-narrative">
       {storyKeys.map((key, index) => <section className="mission-story-section" key={key}><p className="mission-kicker">0{index + 1} · {storyTitles[index]}</p><h2>{storyTitles[index]}</h2><p className="mission-story-copy">{mission.story[key][locale]}</p><p className="mission-provenance">{text.mission_generator}: {mission.generator}</p></section>)}
       <section className="mission-story-section" id="mission-plan"><h2>{text.mission_criteria}</h2><div className="mission-card">{mission.acceptanceCriteria.map(criterion => <p key={criterion.id}>✓ {criterion.text[locale]} <span className="mission-status">{text[`mission_${criterion.status}`]}</span></p>)}</div><h2>{text.mission_milestones}</h2><div className="mission-milestones">{mission.milestones.map(milestone => <div className="mission-card" key={milestone.id}><h3>{milestone.title[locale]}</h3><p>{(milestone.share * 100).toFixed(0)}%</p><span>{milestone.status}</span></div>)}</div><h3>{text.mission_risk}</h3><p>{text.mission_boundary}</p></section>

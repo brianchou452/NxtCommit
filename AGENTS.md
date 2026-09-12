@@ -21,6 +21,9 @@ boundary is visible to everyone.
 
 ## Facts that must not drift
 
+- New `/github` source workspaces are an explicitly authorized exception to the historical metadata-only boundary. See `docs/GITHUB-WORKSPACES.md`: authenticated public snapshots, draft PR on credit commitment, bounded AI/Docker verification and same-head CI promotion. Existing mission runner routes remain fixture-only. No deployment or live-write verification is implied.
+- `/github` 是已授權的新例外：公開原始碼快照、投入額度開 draft PR、AI／Docker 驗證與同 head CI 通過後轉正式；詳見 `docs/GITHUB-WORKSPACES.zh-TW.md`。既有 runner 路由仍限 fixture，不代表已部署或已驗證上游寫入。
+
 - GitHub `main` is the source of truth. This reconstruction uses GitHub Actions
   and Cloudflare, as requested for the hackathon. The current delivery runs the Phase 1 foundation container with a verified
   Responses adapter; see `docs/GITHUB-OPERATIONS.md` and

@@ -1,5 +1,7 @@
 # GitHub delivery operations and incident record
 
+> **2026-09-12 source extension:** `/github` adds authenticated public source snapshots, a draft PR on prototype-credit commitment, one bounded Responses implementation, network-disabled Docker tests, and promotion after required CI on the same head. This is a separate workspace workflow; existing metadata/fixture routes are unchanged. It is not deployed or live-upstream-write verified. See [GitHub workspaces](GITHUB-WORKSPACES.md) for limits and tests. Older statements below do not describe this new entrypoint.
+
 > **Current scope, 2026-09-12:** main has a deployed Phase 1 foundation container and verified local/cloud Responses calls; it is no longer only an infrastructure Worker. A/B/C and local experiments still require branch integration. Use the [branch inventory](BRANCHES.md), [Cloudflare runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md). The CommonCommit/GitLab/Argo material below remains historical reference, not this repository's current state.
 
 [繁體中文](GITHUB-OPERATIONS.zh-TW.md)

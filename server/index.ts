@@ -17,6 +17,8 @@ const application = createApplication({
   ...(process.env.SELF_UPDATE_ROOT ? { staticRelease: () => readlinkSync(resolve(process.env.SELF_UPDATE_ROOT!, 'current')).split('/').at(-1)! } : {}),
   authoring: authoringConfiguration(process.env),
   ...(process.env.DEMO_PROTECTED === '1' ? {demoProtection: {token: process.env.OPENAI_CHECK_TOKEN}} : {}),
+
+  github: { enabled: process.env.GITHUB_WORKSPACES_ENABLED === '1', requiredChecks: (process.env.GITHUB_REQUIRED_CHECKS ?? '').split(',').map(s => s.trim()).filter(Boolean) },
 });
 const server = application.app.listen(port, process.env.HOST ?? '127.0.0.1', () => {
   console.log(`NxtCommit listening on port ${(server.address() as { port: number }).port}`);

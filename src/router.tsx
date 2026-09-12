@@ -6,6 +6,7 @@ import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteEr
 import { ApplicationShell } from './components/ApplicationShell.js';
 import { MissionDetailPage } from './pages/MissionDetailPage.js';
 import { ExecutionRoomPage } from './pages/ExecutionRoomPage.js';
+import { GithubWorkspacePage } from './pages/GithubWorkspace.js';
 import { NewMission } from './pages/NewMission.js';
 import { Review } from './pages/Review.js';
 import { DesignConcepts } from './pages/DesignConcepts.js';
@@ -27,6 +28,8 @@ export function AppRouter() {
     <Route path="/" element={<HomePage />} />
     <Route path="/marketplace" element={<MarketplacePage />} />
     <Route path="/assurance" element={<AssurancePage />} />
+
+    <Route path="/github" element={<GithubWorkspacePage />} />
     <Route path="/new" element={<NewMission />} />
     <Route path="/missions/:id" element={<MissionDetailPage />} />
     <Route path="/missions/:id/run" element={<ExecutionRoomPage />} />

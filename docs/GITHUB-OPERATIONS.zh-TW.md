@@ -1,5 +1,7 @@
 # GitHub 交付操作與事故紀錄
 
+> **2026-09-12 原始碼擴充：** `/github` 新增已授權的公開 repo 原始碼快照、投入示範額度後建立 draft PR、一次 bounded Responses 改碼、無網路 Docker 測試，以及同 head 必要 CI 通過後轉正式 PR。此為獨立工作區流程；既有 metadata／fixture 路由不變。尚未部署或驗證真實上游寫入。能力、限制與測試見 [GitHub 工作區](GITHUB-WORKSPACES.zh-TW.md)。下文舊版敘述不適用於這個明確的新入口。
+
 > **2026-09-12 現況：** main 已部署 Phase 1 foundation container，並驗證本機與雲端 Responses 呼叫；不再只是 infrastructure Worker。A／B／C 與本機 experiments 尚須分支整合。以 [分支盤點](BRANCHES.zh-TW.md)、[Cloudflare 操作](cicd/RUNBOOK.zh-TW.md) 與 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準。以下 CommonCommit／GitLab／Argo 內容保留為歷史參考，不代表本 repo 現況。
 
 [English canonical](GITHUB-OPERATIONS.md)

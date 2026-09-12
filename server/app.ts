@@ -2,6 +2,10 @@ import { AssuranceController } from './agents/assurance.js';
 import type { AssuranceOptions } from './agents/assurance.js';
 import express from 'express';
 import { installDemoProtection } from './services/demo-protection.js';
+
+import { githubRoutes, type GithubOptions } from './github/workspaces.js';
+import { campaignDraft, bilingual } from './authoring/campaign.js';
+import type { RepoAnalysis } from '../shared/authoring.js';
 import { HomeStore, seedHome, clearHome } from './persistence/home.js';
 import { GlobalStream } from './services/global-stream.js';
 import type { ErrorRequestHandler } from 'express';
@@ -37,6 +41,7 @@ export interface AppOptions {
   executionTimeoutMs?: number;
   missionOptions?: MissionOptions;
   authoring?: AuthoringOptions;
+  github?: GithubOptions;
   /** Isolated slice harnesses may omit projections; production always integrates. */
   integrateSlices?: boolean;
   operations?: ServiceContext['operations'];
@@ -102,6 +107,27 @@ export function createApplication(options: AppOptions = {}) {
     if (reset.pending && !['GET', 'HEAD', 'OPTIONS'].includes(request.method) && request.path !== '/api/demo/reset') { response.status(503).json({ error: 'Demo reset is in progress.', code: 'reset_in_progress' }); return; }
     next();
   });
+  const github = githubRoutes(store.db, {
+    ...options.github,
+    ...(missions ? { missions: {
+      create(workspace, title, credits) {
+        const issue = { id: workspace.id, title, body: title, labels: [], feasibility: { executable: false, basis: 'Separate authenticated GitHub workspace runner.' } };
+        const analysis: RepoAnalysis = { source: 'github', repoUrl: `https://github.com/${workspace.repository}`, name: workspace.repository.split('/')[1]!, description: title, commitSha: workspace.commit, files: workspace.files.length, issues: [issue], measured: { metadata: true, filesystem: false, fullTree: true, testsExecuted: false }, serverToken: '' };
+        const draft = campaignDraft(analysis, issue, { summary: bilingual(title, title), affectedGate: false, evidence: { generator: 'static', promptVersion: 'github-task-v1' } });
+        draft.estimate = { total: credits, low: credits, high: credits, confidence: 'low', basis: 'User-selected prototype allocation; not a provider-token price or settlement.', breakdown: [{ label: 'committed_prototype_credits', credits }] };
+        const id = authoring.repository.create(analysis, { ...draft, serverToken: '' }).id;
+        const mission = missions.getMission(id); mission.project.workspace.path = workspace.id;
+        missions.store.put('mission', id, mission.projectId, mission);
+        return id;
+      },
+      pledge: (id, amount, key) => missions.pledge(id, amount, key),
+    } } : {}),
+  });
+  app.use('/api/github', github.router);
+  app.post('/api/demo/reset', (_req, res, next) => {
+    if (store.db.prepare("SELECT 1 FROM github_workspaces WHERE json_extract(data, '$.missionId') IS NOT NULL LIMIT 1").get()) { res.status(409).json({ code: 'github_funding_records_present', error: 'Demo reset cannot erase GitHub funding provenance.' }); return; }
+    next();
+  });
   const selectedModules = options.modules ?? routeModules;
   registerRoutes(app, context, options.installMissions === false
     ? selectedModules.filter(module => module !== missionsRoutes && module !== executionRoutes)
@@ -130,5 +156,5 @@ export function createApplication(options: AppOptions = {}) {
     }
   };
   app.use(errors);
-  return { app, context, close: async () => { clearInterval(workerUpdates); await assurance?.close(); await missions?.quiesce(); events.close(); store.close(); } };
+  return { app, context, close: async () => { clearInterval(workerUpdates); await assurance?.close(); await github.close(); await missions?.quiesce(); events.close(); store.close(); } };
 }

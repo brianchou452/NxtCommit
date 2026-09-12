@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.github-workspaces
+title: Authenticated GitHub source and draft lifecycle
+scope: [api.repository-analysis, api.mission-pledge]
+rules:
+  - { id: separate-authority, requirement: New source workspace routes require server-verified GitHub ownership and same-origin sessions; existing metadata analysis does not grant this capability., enforcement: server }
+  - { id: immutable-source, requirement: Download bounded public Git trees and verify each blob SHA; reject truncation and unsafe paths., enforcement: server }
+  - { id: pledge-before-draft, requirement: A retry-stable prototype pledge opens one planning branch and draft PR before implementation; persist remote identities for recovery., enforcement: server }
+  - { id: independent-verification, requirement: One bounded Responses patch may change existing source only; frozen tests execute in credential-free network-disabled Docker and failed verification never publishes source., enforcement: server }
+  - { id: same-head-promotion, requirement: Only the implementation commit with every configured GitHub Actions check successful may promote the same PR; never force push or merge., enforcement: server }
+  - { id: provenance, requirement: Distinguish prototype credits from measured provider usage and controlled transport tests from live upstream writes., enforcement: client }

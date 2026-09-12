@@ -9,6 +9,8 @@
 
 > **Local resilience update (2026-09-12):** 本機穩定度 CLI 新增對真實模組的受控故障實驗，可選真實模型假設／解讀；不啟用任務 runner 或自動修復，須查看報告來源。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
+> **2026-09-12 原始碼擴充：** `/github` 新增已授權的公開 repo 原始碼快照、投入示範額度後建立 draft PR、一次 bounded Responses 改碼、無網路 Docker 測試，以及同 head 必要 CI 通過後轉正式 PR。此為獨立工作區流程；既有 metadata／fixture 路由不變。尚未部署或驗證真實上游寫入。能力、限制與測試見 [GitHub 工作區](GITHUB-WORKSPACES.zh-TW.md)。下文舊版敘述不適用於這個明確的新入口。
+
 
 [English canonical](FEATURE-REALITY.md)
 

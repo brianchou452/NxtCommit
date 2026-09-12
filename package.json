@@ -26,7 +26,8 @@
     "agents:experiment": "node --import tsx server/resilience/cli.ts",
     "agents:update": "node --import tsx server/self-update/cli.ts",
     "agents:monitor": "node scripts/langfuse-local.mjs",
-    "agents:benchmark": "node --import tsx server/agents/benchmark.ts"
+    "agents:benchmark": "node --import tsx server/agents/benchmark.ts",
+    "test:e2e:github": "bash scripts/github-e2e-docker.sh"
   },
   "dependencies": {
     "@langchain/langgraph": "1.4.15",

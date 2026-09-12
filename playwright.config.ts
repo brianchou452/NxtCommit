@@ -15,6 +15,8 @@ export default defineConfig({
     contextOptions: { reducedMotion: 'reduce' }, trace: 'retain-on-failure', screenshot: 'only-on-failure',
   },
   webServer: [{
+    command: 'node --import tsx e2e/github-fixture-server.ts', url: 'http://127.0.0.1:4202/healthz', reuseExistingServer: false, timeout: 30000,
+  }, {
     command: 'node dist-server/server/index.js', url: 'http://127.0.0.1:4177/healthz',
     reuseExistingServer: false, timeout: 30000,
     env: { HOST: '127.0.0.1', PORT: '4177', AGENT_ASSURANCE_ENABLED: '1', OPENAI_CHECK_TOKEN: 'test-assurance-operator-0000000000', VAR_DIR: '/tmp/nxtcommit-playwright-state', EXECUTION_MODE: 'demo' },
@@ -32,6 +34,7 @@ export default defineConfig({
     reuseExistingServer: false, timeout: 30000,
   }],
   projects: [
+    { name: 'github', testMatch: 'github.e2e.spec.ts' },
     { name: 'foundation', testMatch: 'foundation.spec.ts' },
     { name: 'product', testMatch: '*.e2e.spec.ts' },
     { name: 'mission', testMatch: 'mission-execution.e2e.spec.ts' },

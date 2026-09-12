@@ -2,6 +2,8 @@
 
 > **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
 
+> **2026-09-12 原始碼擴充：** `/github` 新增已授權的公開 repo 原始碼快照、投入示範額度後建立 draft PR、一次 bounded Responses 改碼、無網路 Docker 測試，以及同 head 必要 CI 通過後轉正式 PR。此為獨立工作區流程；既有 metadata／fixture 路由不變。尚未部署或驗證真實上游寫入。能力、限制與測試見 [GitHub 工作區](GITHUB-WORKSPACES.zh-TW.md)。下文舊版敘述不適用於這個明確的新入口。
+
 > **目前重建版本（Phase 3）：** 每個 run 由一個 scripted fixture engine 執行。Web server 與選用的獨立 queue worker 透過 SQLite 共享儲存狀態，是確定性程序，不是協作模型代理。C 輔助僅供建議，B 擁有 engine evidence 與任務狀態決策。下方歷史 LLM／Codex runner 並未由本次重建安裝，詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)。
 
 > **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。

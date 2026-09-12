@@ -8,6 +8,8 @@
 
 > **Local resilience update (2026-09-12):** 本機 chaos-planner-v1 與 experiment-review-v1 沿用有界 Assistance client 與雙語輸出驗證；live 僅傳固定目錄／彙總證據與前段建議文字，不傳原始應用狀態。本機 Langfuse 接收 metadata-only 追蹤；不宣稱語意品質，缺少 usage 保持未知。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
+> **2026-09-12 原始碼擴充：** `/github` 新增已授權的公開 repo 原始碼快照、投入示範額度後建立 draft PR、一次 bounded Responses 改碼、無網路 Docker 測試，以及同 head 必要 CI 通過後轉正式 PR。此為獨立工作區流程；既有 metadata／fixture 路由不變。尚未部署或驗證真實上游寫入。能力、限制與測試見 [GitHub 工作區](GITHUB-WORKSPACES.zh-TW.md)。下文舊版敘述不適用於這個明確的新入口。
+
 > **C 重建實作：** `server/authoring/assistance.ts` 提供有限範圍雙語建議與明示備援。`observations.ts` 透過 OTLP／HTTP JSON 匯出 allowlist metadata，並以 Scores API 記錄本機 helpfulness；未安裝下文歷史 SDK／dashboard 系統。受控 transport 測試只證明 payload containment，不證明外部持久化或模型品質。Source-controlled evaluation corpus 預設 dry-run，live evaluation 需要 `--live` 與設定。參考 [OTLP 整合](https://langfuse.com/integrations/native/opentelemetry) 與 [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk)。
 
 

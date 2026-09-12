@@ -12,7 +12,7 @@ COPY fixtures ./fixtures
 COPY spec/assets ./spec/assets
 RUN npm run build
 # Browser tests and goldens do not invalidate application compilation.
-COPY playwright.config.ts ./
+COPY playwright.config.ts playwright.github.config.ts ./
 COPY e2e ./e2e
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 ENV npm_config_cache=/tmp/npm-cache

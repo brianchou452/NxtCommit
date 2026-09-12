@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.24 — 2026-09-12
+
+- Add GitHub source workspaces, draft PR creation on funding, bounded AI implementation with Docker verification, and ready-for-review promotion gated by same-commit CI. Add browser/Docker journeys and ownership, retry and failure gates. Not deployed or live GitHub-write verified.
+
 ## v0.7.23 — 2026-09-12
 
 Feature-specific concise bilingual LLM advice, structured evidence compaction, invalid-answer negative caching and original trace linkage on cache hits. Campaign critique includes the selected issue. See `LLM-QUALITY-REPORT.md` for measured results and limits.

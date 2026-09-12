@@ -2,6 +2,8 @@
 
 > **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
 
+> **2026-09-12 原始碼擴充：** `/github` 新增已授權的公開 repo 原始碼快照、投入示範額度後建立 draft PR、一次 bounded Responses 改碼、無網路 Docker 測試，以及同 head 必要 CI 通過後轉正式 PR。此為獨立工作區流程；既有 metadata／fixture 路由不變。尚未部署或驗證真實上游寫入。能力、限制與測試見 [GitHub 工作區](GITHUB-WORKSPACES.zh-TW.md)。下文舊版敘述不適用於這個明確的新入口。
+
 > **Phase 3 整合：** Authoring capability 只可選擇已納入版控的 duration fixture，B 保留 retry fixture。兩者皆使用固定驗證設定、既有測試／Git seal、有界子程序與 engine-owned diff。未知 fixture ID 與 GitHub metadata 不能取得執行權限。C 透過 B repository／reviewability 介面操作，只能對目前 run 記錄決策；重試回饋是遮罩後儲存的 maintainer evidence，不是模型指令。Docker Chromium 測試不代表產品具備 per-run OS isolation。
 
 > 重建範圍：電腦 B 實作 scripted bundled-fixture runner、固定 Node verification、

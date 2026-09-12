@@ -8,6 +8,8 @@
 
 > **Local resilience update (2026-09-12):** Local chaos-planner-v1 and experiment-review-v1 reuse the bounded Assistance client with bilingual validated output. Live mode sends only fixed catalog/aggregate evidence and prior advisory text, never raw application state. Local Langfuse receives metadata-only traces; missing usage stays unknown and no semantic quality claim is made. [Runbook](CHAOS-AGENTS.md).
 
+> **2026-09-12 source extension:** `/github` adds authenticated public source snapshots, a draft PR on prototype-credit commitment, one bounded Responses implementation, network-disabled Docker tests, and promotion after required CI on the same head. This is a separate workspace workflow; existing metadata/fixture routes are unchanged. It is not deployed or live-upstream-write verified. See [GitHub workspaces](GITHUB-WORKSPACES.md) for limits and tests. Older statements below do not describe this new entrypoint.
+
 > **C reconstruction implementation:** `server/authoring/assistance.ts` supplies bounded bilingual advisory calls and labelled fallbacks. `observations.ts` exports allowlisted metadata through OTLP/HTTP JSON and local helpfulness via Scores API; it does not install the historical SDK/dashboard stack described below. Controlled transport tests establish payload containment, not external persistence or model quality. The source-controlled evaluation corpus defaults to dry-run; live evaluation requires `--live` and configuration. See [OTLP integration](https://langfuse.com/integrations/native/opentelemetry) and [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk).
 
 

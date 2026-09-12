@@ -28,10 +28,10 @@ export function openAIConfiguration(env: NodeJS.ProcessEnv = process.env) {
 export async function createOpenAIResponse(
   input: string,
   promptVersion: string,
-  options: { env?: NodeJS.ProcessEnv; fetch?: typeof fetch; bilingual?: boolean; signal?: AbortSignal } = {},
+  options: { env?: NodeJS.ProcessEnv; fetch?: typeof fetch; bilingual?: boolean; signal?: AbortSignal; maxInputChars?: number; maxOutputTokens?: number } = {},
 ): Promise<OpenAIResult> {
   options.signal?.throwIfAborted();
-  if (!input.trim() || input.length > 12000 || !promptVersion.trim())
+  if (!input.trim() || input.length > Math.min(options.maxInputChars ?? 12000, 82000) || !promptVersion.trim())
     throw new OpenAIConnectionError('openai_input_invalid');
   const { apiKey, model } = openAIConfiguration(options.env);
   const started = performance.now();
@@ -43,7 +43,7 @@ export async function createOpenAIResponse(
       body: JSON.stringify({
         model,
         input,
-        max_output_tokens: 1024,
+        max_output_tokens: Math.min(options.maxOutputTokens ?? 1024, 12000),
         store: false,
         ...(options.bilingual
           ? {
@@ -85,7 +85,7 @@ export async function createOpenAIResponse(
   }
   let data: any;
   try {
-    data = await boundedJson(response, 32_000);
+    data = await boundedJson(response, Math.min(128_000, Math.max(32_000, (options.maxOutputTokens ?? 1024) * 8 + 8000)));
   } catch {
     options.signal?.throwIfAborted();
     throw new OpenAIConnectionError('openai_response_invalid');

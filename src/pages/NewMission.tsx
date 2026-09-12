@@ -28,6 +28,7 @@ export function NewMission() {
   const step = mission ? 3 : draft ? 2 : analysis ? 1 : 0;
   return <main id="main-content" tabIndex={-1} className="c-wizard">
     <ol className="c-stepper">{[text.c_repository, text.c_analysis, text.c_campaign, text.c_publish].map((label, index) => <li key={index} aria-current={step === index ? 'step' : undefined}><span>{index + 1}</span>{label}</li>)}</ol>
+    <p><Link to="/github">{text.gh_title}</Link></p>
     <h1>{mission ? text.c_published : text.c_create}</h1><p>{text.c_intro}</p>
     {!analysis && <form onSubmit={event => { event.preventDefault(); void action(async () => { const result = await productRequest<{ analysis: RepoAnalysis }>('/api/analyze', { source, ...(source === 'github' ? { url } : {}) }); setAnalysis(result.analysis); setIssueId(result.analysis.issues[0]?.id ?? ''); }); }}>
       <div className="c-source-grid">{(['fixture', 'github'] as const).map(value => <label key={value} className={`c-card c-source ${source === value ? 'selected' : ''}`}>

@@ -2,6 +2,8 @@
 
 > **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
 
+> **2026-09-12 source extension:** `/github` adds authenticated public source snapshots, a draft PR on prototype-credit commitment, one bounded Responses implementation, network-disabled Docker tests, and promotion after required CI on the same head. This is a separate workspace workflow; existing metadata/fixture routes are unchanged. It is not deployed or live-upstream-write verified. See [GitHub workspaces](GITHUB-WORKSPACES.md) for limits and tests. Older statements below do not describe this new entrypoint.
+
 > **Phase 3 integration:** Authoring capabilities select only the checked-in duration fixture; B retains its retry fixture. Both use fixed verification facts, existing-test/Git seals, bounded subprocesses and engine-owned diffs. Unknown fixture identifiers and GitHub metadata cannot select execution. C consumes the B repository/reviewability port and records decisions against the current run only; retry feedback is redacted persisted maintainer evidence, not a model instruction. Docker Chromium testing does not establish per-run OS isolation.
 
 > Reconstruction scope: Computer B implements a scripted bundled-fixture runner,
