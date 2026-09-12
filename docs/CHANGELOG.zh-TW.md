@@ -6,9 +6,13 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
-## v0.7.34 — 2026-09-12
+## v0.7.35 — 2026-09-12
 
 - 將 commoncommit 的 10 個頁面、19 個元件、35 組原版動畫定義、九階段角色 Demo 與導覽移入 NxtCommit。保留共用專案資料與帳本；補上原版 tempo fixture、實際失敗／修正測試，以及核准後可重試且不重複建立的本機 Release。保留 Agent Lab 與 GitHub 工作區，範圍及驗證見 COMMONCOMMIT-PARITY.zh-TW.md。
+
+## v0.7.34 — 2026-09-12
+
+- 既有 main CI gate 通過後，將完整 production 網站發布為含 provenance 與 SBOM 的 `linux/arm64` image 至 GitHub Container Registry。先於 QEMU 驗證 deployment receipt 與 SQLite readiness，再提升版本與 `arm64-latest` tags；Cloudflare 部署維持獨立 job。
 
 ## v0.7.33 — 2026-09-12
 

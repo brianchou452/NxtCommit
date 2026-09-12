@@ -15,6 +15,99 @@ concurrency:
 jobs:
   ci:
     uses: ./.github/workflows/ci.yml
+  publish-arm64:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Read release version
+        id: version
+        run: echo "value=$(awk '/^VERSION := / { print $3 }' Makefile)" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          platforms: arm64
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish deployable ARM64 image
+        id: build-arm64
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: deploy/node/Dockerfile
+          platforms: linux/arm64
+          push: true
+          tags: ghcr.io/brianchou452/nxtcommit:sha-${{ github.sha }}-arm64
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+            GITHUB_RUN_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          cache-from: type=gha,scope=production-arm64
+          cache-to: type=gha,mode=max,scope=production-arm64
+          provenance: mode=max
+          sbom: true
+      - name: Smoke-test published ARM64 image
+        env:
+          IMAGE: ghcr.io/brianchou452/nxtcommit:sha-${{ github.sha }}-arm64
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+          EXPECTED_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          docker run --detach --name nxtcommit-arm64-smoke --platform linux/arm64 --publish 127.0.0.1:18080:8080 "$IMAGE"
+          python3 - <<'PY'
+          import json, os, time, urllib.error, urllib.request
+          error = 'no response'
+          for attempt in range(90):
+              try:
+                  with urllib.request.urlopen('http://127.0.0.1:18080/__deployment', timeout=5) as response:
+                      receipt = json.load(response)
+                  with urllib.request.urlopen('http://127.0.0.1:18080/readyz', timeout=5) as response:
+                      readiness = json.load(response)
+                  assert receipt['commit'] == os.environ['EXPECTED_COMMIT_SHA']
+                  assert receipt['runUrl'] == os.environ['EXPECTED_RUN_URL']
+                  assert receipt['executionScope'] == 'bundled-fixtures-only'
+                  assert readiness['db'] is True
+                  print(json.dumps({'architecture': 'linux/arm64', 'receipt': receipt, 'readiness': readiness}))
+                  break
+              except (AssertionError, KeyError, OSError, ValueError) as exc:
+                  error = str(exc)
+                  if attempt < 89:
+                      time.sleep(2)
+          else:
+              raise SystemExit('ARM64 container smoke failed: ' + error)
+          PY
+      - name: Promote verified ARM64 tags
+        env:
+          SOURCE_IMAGE: ghcr.io/brianchou452/nxtcommit:sha-${{ github.sha }}-arm64
+          VERSION_IMAGE: ghcr.io/brianchou452/nxtcommit:${{ steps.version.outputs.value }}-arm64
+          LATEST_IMAGE: ghcr.io/brianchou452/nxtcommit:arm64-latest
+        run: docker buildx imagetools create --tag "$VERSION_IMAGE" --tag "$LATEST_IMAGE" "$SOURCE_IMAGE"
+      - name: Record ARM64 publication
+        env:
+          DIGEST: ${{ steps.build-arm64.outputs.digest }}
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          {
+            echo '### ARM64 container publication'
+            echo "Image: ghcr.io/brianchou452/nxtcommit:$VERSION-arm64"
+            echo "Immutable image: ghcr.io/brianchou452/nxtcommit:sha-${GITHUB_SHA}-arm64"
+            echo "Digest: $DIGEST"
+            echo 'Verification: linux/arm64 runtime receipt and SQLite readiness passed under QEMU.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Stop ARM64 smoke container
+        if: always()
+        run: docker rm --force nxtcommit-arm64-smoke >/dev/null 2>&1 || true
   deploy:
     needs: ci
     if: github.ref == 'refs/heads/main'
@@ -91,11 +184,13 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           RESULT: ${{ job.status }}
         run: |
-          echo '### NxtCommit application checkpoint' >> "$GITHUB_STEP_SUMMARY"
-          echo "Commit: $COMMIT_SHA" >> "$GITHUB_STEP_SUMMARY"
-          echo "Result: $RESULT" >> "$GITHUB_STEP_SUMMARY"
-          echo 'URL: https://hackathon.ianjuan.com/__deployment' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Scope: Integrated A/B/C product; ephemeral SQLite and scripted bundled-fixture execution. Live product LLM and visual approval are not established by rollout.' >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo '### NxtCommit application checkpoint'
+            echo "Commit: $COMMIT_SHA"
+            echo "Result: $RESULT"
+            echo 'URL: https://hackathon.ianjuan.com/__deployment'
+            echo 'Scope: Integrated A/B/C product; ephemeral SQLite and scripted bundled-fixture execution. Live product LLM and visual approval are not established by rollout.'
+          } >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

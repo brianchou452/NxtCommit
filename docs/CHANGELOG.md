@@ -6,9 +6,13 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
-## v0.7.34 — 2026-09-12
+## v0.7.35 — 2026-09-12
 
 - Port the commoncommit presentation into NxtCommit: 10 pages, 19 components, 35 original animation definitions, nine-stage role demos and guided journeys. Preserve the shared catalog and ledger; add the original tempo fixture with measured failure/recovery and an idempotent local release after approval. Retain Agent Lab and GitHub workspaces. See COMMONCOMMIT-PARITY.md for scope and verification.
+
+## v0.7.34 — 2026-09-12
+
+- Publish the complete production website as a provenance-attested `linux/arm64` image with an SBOM in GitHub Container Registry after the existing main CI gate passes. Smoke-test its deployment receipt and SQLite readiness under QEMU before promoting versioned and `arm64-latest` tags; Cloudflare deployment remains an independent job.
 
 ## v0.7.33 — 2026-09-12
 
