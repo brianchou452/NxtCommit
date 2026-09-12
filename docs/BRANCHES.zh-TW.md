@@ -2,6 +2,7 @@
 
 [English](BRANCHES.md) · [協作指南](COLLABORATION.zh-TW.md)
 
+> 推送前更新：遠端 main 已前進到 `111df8b`，包含 `974ed8b` 的 CI 效能工作。本文件提交已接上該遠端歷史；下表與 JSON 保留較早 `e73f296` 盤點基準，因此 CI 分支現已整合。後續隊員未提交的 agents／Langfuse 工作不在此固定快照中，未被改動。
 這是本機快照，不保證 GitHub 遠端仍停在相同 SHA。盤點讀取所有本機 branch 的 tracked file tree、差異及交接文件；未執行全部分支測試，未合併程式碼。完整路徑與 Git object ID 見 [JSON 清單](branch-inventory.json)；不含檔案內容、忽略的 env、資料庫或私密 runtime artifacts。
 
 ## 工作目錄

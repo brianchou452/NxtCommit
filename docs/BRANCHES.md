@@ -2,6 +2,7 @@
 
 [繁體中文](BRANCHES.zh-TW.md) · [Collaboration](COLLABORATION.md)
 
+> Pre-push update: remote main advanced to `111df8b`, including the `974ed8b` CI performance work. This documentation delivery incorporates that remote history. The table and JSON retain the earlier `e73f296` inspection baseline; the CI branch is now integrated. Subsequent uncommitted teammate agents/Langfuse work is outside this pinned snapshot and was left untouched.
 This is a local snapshot, not a guarantee of current GitHub tips. Inspection covered every local branch's tracked file tree, differences and handoffs; it did not run every branch's tests or merge code. The [JSON inventory](branch-inventory.json) records all paths and Git object IDs without file contents, ignored environments, databases or private runtime artifacts.
 
 ## Working directories
