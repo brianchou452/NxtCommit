@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.30 — 2026-09-12
+
+- Restore the approved homepage Hero slogan, supporting copy and Live Pipeline labels from the visual reference.
+
 ## v0.7.29 — 2026-09-12
 
 - Use Agent Lab for the navigation label in both languages. Copy-only change; existing layout, interactions and provenance remain intact.

@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.30 — 2026-09-12
+
+- 依核准的視覺參考恢復首頁 Hero 標語、輔助文案與 Live Pipeline 標籤。
+
 ## v0.7.29 — 2026-09-12
 
 - 導覽列在兩種語言下統一使用 Agent Lab。僅調整名稱，沿用既有版面、互動與來源標示。
