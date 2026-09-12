@@ -6,9 +6,21 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
-## v0.7.20 — 2026-09-12
+## v0.7.22 — 2026-09-12
 
 - 移除導覽列下方常駐的示範／隔離提示區段，執行錯誤保留為獨立 alert；同步 shell 規格、雙語字典與瀏覽器回歸測試。
+
+## v0.7.21 - 2026-09-12（雲端品質驗證）
+
+- 新增六階段 Agent 實驗室、驗證身分的排程執行、真實受控測試、模型來源與基準迭代。參見[操作說明](ASSURANCE.zh-TW.md)。
+- 保留腳本式任務範圍、展示資料保護及關閉時間。不宣稱雲端原始碼自動修復或發布。
+
+## v0.7.20 — 2026-09-12（整合本機 Agents）
+
+- 將本機 Chaos／Experiment、LangGraph checkpoint、Langfuse 監控及可開關的前端更新流程整合至最新 main。
+- 保留正式環境 Responses API、請求去重／預算、實測用量、Demo 重設保護與 A／B／C fixture 執行。
+- 將 Agent 取消傳入兩種模型 API，保留有界回覆、崩潰復原、固定更新關卡及明確 fallback 狀態。
+- 本機 Agent 分支 0.7.12–0.7.16 的功能於此整合；當時驗證保留於 [Agent 報告](AGENT-TEST-REPORT.zh-TW.md)。本次合併不代表部署或啟用自動更新。
 
 ## v0.7.19 — 2026-09-12
 

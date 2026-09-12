@@ -1,11 +1,17 @@
 # 安全性與信任邊界
 
+> **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
+
 > **Phase 3 整合：** Authoring capability 只可選擇已納入版控的 duration fixture，B 保留 retry fixture。兩者皆使用固定驗證設定、既有測試／Git seal、有界子程序與 engine-owned diff。未知 fixture ID 與 GitHub metadata 不能取得執行權限。C 透過 B repository／reviewability 介面操作，只能對目前 run 記錄決策；重試回饋是遮罩後儲存的 maintainer evidence，不是模型指令。Docker Chromium 測試不代表產品具備 per-run OS isolation。
 
 > 重建範圍：電腦 B 實作 scripted bundled-fixture runner、固定 Node verification、
 > protected-file seals、有界且遮罩的 evidence，以及 transaction 內的 queue ownership
 > fence。下方歷史 LLM／Codex tool loop 與 per-run OS isolation 並未實作。
 > Docker 用於 browser tests，不代表產品具備 sandbox 保證。見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+
+> **Self-update lane (2026-09-12):** 獨立自我更新流程可將有界模型修改套用至三個本機前端檔案。候選在固定 Docker image 中執行，無網路、憑證或 Docker socket，原始碼與測試唯讀。Demo／off 的 epoch 變更撤銷待套用版本；剩餘風險見操作手冊。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** 本機 chaos 使用合成憑證、私有 transport 與可拋棄記憶體資料庫；無公開注入介面或任意目標。模型不能執行命令、改 gate 或原始碼；週期迴圈具輪數上限與互斥鎖。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 ## 電腦 C authoring 與 review 邊界
 

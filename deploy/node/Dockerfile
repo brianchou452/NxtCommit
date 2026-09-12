@@ -1,7 +1,8 @@
 FROM node:24.19.0-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
+RUN npm ci --ignore-scripts && npm rebuild better-sqlite3 --ignore-scripts=false
 COPY tsconfig*.json vite.config.ts index.html ./
 COPY src ./src
 COPY shared ./shared

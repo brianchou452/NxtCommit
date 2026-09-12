@@ -1,5 +1,13 @@
 # Measured LLM expansion and Langfuse optimization plan
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
+> **Self-update lane (2026-09-12):** self-update-proposal-v1 sends only three allowlisted local frontend files plus a bounded goal to the official OpenAI endpoint. Exact-match edits, bilingual summary, provider usage when present and candidate results are persisted locally; raw source is not exported to Langfuse. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** Local chaos-planner-v1 and experiment-review-v1 reuse the bounded Assistance client with bilingual validated output. Live mode sends only fixed catalog/aggregate evidence and prior advisory text, never raw application state. Local Langfuse receives metadata-only traces; missing usage stays unknown and no semantic quality claim is made. [Runbook](CHAOS-AGENTS.md).
+
 > **C reconstruction implementation:** `server/authoring/assistance.ts` supplies bounded bilingual advisory calls and labelled fallbacks. `observations.ts` exports allowlisted metadata through OTLP/HTTP JSON and local helpfulness via Scores API; it does not install the historical SDK/dashboard stack described below. Controlled transport tests establish payload containment, not external persistence or model quality. The source-controlled evaluation corpus defaults to dry-run; live evaluation requires `--live` and configuration. See [OTLP integration](https://langfuse.com/integrations/native/opentelemetry) and [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk).
 
 

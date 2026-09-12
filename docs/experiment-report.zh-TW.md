@@ -344,3 +344,14 @@ annotations、P0 safety／grounding 不退步、宣告 confidence bounds、p95 l
 與 token budget 可接受，並保存 Langfuse dataset-run ID 前，online promotion
 維持禁止。未來決定需記錄 commit、prompt version、model、run ID、score summary
 與 owner。
+
+
+## 本機穩定度迴圈 — 2026-09-12
+
+分支 `codex/chaos-experiment-agents`，基於電腦 C `ec95912`；原始碼候選 v0.7.12。
+
+第一輪 17 案（`773d6664-040d-4e18-ae63-ba3c6f121035`）有 3 項失敗：429／503 回應串流釋放與纯空白建議。修正後相同 seed／重複次數（`e1d119b7-cfac-4848-ace4-c5d67667bab2`）17/17 通過，3 案恢復且無回歸。這些問題發現輪次來自尚未提交的開發樹，不是不可變 release。
+
+首次 live 建議因 GPT-5 mini 不接受舊 completion 參數而 fallback。調整相容參數與精簡角色 prompt 後，`3344cd5d-6e7a-48fb-9aca-d3d7144fbdd2` 完成 34/34 受控檢查，兩角色皆為 `generator: openai`、模型 `gpt-5-mini`。這證明取得且接受 provider 建議，不代表語意品質或 production 穩定。先前部分成功／fallback 報告也保留。報告在忽略的 `var/chaos-agents/`；最終 CLI 亦記錄 source hash 與 commit／dirty 身分。
+
+驗證：`npm run check`（69 通過、0 失敗、54 個既有 TODO）、規格 lint（126 specs，無錯誤／缺測試）、4 個 Python linter 測試、`npm run check-version`（0.7.12）。未變更瀏覽器行為；既有視覺核准與 B 執行整合仍待完成。執行邊界見 [操作手冊](CHAOS-AGENTS.zh-TW.md)。

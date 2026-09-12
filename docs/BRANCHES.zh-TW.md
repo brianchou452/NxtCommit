@@ -1,5 +1,7 @@
 # 分支與檔案盤點 — 2026-09-12
 
+> **本次授權整合：** 本機 main 以 v0.7.20 整合 Agent tip `0900328` 與 fetched main `298764c`。下方排除 Chaos 的記錄為歷史狀態，已由此次合併要求取代。本機執行目錄與展示服務留在原 checkout；合併原始碼不會搬移它們或發布雲端版本。
+
 ## Main 驗證盤點 — 2026-09-12
 
 Fetch 後的 main `f4f1c13` 已包含所有受檢的非 chaos 本機分支：`codex/cloudflare-cicd`、`codex/product-delivery`、`dev/computer-c`，以及獨立 clone 的 `codex/ci-speed-capacity`（`111df8b`）。遠端 A／B 與 `codex/dev-spec-integration` 也沒有 main 以外的提交，因此不需重複合併。`codex/chaos-experiment-agents`（`75c47c2`）仍有六筆獨有提交，依使用者指示排除，未改動其 checkout。

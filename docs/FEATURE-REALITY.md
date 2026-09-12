@@ -1,5 +1,14 @@
 # Feature reality matrix
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
+
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
+> **Self-update lane (2026-09-12):** The local frontend self-update lane adds real model-authored source candidates, container verification and optional static-release promotion. It is disabled and demo-locked by default; it neither updates backend code nor repairs arbitrary product features. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** Local resilience CLI adds controlled fault experiments over real modules and optional real model hypotheses/interpretation. It does not enable mission runners or automatic repair; inspect each report’s provenance. [Runbook](CHAOS-AGENTS.md).
+
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 

@@ -1,0 +1,20 @@
+spec_version: 1
+kind: page
+id: page.assurance
+title: Agent Lab
+route: /assurance
+purpose: Show inspectable workflow stages and measured test evidence with explicit model provenance.
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/assurance, purpose: Read current and stored cycles., initial_state: No execution is claimed., error_state: Stop animation and show last observed evidence. }
+composition:
+  - { id: workflow, kind: page_unique, purpose: Six recorded stages., data: Persisted stage state., visual_role: Workflow rail., width: Full., relationship_to_previous: Below evidence summary. }
+  - { id: evidence, kind: page_unique, purpose: Read exact checks and model advice., data: Selected cycle., visual_role: Inspectable report., width: Full., relationship_to_previous: Below workflow. }
+page_owned_behaviour:
+  - Poll sequentially and stop on unmount; no visitor mutation controls.
+  - Animate only observed running stages and stop on disconnect or terminal state.
+  - Keep model summaries distinct from private reasoning and deterministic outcomes.
+layout: { canvas: Light operational evidence surface., section_rhythm: Summary then workflow and history., desktop: Six stages above two columns., relationships: [Selected cycle owns every displayed check.], visual_anchors: [Workflow rail and measured counts.] }
+scenarios:
+  - { id: assurance-visible-terminal-checks, given: A real controlled cycle completes., when: The bilingual page refreshes., then: All six stages finish and exact measurements appear with no active pulse and mobile overflow., test_file: e2e/assurance.e2e.spec.ts }

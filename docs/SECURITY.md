@@ -1,5 +1,7 @@
 # Security and trust boundaries
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
 > **Phase 3 integration:** Authoring capabilities select only the checked-in duration fixture; B retains its retry fixture. Both use fixed verification facts, existing-test/Git seals, bounded subprocesses and engine-owned diffs. Unknown fixture identifiers and GitHub metadata cannot select execution. C consumes the B repository/reviewability port and records decisions against the current run only; retry feedback is redacted persisted maintainer evidence, not a model instruction. Docker Chromium testing does not establish per-run OS isolation.
 
 > Reconstruction scope: Computer B implements a scripted bundled-fixture runner,
@@ -7,6 +9,10 @@
 > transaction-fenced queue ownership. It does not implement the historical LLM/
 > Codex tool loops or per-run OS isolation described below. Docker is the browser
 > test environment, not a product sandbox guarantee. See [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
+
+> **Self-update lane (2026-09-12):** The separate self-update lane can now apply bounded model edits to three local frontend files only. Candidate execution occurs in a pinned Docker image without network, credentials or a Docker socket; source and tests are read-only. Demo/off epoch changes revoke pending activation. See the self-update runbook for residual risks. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** Local chaos faults use synthetic credentials, private transports and disposable in-memory databases. There is no public injection surface or arbitrary target. Models cannot execute commands, alter gates or source; periodic loops have cycle limits and a single-process lock. [Runbook](CHAOS-AGENTS.md).
 
 ## Computer C authoring and review boundary
 

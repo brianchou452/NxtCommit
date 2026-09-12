@@ -2,6 +2,8 @@
 
 [繁體中文](docs/README.zh-TW.md) · [Collaboration](docs/COLLABORATION.md) · [Branch inventory](docs/BRANCHES.md)
 
+For local Chaos Agent / Experiment Agent runs and iteration evidence, see [the agent runbook](docs/CHAOS-AGENTS.md).
+
 Main integrates the A/B/C product slices with the existing Cloudflare delivery.
 React/Vite and Node 24 / Express / SQLite implement the product; Python validates
 YAML specifications. See the [Phase 3 evidence](docs/PHASE3-INTEGRATION.md).

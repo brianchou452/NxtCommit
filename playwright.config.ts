@@ -17,7 +17,7 @@ export default defineConfig({
   webServer: [{
     command: 'node dist-server/server/index.js', url: 'http://127.0.0.1:4177/healthz',
     reuseExistingServer: false, timeout: 30000,
-    env: { HOST: '127.0.0.1', PORT: '4177', VAR_DIR: '/tmp/nxtcommit-playwright-state', EXECUTION_MODE: 'demo' },
+    env: { HOST: '127.0.0.1', PORT: '4177', AGENT_ASSURANCE_ENABLED: '1', OPENAI_CHECK_TOKEN: 'test-assurance-operator-0000000000', VAR_DIR: '/tmp/nxtcommit-playwright-state', EXECUTION_MODE: 'demo' },
   }, {
     command: 'node --import tsx e2e/fixture-server.ts', url: 'http://127.0.0.1:4178/healthz',
     reuseExistingServer: false, timeout: 30000,

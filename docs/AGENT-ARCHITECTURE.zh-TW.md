@@ -1,6 +1,14 @@
 # Agent 架構與 multi-agent 現況
 
+> **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
+
 > **目前重建版本（Phase 3）：** 每個 run 由一個 scripted fixture engine 執行。Web server 與選用的獨立 queue worker 透過 SQLite 共享儲存狀態，是確定性程序，不是協作模型代理。C 輔助僅供建議，B 擁有 engine evidence 與任務狀態決策。下方歷史 LLM／Codex runner 並未由本次重建安裝，詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)。
+
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
+> **Self-update lane (2026-09-12):** 另有操作者啟用的自我更新控制器：請模型提出有界前端修改、放入容器驗證，並選擇性切換本機靜態版本。其開關／Demo 鎖與建議型 chaos 迴圈及任務 runner 架構互相獨立。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** 另有本機穩定度流程協調 Chaos Agent 假設 → 固定目錄執行 → 實驗 Agent 解讀，以報告交接。這是循序建議流程，不是任務 topology 或自主寫碼叢集；下方歷史任務架構需分開閱讀。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 [English](AGENT-ARCHITECTURE.md)
 

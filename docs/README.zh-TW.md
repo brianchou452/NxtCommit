@@ -2,6 +2,8 @@
 
 [English](../README.md) · [協作流程](COLLABORATION.zh-TW.md) · [分支盤點](BRANCHES.zh-TW.md)
 
+本機 Chaos Agent／實驗 Agent、迭代命令與證據請見 [Agent 操作手冊](CHAOS-AGENTS.zh-TW.md)。
+
 Main 已整合 A／B／C 產品切片與既有 Cloudflare delivery。React/Vite 與 Node 24 /
 Express / SQLite 實作產品，Python 驗證 YAML。詳見 [Phase 3 證據](PHASE3-INTEGRATION.zh-TW.md)。
 

@@ -1,5 +1,13 @@
 # 可量測的 LLM 擴充與 Langfuse 優化計畫
 
+> **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
+
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
+> **Self-update lane (2026-09-12):** self-update-proposal-v1 僅將三個允許的本機前端檔案與有界目標傳送至 OpenAI 官方端點。精確替換、雙語摘要、存在時的 provider usage 與候選結果保存在本機；不將原始碼匯出至 Langfuse。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** 本機 chaos-planner-v1 與 experiment-review-v1 沿用有界 Assistance client 與雙語輸出驗證；live 僅傳固定目錄／彙總證據與前段建議文字，不傳原始應用狀態。本機 Langfuse 接收 metadata-only 追蹤；不宣稱語意品質，缺少 usage 保持未知。 [Runbook](CHAOS-AGENTS.zh-TW.md).
+
 > **C 重建實作：** `server/authoring/assistance.ts` 提供有限範圍雙語建議與明示備援。`observations.ts` 透過 OTLP／HTTP JSON 匯出 allowlist metadata，並以 Scores API 記錄本機 helpfulness；未安裝下文歷史 SDK／dashboard 系統。受控 transport 測試只證明 payload containment，不證明外部持久化或模型品質。Source-controlled evaluation corpus 預設 dry-run，live evaluation 需要 `--live` 與設定。參考 [OTLP 整合](https://langfuse.com/integrations/native/opentelemetry) 與 [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk)。
 
 

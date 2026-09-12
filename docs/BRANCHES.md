@@ -1,5 +1,7 @@
 # Branch and file inventory — 2026-09-12
 
+> **New authorized integration:** Local main integrates agent tip `0900328` with fetched main `298764c` at v0.7.20. The earlier chaos exclusion below is historical and superseded by the user's merge request. Local runtime directories and the serving demo remain in the original checkout; merging source does not migrate them or publish a cloud release.
+
 ## Verified main audit — 2026-09-12
 
 Fetched main `f4f1c13` already contains every inspected non-chaos local branch: `codex/cloudflare-cicd`, `codex/product-delivery`, `dev/computer-c`, and the independent clone's `codex/ci-speed-capacity` at `111df8b`. Remote A/B and `codex/dev-spec-integration` also have zero commits outside main. No duplicate merge was needed. `codex/chaos-experiment-agents` at `75c47c2` has six exclusive commits and remains excluded by user instruction; its checkout was untouched.
