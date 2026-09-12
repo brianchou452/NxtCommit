@@ -2,6 +2,11 @@
 
 > **NxtCommit hackathon scope (2026-09-12):** This checkout contains the [Phase 1 foundation](PHASE1-FOUNDATION.md) and [Computer A / Phase 2 Home/community implementation](PHASE2-COMPUTER-A.md). SQLite aggregates, SSE, redacted comments, category voting, profile records and reset are real local mechanisms over labelled seed data. Mission execution and model calls remain unavailable; maintainer launch is recoverable but lacks the C-owned analysis control. The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
 
+> **Computer C / Phase 2 source update:** Authoring, local review and operations are now implemented on `dev/computer-c`; see [the handoff](PHASE2-C.md) for tested boundaries and outstanding visual approval (12 Docker journeys passed). Default review evidence is authored demo data. Model/trace adapters are tested against controlled transports; no live model or external Langfuse success is claimed. The B execution runner and A community slice remain absent from this checkout.
+
+
+> **NxtCommit hackathon scope (2026-09-12):** This checkout now contains the [Computer A / Phase 1 shared foundation](PHASE1-FOUNDATION.md). The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
+
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 
 Computer B's `dev/computer-b` source candidate adds local pledge accounting and

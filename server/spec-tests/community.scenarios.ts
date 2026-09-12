@@ -27,6 +27,14 @@
 // Interactive contract: e2e/product.e2e.spec.ts — api.mvp-vote / one-local-vote-per-category
 
 
+/**
+ * Spec: api.run-evidence-explanation
+ * Scenario: explanation-never-rewrites-evidence
+ * Given A run has a stored artifact.
+ * When Explanation is requested.
+ * Then Bounded prose and provenance are returned while source evidence remains authoritative.
+ */
+// Computer C implements this scenario in review.scenarios.ts.
 
 /**
  * Spec: api.wall-list

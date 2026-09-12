@@ -2,6 +2,11 @@
 
 > **NxtCommit 黑客松範圍（2026-09-12）：** 此 checkout 包含 [Phase 1 骨架](PHASE1-FOUNDATION.zh-TW.md)及[電腦 A／Phase 2 Home/community 實作](PHASE2-COMPUTER-A.zh-TW.md)。SQLite 聚合、SSE、遮罩留言、類別投票、profile 紀錄與重設都是真實本機機制，資料保留 seed 標示。任務執行與 model call 仍不可用；maintainer 導覽可恢復，但缺少 C 負責的分析控制項。Cloudflare 交付仍僅為基礎設施；現行[維運手冊](cicd/RUNBOOK.zh-TW.md)與 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)不代表產品已部署。下方 CommonCommit 完整功能及 GitLab／Argo 結果是匯入歷史背景，不代表此處已實作或部署。
 
+> **電腦 C／Phase 2 原始碼更新：** `dev/computer-c` 已實作 authoring、本機檢視及 operations；測試邊界與待完成視覺核准（12 條 Docker journey 通過）見[交接文件](PHASE2-C.zh-TW.md)。預設 review evidence 是人工編寫的示範資料。Model／trace adapter 以受控 transport 測試，未宣稱真實模型或外部 Langfuse 成功；此 checkout 仍未包含 B execution runner 與 A community 切片。
+
+
+> **NxtCommit 黑客松範圍（2026-09-12）：** 此 checkout 現在包含[電腦 A／Phase 1 共用骨架](PHASE1-FOUNDATION.zh-TW.md)。Cloudflare 交付仍僅為基礎設施；現行[維運手冊](cicd/RUNBOOK.zh-TW.md)與 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)不代表產品已部署。下方 CommonCommit 完整功能及 GitLab／Argo 結果是匯入歷史背景，不代表此處已實作或部署。
+
 [English canonical](FEATURE-REALITY.md)
 
 電腦 B 的 `dev/computer-b` 原始碼候選新增本機 pledge 帳務與 scripted fixture

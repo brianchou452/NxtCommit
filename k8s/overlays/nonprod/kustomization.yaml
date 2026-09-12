@@ -1,4 +1,4 @@
-# Phase 1 version registry only. No workload or deployment is supplied by this checkpoint.
+# Source version registry only. No workload or deployment is supplied by this checkpoint.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources: []

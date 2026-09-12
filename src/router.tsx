@@ -2,10 +2,12 @@ import { useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { GuidedDemo } from './components/GuidedDemo.js';
 import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteErrorBoundary } from './pages/HomePages.js';
-import { FoundationPage } from './pages/FoundationPage.js';
 import { ApplicationShell } from './components/ApplicationShell.js';
 import { MissionDetailPage } from './pages/MissionDetailPage.js';
 import { ExecutionRoomPage } from './pages/ExecutionRoomPage.js';
+import { NewMission } from './pages/NewMission.js';
+import { Review } from './pages/Review.js';
+import { DesignConcepts } from './pages/DesignConcepts.js';
 
 function RouteFocus() {
   const { pathname } = useLocation();
@@ -20,16 +22,15 @@ function RouteFocus() {
 }
 /** A owns this registry. Phase 2 owners replace their placeholders. */
 export function AppRouter() {
-  return <BrowserRouter><ApplicationShell><RouteFocus /><RouteErrorBoundary><Routes>
+  return <BrowserRouter><RouteFocus /><Routes><Route path="/concepts/:concept/*" element={<DesignConcepts />} /><Route path="*" element={<ApplicationShell><RouteErrorBoundary><Routes>
     <Route path="/" element={<HomePage />} />
     <Route path="/marketplace" element={<MarketplacePage />} />
-    <Route path="/new" element={<FoundationPage />} />
+    <Route path="/new" element={<NewMission />} />
     <Route path="/missions/:id" element={<MissionDetailPage />} />
     <Route path="/missions/:id/run" element={<ExecutionRoomPage />} />
-    <Route path="/missions/:id/review" element={<FoundationPage />} />
+    <Route path="/missions/:id/review" element={<Review />} />
     <Route path="/contributors/:id" element={<ProfilePage />} />
     <Route path="/demo" element={<DemoPage />} />
-    <Route path="/concepts/:concept/*" element={<FoundationPage />} />
     <Route path="*" element={<RecoveryPage />} />
-  </Routes></RouteErrorBoundary><GuidedDemo /></ApplicationShell></BrowserRouter>;
+  </Routes></RouteErrorBoundary><GuidedDemo /></ApplicationShell>} /></Routes></BrowserRouter>;
 }

@@ -1,7 +1,9 @@
 import type { Dictionary } from './en.js';
 import { missionZhTW } from './mission.js';
+import { authoringZh } from './authoring.js';
 export const zhTW = {
   ...missionZhTW,
+  ...authoringZh,
   product: 'NxtCommit', discover: 'Discover', new_mission: 'New Mission',
   profile: 'My Commitment', demo: 'Demo', skip: '跳到主要內容',
   reset: '重設示範資料', reset_done: '示範資料已重設。',

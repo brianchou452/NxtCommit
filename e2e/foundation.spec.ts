@@ -19,10 +19,10 @@ test('foundation locale persists through navigation and reload; route focus is r
 });
 
 test('declared deep links load the foundation router, not a server 404', async ({ page }) => {
-  for (const route of ['/new', '/missions/example/review', '/concepts/example/overview']) {
+  for (const route of ['/new', '/missions/example/run', '/missions/example/review', '/concepts/example/overview']) {
     await page.goto(route);
-    await expect(page.getByRole('heading', { name: 'Shared foundation' })).toBeVisible();
-    await expect(page.getByText('This route is a Phase 1 placeholder. Product workflows are not implemented yet.')).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('body')).not.toContainText('This route is a Phase 1 placeholder.');
   }
 });
 

@@ -8,7 +8,7 @@ for argument in "$@"; do
     exit 2
   fi
 done
-docker build -f e2e/Dockerfile -t nxtcommit-foundation-e2e:0.1.0 .
+docker build --load -f e2e/Dockerfile -t nxtcommit-foundation-e2e:0.1.0 .
 arguments=("$@")
 if [[ ${#arguments[@]} -eq 0 ]]; then arguments=(--project=foundation --project=product); fi
 report_directory=foundation
@@ -18,6 +18,9 @@ for argument in "${arguments[@]}"; do
     --project=product) report_directory=product ;;
     --project=mission) report_directory=mission ;;
     --project=mission-visual) report_directory=mission-visual ;;
+
+    --project=computer-c) report_directory=computer-c ;;
+    --project=computer-c-visual) report_directory=computer-c-visual ;;
   esac
 done
 if [[ " ${arguments[*]} " == *" --project=foundation "* && " ${arguments[*]} " == *" --project=product "* ]]; then report_directory=interactive; fi

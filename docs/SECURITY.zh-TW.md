@@ -5,6 +5,13 @@
 > fence。下方歷史 LLM／Codex tool loop 與 per-run OS isolation 並未實作。
 > Docker 用於 browser tests，不代表產品具備 sandbox 保證。見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
 
+## 電腦 C authoring 與 review 邊界
+
+C 切片僅接受公開 HTTPS GitHub identity，每次最多讀取五筆 issue／PR 資料再排除 PR；空結果表示該有限視窗未觀察到 issue。Response、issue text 與模型輸出都有大小上限。Process-local analysis／draft token 最多 30 分鐘到期，具容量限制並由 reset 失效；client edits 不會取代 server snapshot。Reset epoch 拒絕進行中的舊 authoring 結果，review comment 在儲存前先遮罩秘密。
+
+Fresh review 需要 B-owned evidence、量測過的 integrity port 與 deterministic gate 驗證；預設 demo reader 使用獨立標示的 authored-seed 例外，不能證明 fresh engine verification。Provider perspective 是唯讀 UI 示範，不是身分驗證或存取控制。Model instruction 與輸出檢查可減少無依據文案，但不證明語意 grounding；模型無法修改估算、證據或 lifecycle 決策。匯入專案仍不可執行。
+
+
 [English](SECURITY.md)
 
 NxtCommit 是實驗性原型。其控制措施旨在讓 fixture 示範可供稽核；這些措施不足以在共享或正式環境中執行任意第三方程式碼。

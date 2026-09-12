@@ -15,6 +15,8 @@ import { installMissionServices } from './services/mission-services.js';
 import type { MissionOptions } from './services/mission-services.js';
 import { missionsRoutes } from './routes/missions.js';
 import { executionRoutes } from './routes/execution.js';
+import { AuthoringServices } from './authoring/services.js';
+import type { AuthoringOptions } from './authoring/services.js';
 
 export interface AppOptions {
   databasePath?: string;
@@ -27,6 +29,8 @@ export interface AppOptions {
   autoWorker?: boolean;
   executionTimeoutMs?: number;
   missionOptions?: MissionOptions;
+  authoring?: AuthoringOptions;
+  operations?: ServiceContext['operations'];
 }
 
 export function createApplication(options: AppOptions = {}) {
@@ -46,7 +50,7 @@ export function createApplication(options: AppOptions = {}) {
       const currentUser = { ...persona, totalPledged: home.profile(persona.id)!.totalPledged };
       return { currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
     },
-    reset: async () => { await reset.reset(); events.publish('mission_update', home.campaigns()[0]); },
+    reset: async () => { await reset.reset().finally(() => authoring.endReset()); events.publish('mission_update', home.campaigns()[0]); },
   };
   const missions = options.installMissions === false ? undefined : installMissionServices(context, {
     ...options.missionOptions,
@@ -54,10 +58,13 @@ export function createApplication(options: AppOptions = {}) {
     ...(options.autoWorker !== undefined ? { autoWorker: options.autoWorker } : {}),
     ...(options.executionTimeoutMs !== undefined ? { executionTimeoutMs: options.executionTimeoutMs } : {}),
   });
+  const authoring = new AuthoringServices(store, { ...options.authoring, ...((options.authoring?.evidence ?? context.evidence) ? { evidence: (options.authoring?.evidence ?? context.evidence)! } : {}) });
+  context.authoring = authoring; context.evidence = authoring.evidence;
+  if (options.operations) context.operations = options.operations;
   const reset = createResetHarness(store, [{
     id: 'foundation-persona', quiesce: async () => {},
     clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
-  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), ...options.resetParticipants ?? []]);
+  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), { id: 'authoring-review', quiesce: async () => { authoring.beginReset(); }, clear: () => authoring.repository.clear(), seed: () => authoring.seed() }, ...options.resetParticipants ?? []]);
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '32kb' }));
