@@ -1,0 +1,29 @@
+spec_version: 1
+kind: persistence
+id: persistence.home-demo-seed
+title: Home deterministic demo fixture
+summary: 定義 screenshot、BDD 與 Home end-to-end 重建使用的最小穩定 demo 資料保證。
+mode: seed_fixture
+domain_ids: [domain.home-impact, domain.marketplace, domain.provenance]
+fixtures:
+  - name: home_ready
+    guarantees:
+      - 至少一筆 released mission，讓 release update 可連到 local campaign。
+      - 至少一筆 funding mission，讓 campaign browser 有可探索項目。
+      - three editorial tags everyday、public-interest、builder-trend 各至少一筆 mission。
+      - 至少一個 contributor beacon，且經緯度在合法範圍。
+      - impact trend 固定有 14 個可重現數值。
+      - 所有 Home aggregate 與 beacon 都標示 demo provenance。
+      - released record 中包含 project name 為 marked 的 mission，release update 優先連結它；若不存在才選第一筆 released mission。
+      - campaign collection 至少包含 Mermaid、PDF.js、scrcpy、Tesseract.js、LocalSend、Immich、WhisperX、Jellyfin、Excalidraw、Home Assistant、Ollama、Bun、Supabase、Deno、LangGraph，使三個 category 各能產生一筆 featured 與 compact comparison cards。
+      - donor locations 使用 seed profile 明列的 city、country、latitude、longitude；ready baseline 包含 Berlin、Paris、São Paulo、Taipei、Tokyo、Toronto、Nairobi、Buenos Aires、London、Seoul、Dubai、Sydney、Bengaluru、Mexico City、San Francisco、Singapore、Amsterdam、Lagos、Stockholm、Cape Town，且每個 beacon 必須有正數 pledge-derived tokens。
+      - screenshot fixture 的 locale 為 en、timezone 為 Asia/Taipei、browser 為 pinned Chromium，所有 animated content 在 final visible state capture。
+  - name: home_empty_map
+    guarantees:
+      - impact snapshot 成功但 donor beacon 為空，用於 map empty state。
+  - name: home_initial_error
+    guarantees:
+      - impact initial request 失敗，用於 error state 與 retry journey。
+reset:
+  - 每個 end-to-end test 使用獨立的 writable state directory。
+  - 每次 capture 前強制重建指定 fixture，禁止沿用先前測試的 SQLite 狀態。

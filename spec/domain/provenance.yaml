@@ -1,0 +1,30 @@
+spec_version: 1
+kind: domain
+id: domain.provenance
+title: Home provenance model
+summary: 定義 Home 任何數字、事件與 release story 必須攜帶的真實性邊界。
+entities:
+  - name: provenance_label
+    description: 與資料一起傳遞、不可只依賴視覺樣式的來源標示。
+    fields:
+      - { name: dataMode, type: enum, required: false, values: [demo, live], description: aggregate 或 figure 的資料模式。 }
+      - { name: source, type: enum, required: false, values: [demo, engine, llm, codex, maintainer, system], description: event 的產生者。 }
+      - { name: verified, type: boolean, required: false, description: 是否為 engine 觀察到的事實。 }
+  - name: release_story
+    description: 首頁結尾顯示的 completed local demo release summary。
+    fields:
+      - { name: missionId, type: string, required: false, description: 找到 released mission 時的內部關聯。 }
+      - { name: status, type: enum, required: true, values: [released], description: 可連結 release story 的唯一 mission 狀態。 }
+      - { name: provenanceNote, type: string, required: true, description: 明確說明這是 local demo record 的可見文字。 }
+relations:
+  - release_story 只有在 local marketplace 找到 released mission 時才可連到 campaign detail。
+invariants:
+  - demo location 不代表真實 donor 或 visitor location。
+  - resolved execution mode 不代表已完成一次 agent execution。
+  - local release story 不代表 upstream merge、GitHub PR 或 upstream release。
+  - source 為 demo 的 event 不可描述為 live external event。
+derived_from:
+  - impact_stats.dataMode
+  - marketplace_stats.dataMode
+  - execution_event.source
+  - mission.status

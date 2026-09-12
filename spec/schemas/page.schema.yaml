@@ -1,0 +1,74 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: page.schema.yaml
+type: object
+additionalProperties: false
+required: [spec_version, kind, id, title, route, purpose, design_system_id, shell_spec_id, api_dependencies, composition, page_owned_behaviour, layout, scenarios]
+properties:
+  spec_version: { const: 1 }
+  kind: { const: page }
+  id: { type: string, pattern: '^page\.[a-z0-9-]+$' }
+  title: { type: string }
+  route: { type: string, pattern: '^/' }
+  purpose: { type: string }
+  design_system_id: { type: string, pattern: '^design-system\.' }
+  shell_spec_id: { type: string, pattern: '^component\.' }
+  api_dependencies: { type: array, items: { $ref: '#/$defs/api_dependency' } }
+  composition: { type: array, minItems: 1, items: { $ref: '#/$defs/section' } }
+  page_owned_behaviour: { type: array, minItems: 1, items: { type: string } }
+  runtime_authority: { type: string, minLength: 1 }
+  terminal_outcomes: { type: array, minItems: 1, items: { type: string, minLength: 1 } }
+  test_constraints: { type: array, minItems: 1, items: { type: string, minLength: 1 } }
+  layout:
+    type: object
+    additionalProperties: false
+    required: [canvas, section_rhythm, desktop, relationships, visual_anchors]
+    properties:
+      canvas: { type: string, minLength: 1 }
+      section_rhythm: { type: string, minLength: 1 }
+      desktop: { type: string }
+      relationships:
+        type: array
+        minItems: 1
+        items: { type: string, minLength: 1 }
+      visual_anchors:
+        type: array
+        minItems: 1
+        items: { type: string, minLength: 1 }
+  scenarios: { $ref: '#/$defs/scenarios' }
+$defs:
+  api_dependency:
+    type: object
+    additionalProperties: false
+    required: [endpoint, purpose, initial_state, error_state]
+    properties:
+      endpoint: { type: string, pattern: '^/api/' }
+      purpose: { type: string }
+      initial_state: { type: string }
+      error_state: { type: string }
+  section:
+    type: object
+    additionalProperties: false
+    required: [id, kind, purpose, visual_role, width, relationship_to_previous]
+    properties:
+      id: { type: string, pattern: '^[a-z0-9-]+$' }
+      kind: { enum: [component, page_unique] }
+      spec_id: { type: string }
+      purpose: { type: string }
+      data: { type: string }
+      visual_role: { type: string, minLength: 1 }
+      width: { type: string, minLength: 1 }
+      relationship_to_previous: { type: string, minLength: 1 }
+  scenario:
+    type: object
+    additionalProperties: false
+    required: [id, given, when, then, test_file]
+    properties:
+      id: { type: string, pattern: '^[a-z0-9-]+$' }
+      given: { type: string }
+      when: { type: string }
+      then: { type: string }
+      test_file: { type: string, pattern: '^(server/.+\.test\.ts|e2e/.+\.spec\.ts)$' }
+  scenarios:
+    type: array
+    minItems: 1
+    items: { $ref: '#/$defs/scenario' }

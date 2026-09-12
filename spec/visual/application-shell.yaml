@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.application-shell
+title: Application shell desktop component reference
+component_id: component.application-shell
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: application-shell-desktop, viewport: { width: 1440, height: 900 }, state: Desktop shell header exposes product identity navigation locale persona wallet and execution-mode badge., actions: [Open demo page, wait for bootstrap, freeze motion, capture persistent header], golden_path: e2e/golden/component-application-shell-desktop.png, status: approved }

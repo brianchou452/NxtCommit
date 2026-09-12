@@ -1,0 +1,66 @@
+spec_version: 1
+kind: component
+id: component.campaign-card
+title: Home campaign card
+purpose: 將一筆完整 mission/project record 轉成 featured 或 compact campaign，保留 benefit、funding、backer、status、provenance 與可支持性，不讓視覺 artwork 取代資料契約。
+inputs:
+  - { name: campaign, type: mission_with_project, required: true, description: api.marketplace 明確定義的 mission、project、progress 與可見 story fields。 }
+  - { name: presentation, type: featured | compact, required: true, description: category 中第一筆為 featured，其餘最多四筆為 compact。 }
+  - { name: demo_query, type: string | absent, required: false, description: guided demo journey 可保留的 query state。 }
+component_dependencies: []
+data_dependencies: []
+states:
+  - { name: loading_explanation, condition: campaign 沒有 authored plain-language consequence 且 explanation 尚在取得。, rendering: 保留 project identity、mission title、funding 與 CTA；benefit 顯示 skeleton 而非虛構文案。 }
+  - { name: ready_fundable, condition: mission status 是 funding 或 stalled 且仍有 funding room。, rendering: 顯示 Commit 1K token CTA、funding meter、pledged/goal 與 backer count。 }
+  - { name: ready_closed, condition: mission 不可再接受 commitment。, rendering: 顯示 View campaign CTA，不邀請 token commitment。 }
+  - { name: unknown_measurement, condition: 任一 optional project figure、funding ratio 或 explanation 不可得。, rendering: 省略該 measurement 或顯示 em dash，不以數字零替代。 }
+interactions:
+  - { trigger: 選擇 card、title 或 CTA。, result: '導航到 /missions/{mission.id} 並在需要時保留 demo query。' }
+  - { trigger: featured 或 compact card 進入 viewport。, result: 可執行一次非必要的 reveal；沒有 observer 或 reduced motion 時直接顯示完成狀態。 }
+content:
+  locales:
+    en:
+      repo: REPO
+      benefit: Benefit of this release
+      funded: funded
+      backers: backers
+      fundable_cta: Commit 1K token
+      closed_cta: View campaign
+    zh-TW:
+      repo: REPO
+      benefit: 此版本帶來的效益
+      funded: 已募得
+      backers: 位支持者
+      fundable_cta: 投入 1K token
+      closed_cta: 查看 Campaign
+  dynamic_labels:
+    - { name: project_identity, source: campaign.project.name and campaign.project.slug, fallback: unknown project }
+    - { name: campaign_title, source: campaign.title localized for active locale, fallback: unavailable }
+    - { name: release_benefit, source: 'first editorial consequence, otherwise first measured consequence, otherwise campaign.story.why', fallback: '—' }
+    - { name: funding_ratio, source: campaign.computePledged / campaign.computeGoal when goal is positive, fallback: '—' }
+    - { name: backer_count, source: campaign.backerCount, fallback: '—' }
+    - { name: status, source: campaign.status, fallback: unknown }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Artwork establishes project identity but stays decorative relative to the accessible title link.
+    - Repository identity and lifecycle status precede the mission title.
+    - Featured cards add one plain-language project sentence before the release benefit.
+    - Release benefit precedes funding evidence; backers and the context-appropriate CTA close the card.
+  layout: Each category uses one large featured card beside a two-by-two compact grid; every card keeps artwork above a white information body and uses the same internal information order.
+  geometry: Featured artwork, title and body are larger but use the same fields as compact cards; cards use bounded rounded rectangles and a full-width funding meter.
+  colour_semantics: Funding progress uses brand violet, benefit accent may follow the project artwork palette, and lifecycle status keeps the shared semantic status mapping.
+  surface: Vivid deterministic project artwork over a white card body with thin neutral border and soft elevation; artwork may use dots, orbit lines, icon motifs and a project-name wordmark.
+  typography: Project wordmark and mission title use display sans; repository, status, progress and category metadata use mono/compact labels.
+  motion: Decorative dots or entry may move subtly; title, benefit, funding evidence and CTA remain available without motion or hover.
+  visual_anchors:
+    - Project artwork and name visibly identify the repository.
+    - Mission promise is the strongest text in the white body.
+    - Benefit block has a coloured leading rule.
+    - Funding meter and CTA form the final evidence/action row.
+scenarios:
+  - id: campaign-card-preserves-data-and-action-boundaries
+    given: campaign browser 提供一筆明確的 mission_with_project record
+    when: featured 或 compact campaign card render
+    then: card 依序顯示 identity、status、title、benefit、funding 與 backers，unknown 不變成零，只有 fundable mission 邀請 commitment
+    test_file: server/home-spec.bdd.test.ts

@@ -1,0 +1,15 @@
+spec_version: 1
+kind: persistence
+id: persistence.execution-recovery
+title: Reset and restart recovery
+summary: Recovery rules for active inline runs, queued work and partially completed demo state.
+mode: read_model
+domain_ids: [domain.mission-lifecycle, domain.run-request, domain.compute-accounting]
+stores:
+  - { name: active_runs, key: id, required_fields: [id, missionId, status, computeBudget, computeUsed], role: Detect orphaned running executions after restart. }
+  - { name: active_requests, key: id, required_fields: [id, missionId, status, attempt], role: Detect expired or interrupted queue ownership. }
+projections:
+  - { name: recoverable_work, source_stores: [active_runs, active_requests], output: Runs and requests requiring deterministic settlement or retry., consistency: Recovery must not manufacture a successful verification or double-spend credits. }
+reset:
+  - Serialize reset so concurrent calls cannot interleave wipe and asynchronous reseed.
+  - Abort active engines, settle accounting, clear queue ownership, then reseed exactly one consistent demo graph.

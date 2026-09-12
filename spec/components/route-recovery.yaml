@@ -1,0 +1,31 @@
+spec_version: 1
+kind: component
+id: component.route-recovery
+title: Route recovery
+purpose: 對unknown route或render failure提供accessible explanation與Home/reload action，不暴露內部exception。
+inputs:
+  - { name: kind, type: not_found or error, required: true, description: Recovery state. }
+component_dependencies: []
+data_dependencies: []
+states:
+  - { name: not_found, condition: Router無matching resource。, rendering: 顯示not-found heading與Home link。 }
+  - { name: error, condition: Route rendering throws., rendering: 顯示generic error與reload action。 }
+interactions:
+  - { trigger: Activate recovery., result: Navigate Home或reload current route。 }
+content:
+  locales:
+    en: { notFound: This page could not be found., error: This page could not be loaded. }
+    zh-TW: { notFound: 找不到這個頁面。, error: 無法載入這個頁面。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Accessible heading leads., Recovery action follows explanation.]
+  layout: One centered compact recovery block.
+  geometry: Narrow panel with large status icon.
+  colour_semantics: Error uses danger accent; not-found stays neutral.
+  surface: Minimal transparent or light surface.
+  typography: Clear heading and short body.
+  motion: None required.
+  visual_anchors: [Heading, recovery action.]
+scenarios:
+  - { id: recovery-does-not-leak-internals, given: Route is missing or throws., when: Recovery renders., then: Accessible action exists and no stack secret or mission-state claim appears., test_file: server/product-spec.bdd.test.ts }

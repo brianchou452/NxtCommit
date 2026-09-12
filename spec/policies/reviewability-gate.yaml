@@ -1,0 +1,13 @@
+spec_version: 1
+kind: policy
+id: policy.reviewability-gate
+title: Deterministic reviewability gate
+scope: [domain.execution-evidence, domain.review-decision, persistence.mission-execution-store]
+rules:
+  - { id: only-success-gate, requirement: computeReviewable 是 live execution 由 executing 進 needs_review 的唯一成功 gate。, enforcement: server }
+  - { id: green-nonempty, requirement: Final suite 必須 exit 0、reported failures 0、passing tests 大於 0，且 baseline-relative diff 非空。, enforcement: server }
+  - { id: bounded-change, requirement: Diff 最多 12 files 與 800 added-plus-deleted lines。, enforcement: server }
+  - { id: test-growth, requirement: 非 documentation change 必須有新 test file 或 suite test count 成長；final count 不得低於 baseline。, enforcement: server }
+  - { id: protected-integrity, requirement: Existing tests、verification config、lockfiles、ignore rules、CI、licence、Git internals、engine-owned files 與 hidden ignored execution inputs 不得被 runner 改動。, enforcement: server }
+  - { id: prompt-injection, requirement: 偵測到 prompt-injection indicator 時不得進入 needs_review。, enforcement: server }
+  - { id: seed-exception-label, requirement: Seed 或 recovery review UI state 必須明確標示非 fresh engine verification，且不得用例外建立新成功證據。, enforcement: client }

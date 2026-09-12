@@ -1,0 +1,20 @@
+spec_version: 1
+kind: api
+id: api.wall-list
+title: Comment wall list
+summary: Return ordered local comments for one mission.
+transport: http
+endpoint: { method: GET, path: /api/missions/:id/wall }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Ordered messages array., body: { type: object, description: Comment wall snapshot., properties: { messages: { type: array, description: Ordered local messages., required: true, items: { type: object, description: Id missionId assigned role handle colour redacted body and timestamp. } } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Local demo identities and redacted user text.
+  forbidden_claims: [authenticated role, upstream issue comment]
+scenarios:
+  - { id: wall-list-route, given: A mission may have local comments., when: Its wall is requested., then: Persisted redacted messages are returned in order., test_file: server/product-spec.bdd.test.ts }

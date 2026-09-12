@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.evidence-provenance
+title: Execution and model evidence provenance
+scope: [domain.provenance, domain.execution-evidence, domain.review-decision]
+rules:
+  - { id: engine-only-verification, requirement: 只有 engine 觀測的 baseline、tests、diff、integrity checks 與 accounting 可標 verified。, enforcement: server }
+  - { id: authored-demo, requirement: DemoRunner reasoning、seed history、personas 與 scripted locations 必須使用 demo/seed provenance。, enforcement: server }
+  - { id: reviewer-provenance, requirement: Advisory review 必須標示 llm 或 static；fallback output 不得沿用 llm label。, enforcement: server }
+  - { id: explanation-nonauthority, requirement: AI evidence explanation 與 shadow review 只能解釋 bounded evidence，affectedGate 必須為 false，不能改寫 deterministic facts。, enforcement: server }
+  - { id: unknown-absent, requirement: 未量測或不可讀 evidence 必須 absent 或明示 limitation，不得填入 zero 或成功敘述。, enforcement: server }

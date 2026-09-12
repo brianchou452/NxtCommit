@@ -1,0 +1,45 @@
+spec_version: 1
+kind: api
+id: api.repository-analysis
+title: Repository analysis
+summary: Analyze the bundled fixture or bounded public GitHub metadata and issue an opaque trusted-analysis capability.
+transport: http
+endpoint: { method: POST, path: /api/analyze }
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Source and optional public GitHub URL., properties: { source: { type: string, description: fixture or github., required: true, enum: [fixture, github] }, url: { type: string, description: Public GitHub repository URL for github source., required: false } } }
+responses:
+  - status: 200
+    description: Observed analysis plus short-lived server capability.
+    body:
+      type: object
+      description: RepoAnalysis wrapper.
+      properties:
+        analysis:
+          type: object
+          description: Server-observed repository and issue facts.
+          required: true
+          properties:
+            source: { type: string, description: fixture or github., required: true, enum: [fixture, github] }
+            repoUrl: { type: string, description: Canonical observed source identity., required: true }
+            commitSha: { type: string, description: Observed immutable GitHub commit when available., required: false }
+            name: { type: string, description: Observed repository name., required: true }
+            description: { type: string, description: Observed description., required: true }
+            language: { type: string, description: Observed primary language when available., required: false }
+            license: { type: string, description: Observed declared license when available., required: false }
+            stars: { type: integer, description: Observed GitHub stars when available., required: false }
+            weeklyDownloads: { type: integer, description: Observed npm downloads when available., required: false }
+            dependents: { type: integer, description: Observed dependents when available., required: false }
+            files: { type: integer, description: Measured file count only for filesystem analysis., required: false }
+            issues: { type: array, description: Bounded observed issues with feasibility evidence., required: true, items: { type: object, description: Issue id title body URL labels and transparent feasibility. } }
+            measured: { type: object, description: Coverage flags showing which observation channels ran., required: true }
+            serverToken: { type: string, description: Short-lived opaque provenance capability., required: true }
+  - { status: 400, description: Invalid source URL or unavailable public metadata., body: { type: object, description: Stable analysis error., properties: { error: { type: string, description: Safe analysis error., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; capability protects provenance rather than user authority.
+  data_mode: Fixture analysis reads bundled files; GitHub analysis reads bounded public metadata only.
+  forbidden_claims: [GitHub clone, imported test execution, full-tree inspection, private repository access]
+scenarios:
+  - { id: analysis-preserves-observation-boundary, given: A fixture or public GitHub URL is supplied., when: Analysis runs., then: Only observed fields are present and a server capability binds later operations., test_file: server/product-spec.bdd.test.ts }

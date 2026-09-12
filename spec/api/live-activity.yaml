@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.live-activity
+title: Live activity snapshot
+summary: Return only current running-engine activity; an empty array is an idle state.
+transport: http
+endpoint: { method: GET, path: /api/live }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Current bounded activity rows., body: { type: object, description: Current activity snapshot., properties: { activities: { type: array, description: Running-run activity only; empty means idle., required: true, items: { type: object, description: Run mission project phase label time source verified and bounded evidence. } } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Transport and current run are real while DemoRunner content remains scripted and labelled.
+  forbidden_claims: [idle activity exists when array is empty, demo event is LLM reasoning]
+scenarios:
+  - { id: live-activity-route, given: Zero or more runs may be active., when: The snapshot is requested., then: Only current run evidence is returned and empty means idle., test_file: server/product-spec.bdd.test.ts }

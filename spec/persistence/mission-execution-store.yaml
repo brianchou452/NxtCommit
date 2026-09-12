@@ -1,0 +1,22 @@
+spec_version: 1
+kind: persistence
+id: persistence.mission-execution-store
+title: Mission execution store
+summary: SQLite-backed mission, run, event and review-artifact records used by lifecycle APIs and engine recovery.
+mode: read_model
+domain_ids: [domain.mission-lifecycle, domain.execution-evidence, domain.review-decision]
+stores:
+  - { name: missions, key: id, required_fields: [id, projectId, status, computeGoal, computePledged], role: Own mission state and latest run reference. }
+  - { name: runs, key: id, required_fields: [id, missionId, status, mode, computeBudget, computeUsed, startedAt], role: Own an active run and exactly one terminal settlement; every terminal row also requires endedAt. }
+  - { name: events, key: id, required_fields: [id, runId, missionId, seq, type, source, verified, ts], role: Preserve ordered mission-and-run-scoped execution evidence without cross-run projection. }
+  - { name: artifacts, key: runId, required_fields: [runId, files, dossier, review], role: Preserve the baseline-relative local review package. }
+  - { name: reviews, key: runId, required_fields: [runId, decision, reviewerId, createdAt], role: Preserve the local demo human decision. }
+projections:
+  - { name: mission_detail, source_stores: [missions, runs, events, artifacts, reviews], output: "Mission with project, latest run, evidence and decision when present.", consistency: Built from current local SQLite state; missing optional evidence stays absent. }
+  - { name: run_detail, source_stores: [runs, events, artifacts], output: Run plus ordered events and optional artifact., consistency: Every event and artifact must belong to the requested run., ordering: Events use persisted execution order. }
+  - { name: execution_room_snapshot, source_stores: [missions, runs, events, artifacts], output: Active mission and selected run evidence used to revalidate SSE or queue updates., consistency: Mission id run id events and artifact must agree; switching selected run removes prior derived evidence., ordering: Run selection precedes event projection and events use persisted sequence. }
+reset:
+  - Abort active local executions before deleting records.
+  - Wipe dependent execution records transactionally before reseeding demo state.
+  - Drain or cancel queued and leased requests before reseeding so an old worker cannot repopulate the fresh demo graph.
+  - Seeded terminal history is authored demo evidence with verified false and cannot satisfy fresh live reviewability.

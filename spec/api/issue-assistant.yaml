@@ -1,0 +1,17 @@
+spec_version: 1
+kind: api
+id: api.issue-assistant
+title: Issue scope assistant
+summary: Produce bounded scope and acceptance suggestions from one capability-bound public issue excerpt.
+transport: http
+endpoint: { method: POST, path: /api/analysis/assist }
+request: { path_parameters: [], query_parameters: [], headers: [], body: { type: object, description: Trusted analysis and selected issue id., properties: { analysis: { type: object, description: RepoAnalysis with serverToken., required: true }, issueId: { type: string, description: Issue id within trusted analysis., required: true } } } }
+responses:
+  - { status: 200, description: Validated bilingual assistant result with evidence provenance., body: { type: object, description: IssueAssistantResult wrapper., properties: { assistant: { type: object, description: Bounded scope criteria decisions and AiEvidence., required: true } } } }
+  - { status: 400, description: Missing capability or unknown issue., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Real model call when configured or explicitly labelled fallback.
+  forbidden_claims: [assistant changes selected issue, assistant authorizes execution]
+scenarios:
+  - { id: assistant-stays-issue-bound, given: A trusted analysis identifies one issue., when: Assistance is requested., then: Suggestions remain bounded to that issue and carry generator evidence., test_file: server/product-spec.bdd.test.ts }

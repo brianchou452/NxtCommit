@@ -1,0 +1,47 @@
+spec_version: 1
+kind: api
+id: api.mission-detail
+title: Mission detail
+summary: Return one mission with project, pledges, latest run, artifact and local review context when present.
+transport: http
+endpoint: { method: GET, path: /api/missions/:id }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: Current mission detail.
+    body:
+      type: object
+      description: MissionWithProject plus related local evidence.
+      properties:
+        id: { type: string, description: Mission id., required: true }
+        projectId: { type: string, description: Owning project id., required: true }
+        title: { type: object, description: Localized mission title., required: true, properties: { en: { type: string, description: English title., required: true }, zh-TW: { type: string, description: Traditional Chinese title., required: true } } }
+        tagline: { type: object, description: Localized mission tagline., required: true, properties: { en: { type: string, description: English tagline., required: true }, zh-TW: { type: string, description: Traditional Chinese tagline., required: true } } }
+        status: { type: string, description: Mission lifecycle state., required: true, enum: [funding, funded, executing, needs_review, changes_requested, approved, released, failed, stalled] }
+        story: { type: object, description: Localized campaign narrative., required: true, properties: { what: { type: object, description: What the project or issue is., required: true, properties: { en: { type: string, description: English copy., required: true }, zh-TW: { type: string, description: Traditional Chinese copy., required: true } } }, why: { type: object, description: Why the bounded change matters., required: true, properties: { en: { type: string, description: English copy., required: true }, zh-TW: { type: string, description: Traditional Chinese copy., required: true } } }, whoBenefits: { type: object, description: Who benefits without inventing adoption., required: true, properties: { en: { type: string, description: English copy., required: true }, zh-TW: { type: string, description: Traditional Chinese copy., required: true } } }, approach: { type: object, description: Proposed bounded approach and external-effect boundary., required: true, properties: { en: { type: string, description: English copy., required: true }, zh-TW: { type: string, description: Traditional Chinese copy., required: true } } } } }
+        generator: { type: string, description: Campaign copy provenance., required: true, enum: [openai, demo] }
+        computeGoal: { type: integer, description: Deterministic planning allowance., required: true }
+        computePledged: { type: integer, description: Local pledged credits., required: true }
+        computeReserved: { type: integer, description: Credits reserved for execution., required: true }
+        computeConsumed: { type: integer, description: Credits consumed by runs., required: true }
+        progress: { type: object, description: Funding development verification and adoption progress., required: true, properties: { funding: { type: number, description: Funding fraction from local ledger., required: true }, development: { type: number, description: Development progress from lifecycle evidence., required: true }, verification: { type: number, description: Verification progress from evidence., required: true }, adoption: { type: number, description: Adoption progress over measured or explicitly demo-labelled input., required: true } } }
+        acceptanceCriteria: { type: array, description: Criteria and current evidence status., required: true, items: { type: object, description: Criterion id text status and optional verifier. } }
+        milestones: { type: array, description: Planned shares and lifecycle status., required: true, items: { type: object, description: Milestone id title share and status. } }
+        project: { type: object, description: Project identity figures and execution boundary., required: true, properties: { id: { type: string, description: Project id., required: true }, slug: { type: string, description: Stable project slug., required: true }, name: { type: string, description: Project display name., required: true }, description: { type: object, description: Localized project description., required: true }, repoUrl: { type: string, description: Public repository URL., required: true }, figuresMode: { type: string, description: Provenance for popularity and health figures., required: true, enum: [demo, live] }, stars: { type: integer, description: Stars only when available under figuresMode., required: false }, weeklyDownloads: { type: integer, description: Weekly downloads only when available under figuresMode., required: false }, dependents: { type: integer, description: Dependents only when available under figuresMode., required: false }, healthScore: { type: number, description: Maintenance heuristic only when available., required: false }, maintainer: { type: object, description: Authored or observed maintainer display identity with its own verification flag., required: true }, workspace: { type: object, description: Server-owned execution source., required: true, properties: { kind: { type: string, description: Fixture github metadata or none., required: true, enum: [fixture, github, none] }, path: { type: string, description: Bundled fixture identifier when kind is fixture., required: false }, url: { type: string, description: Public metadata URL when kind is github., required: false }, commitSha: { type: string, description: Observed host revision when available; never execution authority by itself., required: false } } } } }
+        pledges: { type: array, description: Local pledge rows., required: true, items: { type: object, description: Pledge summary. } }
+        latestRun: { type: object, description: Latest run when one exists., required: false, properties: { id: { type: string, description: Run id., required: true }, missionId: { type: string, description: Owning mission id., required: true }, mode: { type: string, description: Resolved runner mode., required: true, enum: [demo, llm, codex] }, status: { type: string, description: Current run state., required: true, enum: [running, succeeded, failed, stalled, cancelled] }, computeBudget: { type: integer, description: Reserved run budget., required: true }, computeUsed: { type: integer, description: Consumed run credits., required: true }, startedAt: { type: string, description: Run start timestamp., required: true }, endedAt: { type: string, description: Terminal timestamp., required: false } } }
+        artifact: { type: object, description: Local change artifact when prepared., required: false, properties: { runId: { type: string, description: Owning run id., required: true }, missionId: { type: string, description: Owning mission id., required: true }, mode: { type: string, description: Runner provenance., required: true }, testEvidenceSource: { type: string, description: Engine for live evidence or demo for authored seed evidence., required: true, enum: [engine, demo] }, files: { type: array, description: Baseline-relative changed files and diffs., required: true, items: { type: object, description: Changed file path kind and bounded diff. } }, dossier: { type: object, description: Baseline experiments gates and criterion evidence., required: true } } }
+        reviewDecision: { type: object, description: Local human decision when recorded., required: false }
+        ledger: { type: array, description: Related accounting entries., required: true, items: { type: object, description: Typed integer credit entry. } }
+  - { status: 404, description: Mission does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None; this is a local prototype read model.
+  data_mode: Mission and persona data may be seeded demo; live engine evidence carries its own provenance.
+  forbidden_claims: [authenticated maintainer, upstream repository state, real payment]
+scenarios:
+  - { id: mission-detail-route, given: A caller has a mission id., when: GET mission detail is requested., then: The route returns the matching aggregate or 404 without inventing optional evidence., test_file: server/product-spec.bdd.test.ts }
+  - { id: mission-detail-nests-only-owned-evidence, given: Several missions have concurrent runs pledges ledger rows artifacts and reviews., when: One mission detail is requested., then: Every nested record belongs to that mission and absent optional evidence stays absent., test_file: server/pd02-concurrency.test.ts }

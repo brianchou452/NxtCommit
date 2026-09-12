@@ -1,0 +1,55 @@
+spec_version: 1
+kind: api
+id: api.global-stream
+title: Global mission event stream
+summary: 通知首頁與 marketplace 有 mission 資料可能已變動；接收端必須以 REST snapshot revalidate，而不是自行拼接狀態。
+transport: sse
+endpoint:
+  method: GET
+  path: /api/stream
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: 長連線的 text/event-stream response。
+    body:
+      type: string
+      description: 每個 frame 是一筆 JSON event；heartbeat 不應更新 UI domain state。
+event_contract:
+  reconnect: EventSource error 後關閉目前連線並在 1.5 秒後重連；open/reconnect 時重新取得 REST snapshot。
+  events:
+    - name: mission_update
+      payload:
+        type: object
+        description: 已更新的 MissionWithProject record；首頁以它作為重新 GET /api/impact 的觸發訊號。
+    - name: run_update
+      payload:
+        type: object
+        description: 已更新的 ExecutionRun record；首頁可忽略，其他 surface 可依需要使用。
+    - name: achievement
+      payload:
+        type: object
+        description: EarnedAchievement 與 contributorId；首頁可忽略。
+    - name: exec_event
+      payload:
+        type: object
+        description: ExecutionEvent record；首頁可忽略。
+    - name: heartbeat
+      payload:
+        type: object
+        description: 連線保活 frame，不得造成 snapshot refresh。
+trust_boundary:
+  authentication: 沒有 authentication；stream 是 prototype 的公開 demo transport。
+  data_mode: event source 可為 demo、engine、llm 或 codex；consumer 必須保留 payload source/verified provenance。
+  forbidden_claims:
+    - 不得僅根據 stream frame 推論完整最新 snapshot。
+    - 不得把 heartbeat 當作產品活動事件。
+scenarios:
+  - id: global-stream-revalidates-after-mission-update-and-reconnect
+    given: 首頁或 campaign browser 已訂閱 global stream
+    when: 收到 mission_update 或 SSE 重新連線成功
+    then: consumer 重新取得所需 REST snapshot，而不是以遺失可能的 event 增量重建狀態
+    test_file: server/home-spec.bdd.test.ts

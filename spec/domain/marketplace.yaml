@@ -1,0 +1,57 @@
+spec_version: 1
+kind: domain
+id: domain.marketplace
+title: Home marketplace model
+summary: 定義首頁 campaign browser 使用的 mission shelf、aggregate 與 editorial category 行為。
+entities:
+  - name: marketplace_stats
+    description: Hero 與 campaign browser 共用的 marketplace aggregate。
+    fields:
+      - { name: dataMode, type: enum, required: true, values: [demo], description: marketplace provenance。 }
+      - { name: totalPledged, type: integer, required: true, derived: true, description: 所有 mission 的 pledged compute credits。 }
+      - { name: missionsShipped, type: integer, required: true, derived: true, description: released mission 數量。 }
+      - { name: activeExecutions, type: integer, required: true, derived: true, description: executing mission 數量。 }
+      - { name: contributors, type: integer, required: true, derived: true, description: local contributor 數量。 }
+  - name: marketplace_section
+    description: server 已排序的 lifecycle 或 editorial shelf。
+    fields:
+      - { name: key, type: enum, required: true, values: [almost_funded, now_building, under_verification, recently_shipped, needs_rescue, high_impact, used_by_you], description: shelf 分類。 }
+      - { name: missions, type: mission_with_project_array, required: true, description: 可供 campaign card 顯示的 mission/project rows。 }
+  - name: mission_with_project
+    description: 首頁 campaign card 可獨立重建所需的最小完整資料列；所有 localized text 都含 en 與 zh-TW。
+    fields:
+      - { name: id, type: string, required: true, description: mission identity 與 detail route parameter。 }
+      - { name: title, type: localized_text, required: true, description: campaign 的主要可見承諾。 }
+      - { name: status, type: mission_status, required: true, description: lifecycle badge 與是否可 commitment 的依據。 }
+      - { name: story, type: localized_story, required: true, description: what、why、whoBenefits、approach；card benefit fallback 只能使用其中已提供的文字。 }
+      - { name: generator, type: enum, required: true, values: [openai, demo], description: campaign copy provenance。 }
+      - { name: computeGoal, type: integer, required: true, description: funding denominator，必須大於或等於零。 }
+      - { name: computePledged, type: integer, required: true, description: funding numerator，必須大於或等於零。 }
+      - { name: backerCount, type: integer, required: true, description: local pledge contributors count。 }
+      - { name: tags, type: string_array, required: true, description: editorial category assignment 的唯一來源。 }
+      - { name: progress, type: progress_object, required: true, description: funding、development、verification、adoption 各自為 0..1，禁止合併成一個假總分。 }
+      - { name: project, type: project_summary, required: true, description: id、slug、name、localized description、figuresMode、optional popularity figures 與 usedByYou。 }
+  - name: editorial_category
+    description: 首頁用來重組 marketplace sections 的閱讀導向分類。
+    fields:
+      - { name: key, type: enum, required: true, values: [everyday, public_interest, builder_trend], description: category 識別碼。 }
+      - { name: requiredTag, type: string, required: true, description: mission 必須具有的 tag。 }
+relations:
+  - 一筆 mission 在同一個 editorial campaign browser 中最多出現一次。
+  - 每個 editorial category 的第一筆 mission 是 featured，其餘是 compact campaign cards。
+  - 先依 server section order flatten，再按 mission.id 保留第一次出現；接著 category 依序 assignment，已分配的 mission 不可進入後續 category。
+  - everyday 對應 tag everyday；public_interest 對應 tag public-interest；builder_trend 對應 tag builder-trend。
+invariants:
+  - dataMode 必須隨 marketplace snapshot 回傳。
+  - project 的未量測 figure 不得被轉成零。
+  - embedded browser 不得新增第二個首頁主標題。
+  - category 的順序固定為 everyday、public_interest、builder_trend。
+  - 沒有任何 mission 的 category 不 render 空 banner；每個有內容的 category 首筆 featured，接續最多四筆 compact，超過五筆可在 More group 顯示但仍不可重複。
+  - fundable 只包含 funding 或 stalled 且 computeGoal 大於 computePledged；其他狀態只能開啟 campaign，不可顯示 commitment invitation。
+derived_from:
+  - mission.status
+  - mission.computeGoal
+  - mission.computePledged
+  - mission.tags
+  - project.figuresMode
+  - contributor.id

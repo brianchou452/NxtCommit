@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.contributor-profile
+title: Contributor profile visual contract
+page_id: page.contributor-profile
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: contributor-profile-seeded, viewport: { width: 1440, height: 1200 }, state: Current seeded persona with demo label stats achievements receipts and pledges., actions: [Open current contributor route, wait for profile, freeze motion], golden_path: e2e/golden/contributor-profile-seeded.png, status: approved }

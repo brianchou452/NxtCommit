@@ -1,0 +1,42 @@
+spec_version: 1
+kind: component
+id: component.commitment-flow
+title: Commitment flow
+purpose: 用可快速掃讀的四步驟，將首頁承諾從口號連到可理解的開源交付流程。
+inputs: []
+component_dependencies: []
+data_dependencies: []
+states:
+  - name: ready
+    condition: 元件不依賴 remote data。
+    rendering: 顯示固定四步驟與連接箭頭。
+interactions: []
+content:
+  locales:
+    en:
+      title: How It Works
+      steps: Discover — Find an open-source campaign. | Back — Commit your AI tokens. | Build — Agents build and test. | Merge — Maintainers review and decide.
+    zh-TW:
+      title: 如何運作
+      steps: 探索 — 找到值得推動的開源 Campaign。 | 支持 — 投入你相信的 AI Tokens。 | 建置 — AI Agents 建置並測試。 | 合併 — 維護者審查並決定。
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - A concise panel title introduces the process.
+    - Discover, Back, Build, and Merge appear as one ordered sequence with equal semantic weight.
+  layout: 一個明亮、有細邊線的水平流程面板；標題後依序放置四個等寬步驟與方向箭頭。
+  geometry: The panel spans the page content width; four equal step cells use circular icons and short arrows with consistent internal spacing.
+  colour_semantics: 步驟 icon 和箭頭使用 plan/funding violet；本文使用 ink/muted text。
+  surface: White or translucent-white card with a subtle violet border, extra-large radius, and soft shadow against the canvas.
+  typography: 流程標題與步驟名稱使用粗 sans；說明使用可讀的 body size。
+  motion: 沒有必要動畫。
+  visual_anchors:
+    - Circular violet-tinted icons establish the four-step rhythm.
+    - Direction arrows connect steps but never replace their text labels.
+scenarios:
+  - id: flow-explains-the-four-human-accountable-stages
+    given: 訪客在首頁 hero 後閱讀平台如何運作
+    when: commitment flow render
+    then: 依序說明 discover、back、build、merge，且 merge 明確保留 maintainer 的 review decision
+    test_file: server/home-spec.bdd.test.ts

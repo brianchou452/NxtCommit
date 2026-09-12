@@ -1,0 +1,39 @@
+spec_version: 1
+kind: component
+id: component.campaign-authoring
+title: Campaign authoring
+purpose: 在trusted analysis/issue上顯示assistant、draft、deterministic estimate、critic與local publish結果。
+inputs:
+  - { name: analysis, type: RepoAnalysis, required: true, description: Server-issued trusted analysis. }
+  - { name: issueId, type: string, required: true, description: Selected issue within analysis. }
+component_dependencies: [component.repository-analyzer]
+data_dependencies:
+  - { kind: api, endpoint: /api/analysis/assist, purpose: 取得bounded scope suggestions。 }
+  - { kind: api, endpoint: /api/campaigns/generate, purpose: 取得labelled draft與estimate。 }
+  - { kind: api, endpoint: /api/campaigns/critique, purpose: 取得non-mutating advisory critique。 }
+  - { kind: api, endpoint: /api/missions, purpose: 建立capability-bound local mission。 }
+states:
+  - { name: issue, condition: Issue已選但尚未generate。, rendering: 顯示observed issue與可選assistant。 }
+  - { name: generating, condition: Draft request in flight., rendering: 顯示generator request progress但不預先標示openai。 }
+  - { name: draft, condition: Server-issued draft回傳。, rendering: 顯示generator、estimate breakdown、risk、criteria、milestones。 }
+  - { name: published, condition: Local mission建立。, rendering: 顯示local mission link與source execution boundary。 }
+interactions:
+  - { trigger: Run critic., result: 顯示獨立advice且不修改draft。 }
+  - { trigger: Publish local mission., result: 使用matching capabilities；retry回傳同一bound mission。 }
+content:
+  locales:
+    en: { publishBoundary: Creates a local mission only; nothing is published upstream. }
+    zh-TW: { publishBoundary: 只建立本機mission；不會發布任何上游內容。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Issue evidence precedes generated draft., Generator and deterministic estimate provenance remain distinct.]
+  layout: Wizard work area with draft and advisory side panels.
+  geometry: Wide cards with bounded editable/readable fields.
+  colour_semantics: Generator badges identify provenance without ranking quality.
+  surface: Authoring panels distinct from published result.
+  typography: Draft headline leads; evidence labels remain legible.
+  motion: Progress states do not predict generator outcome.
+  visual_anchors: [Issue evidence, generator badge, compute estimate, publish boundary.]
+scenarios:
+  - { id: authoring-separates-model-and-policy, given: A trusted issue may use real or demo generation., when: Draft and critique render., then: Generator provenance is separate from deterministic estimate and publish remains local., test_file: server/product-spec.bdd.test.ts }

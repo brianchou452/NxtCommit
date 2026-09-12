@@ -1,0 +1,10 @@
+spec_version: 1
+kind: policy
+id: policy.home-localization
+title: Home locale reconstruction rules
+scope: [page.home, component.application-shell, component.hero, component.commitment-flow, component.donor-world-map, component.campaign-browser, component.campaign-card, component.release-update]
+rules:
+  - { id: dictionary-owned-copy, requirement: 所有 Home 與 shell 可見固定文字由 en 與 zh-TW dictionary 擁有，不在 component 內用 locale conditional 硬寫翻譯。, enforcement: test }
+  - { id: locale-preference, trigger: 使用者選擇 en 或 zh-TW。, requirement: preference 寫入 cc-locale 並同步 document language。, outcome: reload 後保留合法選擇；非法或缺少 preference 時依 browser Chinese language 選 zh-TW，否則 en。, enforcement: client }
+  - { id: localized-payload-fallback, trigger: server localized object 缺少 active locale。, requirement: 使用 en 作 fallback，不顯示 object、key 或虛構翻譯。, outcome: 可見文字保持可讀且 provenance 不改變。, enforcement: client }
+  - { id: bilingual-parity, requirement: en 與 zh-TW dictionaries 的 key set 必須完全一致。, enforcement: test }

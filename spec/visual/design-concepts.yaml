@@ -1,0 +1,13 @@
+spec_version: 1
+kind: visual
+id: visual.design-concepts
+title: Design concepts desktop visual contract
+page_id: page.design-concepts
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: design-concept-editorial, viewport: { width: 1440, height: 1200 }, state: Editorial concept home renders its complete authored exploration and disclosure., actions: [Open /concepts/editorial, freeze motion], golden_path: e2e/golden/design-concept-editorial.png, status: approved }
+  - { id: design-concept-kickstarter, viewport: { width: 1440, height: 1200 }, state: Kickstarter concept home renders its complete authored exploration and disclosure., actions: [Open /concepts/kickstarter, freeze motion], golden_path: e2e/golden/design-concept-kickstarter.png, status: approved }
+  - { id: design-concept-network, viewport: { width: 1440, height: 1200 }, state: Network concept home renders its complete authored exploration and disclosure., actions: [Open /concepts/network, freeze motion], golden_path: e2e/golden/design-concept-network.png, status: approved }
+  - { id: design-concept-hybrid, viewport: { width: 1440, height: 1200 }, state: Hybrid concept home renders its complete authored exploration and disclosure., actions: [Open /concepts/hybrid, freeze motion], golden_path: e2e/golden/design-concept-hybrid.png, status: approved }
+  - { id: design-concept-hybrid-campaign, viewport: { width: 1440, height: 1200 }, state: Hybrid campaign concept renders the authored evidence funding and delivery canvas with disclosure., actions: [Open /concepts/hybrid/campaign, freeze motion], golden_path: e2e/golden/design-concept-hybrid-campaign.png, status: approved }

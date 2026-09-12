@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.run-request
+title: Run request status
+summary: Return public queue status for one run request without exposing lease internals as isolation evidence.
+transport: http
+endpoint: { method: GET, path: /api/run-requests/:id }
+request:
+  path_parameters: [{ type: string, description: Run request identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Public request state and optional result run id., body: { type: object, description: Sanitized request wrapper., properties: { request: { type: object, description: Id missionId status attempt timestamps cancel flag error and optional resultRunId., required: true } } } }
+  - { status: 404, description: Request does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Source-ready local queue state; it does not prove deployed durability or isolation.
+  forbidden_claims: [deployed worker fleet, durable shared storage, isolated execution]
+scenarios:
+  - { id: run-request-route, given: Queue dispatch may have created a request., when: Its public status is fetched., then: The route returns sanitized status or 404., test_file: server/product-spec.bdd.test.ts }

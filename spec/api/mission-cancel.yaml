@@ -1,0 +1,20 @@
+spec_version: 1
+kind: api
+id: api.mission-cancel
+title: Public mission cancellation boundary
+summary: Refuse public cancellation until an authenticated mission maintainer or platform operator exists.
+transport: http
+endpoint: { method: POST, path: /api/missions/:id/cancel }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Ignored; client claims cannot authorize cancellation., properties: {} }
+responses:
+  - { status: 403, description: Cancellation requires future authenticated authorization., body: { type: object, description: Stable refusal., properties: { error: { type: string, description: Safe authorization boundary., required: true }, code: { type: string, description: Always auth_required., required: true, enum: [auth_required] } } } }
+trust_boundary:
+  authentication: No authenticated principal exists, so the endpoint always refuses.
+  data_mode: Internal reset and shutdown cancellation are separate server lifecycle operations.
+  forbidden_claims: [demo role authorizes cancellation, client header is RBAC]
+scenarios:
+  - { id: public-cancel-refused, given: No authentication or mission-scoped RBAC exists., when: Any caller posts cancellation., then: The response is 403 auth_required and no client identity bypass is accepted., test_file: server/product-spec.bdd.test.ts }

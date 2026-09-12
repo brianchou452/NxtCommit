@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.wall-post
+title: Post comment wall message
+summary: Redact and store one bounded comment using server-assigned local identity and return the refreshed wall.
+transport: http
+endpoint: { method: POST, path: /api/missions/:id/wall }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Comment body only., properties: { body: { type: string, description: Untrusted bounded text., required: true } } }
+responses:
+  - { status: 200, description: Complete refreshed message thread., body: { type: object, description: Stored redacted messages., properties: { messages: { type: array, description: Complete refreshed ordered thread., required: true, items: { type: object, description: Server-assigned WallMessage. } } } } }
+  - { status: 400, description: Invalid or unsafe body., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; author role handle and time are assigned by the server.
+  data_mode: Local demo comment; never an upstream issue comment.
+  forbidden_claims: [browser-selected maintainer, stored raw secret, upstream publication]
+scenarios:
+  - { id: wall-post-redacts-before-storage, given: Untrusted text may contain a secret-like value., when: The local user posts it., then: Redaction happens before persistence and the server assigns identity fields., test_file: server/product-spec.bdd.test.ts }

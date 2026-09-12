@@ -1,0 +1,86 @@
+spec_version: 1
+kind: component
+id: component.donor-world-map
+title: Donor world map
+purpose: 以共享 impact snapshot 視覺化 demo community compute，而不暗示蒐集或推論真實 donor 位置。
+inputs:
+  - name: impact_snapshot
+    type: loading | error | ready(stats, donor_beacons)
+    required: true
+    description: 與 impact counters 共用的 snapshot。
+  - name: retry
+    type: callback
+    required: true
+    description: 初始 snapshot 失敗時重新取得資料的動作。
+component_dependencies: []
+data_dependencies: []
+states:
+  - name: loading
+    condition: impact_snapshot 是 loading。
+    rendering: 顯示可辨識的 skeleton 與 loading status。
+  - name: error
+    condition: impact_snapshot 是 error。
+    rendering: 顯示錯誤文字與原生 retry button。
+  - name: empty
+    condition: ready，但 donor_beacons 為空。
+    rendering: 顯示沒有 demo locations 的 empty message，不顯示假地圖點。
+  - name: ready
+    condition: ready，且 donor_beacons 至少一筆。
+    rendering: 顯示 local land geometry、beacons、city selector、community pool 和 demo badge。
+interactions:
+  - trigger: 選擇 city selector 或點選 beacon。
+    result: Pin 該 city，顯示 city、country、handle 和 token amount；再選同一 beacon 可取消 pin。
+  - trigger: 指標進入或離開 beacon。
+    result: 暫時 highlight 對應 location；離開後回到 pinned location 或無選取狀態。
+  - trigger: 選擇 retry。
+    result: 呼叫 retry input，重新取得 shared impact snapshot。
+content:
+  locales:
+    en:
+      pool_title: This week's community compute pool
+      explore: Explore a backer city
+      choose: Choose a city
+      error: The backer map failed to load.
+      empty: No demo backer locations are available yet.
+      beacon_amount: tokens donated
+      community_summary: '{backers} backers across {cities} cities, pooling compute together'
+    zh-TW:
+      pool_title: 本週社群算力 Pool
+      explore: 探索支持者城市
+      choose: 選擇城市
+      error: 無法載入支持者地圖。
+      empty: 目前沒有可顯示的示範支持者地點。
+      beacon_amount: 已捐出的 token
+      community_summary: '{backers} 位支持者從 {cities} 個城市共同匯入'
+  dynamic_labels:
+    - name: weekly_compute_pool
+      source: sum(donor_beacons.tokens)
+      fallback: '—'
+    - name: city_count
+      source: distinct(donor_beacons.city, donor_beacons.country)
+      fallback: '—'
+    - name: community_summary
+      source: donor_beacons.length and city_count
+      fallback: '—'
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Community pool summary and demo provenance lead the panel.
+    - City count and selector introduce the exploration controls.
+    - The world map is the dominant visual field; selected-city information is contextual detail.
+  layout: 明亮玻璃面板上方為 pool summary 和 selector，下方為 2:1 world map；選取資訊浮在對應 beacon 上方。
+  geometry: A wide extra-large panel contains a compact summary rail above an approximately 2:1 map viewport. Use the canonical land path from spec/assets/world-map/world-land-110m.svg verbatim in a 1000 x 500 viewBox; do not fetch, approximate, or regenerate the coastline. Use an equirectangular projection with longitude -180..180 mapped left-to-right and latitude 90..-90 mapped top-to-bottom; draw the canonical local land geometry before 30-degree graticules, beacons, non-colliding desktop labels, then a bounded selected-location overlay. Beacon core/halo scale monotonically with token amount, with a visible minimum touch target and clamped overlay position.
+  colour_semantics: 地圖底色為 paper，land 為低對比 surface，beacon 採 violet/mint gradient；demo badge 必須可見。
+  surface: Translucent white-to-mint glass with violet edge, soft feature shadow, pale grid, and low-contrast land shapes.
+  typography: aggregate 使用 monospace number；地點與控制項用可讀 sans。
+  motion: beacon 可低頻脈動；reduced motion 時不影響 marker、label 或選取資訊的可見性。
+  visual_anchors:
+    - The large pool number is the primary numeric anchor.
+    - Violet-to-mint beacons remain distinguishable from neutral land geometry.
+    - The demo badge stays adjacent to map controls rather than appearing as detached fine print.
+scenarios:
+  - id: map-renders-shared-demo-snapshot-with-honest-fallbacks
+    given: 首頁提供 shared impact snapshot
+    when: donor world map render
+    then: loading、error、empty 與 ready 都有明確狀態，ready 地圖保留 demo label 且不推論真實位置
+    test_file: server/home-spec.bdd.test.ts

@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.health
+title: Process health
+summary: Report whether the HTTP process is alive without claiming dependency or rollout readiness.
+transport: http
+endpoint: { method: GET, path: /healthz }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Process is alive., body: { type: object, description: Liveness result., properties: { status: { type: string, description: Always ok., required: true, enum: [ok] }, service: { type: string, description: Service name., required: true }, mode: { type: string, description: Safely resolved runner mode when available., required: false, enum: [demo, llm, codex] }, executionError: { type: string, description: Non-secret refusal reason when configured mode cannot resolve., required: false } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Real process liveness only.
+  forbidden_claims: [deployment rollout verified, database durable, model validated]
+scenarios:
+  - { id: health-route-is-liveness-only, given: The server process accepts HTTP even when configured execution is refused., when: Health is requested., then: It returns liveness and non-secret refusal context without failing the process probe., test_file: server/product-spec.bdd.test.ts }

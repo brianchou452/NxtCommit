@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.home-provenance
+title: Home truth and provenance rules
+scope: [page.home, component.application-shell, api.impact, api.marketplace, component.donor-world-map, component.campaign-card, component.release-update, domain.provenance]
+rules:
+  - { id: aggregate-provenance, requirement: 每個 impact 與 marketplace aggregate 都必須攜帶或呈現 dataMode。, enforcement: server }
+  - { id: no-invented-zero, requirement: 未量測或不可得的數值不得顯示為數字零。, enforcement: client }
+  - { id: donor-location-boundary, requirement: beacon 只能是 seed demo location，禁止蒐集或推論真實 visitor/donor location。, enforcement: server }
+  - { id: release-boundary, requirement: local release update 必須明示 demo，禁止宣稱 upstream merge、PR 或 release。, enforcement: client }
+  - { id: shell-boundary, requirement: local persona 不得標示為 authenticated user，wallet 不得標示為 currency，configured/resolved mode 不得標示為 completed run。, enforcement: client }
+  - { id: card-generator-boundary, requirement: campaign copy 與 project figures 的 generator/figuresMode 不可因 card artwork 或 featured placement 而消失或升格為 observed fact。, enforcement: client }

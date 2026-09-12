@@ -1,0 +1,29 @@
+spec_version: 1
+kind: api
+id: api.mission-stream
+title: Mission event stream
+summary: Stream mission-scoped updates without manufacturing activity while no run is active.
+transport: sse
+endpoint: { method: GET, path: /api/missions/:id/stream }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: text/event-stream connection., body: { type: object, description: SSE stream metadata rather than a JSON aggregate., properties: { contentType: { type: string, description: text/event-stream., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Transport is live; each execution event retains source and verified provenance.
+  forbidden_claims: [SSE proves LLM execution, idle means hidden work]
+event_contract:
+  reconnect: Client reconnects with bounded backoff and re-fetches mission selected-run events and run-request REST snapshots because missed events are not a durable cursor protocol; the last successful snapshot remains visible and no reconnect event is treated as work evidence.
+  events:
+    - { name: mission_update, payload: { type: object, description: Mission update envelope scoped to this stream., properties: { kind: { type: string, description: Envelope discriminator., required: true, enum: [mission_update] }, mission: { type: object, description: Updated mission whose id must match the stream mission., required: true } } } }
+    - { name: run_update, payload: { type: object, description: Run state envelope scoped to this stream., properties: { kind: { type: string, description: Envelope discriminator., required: true, enum: [run_update] }, run: { type: object, description: Owned run id missionId mode status budget usage and timestamps., required: true } } } }
+    - { name: exec_event, payload: { type: object, description: One persisted execution event envelope., properties: { kind: { type: string, description: Envelope discriminator., required: true, enum: [exec_event] }, event: { type: object, description: Event id runId missionId sequence time type source verified bounded payload and compute delta., required: true } } } }
+    - { name: achievement, payload: { type: object, description: Local achievement envelope that does not establish execution evidence., properties: { kind: { type: string, description: Envelope discriminator., required: true, enum: [achievement] }, contributorId: { type: string, description: Local recipient id., required: true }, achievement: { type: object, description: Earned local demo achievement., required: true } } } }
+scenarios:
+  - { id: mission-stream-route, given: A mission view needs current updates., when: It opens the scoped SSE endpoint., then: The server exposes the mission stream and clients revalidate after reconnect., test_file: server/product-spec.bdd.test.ts }
+  - { id: mission-stream-never-crosses-mission-or-run, given: Concurrent missions and sequential retries publish overlapping updates., when: Clients subscribe disconnect and reconnect., then: Each stream receives only its mission and clients accept execution frames only for the selected active run before REST revalidation., test_file: server/pd02-concurrency.test.ts }
+  - { id: mission-stream-redacts-before-persist-and-publish, given: Repository or runner output contains credential-shaped text., when: An execution event is persisted and streamed., then: Stored and SSE payloads contain the same redacted bounded evidence and never expose the secret., test_file: server/sec01-containment.test.ts }

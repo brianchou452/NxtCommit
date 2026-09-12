@@ -1,0 +1,9 @@
+spec_version: 1
+kind: policy
+id: policy.home-refresh
+title: Home snapshot refresh rules
+scope: [page.home, api.global-stream, api.impact, api.marketplace, component.campaign-browser]
+rules:
+  - { id: mission-update-refreshes-impact, trigger: 收到 global stream mission_update。, requirement: 不以 event 增量組裝首頁資料。, outcome: 重新取得受影響的 REST snapshot。, enforcement: client }
+  - { id: reconnect-revalidates, trigger: SSE 重新連線成功。, requirement: 假設先前可能遺失 event。, outcome: 重新取得 impact 或 marketplace snapshot。, enforcement: client }
+  - { id: heartbeat-is-not-data, trigger: 收到 heartbeat。, requirement: heartbeat 不可改變 domain state。, outcome: 不 refresh、不改寫 UI aggregate。, enforcement: client }

@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.run-evidence-explanation
+title: Run evidence explanation
+summary: Explain bounded engine-owned artifact facts while leaving deterministic evidence unchanged.
+transport: http
+endpoint: { method: GET, path: /api/runs/:id/explain }
+request:
+  path_parameters: [{ type: string, description: Run identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Labelled explanation and trace evidence., body: { type: object, description: Explanation wrapper., properties: { explanation: { type: object, description: Bounded summary facts caveats and AiEvidence provenance., required: true } } } }
+  - { status: 404, description: Run mission or artifact evidence is missing., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Model-assisted or labelled fallback explanation of bounded facts.
+  forbidden_claims: [explanation is primary evidence, explanation changes gate]
+scenarios:
+  - { id: explanation-never-rewrites-evidence, given: A run has a stored artifact., when: Explanation is requested., then: Bounded prose and provenance are returned while source evidence remains authoritative., test_file: server/product-spec.bdd.test.ts }

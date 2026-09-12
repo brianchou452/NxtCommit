@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.project-explanation
+title: Project explanation
+summary: Return plain-language copy, impact consequences and a three-frame timeline with independent generator and data provenance.
+transport: http
+endpoint: { method: GET, path: /api/projects/:id/explain }
+request:
+  path_parameters: [{ type: string, description: Project identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Explanation aggregate with labelled generator fallback., body: { type: object, description: Explanation aggregate., properties: { plain: { type: object, description: Generator emoji oneLiner useCases and technicalSummary., required: true }, impact: { type: object, description: Generator dataMode headline optional scale and measured/editorial consequences., required: true }, timeline: { type: array, description: Exactly past present and future frames with absent unknown measurements., required: true, items: { type: object, description: Kind label time optional observed fields and explanatory note. } } } } }
+  - { status: 404, description: Project does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: generator labels prose while dataMode and basis label scale evidence independently.
+  forbidden_claims: [prose quality proves LLM, editorial consequence is measured, absent metric equals zero]
+scenarios:
+  - { id: project-explanation-route, given: A known project may or may not have a working model credential., when: Explanation is requested., then: Real output or labelled demo fallback is returned without inventing missing measurements., test_file: server/product-spec.bdd.test.ts }

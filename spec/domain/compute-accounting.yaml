@@ -1,0 +1,33 @@
+spec_version: 1
+kind: domain
+id: domain.compute-accounting
+title: Compute credit accounting
+summary: 定義 prototype credit 的 pledge、reserve、consume、refund、wallet 與 ledger 守恆。
+entities:
+  - name: pledge
+    description: Local demo contributor commits integer compute credits to a mission.
+    fields:
+      - { name: id, type: string, required: true, description: Pledge identifier. }
+      - { name: missionId, type: string, required: true, description: Funded mission. }
+      - { name: contributorId, type: string, required: true, description: Server-resolved local contributor. }
+      - { name: amount, type: positive integer, required: true, description: Credits pledged. }
+  - name: ledger_entry
+    description: Append-style accounting event.
+    fields:
+      - { name: type, type: enum, required: true, description: Accounting operation., values: [pledge, reserve, consume, refund_unused] }
+      - { name: amount, type: positive integer, required: true, description: Integer credits affected. }
+      - { name: missionId, type: string, required: true, description: Related mission. }
+  - name: wallet
+    description: Local prototype credit balance, not money or provider settlement.
+    fields:
+      - { name: contributorId, type: string, required: true, description: Wallet owner. }
+      - { name: balance, type: non-negative integer, required: true, description: Available credits. }
+relations:
+  - Pledges fund one mission and debit one server-resolved local wallet.
+  - Run consumption is bounded by both its run budget and the mission reservation.
+invariants:
+  - Amounts are positive integers; fractional observed usage rounds up rather than disappearing.
+  - Duplicate idempotent pledge intent applies at most once; reuse for a different body is rejected.
+  - Refund allocation uses deterministic largest remainder and sums exactly to the unused pool.
+  - Credits are prototype accounting units and must not be presented as currency, custody, billing or measured provider tokens.
+derived_from: [domain.mission-lifecycle]

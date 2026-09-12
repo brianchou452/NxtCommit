@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.delivery-evidence
+title: Build mirror image and rollout evidence
+scope: [api.health, api.readiness, api.metrics, domain.provenance]
+rules:
+  - { id: source-of-truth, requirement: GitHub main是source of truth；GitHub mirror、GitLab pipeline、immutable image與Argo reconciliation為不同delivery links。, enforcement: manual_review }
+  - { id: no-single-green-proof, requirement: Green mirror/build、overlay file或Argo sync任一單獨證據都不能宣稱服務已rollout。, enforcement: manual_review }
+  - { id: serving-identity, requirement: 上線宣稱需要serving commoncommit_build_info與預期immutable version/commit相符。, enforcement: manual_review }
+  - { id: health-readiness-scope, requirement: health只證明process liveness；readiness只證明database/required worker可serve並揭露execution refusal，不證明model或rollout。, enforcement: client }
+  - { id: version-lockstep, requirement: Image-relevant change必須同步Makefile VERSION、nonprod newTag與top changelog version，並通過check-version。, enforcement: test }

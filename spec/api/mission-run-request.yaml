@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.mission-run-request
+title: Latest mission run request
+summary: Return the latest queue request for a mission or null while preserving not-found distinction.
+transport: http
+endpoint: { method: GET, path: /api/missions/:id/run-request }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Object containing sanitized latest request or null., body: { type: object, description: Latest request wrapper., properties: { request: { type: object, description: Nullable public request id missionId status and optional resultRunId., required: false, nullable: true } } } }
+  - { status: 404, description: Mission does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Local dispatch state only.
+  forbidden_claims: [running LLM inferred from queue status]
+scenarios:
+  - { id: latest-mission-request-route, given: A valid mission may not have queued work., when: Its latest request is fetched., then: The response distinguishes null from a missing mission., test_file: server/product-spec.bdd.test.ts }

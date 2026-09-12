@@ -1,0 +1,18 @@
+spec_version: 1
+kind: persistence
+id: persistence.community-store
+title: Contributor and community store
+summary: Local contributor, achievement, wall and MVP vote records with demo provenance.
+mode: read_model
+domain_ids: [domain.marketplace, domain.compute-accounting, domain.provenance]
+stores:
+  - { name: contributors, key: id, required_fields: [id, name, handle, walletBalance], role: Own seeded local personas. }
+  - { name: achievements, key: id, required_fields: [id, contributorId, code, earnedAt], role: Store deterministically earned demo achievements. }
+  - { name: wall_messages, key: id, required_fields: [id, missionId, authorId, authorRole, body, createdAt], role: Store redacted local comments with server-assigned identity. }
+  - { name: mvp_votes, key: categoryContributor, required_fields: [nomineeId, category, contributorId], role: Enforce one local vote per category and contributor. }
+projections:
+  - { name: contributor_profile, source_stores: [contributors, achievements], output: "Persona, wallet, pledges, receipts and achievement history with demo dataMode.", consistency: Unknown external adoption or identity facts remain absent. }
+  - { name: community_surfaces, source_stores: [wall_messages, mvp_votes], output: Ordered wall messages and current MVP nominees with votedByYou., consistency: "Identities are local demo assignments, not authenticated roles.", ordering: Wall messages use persisted creation order. }
+reset:
+  - Remove user-added comments and votes before restoring deterministic seed data.
+  - Never retain a secret-bearing pre-redaction comment body.

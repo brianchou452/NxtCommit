@@ -1,0 +1,15 @@
+spec_version: 1
+kind: persistence
+id: persistence.run-request-queue
+title: Transactional run-request queue
+summary: SQLite queue ownership, leases, heartbeats, retries, cancellation and expired-lease recovery.
+mode: read_model
+domain_ids: [domain.run-request, domain.mission-lifecycle]
+stores:
+  - { name: run_requests, key: id, required_fields: [id, missionId, status, attempt, createdAt, updatedAt], role: Own queue state and optional worker lease/result. }
+projections:
+  - { name: request_by_id, source_stores: [run_requests], output: Public non-secret queue status and result run reference., consistency: Lease internals are not exposed as proof of isolation. }
+  - { name: latest_request_by_mission, source_stores: [run_requests], output: Most recent request for one mission or null., consistency: Selection is deterministic., ordering: Newest request first. }
+reset:
+  - Cancel or settle owned requests before clearing demo state.
+  - Expired leases are recovered transactionally and stale workers lose completion authority.

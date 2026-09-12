@@ -1,0 +1,17 @@
+spec_version: 1
+kind: api
+id: api.campaign-critique
+title: Campaign quality critique
+summary: Evaluate grounding actionability and bilingual parity without mutating the trusted draft.
+transport: http
+endpoint: { method: POST, path: /api/campaigns/critique }
+request: { path_parameters: [], query_parameters: [], headers: [], body: { type: object, description: Trusted analysis and server-issued campaign draft., properties: { analysis: { type: object, description: RepoAnalysis carrying its opaque serverToken., required: true }, draft: { type: object, description: CampaignDraft carrying its matching serverToken., required: true } } } }
+responses:
+  - { status: 200, description: Advisory critique with evidence provenance., body: { type: object, description: CampaignCritiqueResult wrapper., properties: { critique: { type: object, description: Grounding actionability bilingual parity findings and AiEvidence., required: true } } } }
+  - { status: 400, description: Missing expired or mismatched capabilities., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Real model critique when available or labelled fallback.
+  forbidden_claims: [critic publishes draft, critic changes estimate, critic grants execution]
+scenarios:
+  - { id: critic-is-advisory, given: A trusted draft remains bound to its analysis., when: Critique runs., then: Advice is returned separately and the draft is not mutated or published., test_file: server/product-spec.bdd.test.ts }

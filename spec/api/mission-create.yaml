@@ -1,0 +1,17 @@
+spec_version: 1
+kind: api
+id: api.mission-create
+title: Create mission
+summary: Create or idempotently return a local mission from matching server-issued analysis and campaign capabilities.
+transport: http
+endpoint: { method: POST, path: /api/missions }
+request: { path_parameters: [], query_parameters: [], headers: [], body: { type: object, description: Trusted analysis and server-issued campaign draft., properties: { analysis: { type: object, description: RepoAnalysis carrying serverToken., required: true }, draft: { type: object, description: CampaignDraft carrying matching serverToken., required: true } } } }
+responses:
+  - { status: 200, description: Created or previously bound mission with project., body: { type: object, description: MissionWithProject wrapper., properties: { mission: { type: object, description: Local mission fields plus bound project workspace/provenance., required: true } } } }
+  - { status: 400, description: Missing expired mismatched or invalid capabilities., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; bearer capability protects input provenance only.
+  data_mode: Local mission creation; GitHub project remains metadata-only and non-executable.
+  forbidden_claims: [upstream campaign publication, GitHub authentication, imported repository execution]
+scenarios:
+  - { id: mission-creation-trusts-server-snapshots, given: Matching live capabilities hold analysis and draft., when: Mission creation is requested repeatedly., then: Client edits are ignored and the same bound mission is returned., test_file: server/product-spec.bdd.test.ts }

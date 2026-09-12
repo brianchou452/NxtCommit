@@ -1,0 +1,63 @@
+spec_version: 1
+kind: api
+id: api.impact
+title: Landing impact snapshot
+summary: 將 impact counters 與 donor map 放在同一個 snapshot 回傳，確保數值和 demo provenance 不會分離。
+transport: http
+endpoint:
+  method: GET
+  path: /api/impact
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: 首頁 impact section 的一致資料快照。
+    body:
+      type: object
+      description: aggregate statistics 與 donor beacons。
+      properties:
+        stats:
+          type: object
+          required: true
+          description: 由本機資料庫計算的 aggregate，不可用視覺常數取代。
+          properties:
+            dataMode: { type: string, enum: [demo], description: 數字和地圖共同的 provenance label。 }
+            windowLabel: { type: string, enum: [today, all_time], description: aggregate 的時間範圍。 }
+            tokensDonated: { type: integer, description: pledged credits 乘以 1000 的換算值；不是 provider 量測 token。 }
+            featuresBuilt: { type: integer, description: released mission 中 feature 類型的數量。 }
+            bugsFixed: { type: integer, description: released mission 中 bug 類型的數量。 }
+            projectsRevived: { type: integer, description: 有 released mission 的 distinct project 數量。 }
+            trend:
+              type: array
+              description: oldest-first 的 14 天整數時間序列。
+              items: { type: integer, description: 單日 aggregate。 }
+        beacons:
+          type: array
+          required: true
+          description: seed contributor profile 的 demo map locations，不是訪客位置資料。
+          items:
+            type: object
+            description: 一個 donor beacon。
+            properties:
+              city: { type: string, description: seed city。 }
+              country: { type: string, description: seed country。 }
+              lat: { type: number, description: 緯度，範圍 -90 到 90。 }
+              lng: { type: number, description: 經度，範圍 -180 到 180。 }
+              contributorId: { type: string, description: 本機 contributor 識別碼。 }
+              handle: { type: string, description: 顯示用 handle。 }
+              tokens: { type: integer, description: 此 beacon 代表的 demo compute credits。 }
+trust_boundary:
+  authentication: 沒有 authentication；資料來自 local demo store。
+  data_mode: stats.dataMode 必須隨 payload 傳遞，beacons 永遠是 demo data。
+  forbidden_claims:
+    - 不得把 beacon 視為真實 donor 或 visitor geolocation。
+    - 不得把 tokensDonated 視為實際 provider usage measurement。
+scenarios:
+  - id: impact-snapshot-keeps-counts-and-map-provenance-together
+    given: local demo store 已有 mission 與 contributor 資料
+    when: 首頁請求 GET /api/impact
+    then: stats 與 beacons 同時回傳，stats.dataMode 為 demo，且 aggregate 會隨資料變動
+    test_file: server/home-spec.bdd.test.ts

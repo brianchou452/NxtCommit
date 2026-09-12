@@ -1,0 +1,29 @@
+spec_version: 1
+kind: domain
+id: domain.model-assistance
+title: Model-assisted feature evidence
+summary: 定義 endpoint-scoped model call、labelled fallback、trace evidence、feedback與deterministic authority的分界。
+entities:
+  - name: ai_evidence
+    description: Non-secret provenance for one assistant generation critique explanation or shadow review.
+    fields:
+      - { name: generator, type: enum, required: true, description: Actual generation path., values: [openai, demo, static] }
+      - { name: model, type: string, required: false, description: Compatible model identifier only when a real request ran. }
+      - { name: traceId, type: string, required: false, description: Bounded correlation id when tracing is available. }
+      - { name: promptVersion, type: string, required: true, description: Source-controlled prompt contract version. }
+      - { name: latencyMs, type: non-negative number, required: false, description: Observed request latency when measured. }
+  - name: human_helpfulness
+    description: Unauthenticated local feedback score associated with an allowed feature trace.
+    fields:
+      - { name: traceId, type: string, required: true, description: Valid bounded trace identifier. }
+      - { name: feature, type: enum, required: true, description: Supported scored feature., values: [issue-triage, campaign-critic, evidence-explanation, shadow-review] }
+      - { name: helpful, type: boolean, required: true, description: Local prototype feedback. }
+relations:
+  - Each model-assisted endpoint validates and bounds its own input and output contract.
+  - Feedback observes a trace but cannot mutate its result or any product gate.
+invariants:
+  - Real generator labels require a completed compatible-model response that affected the result.
+  - Failure fallback changes generator provenance and never silently preserves an openai label.
+  - Model-authored compute totals、review verdicts與explanations沒有deterministic state authority。
+  - Secrets、unbounded repository evidence與raw credentials不得出現在evidence或feedback payload。
+derived_from: [domain.provenance, domain.execution-evidence]

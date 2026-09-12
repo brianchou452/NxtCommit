@@ -1,0 +1,83 @@
+spec_version: 1
+kind: page
+id: page.home
+title: Home
+route: /
+purpose: 讓訪客先理解平台如何把社群 compute 轉化為可 review 的 open-source release，再探索可支持的 campaign。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - endpoint: /api/impact
+    purpose: 為 impact counter 與 donor map 取得同一份 stats/beacons snapshot，避免兩個視覺區塊顯示不一致資料。
+    initial_state: 顯示 loading-safe content；不捏造數字。
+    error_state: 顯示 retry affordance，並保留已成功載入的 snapshot。
+  - endpoint: /api/marketplace
+    purpose: 為 Hero 與 campaign browser 取得 campaign aggregate 和分類清單。
+    initial_state: Hero 的 marketplace 數值可為 unknown；campaign browser 顯示 loading state。
+    error_state: campaign browser 顯示可理解的 error state；Hero 不中斷整頁閱讀。
+  - endpoint: /api/stream
+    purpose: 接收 mission update 後重新取得 impact snapshot。
+    initial_state: 成功連線後維持目前 snapshot。
+    error_state: 重新連線後 revalidate，避免遺失事件後永久陳舊。
+composition:
+  - id: hero
+    kind: component
+    spec_id: component.hero
+    purpose: 首屏價值主張、aggregate signals 與 campaign CTA。
+    data: impact snapshot 與 marketplace aggregate。
+    visual_role: Opening editorial promise and primary orientation surface.
+    width: Full viewport width with content aligned to the design-system desktop canvas.
+    relationship_to_previous: First content section below persistent navigation and the demo truth banner.
+  - id: how
+    kind: component
+    spec_id: component.commitment-flow
+    purpose: 用四個固定步驟解釋 discover、back、build、merge 的產品流程。
+    visual_role: Compact explanatory bridge from promise to evidence.
+    width: Wide bounded panel aligned with the hero content gutters.
+    relationship_to_previous: Visually overlaps the transition out of the hero without interrupting reading order.
+  - id: map
+    kind: component
+    spec_id: component.donor-world-map
+    purpose: 顯示 donor beacons 與其 demo provenance；不得推論真實訪客位置。
+    data: impact stats 與 donor beacons。
+    visual_role: First large evidence surface and geographic community overview.
+    width: Wide bounded feature panel beneath a left-aligned section heading.
+    relationship_to_previous: Begins after a clear section gap and increases visual scale from the compact process panel.
+  - id: projects
+    kind: component
+    spec_id: component.campaign-browser
+    purpose: 顯示可探索的 campaign shelves，並作為 Hero CTA 的目的地。
+    data: marketplace sections。
+    visual_role: Primary exploration destination and longest content sequence.
+    width: Wide bounded category groups using the same outer alignment as the map.
+    relationship_to_previous: Continues the evidence journey from aggregate community activity to concrete campaigns.
+  - id: mvp
+    kind: component
+    spec_id: component.release-update
+    purpose: 在頁尾呈現一筆 local demo release update，收束 campaign 到 release 的交付敘事。
+    visual_role: Closing proof-of-delivery narrative.
+    width: Slightly inset wide feature card with a heading aligned to its left edge.
+    relationship_to_previous: Follows the campaign CTA with renewed section spacing and resolves the page story.
+page_owned_behaviour:
+  - 每個 reveal section 第一次進入 viewport 時才顯示並停止觀察；observer 使用 threshold 0 與 bottom root margin -12%，避免超長 campaign section 永遠達不到比例門檻。沒有 IntersectionObserver 時必須立即顯示，不能因動畫而隱藏內容。
+  - section 的閱讀順序固定為 hero、how、map、projects、mvp。
+  - map、projects、mvp 必須有可連結的穩定頁內 anchor。
+  - Home 只取得一次 shared impact snapshot 並同時注入 Hero 與 donor map；兩者不得各自請求而產生不一致 snapshot。
+layout:
+  canvas: Full-width light editorial canvas with restrained violet/mint ambience; persistent chrome remains visually separate from page sections.
+  section_rhythm: Hero fills the opening viewport; later sections use consistent semantic gaps, with tighter coupling only between a section heading and its content.
+  desktop: 首屏為完整 hero；後續區塊在寬內容容器中依閱讀順序垂直排列，section 間留出明確呼吸空間。
+  relationships:
+    - Hero CTA targets the projects anchor, but the visual reading order still introduces process and community evidence first.
+    - How, map, projects, and mvp share outer alignment so changes in internal grids do not fragment the page.
+    - Dark narrative panels recur at hero, category banners, and release update to connect promise, choices, and outcome.
+  visual_anchors:
+    - One h1 appears in the hero; later section headings step down consistently.
+    - The world map, campaign featured cards, and release update form the three dominant post-hero visual landmarks.
+    - Footer follows the release update without artificial blank height.
+scenarios:
+  - id: impact-first-journey-preserves-section-anchors
+    given: 訪客開啟根路徑
+    when: 首頁完成 render
+    then: 依既定順序呈現 hero、流程說明、地圖、campaign shelf 與 monthly MVP，並保留穩定的頁內錨點
+    test_file: server/landing.test.ts

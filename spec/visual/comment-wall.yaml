@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.comment-wall
+title: Comment wall desktop component reference
+component_id: component.comment-wall
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: comment-wall-ready, viewport: { width: 1440, height: 1200 }, state: Funding mission comments show server-assigned demo roles ordered messages and composer boundary., actions: [Open canonical funding mission, wait for wall, freeze motion, capture wall], golden_path: e2e/golden/component-comment-wall-ready.png, status: approved }

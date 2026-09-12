@@ -1,0 +1,33 @@
+spec_version: 1
+kind: page
+id: page.mission-detail
+title: Mission detail
+route: /missions/:id
+purpose: 呈現 campaign story、funding、project impact、comment wall 與依 lifecycle 可用的 pledge、execute、watch 或 review action。
+design_system_id: design-system.nxtcommit
+shell_spec_id: component.application-shell
+api_dependencies:
+  - { endpoint: /api/missions/:id, purpose: 取得 mission aggregate 與 latest execution context。, initial_state: 顯示 skeleton。, error_state: 404 顯示 not-found；其他錯誤提供 retry。 }
+  - { endpoint: /api/projects/:id/explain, purpose: 取得 labelled explanation impact 與 timeline。, initial_state: 保留 mission primary content。, error_state: 顯示局部 fallback 而不中斷 pledge/review。 }
+  - { endpoint: /api/missions/:id/pledge, purpose: 提交 retry-stable local credit intent。, initial_state: Dialog 顯示 wallet 與 remaining goal。, error_state: 保留 amount/key intent並顯示錯誤。 }
+  - { endpoint: /api/missions/:id/execute, purpose: 啟動 eligible fixture execution。, initial_state: Action 依 mission status 決定。, error_state: 保留頁面並顯示 dispatch error。 }
+  - { endpoint: /api/missions/:id/wall, purpose: 讀寫 server-assigned local comment thread。, initial_state: 顯示 loading 或 empty wall。, error_state: 留在頁面並允許重新載入或送出。 }
+  - { endpoint: /api/missions/:id/stream, purpose: 接收 mission/run update 後重新取得 detail。, initial_state: 使用 initial REST snapshot。, error_state: Reconnect 後 revalidate。 }
+composition:
+  - { id: overview, kind: component, spec_id: component.mission-overview, purpose: 顯示 project、mission、funding、risk 與 provenance。, data: Mission detail., visual_role: Primary campaign narrative., width: Main content column., relationship_to_previous: First content below breadcrumb. }
+  - { id: pledge, kind: component, spec_id: component.pledge-dialog, purpose: 在funding state建立retry-safe credit intent。, data: Mission status wallet and remaining goal., visual_role: Modal decision surface., width: Dialog., relationship_to_previous: Launched from lifecycle actions. }
+  - { id: comments, kind: component, spec_id: component.comment-wall, purpose: 顯示與新增server-assigned local comments。, data: Refreshed mission wall., visual_role: Closing community evidence., width: Main column., relationship_to_previous: Follows mission evidence. }
+page_owned_behaviour:
+  - CTA 必須由 server mission status 與 workspace eligibility 決定；動畫或 credential 不能解鎖 real execution。
+  - Pledge idempotency key 代表一次使用者 intent，retry 必須重用而新 intent 必須換 key。
+  - funding 與 stalled 顯示 pledge；funded fixture 顯示 execute；executing 顯示 watch；needs_review 顯示 review；failed fixture 顯示 restart；approved 與 changes_requested 顯示 run history；released 顯示 local release evidence；metadata-only 狀態顯示 boundary 或 history而不提供 execution mutation。
+  - funded metadata-only mission 必須顯示 execution refusal boundary，不得因 client body、credential 或 campaign prose 出現 execute action。
+  - Mission、explanation 與 comment wall 各自保有 loading/error state；局部 explanation 或 wall 失敗不得清除 mission、pledge intent 或 lifecycle action。
+  - Route id 改變時必須清除前一 mission 的 detail、error、explanation、wall 與 mutation state；晚到 response 不得覆蓋目前 route。
+  - SSE update 只觸發同 mission 的 snapshot revalidation；斷線期間以最後成功 REST snapshot 為準，重連後重新抓取而不臆造狀態。
+layout: { canvas: Campaign detail canvas., section_rhythm: Overview then evidence sections with persistent action context., desktop: Main narrative plus sidebar., relationships: [Funding and execution actions always remain adjacent to truth labels.], visual_anchors: [Campaign title funding progress and action card.] }
+scenarios:
+  - { id: mission-detail-actions-follow-state, given: A mission can be funding executing reviewable or released., when: Its detail renders and updates arrive., then: Only lifecycle-valid actions appear and every generated or demo fact retains provenance., test_file: server/product-spec.bdd.test.ts }
+  - { id: mission-detail-refuses-metadata-only-execution, given: A fully funded mission was created from public GitHub metadata without a bundled fixture workspace., when: Its campaign detail renders., then: It explains the execution boundary and exposes no execute action regardless of credentials or client-supplied mode., test_file: server/ag03-provenance.test.ts }
+  - { id: mission-detail-keeps-partial-failures-local, given: Mission detail succeeds while explanation or comment-wall loading fails., when: The page renders its partial error state and the user retries., then: Campaign content lifecycle action and any pledge intent remain intact while only the failed region reloads., test_file: server/ui01-mission-detail.test.ts }
+  - { id: mission-detail-discards-stale-route-work, given: A mission detail explanation wall or mutation response is still pending., when: Navigation changes to a different mission id., then: The prior mission state is cleared immediately and no late response can populate or mutate the new route., test_file: server/ui01-mission-detail.test.ts }

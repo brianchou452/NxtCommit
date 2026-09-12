@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.execution-activity
+title: Execution activity desktop component reference
+component_id: component.execution-activity
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: execution-activity-terminal, viewport: { width: 1440, height: 1200 }, state: Terminal authored evidence exposes phase event provenance tests files and bounded output., actions: [Open seeded terminal execution, wait for evidence, freeze motion, capture activity], golden_path: e2e/golden/component-execution-activity-terminal.png, status: approved }

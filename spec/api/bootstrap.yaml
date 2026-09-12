@@ -1,0 +1,86 @@
+spec_version: 1
+kind: api
+id: api.bootstrap
+title: Application bootstrap
+summary: 提供 shell 在首次 render 所需的本機 persona 與非機密 execution capability 資訊。
+transport: http
+endpoint:
+  method: GET
+  path: /api/bootstrap
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: Shell 可安全使用的 bootstrap snapshot。
+    body:
+      type: object
+      description: 初始應用程式狀態。
+      properties:
+        currentUser:
+          type: object
+          required: true
+          description: 目前本機 demo persona；不是已驗證登入身份。
+          properties:
+            id: { type: string, description: 穩定 contributor 識別碼。 }
+            name: { type: string, description: 顯示名稱。 }
+            handle: { type: string, description: 顯示用 handle。 }
+            avatarColor: { type: string, description: 顯示 avatar 的色彩值。 }
+            bio: { type: object, description: 英文與繁體中文的自我介紹。 }
+            walletBalance: { type: integer, description: 可用 compute credits，非貨幣。 }
+            totalPledged: { type: integer, description: 此 persona 已承諾的 compute credits。 }
+            reputation: { type: integer, description: 本機 demo reputation score。 }
+            joinedAt: { type: string, format: date-time, description: ISO 8601 加入時間。 }
+            isCurrentUser: { type: boolean, required: false, description: 是否為本機目前 persona。 }
+        personas:
+          type: object
+          required: true
+          description: UI 可展示的 contributor 與 maintainer persona。
+          properties:
+            contributor: { type: object, description: 與 current_user 相同的 contributor 資料。 }
+            maintainers:
+              type: array
+              description: 可展示的 maintainer 清單。
+              items:
+                type: object
+                description: 一位 maintainer persona。
+                properties:
+                  id: { type: string, description: 穩定 maintainer 識別碼。 }
+                  name: { type: string, description: 顯示名稱。 }
+                  handle: { type: string, description: 顯示用 handle。 }
+                  avatarColor: { type: string, description: 顯示 avatar 的色彩值。 }
+                  verified: { type: boolean, description: demo 中的 verified 標示。 }
+                  role: { type: object, description: 英文與繁體中文的角色說明。 }
+        execution:
+          type: object
+          required: true
+          description: 新 run 的伺服器量測結果，不是用戶端的設定猜測。
+          properties:
+            configured: { type: string, enum: [auto, codex, llm, demo], description: Operator 設定的 mode。 }
+            resolved: { type: string, nullable: true, enum: [codex, llm, demo], description: 可實際使用的 mode；被拒絕時為 null。 }
+            error: { type: string, required: false, description: 僅在 resolved 為 null 時說明拒絕原因。 }
+            model: { type: string, required: false, description: 已選擇模型的非機密名稱。 }
+            gatewayHost: { type: string, required: false, description: Gateway host，不含 credential。 }
+            llmValidated: { type: boolean, description: 啟動時 credential validation 的結果。 }
+            langfuseEnabled: { type: boolean, description: Observability 是否已設定。 }
+            isolation:
+              type: object
+              description: 量測到的 execution boundary。
+              properties:
+                kind: { type: string, enum: [container, process], description: 邊界類型。 }
+                osIsolated: { type: boolean, description: 是否有 per-run OS boundary。 }
+                detail: { type: string, description: 人可讀的量測說明。 }
+trust_boundary:
+  authentication: 此 API 沒有使用者 authentication；persona 僅代表本機 demo actor。
+  data_mode: execution 資訊是伺服器量測值；persona 是 local demo data。
+  forbidden_claims:
+    - 不回傳 API key、access token 或完整 gateway URL。
+    - 不可把 resolved mode 解讀為已完成一次 agent execution。
+scenarios:
+  - id: bootstrap-reports-server-resolved-execution-state
+    given: 伺服器已使用目前設定的 execution mode 啟動
+    when: 用戶端請求 GET /api/bootstrap
+    then: 回應包含本機 persona、configured 與 resolved mode、量測到的 isolation 狀態，且不含 credential
+    test_file: server/api-bootstrap.bdd.test.ts

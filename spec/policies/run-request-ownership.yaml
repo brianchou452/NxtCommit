@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.run-request-ownership
+title: Queue lease and cancellation ownership
+scope: [domain.run-request, persistence.run-request-queue, domain.mission-lifecycle]
+rules:
+  - { id: transactional-claim, requirement: Worker claim 必須原子地從 queued/retryable state 取得單一 lease owner 與 expiry。, enforcement: server }
+  - { id: heartbeat-owner, requirement: 只有目前 lease owner 能 heartbeat、start、complete 或 fail request；stale owner 的更新必須拒絕。, enforcement: server }
+  - { id: retry-recovery, requirement: Expired lease recovery 與 retry count 更新必須 deterministic，且不能建立重複 active run 或重複 credit settlement。, enforcement: server }
+  - { id: public-cancel-denied, requirement: 尚無 authentication/RBAC 時 public mission cancel 固定回覆 403 auth_required，不接受 client role header 或 demo identity bypass。, enforcement: server }
+  - { id: queue-not-deployed-proof, requirement: Queue source code、worker process 或 leased status 都不得被當成 durable shared storage、isolation 或 nonprod deployment 證據。, enforcement: client }

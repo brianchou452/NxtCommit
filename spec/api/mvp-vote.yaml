@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.mvp-vote
+title: Cast MVP vote
+summary: Persist one vote per category for the server current local persona.
+transport: http
+endpoint: { method: POST, path: /api/mvp/:id/vote }
+request:
+  path_parameters: [{ type: string, description: Nominee identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Empty object; voter identity is not accepted., properties: {} }
+responses:
+  - { status: 200, description: Refreshed nominee array., body: { type: object, description: Updated local votes and lock state., properties: { nominees: { type: array, description: Full refreshed nominee snapshot., required: true, items: { type: object, description: MvpNominee. } } } } }
+  - { status: 400, description: Invalid nominee or category already voted., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; server resolves the local persona.
+  data_mode: Real SQLite mutation over demo governance.
+  forbidden_claims: [authenticated ballot, organization governance]
+scenarios:
+  - { id: one-local-vote-per-category, given: The local persona has not voted in the nominee category., when: A vote is cast., then: One vote is stored and later votes in that category are refused., test_file: server/product-spec.bdd.test.ts }

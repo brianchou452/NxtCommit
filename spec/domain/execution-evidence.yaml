@@ -1,0 +1,46 @@
+spec_version: 1
+kind: domain
+id: domain.execution-evidence
+title: Execution evidence
+summary: 定義 engine-owned tests、diff、events、artifact 與 advisory review 的證據邊界。
+entities:
+  - name: execution_event
+    description: Stored or live execution observation rendered over REST or SSE.
+    fields:
+      - { name: id, type: string, required: true, description: Event identifier. }
+      - { name: runId, type: string, required: true, description: Owning run. }
+      - { name: missionId, type: string, required: true, description: Owning mission used to reject cross-mission frames. }
+      - { name: seq, type: integer, required: true, description: Persisted order within one run. }
+      - { name: ts, type: timestamp, required: true, description: Server event time. }
+      - { name: type, type: enum, required: true, description: Environment workspace analysis plan diagnosis file-change test-result diff guard accounting artifact or terminal event kind. }
+      - { name: source, type: enum, required: true, description: Execution-event producer provenance., values: [engine, demo, llm, codex, maintainer, system] }
+      - { name: verified, type: boolean, required: true, description: Whether the event is an engine observation. }
+      - { name: computeDelta, type: integer, required: true, description: Credits charged by this event after allocation clamping. }
+      - { name: payload, type: tagged union, required: false, description: Bounded environment facts files test command and counts diff summary guard result budget outcome or redacted output selected by event type; unknown fields stay absent and secrets are forbidden. }
+  - name: verification_dossier
+    description: Baseline and post-change commands, outcomes, criteria and deterministic gates.
+    fields:
+      - { name: baseline, type: test summary, required: true, description: Frozen pre-change suite result. }
+      - { name: experiments, type: array, required: true, description: Every observed verification execution in order. }
+      - { name: qualityGates, type: array, required: true, description: Deterministic gate outcomes. }
+      - { name: criterionEvidence, type: array, required: true, description: Evidence per acceptance criterion without claiming more than observed. }
+  - name: change_artifact
+    description: Baseline-relative proposed change package for local review.
+    fields:
+      - { name: files, type: array, required: true, description: Bounded changed files and diff. }
+      - { name: testEvidenceSource, type: enum, required: true, description: engine for live observations or demo for authored seed evidence., values: [engine, demo] }
+      - { name: review, type: object, required: true, description: Advisory LLM or static review with provenance. }
+relations:
+  - The engine owns workspace setup, frozen verification, diff calculation and the reviewability decision.
+  - Runner summaries and advisory reviews may explain evidence but cannot replace it.
+  - REST snapshots and SSE frames identify the same mission and run; switching active run discards all derived evidence from the prior run.
+  - Accepted dispatch and queue ownership are intermediate facts; completion requires a persisted terminal run and its corresponding evidence or explicit recoverable outcome.
+invariants:
+  - A successful process exit is not criterion-level proof and must not fabricate criterion evidence.
+  - Static review must never be labelled llm；seeded history events use demo provenance and must never be labelled engine-verified.
+  - Unknown measurements remain absent or explicitly unreadable, never silently converted to zero.
+  - Secrets, unfenced repository text and unrestricted model output must not enter persisted or streamed evidence.
+  - Every live accepted run reaches exactly one terminal or documented recoverable state within the bounded execution timeout and every terminal run records endedAt.
+  - Only source engine may set verified true；demo llm codex maintainer and system explanation events remain unverified even when adjacent engine tests pass.
+  - Seeded run artifact and criterion evidence remain source demo and cannot satisfy fresh live reviewability.
+derived_from: [domain.provenance, domain.mission-lifecycle]

@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.observability
+title: Logs metrics traces scores and datasets
+scope: [api.metrics, api.ai-feedback, api.llm-validation, persistence.llm-observability, domain.model-assistance]
+rules:
+  - { id: bounded-labels, requirement: Logs/metrics/traces不可使用repository free text、path、URL、credential或unbounded model output作label。, enforcement: server }
+  - { id: redaction-boundary, requirement: Structured logger與trace capture必須在egress前redact nested secret-shaped values並保護reserved fields。, enforcement: server }
+  - { id: config-not-proof, requirement: langfuseEnabled或client存在只代表configuration；沒有correlated trace ID不得宣稱request已export。, enforcement: client }
+  - { id: score-context, requirement: Score 必須攜帶feature、actor、trace與version context；unauthenticated local feedback不得稱為verified evaluator judgement。, enforcement: server }
+  - { id: experiment-intent, requirement: Evaluation dry-run為default；dataset sync或live model execution需要explicit operator intent與credential。, enforcement: manual_review }
+  - { id: metrics-separate-evidence, requirement: Build info、queue、engine與LLM metrics各自回答不同問題；任一green metric不證明semantic quality或完整rollout。, enforcement: client }

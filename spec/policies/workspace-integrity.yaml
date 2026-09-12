@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.workspace-integrity
+title: Workspace containment and evidence safety
+scope: [domain.execution-evidence, persistence.mission-execution-store]
+rules:
+  - { id: contained-path, requirement: Read、search、write 只能操作 workspace 內非 symlink bounded paths，禁止 .git、node_modules 與 hard denylist。, enforcement: server }
+  - { id: redaction-before-egress, requirement: Repository content、tool output、wall text 與 evidence 在送往 model、log、stream 或 storage 前先做 secret redaction。, enforcement: server }
+  - { id: evidence-fencing, requirement: Untrusted repository text 必須以 bounded evidence fence 呈現，不能成為新的 system/tool instruction。, enforcement: server }
+  - { id: post-test-integrity, requirement: Executable test code 返回後必須再次檢查 Git 與 ignored-file integrity，再計算 final diff。, enforcement: server }
+  - { id: isolation-precision, requirement: Application containment 與 tool budgets 不得宣稱為 OS sandbox；只有實際 probe 成功才能回報 osIsolated。, enforcement: client }

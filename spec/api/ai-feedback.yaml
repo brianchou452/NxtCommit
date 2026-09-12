@@ -1,0 +1,17 @@
+spec_version: 1
+kind: api
+id: api.ai-feedback
+title: AI feature feedback
+summary: Record one unauthenticated local helpfulness score for an allowed feature and valid trace id.
+transport: http
+endpoint: { method: POST, path: /api/ai/feedback }
+request: { path_parameters: [], query_parameters: [], headers: [], body: { type: object, description: Valid trace id allowed feature name and boolean helpfulness., properties: { traceId: { type: string, description: 16-64 character correlation id., required: true }, feature: { type: string, description: Supported feature name., required: true, enum: [issue-triage, campaign-critic, evidence-explanation, shadow-review] }, helpful: { type: boolean, description: Local helpfulness judgement., required: true } } } }
+responses:
+  - { status: 200, description: Whether the score was recorded and local actor label., body: { type: object, description: Feedback result., properties: { recorded: { type: boolean, description: Whether observability accepted the score., required: true }, actor: { type: string, description: Always local-demo-user., required: true } } } }
+  - { status: 400, description: Invalid trace feature or helpful value., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable client error code., required: false } } } }
+trust_boundary:
+  authentication: None; actor is always local-demo-user.
+  data_mode: Real observability integration over unauthenticated prototype feedback.
+  forbidden_claims: [verified evaluator identity, feedback changes product gate]
+scenarios:
+  - { id: feedback-is-bounded, given: A supported AI feature exposes a valid trace id., when: Helpful feedback is submitted., then: Only the named score is attempted and actor remains visibly unauthenticated., test_file: server/product-spec.bdd.test.ts }

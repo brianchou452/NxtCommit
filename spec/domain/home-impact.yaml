@@ -1,0 +1,40 @@
+spec_version: 1
+kind: domain
+id: domain.home-impact
+title: Home impact model
+summary: 定義首頁 impact counters 與 donor map 共用的資料意義、計算方式與不可違反的誠實邊界。
+entities:
+  - name: impact_stats
+    description: 首頁顯示的聚合數值；所有值都來自 local demo store 的可追溯計算。
+    fields:
+      - { name: dataMode, type: enum, required: true, values: [demo], description: 數字與地圖共同的 provenance。 }
+      - { name: windowLabel, type: enum, required: true, values: [today, all_time], description: 統計時間範圍。 }
+      - { name: tokensDonated, type: integer, required: true, derived: true, description: 所有 pledged compute credits 乘以 1000。 }
+      - { name: featuresBuilt, type: integer, required: true, derived: true, description: 已發布 mission 中 feature 類型的數量。 }
+      - { name: bugsFixed, type: integer, required: true, derived: true, description: 已發布 mission 中 bug 類型的數量。 }
+      - { name: projectsRevived, type: integer, required: true, derived: true, description: 有至少一筆 released mission 的 distinct project 數。 }
+      - { name: trend, type: integer_array, required: true, derived: true, description: oldest-first 的 14 天 aggregate time series。 }
+  - name: donor_beacon
+    description: 放在地圖上的 demo community contribution 記錄。
+    fields:
+      - { name: city, type: string, required: true, description: seed city。 }
+      - { name: country, type: string, required: true, description: seed country。 }
+      - { name: lat, type: number, required: true, description: 範圍 -90 到 90 的緯度。 }
+      - { name: lng, type: number, required: true, description: 範圍 -180 到 180 的經度。 }
+      - { name: contributorId, type: string, required: true, description: local contributor identity。 }
+      - { name: handle, type: string, required: true, description: 顯示用 handle。 }
+      - { name: tokens, type: integer, required: true, description: 此 demo beacon 的 compute credits。 }
+relations:
+  - impact_stats 與 donor_beacon 必須由同一次 impact snapshot 回傳。
+  - donor_beacon 只可對應 seed contributor，不可由 IP、瀏覽器或外部來源推論。
+invariants:
+  - tokensDonated 等於所有 mission.computePledged 的總和乘以 1000。
+  - featuresBuilt 加 bugsFixed 不可超過 released mission 數量。
+  - projectsRevived 不可超過 released mission 或 existing project 數量。
+  - trend 固定包含 14 個非負整數。
+  - unknown measurement 必須缺席或顯示 unknown，不能用數字零代替。
+derived_from:
+  - mission.computePledged
+  - mission.status
+  - mission.tags
+  - contributor.seed_location

@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.verification-dossier
+title: Verification dossier desktop component reference
+component_id: component.verification-dossier
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: verification-dossier-ready, viewport: { width: 1440, height: 1400 }, state: Seeded dossier summary honestly shows zero authored experiments and gates with demo provenance rather than fresh engine evidence., actions: [Open seeded review route, wait for artifact, freeze motion, capture dossier], golden_path: e2e/golden/component-verification-dossier-ready.png, status: approved }

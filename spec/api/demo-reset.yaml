@@ -1,0 +1,34 @@
+spec_version: 1
+kind: api
+id: api.demo-reset
+title: Reset deterministic demo state
+summary: 讓 application shell 可明確重建首頁 local demo fixture，不代表登出、刪除外部資料或變更部署。
+transport: http
+endpoint:
+  method: POST
+  path: /api/demo/reset
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: local demo store 已重建。
+    body:
+      type: object
+      description: reset acknowledgement。
+      properties:
+        ok: { type: boolean, required: true, description: reset 完成時為 true。 }
+trust_boundary:
+  authentication: 沒有 authentication；這是 prototype local demo control。
+  data_mode: 只重建 local deterministic demo data。
+  forbidden_claims:
+    - 不代表登出或切換 authenticated user。
+    - 不刪除 GitHub、provider、deployment 或其他 external system 的資料。
+scenarios:
+  - id: reset-restores-home-demo-fixture-only
+    given: local demo store 可能已因首頁互動而改變
+    when: shell 請求 POST /api/demo/reset
+    then: server 重建 deterministic Home demo fixture 並只回傳 acknowledgement，不宣稱任何 external side effect
+    test_file: server/home-spec.bdd.test.ts

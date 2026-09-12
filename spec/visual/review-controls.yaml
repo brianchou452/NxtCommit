@@ -1,0 +1,10 @@
+spec_version: 1
+kind: visual
+id: visual.review-controls
+title: Review controls desktop component reference
+component_id: component.review-controls
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: review-controls-maintainer, viewport: { width: 1440, height: 1400 }, state: Local maintainer perspective shows feedback approve and request-changes controls after complete evidence., actions: [Open seeded review route, wait for artifact, freeze motion, capture controls], golden_path: e2e/golden/component-review-controls-maintainer.png, status: approved }
+  - { id: review-controls-provider-read-only, viewport: { width: 1440, height: 1400 }, state: Provider perspective exposes the read-only authorization boundary without decision controls., actions: [Open seeded review route with provider demo perspective, wait for artifact, freeze motion, capture controls], golden_path: e2e/golden/component-review-controls-provider-read-only.png, status: approved }

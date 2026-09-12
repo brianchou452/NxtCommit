@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.mvp-list
+title: MVP nominees
+summary: Return local monthly nominees with category basis, vote counts and current-persona lock state.
+transport: http
+endpoint: { method: GET, path: /api/mvp }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Current nominee array., body: { type: object, description: Demo nominee snapshot., properties: { nominees: { type: array, description: Category nominees and local lock state., required: true, items: { type: object, description: Id category localized title/subtitle votes votedByYou and optional basis. } } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Local deterministic and seeded community data.
+  forbidden_claims: [verified community election, external adoption ranking]
+scenarios:
+  - { id: mvp-list-route, given: Local mission and vote data exist., when: Nominees are requested., then: Each category includes local basis and lock state without external-governance claims., test_file: server/product-spec.bdd.test.ts }

@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.run-detail
+title: Run detail and evidence
+summary: Return one run with ordered events and optional change artifact.
+transport: http
+endpoint: { method: GET, path: /api/runs/:id }
+request:
+  path_parameters: [{ type: string, description: Run identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: "Run, events and optional artifact.", body: { type: object, description: Execution evidence aggregate., properties: { run: { type: object, description: ExecutionRun id mission status mode attempts budget usage times and optional trace., required: true }, events: { type: array, description: Ordered ExecutionEvent records., required: true, items: { type: object, description: Source-labelled persisted event. } }, artifact: { type: object, description: Optional local PullRequestArtifact with files dossier review and ledger., required: false } } } }
+  - { status: 404, description: Run does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Provenance is field-level; seed and live engine evidence may coexist but cannot share verified labels.
+  forbidden_claims: [runner summary is verification, missing artifact means success]
+scenarios:
+  - { id: run-detail-route, given: "A run may be active, terminal or absent.", when: Its detail is requested., then: Matching ordered evidence is returned without manufacturing an artifact., test_file: server/product-spec.bdd.test.ts }

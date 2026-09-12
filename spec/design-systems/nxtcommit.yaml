@@ -1,0 +1,91 @@
+spec_version: 1
+kind: design-system
+id: design-system.nxtcommit
+title: NxtCommit product design system
+principles:
+  - Editorial clarity comes before decoration; every screen must expose one obvious reading order.
+  - Violet identifies the product, while funding, development, verification, and adoption colours retain stable semantic meanings.
+  - Demo provenance and unknown measurements remain visible and must never be hidden by visual polish.
+  - Desktop layouts keep content, focus, and primary actions available without hover or motion.
+foundations:
+  typography:
+    - name: display-sans
+      value: DM Sans, Noto Sans TC, PingFang TC, system sans-serif; weight 600-700; compact tracking
+      usage: Hero headlines, section titles, campaign titles, and major outcome statements.
+    - name: body-sans
+      value: DM Sans, Noto Sans TC, PingFang TC, system sans-serif; weight 400-600
+      usage: Explanations, controls, descriptions, and long-form interface copy.
+    - name: metadata-mono
+      value: UI monospace stack; weight 600-800; often uppercase with expanded tracking
+      usage: Provenance, metrics, category kickers, statuses, and technical metadata.
+  colours:
+    - name: canvas
+      value: '#fbfbfa'
+      usage: Default page background with restrained violet and mint ambient gradients.
+    - name: surface
+      value: '#ffffff'
+      usage: Primary cards, readable panels, and controls.
+    - name: ink
+      value: '#101110'
+      usage: Primary text and highest-emphasis boundaries.
+    - name: muted
+      value: '#676b65'
+      usage: Supporting copy that must remain readable on light surfaces.
+    - name: brand-violet
+      value: '#6657ff'
+      usage: Product identity, primary actions, focus, and decorative emphasis; not a substitute for categorical status colours.
+    - name: gradient-mint
+      value: '#28ebc7'
+      usage: Continuous decorative gradients, live accents, and positive movement without introducing a new category.
+    - name: deep-indigo
+      value: '#17152f'
+      usage: High-contrast narrative panels and pipeline surfaces.
+    - name: semantic-progress
+      value: 'funding #6657ff; development #0b9d81; verification #277fa6; adoption #c26b45'
+      usage: The only categorical progress palette; each colour keeps the same meaning across components.
+  spacing:
+    - name: base-step
+      value: 4px
+      usage: Build control, card, and inline spacing in deliberate multiples.
+    - name: section-desktop
+      value: 7rem
+      usage: Default breathing room between major desktop narrative sections.
+  radii:
+    - name: control-pill
+      value: 999px
+      usage: Primary actions, compact filters, statuses, and badges.
+    - name: card
+      value: 18px to 24px
+      usage: Standard cards and grouped information panels.
+    - name: feature-panel
+      value: 28px to 44px
+      usage: Hero, map, campaign feature, and release narrative surfaces.
+  elevation:
+    - name: card-soft
+      value: low-contrast border plus soft neutral or violet shadow
+      usage: Separate cards from the canvas without making every surface appear modal.
+    - name: feature-depth
+      value: broad violet-tinted shadow with optional subtle inset highlight
+      usage: Large dark or glass feature panels.
+  motion:
+    - name: enter
+      value: 350ms to 700ms; cubic-bezier(0.22, 1, 0.36, 1)
+      usage: First-arrival reveal and small event entry; never required to discover content.
+    - name: ambient
+      value: 3.6s to 22s; low-frequency loop
+      usage: Decorative dot, glow, beacon, or pipeline movement only.
+    - name: reduced-motion
+      value: remove transforms and looping animation; render final visible state
+      usage: Required response to prefers-reduced-motion and deterministic visual capture.
+layout:
+  canvas: Full-width light canvas with readable content grouped into bounded panels; ambient gradients never reduce text contrast.
+  content_widths:
+    - Narrative and application content usually stays within 1440px to 1480px on desktop.
+    - Dense text uses a narrower readable measure inside the larger composition.
+  gutters: At least 24px on desktop.
+  section_rhythm: Major sections use the semantic desktop spacing token and remain visually distinct without empty artificial height.
+accessibility:
+  contrast: Normal text and meaningful controls meet WCAG AA on every declared surface; low-contrast colour is decorative only.
+  focus: Interactive elements expose a visible 2px violet focus outline with separation from the control edge.
+  motion: Reduced motion removes loops and transforms while leaving every state and item visible.
+  interaction: Actions work with keyboard and touch, target size remains usable, and no information or action depends only on hover.

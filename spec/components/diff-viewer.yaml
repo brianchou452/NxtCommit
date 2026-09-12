@@ -1,0 +1,32 @@
+spec_version: 1
+kind: component
+id: component.diff-viewer
+title: Change diff viewer
+purpose: 顯示 engine計算的 bounded baseline-relative files與diff，而不是 runner自述或 upstream PR。
+inputs:
+  - { name: files, type: ArtifactFile array, required: true, description: Persisted artifact changes. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/runs/:id, purpose: 取得同一 run artifact files。 }
+states:
+  - { name: empty, condition: Artifact沒有files。, rendering: 顯示不可 review而非成功。 }
+  - { name: ready, condition: Bounded files存在。, rendering: 第一個檔案預設展開，其餘可逐檔 disclosure。 }
+interactions:
+  - { trigger: Select file disclosure., result: 展開或收合 persisted diff，不重新執行或修改 workspace。 }
+content:
+  locales:
+    en: { boundary: Proposed local change evidence; no upstream pull request exists. }
+    zh-TW: { boundary: 本機提議變更證據；尚未建立任何上游 Pull Request。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Boundary and file count lead., File path and change kind precede diff.]
+  layout: Ordered file disclosures with preformatted diff blocks.
+  geometry: Wide code surface with bounded horizontal overflow.
+  colour_semantics: Added and removed lines use accessible semantic backgrounds.
+  surface: Dark or neutral code panels inside evidence card.
+  typography: Monospace diff with readable line wrapping policy.
+  motion: Disclosure only.
+  visual_anchors: [Local-change boundary, file paths, diff hunks.]
+scenarios:
+  - { id: diff-is-local-engine-artifact, given: Engine produced a baseline-relative artifact., when: Reviewer inspects files., then: Persisted changes render without implying a pushed branch or GitHub PR., test_file: server/product-spec.bdd.test.ts }

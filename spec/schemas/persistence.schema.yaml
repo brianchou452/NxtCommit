@@ -1,0 +1,64 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: persistence.schema.yaml
+type: object
+additionalProperties: false
+required: [spec_version, kind, id, title, summary, mode, domain_ids]
+properties:
+  spec_version: { const: 1 }
+  kind: { const: persistence }
+  id: { type: string, pattern: '^persistence\.[a-z0-9-]+$' }
+  title: { type: string }
+  summary: { type: string }
+  mode: { enum: [read_model, seed_fixture] }
+  domain_ids:
+    type: array
+    minItems: 1
+    items: { type: string, pattern: '^domain\.' }
+  stores:
+    type: array
+    items: { $ref: '#/$defs/store' }
+  projections:
+    type: array
+    items: { $ref: '#/$defs/projection' }
+  reset:
+    type: array
+    items: { type: string }
+  fixtures:
+    type: array
+    items: { $ref: '#/$defs/fixture' }
+allOf:
+  - if:
+      properties: { mode: { const: read_model } }
+    then:
+      required: [stores, projections, reset]
+  - if:
+      properties: { mode: { const: seed_fixture } }
+    then:
+      required: [fixtures, reset]
+$defs:
+  store:
+    type: object
+    additionalProperties: false
+    required: [name, key, required_fields, role]
+    properties:
+      name: { type: string }
+      key: { type: string }
+      required_fields: { type: array, minItems: 1, items: { type: string } }
+      role: { type: string }
+  projection:
+    type: object
+    additionalProperties: false
+    required: [name, source_stores, output, consistency]
+    properties:
+      name: { type: string }
+      source_stores: { type: array, minItems: 1, items: { type: string } }
+      output: { type: string }
+      consistency: { type: string }
+      ordering: { type: string }
+  fixture:
+    type: object
+    additionalProperties: false
+    required: [name, guarantees]
+    properties:
+      name: { type: string }
+      guarantees: { type: array, minItems: 1, items: { type: string } }

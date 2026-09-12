@@ -1,0 +1,16 @@
+spec_version: 1
+kind: persistence
+id: persistence.capability-store
+title: Analysis and campaign capability store
+summary: Capacity-bounded process-local bearer capabilities that bind trusted analysis and campaign snapshots.
+mode: read_model
+domain_ids: [domain.marketplace, domain.provenance]
+stores:
+  - { name: analysis_capabilities, key: opaqueToken, required_fields: [opaqueToken, sourceIdentity, analysis, expiresAt], role: Bind client round trips to server-observed repository metadata. }
+  - { name: campaign_capabilities, key: opaqueToken, required_fields: [opaqueToken, analysisToken, draft, expiresAt], role: Bind mission creation to a server-issued draft. }
+projections:
+  - { name: trusted_analysis, source_stores: [analysis_capabilities], output: "Server-held analysis snapshot for assistant, generation and creation.", consistency: Submitted client objects are never accepted as authoritative. }
+  - { name: trusted_campaign, source_stores: [campaign_capabilities], output: Server-held draft and idempotent created mission reference., consistency: Capability expires after at most 30 minutes and may disappear earlier on eviction or restart. }
+reset:
+  - Process restart or demo reset invalidates all capabilities.
+  - Capability loss requires a fresh analysis; it must not fall back to trusting client payloads.

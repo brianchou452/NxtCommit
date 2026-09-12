@@ -1,0 +1,10 @@
+spec_version: 1
+kind: visual
+id: visual.guided-demo-controller
+title: Guided demo controller desktop component reference
+component_id: component.guided-demo-controller
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: guided-demo-maintainer-active, viewport: { width: 1440, height: 1000 }, state: Maintainer guide points at the real repository analysis control after reset., actions: [Launch maintainer walkthrough, wait for /new, freeze motion, capture guide], golden_path: e2e/golden/component-guided-demo-maintainer-active.png, status: approved }
+  - { id: guided-demo-provider-active, viewport: { width: 1440, height: 1000 }, state: Provider guide points at the canonical campaign selection control after reset., actions: [Launch provider walkthrough, wait for /marketplace, freeze motion, capture guide], golden_path: e2e/golden/component-guided-demo-provider-active.png, status: approved }

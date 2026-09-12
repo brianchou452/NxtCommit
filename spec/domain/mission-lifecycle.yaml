@@ -1,0 +1,31 @@
+spec_version: 1
+kind: domain
+id: domain.mission-lifecycle
+title: Mission and run lifecycle
+summary: 描述 mission、execution run 與 human review 的可觀察狀態及合法轉移。
+entities:
+  - name: mission
+    description: 一個由 community credits 支持、可能在 bundled fixture 上執行的工作單位。
+    fields:
+      - { name: id, type: string, required: true, description: Stable mission identifier. }
+      - { name: status, type: enum, required: true, description: Current lifecycle state., values: [funding, funded, executing, needs_review, changes_requested, approved, released, failed, stalled] }
+      - { name: latestRunId, type: string, required: false, description: 最近一次 execution run；未執行時必須省略。 }
+  - name: execution_run
+    description: 一次由 engine 擁有、選擇單一 runner 的執行紀錄。
+    fields:
+      - { name: id, type: string, required: true, description: Stable run identifier. }
+      - { name: missionId, type: string, required: true, description: Owning mission. }
+      - { name: status, type: enum, required: true, description: Run outcome., values: [running, succeeded, failed, budget_exhausted, blocked, cancelled] }
+      - { name: mode, type: enum, required: true, description: Runner selected for this run., values: [demo, llm, codex] }
+      - { name: startedAt, type: ISO-8601 string, required: true, description: Engine start time. }
+      - { name: completedAt, type: ISO-8601 string, required: false, description: Terminal time; absent while running. }
+relations:
+  - A mission owns zero or more runs and points at at most one latest run.
+  - A run selects exactly one runner mode and never coordinates multiple runners.
+invariants:
+  - funding 只能轉為 funded 或 stalled；funded 與 changes_requested 可進入 executing。
+  - executing 的成功交付只能經 deterministic reviewability gate 進入 needs_review；失敗或人工交接分別進入 failed 或 stalled。
+  - needs_review 只能由本機 human decision 進入 approved 或 changes_requested；approved 才可進入 released。
+  - Run 從 running 進入一個 terminal status 後不得再次轉移或重複結算。
+  - Seed/recovery 可恢復可見 review state，但必須標為非新鮮 engine verification。
+derived_from: [domain.marketplace, domain.execution-evidence, domain.compute-accounting]

@@ -1,0 +1,21 @@
+spec_version: 1
+kind: domain
+id: domain.review-decision
+title: Review decision
+summary: 分離 deterministic reviewability、advisory review 與本機 human decision。
+entities:
+  - name: review_decision
+    description: Local unauthenticated demo persona accepts or requests changes on a change artifact.
+    fields:
+      - { name: runId, type: string, required: true, description: Reviewed run. }
+      - { name: decision, type: enum, required: true, description: Local decision., values: [approve, request_changes] }
+      - { name: comment, type: string, required: false, description: Required non-empty feedback for request_changes. }
+      - { name: reviewerId, type: string, required: true, description: Server-selected local demo persona; never trusted from the browser. }
+relations:
+  - A decision applies only to a reviewable artifact for the run.
+  - Request changes feeds a later sequential execution attempt through engine-owned feedback.
+invariants:
+  - Approval cannot bypass computeReviewable or create evidence that did not exist.
+  - Request changes requires a non-empty comment.
+  - The decision does not authenticate a maintainer and does not push, merge, tag or release upstream.
+derived_from: [domain.mission-lifecycle, domain.execution-evidence]

@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.mission-events
+title: Stored mission events
+summary: Return ordered stored events for the requested mission latest run or an explicitly selected owned run.
+transport: http
+endpoint: { method: GET, path: /api/missions/:id/events }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: [{ type: string, description: Optional run identifier that must belong to the mission., required: false }]
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Selected run id and ordered events; events may be empty., body: { type: object, description: Stored event snapshot., properties: { runId: { type: string, description: Selected latest or query run id., required: false }, events: { type: array, description: Ordered persisted events., required: true, items: { type: object, description: Event id run type title detail source verified payload and time. } } } } }
+  - { status: 404, description: Mission or selected owned run is missing., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Event source and verified fields distinguish engine observations from demo or model content.
+  forbidden_claims: [all events are live, demo reasoning is LLM output]
+scenarios:
+  - { id: mission-events-route, given: A mission may have zero or more runs., when: Stored events are requested., then: Only events for its latest or explicitly owned run are returned., test_file: server/product-spec.bdd.test.ts }

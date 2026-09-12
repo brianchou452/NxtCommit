@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.model-assistance
+title: Model assistance authority and fallback
+scope: [domain.model-assistance, persistence.capability-store, domain.execution-evidence]
+rules:
+  - { id: endpoint-scoped, requirement: Issue assistant、campaign generation/critic、project/evidence explanation與shadow review是independent endpoint calls，不得描述成persistent cooperating agents。, enforcement: client }
+  - { id: validated-output, requirement: Model response 必須通過 bounded feature-specific validation；失敗時只能回 labelled fallback 或 stable error。, enforcement: server }
+  - { id: generator-truth, requirement: openai、demo、static label由實際完成路徑決定，不能由文案品質、credential presence或caller猜測。, enforcement: server }
+  - { id: deterministic-authority, requirement: Compute estimate、reviewability、tests、diff、accounting與mission state不得由model-authored result決定。, enforcement: server }
+  - { id: feedback-nonauthority, requirement: Human helpfulness score只進observability，不能重寫result、gate或publication state。, enforcement: server }

@@ -1,0 +1,109 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: api.schema.yaml
+type: object
+additionalProperties: false
+required: [spec_version, kind, id, title, summary, transport, endpoint, request, responses, trust_boundary, scenarios]
+properties:
+  spec_version: { const: 1 }
+  kind: { const: api }
+  id: { type: string, pattern: '^api\.[a-z0-9-]+$' }
+  title: { type: string, minLength: 1 }
+  summary: { type: string, minLength: 1 }
+  transport: { enum: [http, sse] }
+  endpoint:
+    type: object
+    additionalProperties: false
+    required: [method, path]
+    properties:
+      method: { enum: [GET, POST, PUT, PATCH, DELETE] }
+      path: { type: string, pattern: '^(/api/|/healthz$|/readyz$|/metrics$)' }
+  request: { $ref: '#/$defs/request' }
+  responses:
+    type: array
+    minItems: 1
+    items: { $ref: '#/$defs/response' }
+  trust_boundary:
+    type: object
+    additionalProperties: false
+    required: [authentication, data_mode, forbidden_claims]
+    properties:
+      authentication: { type: string }
+      data_mode: { type: string }
+      forbidden_claims:
+        type: array
+        items: { type: string }
+  scenarios: { $ref: '#/$defs/scenarios' }
+  event_contract:
+    type: object
+    additionalProperties: false
+    required: [reconnect, events]
+    properties:
+      reconnect: { type: string }
+      events:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          additionalProperties: false
+          required: [name, payload]
+          properties:
+            name: { type: string }
+            payload: { $ref: '#/$defs/field' }
+allOf:
+  - if:
+      properties:
+        transport: { const: sse }
+    then:
+      required: [event_contract]
+$defs:
+  field:
+    type: object
+    additionalProperties: false
+    required: [type, description]
+    properties:
+      type: { enum: [string, integer, number, boolean, object, array] }
+      description: { type: string }
+      required: { type: boolean }
+      nullable: { type: boolean }
+      format: { type: string }
+      enum:
+        type: array
+        items: { type: [string, number, boolean] }
+      properties:
+        type: object
+        additionalProperties: { $ref: '#/$defs/field' }
+      items: { $ref: '#/$defs/field' }
+  request:
+    type: object
+    additionalProperties: false
+    required: [path_parameters, query_parameters, headers, body]
+    properties:
+      path_parameters: { type: array, items: { $ref: '#/$defs/field' } }
+      query_parameters: { type: array, items: { $ref: '#/$defs/field' } }
+      headers: { type: array, items: { $ref: '#/$defs/field' } }
+      body:
+        oneOf:
+          - { type: 'null' }
+          - { $ref: '#/$defs/field' }
+  response:
+    type: object
+    additionalProperties: false
+    required: [status, description, body]
+    properties:
+      status: { type: integer, minimum: 100, maximum: 599 }
+      description: { type: string }
+      body: { $ref: '#/$defs/field' }
+  scenario:
+    type: object
+    additionalProperties: false
+    required: [id, given, when, then, test_file]
+    properties:
+      id: { type: string, pattern: '^[a-z0-9-]+$' }
+      given: { type: string }
+      when: { type: string }
+      then: { type: string }
+      test_file: { type: string, pattern: '^server/.+\.test\.ts$' }
+  scenarios:
+    type: array
+    minItems: 1
+    items: { $ref: '#/$defs/scenario' }

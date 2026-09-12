@@ -1,0 +1,10 @@
+spec_version: 1
+kind: policy
+id: policy.execution-mode
+title: Execution mode resolution
+scope: [api.bootstrap, domain.mission-lifecycle]
+rules:
+  - { id: explicit-consent, requirement: Credential 或 measured isolation 的存在都不能自動把 auto 升級為 real runner；llm/codex 必須由 explicit EXECUTION_MODE 請求。, enforcement: server }
+  - { id: isolation-required, requirement: llm/codex 需要 measured per-run OS isolation，或明示 disposable-local unsafe opt-in；否則 resolved mode 為 null 並回報非秘密錯誤。, enforcement: server }
+  - { id: configured-not-resolved, requirement: UI 必須分別呈現 configured、resolved、credential validation 與 isolation，不得把任一項當成 completed real execution。, enforcement: client }
+  - { id: shared-nonprod-demo, requirement: 沒有 measured deployed per-run boundary 的 shared nonprod 必須維持 demo mission execution。, enforcement: manual_review }

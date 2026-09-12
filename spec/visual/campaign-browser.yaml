@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.campaign-browser
+title: Campaign browser desktop component reference
+component_id: component.campaign-browser
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: campaign-browser-ready, viewport: { width: 1440, height: 1000 }, state: Seeded marketplace shelf exposes category hierarchy featured and compact cards with provenance., actions: [Open marketplace, wait for shelves, freeze motion, capture first category group], golden_path: e2e/golden/component-campaign-browser-ready.png, status: approved }

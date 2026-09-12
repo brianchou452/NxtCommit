@@ -1,0 +1,56 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: design-system.schema.yaml
+type: object
+additionalProperties: false
+required: [spec_version, kind, id, title, principles, foundations, layout, accessibility]
+properties:
+  spec_version: { const: 1 }
+  kind: { const: design-system }
+  id: { type: string, pattern: '^design-system\.[a-z0-9-]+$' }
+  title: { type: string, minLength: 1 }
+  principles:
+    type: array
+    minItems: 1
+    items: { type: string, minLength: 1 }
+  foundations:
+    type: object
+    additionalProperties: false
+    required: [typography, colours, spacing, radii, elevation, motion]
+    properties:
+      typography: { $ref: '#/$defs/tokens' }
+      colours: { $ref: '#/$defs/tokens' }
+      spacing: { $ref: '#/$defs/tokens' }
+      radii: { $ref: '#/$defs/tokens' }
+      elevation: { $ref: '#/$defs/tokens' }
+      motion: { $ref: '#/$defs/tokens' }
+  layout:
+    type: object
+    additionalProperties: false
+    required: [canvas, content_widths, gutters, section_rhythm]
+    properties:
+      canvas: { type: string, minLength: 1 }
+      content_widths: { type: array, minItems: 1, items: { type: string } }
+      gutters: { type: string, minLength: 1 }
+      section_rhythm: { type: string, minLength: 1 }
+  accessibility:
+    type: object
+    additionalProperties: false
+    required: [contrast, focus, motion, interaction]
+    properties:
+      contrast: { type: string, minLength: 1 }
+      focus: { type: string, minLength: 1 }
+      motion: { type: string, minLength: 1 }
+      interaction: { type: string, minLength: 1 }
+$defs:
+  token:
+    type: object
+    additionalProperties: false
+    required: [name, value, usage]
+    properties:
+      name: { type: string, pattern: '^[a-z0-9-]+$' }
+      value: { type: string, minLength: 1 }
+      usage: { type: string, minLength: 1 }
+  tokens:
+    type: array
+    minItems: 1
+    items: { $ref: '#/$defs/token' }

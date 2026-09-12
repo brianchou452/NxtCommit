@@ -1,0 +1,13 @@
+spec_version: 1
+kind: visual
+id: visual.mission-detail
+title: Mission detail visual contract
+page_id: page.mission-detail
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: mission-detail-funding, viewport: { width: 1440, height: 1200 }, state: Seeded fundable fixture mission with story progress criteria explanation provenance and action sidebar., actions: [Open seeded funding mission, wait for explanation and wall, freeze motion], golden_path: e2e/golden/mission-detail-funding.png, status: approved }
+  - { id: mission-detail-funded-fixture, viewport: { width: 1440, height: 1000 }, state: Fully funded bundled fixture shows execute while preserving demo and workspace-boundary labels., actions: [Reset deterministic seed, fund the canonical fixture mission to its exact goal, wait for detail revalidation, freeze motion], golden_path: e2e/golden/mission-detail-funded-fixture.png, status: approved }
+  - { id: mission-detail-metadata-refusal, viewport: { width: 1440, height: 1000 }, state: Fully funded metadata-only mission shows no execute action and names the repository execution refusal., actions: [Fund a deterministic metadata-only seed mission to its exact goal, open its detail, freeze motion], golden_path: e2e/golden/mission-detail-metadata-refusal.png, status: approved }
+  - { id: mission-detail-needs-review, viewport: { width: 1440, height: 1200 }, state: Seeded reviewable mission shows review action and labels authored seed evidence as non-engine verification., actions: [Open canonical seeded needs-review mission, wait for REST state, freeze motion], golden_path: e2e/golden/mission-detail-needs-review.png, status: approved }
+  - { id: mission-detail-error-recovery, viewport: { width: 1440, height: 1000 }, state: Missing mission displays route-owned recovery without stale campaign content., actions: [Open missing mission id, assert not-found, freeze motion], golden_path: e2e/golden/mission-detail-error-recovery.png, status: approved }

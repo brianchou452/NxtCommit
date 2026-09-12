@@ -1,0 +1,76 @@
+spec_version: 1
+kind: component
+id: component.application-shell
+title: Application shell around Home
+purpose: 提供首頁可重建的 persistent navigation、demo truth boundary、locale control、local persona wallet 與 footer reset，不把 demo persona 或 execution configuration 誤稱為 authentication 或 live run。
+inputs:
+  - { name: bootstrap, type: 'loading | error | ready(current_user, execution)', required: true, description: 由 server 提供的 local persona 與 measured execution capability。 }
+  - { name: wallet_balance, type: integer | unknown, required: true, description: bootstrap current user 的 compute credits；不是貨幣。 }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/bootstrap, purpose: 取得 local persona、wallet 與 measured execution mode/isolation。 }
+  - { kind: api, endpoint: /api/demo/reset, purpose: footer 的 reset action 以 deterministic seed 重建 local demo state。 }
+states:
+  - { name: bootstrap_loading, condition: bootstrap 尚未完成。, rendering: shell、主要導覽與 locale control 保持可用；persona、wallet 與 mode evidence 不顯示假資料。 }
+  - { name: bootstrap_error, condition: bootstrap 請求失敗。, rendering: 在 header 下方顯示 alert 與原生 retry button，不顯示 persona 或推測 execution mode。 }
+  - { name: ready_resolved, condition: bootstrap ready 且 execution.resolved 有值。, rendering: 顯示 mode badge、server mode 說明、measured isolation、wallet 與 local persona avatar。 }
+  - { name: ready_refused, condition: bootstrap ready 且 execution.resolved 為 null。, rendering: 顯示拒絕狀態、server error 與 measured isolation；不可把 configured mode 當作可用 mode。 }
+interactions:
+  - { trigger: 選擇 product logo 或 Discover。, result: 導航到根路徑。 }
+  - { trigger: 選擇 New Mission、My Commitment 或 Demo。, result: 分別導航到 mission authoring、目前 local contributor profile 或 guided demo route。 }
+  - { trigger: 選擇 locale control。, result: 在 en 與 zh-TW 間切換、寫入 cc-locale local preference，並更新 document language；首次使用無 preference 時採 browser language，其他值 fallback 為 en。 }
+  - { trigger: route pathname 改變。, result: 視窗回到頁首，main content 取得 programmatic focus；skip link 可直接跳至同一 main content。 }
+  - { trigger: 選擇 Reset demo data。, result: 呼叫 demo reset；成功顯示 localized notice 後返回根路徑，失敗顯示 localized error，pending 時停用重複提交。 }
+content:
+  locales:
+    en:
+      product: NxtCommit
+      discover: Discover
+      new_mission: New Mission
+      profile: My Commitment
+      demo: Demo
+      skip: Skip to main content
+      reset: Reset demo data
+      reset_done: Demo data reset.
+      bootstrap_error: NxtCommit could not load its session data.
+      build_note: hackathon build
+      disclaimer: compute credits ≈ AI inference budget — not a currency
+    zh-TW:
+      product: NxtCommit
+      discover: Discover
+      new_mission: New Mission
+      profile: My Commitment
+      demo: Demo
+      skip: 跳到主要內容
+      reset: 重設示範資料
+      reset_done: 示範資料已重設。
+      bootstrap_error: NxtCommit 無法載入工作階段資料。
+      build_note: 黑客松版本
+      disclaimer: 運算點數 ≈ AI 推理額度 — 並非貨幣
+  dynamic_labels:
+    - { name: wallet_balance, source: bootstrap.currentUser.walletBalance, fallback: '—' }
+    - { name: mode_description, source: bootstrap.execution.resolved and measured isolation, fallback: execution refused or unavailable }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Skip link is first in keyboard order and becomes visible on focus.
+    - Sticky header presents product identity, primary routes, execution mode, locale, wallet, and local persona in that order.
+    - The truth strip sits directly below navigation so its provenance applies to the entire page.
+    - Footer repeats the build/data boundary and keeps reset secondary to page content.
+  layout: Desktop header uses one bounded horizontal row. Truth strip and footer span the viewport with content aligned to the page canvas.
+  geometry: Header is approximately 72px on compact screens and 88px to 102px on larger screens; controls retain at least 44px touch targets and pill geometry. The product mark uses the canonical spec/assets/branding/nxtcommit-app-icon.svg asset; code generation must copy or import that committed SVG verbatim rather than redraw it.
+  colour_semantics: Resolved demo uses neutral/amber evidence styling, refusal/error uses danger, measured OS isolation uses verification green, absent isolation uses warning amber, and wallet remains neutral.
+  surface: Translucent sticky white header with blur and restrained borders; truth and error strips are flat full-width evidence bands.
+  typography: Product and active navigation use bold sans; wallet, mode and evidence metadata use compact mono or label styling.
+  motion: Locale, navigation and focus transitions may be short; no shell state or evidence depends on animation.
+  visual_anchors:
+    - NxtCommit identity remains the leftmost persistent anchor.
+    - Active Discover is a dark pill on Home.
+    - The demo/isolation truth strip remains visually attached to the header.
+    - Footer disclaimer and reset action close the page without a second primary CTA.
+scenarios:
+  - id: shell-preserves-local-demo-and-locale-boundaries
+    given: Home 使用 bootstrap 的 local persona 與 measured execution evidence
+    when: application shell render 或使用者切換 locale、route、reset
+    then: 導覽與 accessibility controls 保持可用，demo/isolation/wallet provenance 不被誤稱為 authentication、currency 或 completed execution，locale preference 可重建
+    test_file: server/home-spec.bdd.test.ts

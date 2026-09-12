@@ -1,0 +1,18 @@
+spec_version: 1
+kind: persistence
+id: persistence.home-read-model
+title: Home read models
+summary: 定義 Home API snapshot 使用的 local store、projection 與 reset 一致性。
+mode: read_model
+domain_ids: [domain.home-impact, domain.marketplace, domain.provenance]
+stores:
+  - { name: missions, key: id, required_fields: [id, projectId, status, computePledged, computeGoal, tags], role: campaign lifecycle 與 impact aggregate 的主要來源。 }
+  - { name: projects, key: id, required_fields: [id, name, figuresMode], role: mission card 與 figure provenance 的來源。 }
+  - { name: contributors, key: id, required_fields: [id, handle], role: marketplace contributor count 與 demo beacon identity。 }
+  - { name: pledges, key: id, required_fields: [missionId, contributorId, amount, createdAt], role: compute aggregate 與 seed support history。 }
+projections:
+  - { name: impact_snapshot, source_stores: [missions, contributors, pledges], output: api.impact, consistency: counters 與 beacons 必須由同一個 read snapshot 產生。 }
+  - { name: marketplace_snapshot, source_stores: [missions, projects, contributors], output: api.marketplace, consistency: sections 與 stats 必須由同一個 read snapshot 產生。, ordering: server-owned deterministic order。 }
+reset:
+  - demo reset 必須在清除舊資料與寫入新 seed 時避免留下 orphaned row。
+  - reset 後 Home API 不可回傳 stale projection。

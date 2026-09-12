@@ -1,0 +1,34 @@
+spec_version: 1
+kind: component
+id: component.comment-wall
+title: Comment wall
+purpose: 顯示與新增 local mission comments，同時保留 server-assigned identity 與 pre-storage secret redaction boundary。
+inputs:
+  - { name: missionId, type: string, required: true, description: Owning mission. }
+component_dependencies: []
+data_dependencies:
+  - { kind: api, endpoint: /api/missions/:id/wall, purpose: 取得或提交完整 refreshed thread。 }
+states:
+  - { name: loading, condition: Thread 尚未載入。, rendering: 顯示 bounded loading state。 }
+  - { name: empty, condition: 沒有 messages。, rendering: 顯示 honest empty invitation。 }
+  - { name: ready, condition: Messages 已載入。, rendering: 依 server order 顯示 assigned role、handle、time、body。 }
+  - { name: error, condition: Read or post failed., rendering: 保留輸入並允許 retry。 }
+interactions:
+  - { trigger: Submit body., result: 只傳 body並以 server refreshed thread取代 local optimistic copy。 }
+content:
+  locales:
+    en: { boundary: Local demo identities; not authenticated maintainers or upstream comments. }
+    zh-TW: { boundary: 本機示範身分；不是已驗證維護者或上游留言。 }
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy: [Thread precedes composer., Role boundary remains visible with messages.]
+  layout: Ordered message list followed by compact composer.
+  geometry: Full-column wall with readable message widths.
+  colour_semantics: Roles may differ visually but never imply verification.
+  surface: Light cards with a bordered input area.
+  typography: Handles and times are secondary to message body.
+  motion: New messages may enter gently without reordering history.
+  visual_anchors: [Boundary note, message thread, composer.]
+scenarios:
+  - { id: wall-trusts-server-thread, given: User submits untrusted body text., when: Post succeeds., then: The refreshed redacted server thread replaces optimistic content and identity is not client-selected., test_file: server/product-spec.bdd.test.ts }

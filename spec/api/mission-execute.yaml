@@ -1,0 +1,24 @@
+spec_version: 1
+kind: api
+id: api.mission-execute
+title: Dispatch mission execution
+summary: Dispatch one eligible mission through configured inline or queue mode without changing runner truth boundaries.
+transport: http
+endpoint: { method: POST, path: /api/missions/:id/execute }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Optional human feedback used for a changes-requested retry., properties: { feedback: { type: string, description: Bounded maintainer feedback for a retry., required: false } } }
+responses:
+  - { status: 200, description: Inline dispatch accepted and returns the engine run., body: { type: object, description: Inline result., properties: { dispatch: { type: string, description: Dispatch path., required: true, enum: [inline] }, run: { type: object, description: Newly created ExecutionRun., required: true } } } }
+  - { status: 202, description: Queue dispatch accepted and returns the run request., body: { type: object, description: Queue result., properties: { dispatch: { type: string, description: Dispatch path., required: true, enum: [queue] }, request: { type: object, description: Public run-request id mission status and optional resultRunId., required: true } } } }
+  - { status: 400, description: Mission is missing or ineligible for execution., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None in prototype; executable workspace and lifecycle eligibility are server enforced.
+  data_mode: Shared nonprod uses DemoRunner; response mode and later evidence identify what actually ran.
+  forbidden_claims: [arbitrary GitHub execution, queue proves isolation, credential selects consent]
+scenarios:
+  - { id: execute-dispatch-union, given: An eligible bundled fixture mission is ready., when: Execution is requested., then: Inline returns 200 with a run while queue returns 202 with a request and neither path executes imported GitHub code., test_file: server/product-spec.bdd.test.ts }
+  - { id: execute-dispatch-must-reach-terminal-or-recoverable, given: Inline or worker dispatch accepts an eligible run., when: Runtime processing proceeds or a bounded fault occurs., then: The request produces one owned run that reaches succeeded failed stalled or cancelled with endedAt persisted within the documented timeout; an accepted row alone is not completion., test_file: server/rec01-recovery.test.ts }
+  - { id: execute-success-produces-reviewable-evidence, given: DemoRunner applies scripted intelligence to a copied bundled fixture., when: Engine-owned verification observes a nonempty bounded diff and a green nonempty final suite., then: The run persists source-labelled events dossier and artifact and only computeReviewable may move the mission to needs_review., test_file: server/engine/engine.test.ts }

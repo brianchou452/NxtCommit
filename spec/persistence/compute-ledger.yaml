@@ -1,0 +1,18 @@
+spec_version: 1
+kind: persistence
+id: persistence.compute-ledger
+title: Compute ledger and idempotency
+summary: Transactional pledge, wallet, reservation, consumption, refund and idempotency records.
+mode: read_model
+domain_ids: [domain.compute-accounting, domain.mission-lifecycle]
+stores:
+  - { name: wallets, key: contributorId, required_fields: [contributorId, balance], role: Own available local prototype credits. }
+  - { name: pledges, key: id, required_fields: [id, missionId, contributorId, amount, createdAt], role: Record accepted funding commitments. }
+  - { name: ledger, key: id, required_fields: [id, missionId, type, amount, createdAt], role: Record every credit-moving effect. }
+  - { name: idempotency, key: key, required_fields: [key, operation, fingerprint, response], role: Bind one retryable intent to one atomic effect and response. }
+projections:
+  - { name: wallet_balance, source_stores: [wallets, ledger], output: Current available balance and auditable entries., consistency: Credit-moving state and idempotency result commit in the same transaction. }
+  - { name: mission_accounting, source_stores: [pledges, ledger], output: "Pledged, reserved, consumed and refundable totals.", consistency: Integer totals preserve conservation and never exceed mission bounds. }
+reset:
+  - Clear idempotency records together with their demo accounting effects.
+  - Reseed wallets, pledges and ledger entries as visibly demo data.

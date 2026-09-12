@@ -1,0 +1,24 @@
+spec_version: 1
+kind: domain
+id: domain.run-request
+title: Run request queue
+summary: 定義 queue dispatch、lease ownership、heartbeat、retry、cancel 與 recovery。
+entities:
+  - name: run_request
+    description: Transactional request for an independent worker to execute one mission.
+    fields:
+      - { name: id, type: string, required: true, description: Request identifier. }
+      - { name: missionId, type: string, required: true, description: Requested mission. }
+      - { name: status, type: enum, required: true, description: Queue state; leased covers worker-owned execution., values: [queued, leased, completed, failed, cancelled] }
+      - { name: attempt, type: non-negative integer, required: true, description: Delivery attempt count. }
+      - { name: leaseOwner, type: string, required: false, description: Worker identity while leased. }
+      - { name: leaseExpiresAt, type: ISO-8601 string, required: false, description: Recovery deadline while owned. }
+      - { name: resultRunId, type: string, required: false, description: Completed engine run when available. }
+relations:
+  - One active request may own execution for a mission at a time.
+  - A worker must own a valid lease before starting or completing a request.
+invariants:
+  - Claim, heartbeat, completion, retry and cancellation are transactional ownership changes.
+  - An expired lease may be recovered without allowing the previous owner to complete it afterward.
+  - Queue mode does not imply durable shared storage or per-run OS isolation.
+derived_from: [domain.mission-lifecycle]

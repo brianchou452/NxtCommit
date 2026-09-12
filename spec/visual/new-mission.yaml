@@ -1,0 +1,10 @@
+spec_version: 1
+kind: visual
+id: visual.new-mission
+title: New mission wizard visual contract
+page_id: page.new-mission
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: new-mission-source-step, viewport: { width: 1440, height: 1000 }, state: Initial source-selection step with fixture and GitHub boundaries visible., actions: [Open /new, freeze motion], golden_path: e2e/golden/new-mission-source-step.png, status: approved }
+  - { id: new-mission-draft-step, viewport: { width: 1440, height: 1200 }, state: Deterministic fixture draft loaded with generator estimate risk and provenance visible., actions: [Analyze fixture, select first issue, generate demo draft, freeze motion], golden_path: e2e/golden/new-mission-draft-step.png, status: approved }

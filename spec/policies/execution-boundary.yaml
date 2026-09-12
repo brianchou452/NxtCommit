@@ -1,0 +1,10 @@
+spec_version: 1
+kind: policy
+id: policy.execution-boundary
+title: Executable repository boundary
+scope: [domain.mission-lifecycle, domain.execution-evidence, persistence.capability-store]
+rules:
+  - { id: fixture-only, requirement: 只有 server-bundled fixture workspace 可交給 mission runner 執行。, enforcement: server }
+  - { id: github-metadata-only, requirement: Public GitHub import 只可讀 bounded metadata、issues、README、workflow presence 與可得 npm facts；不得 clone、執行或宣稱 full-tree inspection。, enforcement: server }
+  - { id: derived-tests, requirement: Verification command 必須由 repository facts 決定並在 runner 前 freeze，不得採用 model 建議的任意 command。, enforcement: server }
+  - { id: deployment-gate, requirement: Source-level isolation probe 通過不代表 deployed boundary；任意 imported repo execution 必須等待部署環境 threat-model gate。, enforcement: manual_review }

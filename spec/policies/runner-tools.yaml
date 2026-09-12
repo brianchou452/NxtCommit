@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.runner-tools
+title: LLM runner tools and budgets
+scope: [domain.execution-evidence, domain.mission-lifecycle]
+rules:
+  - { id: bounded-loop, requirement: 每個 LlmRunner attempt 最多 14 model turns、24 non-terminal tool calls、200 KB read 與 cumulative write、80 KB per-file write。, enforcement: server }
+  - { id: charge-exposure, requirement: list/search/read 必須依實際 exposed 或 scanned bytes 計入 read budget；oversized operation 在執行前拒絕。, enforcement: server }
+  - { id: terminal-only, requirement: Tool-call budget 耗盡後只允許 submit 或 abstain。, enforcement: server }
+  - { id: submit-gate, requirement: Submit 前至少一次 write、一次 test、last suite green，且已讀取 changed source files。, enforcement: server }
+  - { id: final-engine-run, requirement: Runner tool test 或 submit 不能取代 engine-owned authoritative final verification。, enforcement: server }
+  - { id: codex-separate-path, requirement: CodexRunner 不得被描述為使用相同七個 LlmRunner tools；其 workspace-write SDK path 由 baseline-relative integrity gate 再驗證。, enforcement: client }

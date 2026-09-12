@@ -1,0 +1,22 @@
+spec_version: 1
+kind: api
+id: api.mission-pledge
+title: Pledge compute credits
+summary: Atomically pledge local prototype credits and optionally trigger eligible fixture execution when fully funded.
+transport: http
+endpoint: { method: POST, path: /api/missions/:id/pledge }
+request:
+  path_parameters: [{ type: string, description: Mission identifier., required: true }]
+  query_parameters: []
+  headers: [{ type: string, description: Optional Idempotency-Key identifying one user intent across retries., required: false }]
+  body: { type: object, description: Positive integer amount., properties: { amount: { type: integer, description: Credits to pledge., required: true } } }
+responses:
+  - { status: 200, description: "Updated mission, wallet, earned achievements and executionStarting flag.", body: { type: object, description: Atomic pledge result., properties: { mission: { type: object, description: Updated MissionWithProject., required: true }, achievements: { type: array, description: Newly earned achievements with definitions., required: true, items: { type: object, description: Earned achievement and definition. } }, wallet: { type: integer, description: Remaining local credit balance., required: true }, executionStarting: { type: boolean, description: Whether fully funded eligible execution was dispatched., required: true } } } }
+  - { status: 409, description: Idempotency key was reused with a different request., body: { type: object, description: Stable conflict error., properties: { error: { type: string, description: Safe conflict message., required: true }, code: { type: string, description: Stable conflict code., required: true } } } }
+  - { status: 400, description: "Invalid amount, insufficient balance or ineligible mission.", body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: No authentication; contributor identity is always the server current local demo persona.
+  data_mode: Credits and wallet are real local SQLite effects over demo identities, not money.
+  forbidden_claims: [payment, provider-token settlement, authenticated contributor]
+scenarios:
+  - { id: pledge-intent-is-atomic, given: A local persona has sufficient credits and a retry-stable key., when: The same pledge intent is submitted more than once., then: "Wallet, pledge and ledger effects occur once and a conflicting body is rejected.", test_file: server/product-spec.bdd.test.ts }

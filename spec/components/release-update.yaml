@@ -1,0 +1,66 @@
+spec_version: 1
+kind: component
+id: component.release-update
+title: Release update
+purpose: 在首頁結尾以一個完成的 local demo release 說明 community compute、agent execution、maintainer review 和 release 的完整鏈路。
+inputs: []
+component_dependencies: []
+data_dependencies:
+  - kind: api
+    endpoint: /api/marketplace
+    purpose: 找出一個 released mission，優先選擇 marked project，作為可連結的 release record。
+states:
+  - name: loading_or_no_release
+    condition: marketplace 尚未回應、請求失敗或沒有 released mission。
+    rendering: 顯示完整 release story，但沒有可點選的 campaign link。
+  - name: linked_release
+    condition: 找到 released mission。
+    rendering: 將整張 release update 連到對應 campaign detail。
+interactions:
+  - trigger: 選擇已連結的 release update。
+    result: 開啟對應 campaign detail。
+content:
+  locales:
+    en:
+      eyebrow: RELEASE UPDATE
+      title: Marked table alignment fix shipped
+      status: Released
+      stages: Funded | AI plan complete | Maintainer merged | Release shipped
+      body: The campaign was funded, the proposed AI plan completed, and the prepared change passed maintainer review.
+      impact: Nested blockquote tables now keep their alignment
+      complete: Complete
+      open: Open campaign
+      provenance_note: Completed local demo record—not a claim about the upstream repository.
+    zh-TW:
+      eyebrow: 版本更新 RELEASE UPDATE
+      title: Marked 表格對齊修正已完成
+      status: 已發布 Released
+      stages: 募資完成 Funded | AI plan 完成 | 維護者已合併 | 版本已發布
+      body: Campaign 已 Funded，AI proposed plan 執行完畢，準備好的變更也通過 Maintainer 審查
+      impact: 巢狀引用中的表格現在能保留正確對齊
+      complete: 完成
+      open: 開啟 Campaign
+      provenance_note: 這是已完成的本機示範紀錄，不代表上游 repo 的真實發布
+  dynamic_labels: []
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Release eyebrow and status establish context before the shipped headline.
+    - The four-stage delivery track demonstrates completion in accountable order.
+    - Impact statement, provenance note, and optional campaign link close the record.
+  layout: 深色 release card 依序顯示 headline、四段水平交付 track、impact statement 和 provenance note。
+  geometry: One wide feature card uses a dark headline region, a horizontal four-node track, and a compact three-part footer.
+  colour_semantics: funded 為 violet、plan 為 mint、maintainer decision 為綠色、release 為 amber；note 使用低強度文字但保持可讀。
+  surface: Extra-large rounded card with a deep-indigo-to-teal header, white process body, pale provenance footer, violet edge, and broad soft shadow.
+  typography: release status 與 stage 使用 system label；title 和 impact statement 使用顯著 sans。
+  motion: 無必要動畫。
+  visual_anchors:
+    - The shipped headline is the strongest text within the card.
+    - Four connected circular stage nodes make completion order visible at a glance.
+    - Provenance remains inside the card footer and cannot be visually detached from the release claim.
+scenarios:
+  - id: release-update-links-only-a-real-local-release-and-keeps-provenance
+    given: marketplace 有或沒有 released mission
+    when: release update render
+    then: 有 released mission 才可連到 campaign，且完成紀錄始終標示為 local demo 而非 upstream release claim
+    test_file: server/home-spec.bdd.test.ts

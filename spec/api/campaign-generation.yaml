@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.campaign-generation
+title: Campaign generation
+summary: Generate an issue-grounded bilingual draft from a trusted analysis using explicit or server-resolved labelled mode.
+transport: http
+endpoint: { method: POST, path: /api/campaigns/generate }
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Trusted analysis selected issue and optional generation mode., properties: { analysis: { type: object, description: RepoAnalysis with serverToken., required: true }, issueId: { type: string, description: Issue id within trusted analysis., required: true }, mode: { type: string, description: Optional explicit generator intent., required: false, enum: [openai, demo] } } }
+responses:
+  - { status: 200, description: Server-issued campaign draft with generator and estimate provenance., body: { type: object, description: CampaignDraft wrapper., properties: { draft: { type: object, description: Title tagline story criteria milestones deterministic estimate risk tags generator evidence and serverToken., required: true } } } }
+  - { status: 400, description: Missing or expired capability unknown issue or invalid mode., body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; analysis capability is not authentication.
+  data_mode: openai means a real compatible model call; demo means deterministic issue-grounded fallback.
+  forbidden_claims: [demo copy is model output, model total controls deterministic estimate, metadata proves implementation facts]
+scenarios:
+  - { id: campaign-mode-is-explicitly-labelled, given: A trusted analysis and selected issue exist., when: Generation is requested., then: The draft records its actual generator and invalid requested modes fail loudly., test_file: server/product-spec.bdd.test.ts }

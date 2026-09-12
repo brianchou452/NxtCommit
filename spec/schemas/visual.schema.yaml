@@ -1,0 +1,45 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: visual.schema.yaml
+type: object
+additionalProperties: false
+required: [spec_version, kind, id, title, fixture_id, capture_environment, baselines]
+oneOf:
+  - required: [page_id]
+  - required: [component_id]
+properties:
+  spec_version: { const: 1 }
+  kind: { const: visual }
+  id: { type: string, pattern: '^visual\.[a-z0-9-]+$' }
+  title: { type: string }
+  page_id: { type: string, pattern: '^page\.' }
+  component_id: { type: string, pattern: '^component\.' }
+  fixture_id: { type: string, pattern: '^persistence\.' }
+  capture_environment:
+    type: object
+    additionalProperties: false
+    required: [locale, timezone, animation, browser]
+    properties:
+      locale: { enum: [en, zh-TW] }
+      timezone: { type: string }
+      animation: { enum: [frozen, reduced] }
+      browser: { type: string }
+  baselines:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, viewport, state, actions, golden_path, status]
+      properties:
+        id: { type: string, pattern: '^[a-z0-9-]+$' }
+        viewport:
+          type: object
+          additionalProperties: false
+          required: [width, height]
+          properties:
+            width: { type: integer, minimum: 1 }
+            height: { type: integer, minimum: 1 }
+        state: { type: string }
+        actions: { type: array, items: { type: string } }
+        golden_path: { type: string, pattern: '^e2e/golden/.+\.png$' }
+        status: { enum: [planned, approved] }

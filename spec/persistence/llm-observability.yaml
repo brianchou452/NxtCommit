@@ -1,0 +1,17 @@
+spec_version: 1
+kind: persistence
+id: persistence.llm-observability
+title: LLM observability records
+summary: Versioned bounded trace generation score dataset and experiment records exported to optional Langfuse integration.
+mode: read_model
+domain_ids: [domain.model-assistance, domain.provenance]
+stores:
+  - { name: trace_exports, key: traceId, required_fields: [traceId, feature, promptVersion, generator], role: Export bounded non-secret feature metadata when tracing is enabled. }
+  - { name: feedback_scores, key: traceFeatureActor, required_fields: [traceId, feature, score, actor], role: Record local unauthenticated helpfulness feedback. }
+  - { name: evaluation_datasets, key: datasetVersion, required_fields: [name, version, cases], role: Keep reviewed source-controlled bounded evaluation cases. }
+projections:
+  - { name: feature_observability, source_stores: [trace_exports, feedback_scores], output: Correlatable model generation and local score evidence., consistency: Export success does not prove semantic quality and tracing-off creates no trace object. }
+  - { name: evaluation_run, source_stores: [evaluation_datasets], output: Dry-run or explicitly live experiment result with dataset and prompt versions., consistency: Live or sync actions require credentials and operator intent. }
+reset:
+  - Local demo reset does not claim to delete external observability records.
+  - Source-controlled datasets remain stable across application data reset.

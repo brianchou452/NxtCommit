@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.shadow-review
+title: Shadow diff review
+summary: Review bounded redacted artifact evidence without affecting any deterministic or human gate.
+transport: http
+endpoint: { method: GET, path: /api/runs/:id/shadow-review }
+request:
+  path_parameters: [{ type: string, description: Run identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - { status: 200, description: Shadow findings with affectedGate false., body: { type: object, description: Shadow wrapper., properties: { shadow: { type: object, description: Advisory verdict findings risks affectedGate false and AiEvidence., required: true } } } }
+  - { status: 404, description: Review evidence is missing., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
+trust_boundary:
+  authentication: None.
+  data_mode: Real model call when configured or labelled fallback over engine artifacts.
+  forbidden_claims: [approve, block, spend, merge, publish]
+scenarios:
+  - { id: shadow-review-has-no-authority, given: A review artifact exists., when: Shadow review runs., then: Findings record provenance and affectedGate remains false., test_file: server/product-spec.bdd.test.ts }

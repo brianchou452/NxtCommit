@@ -1,0 +1,21 @@
+spec_version: 1
+kind: api
+id: api.run-review
+title: Local run review decision
+summary: Record approve or request-changes against a reviewable local artifact using the server demo persona.
+transport: http
+endpoint: { method: POST, path: /api/runs/:id/review }
+request:
+  path_parameters: [{ type: string, description: Run identifier., required: true }]
+  query_parameters: []
+  headers: []
+  body: { type: object, description: Decision and optional comment., properties: { decision: { type: string, description: approve or request_changes., required: true, enum: [approve, request_changes] }, comment: { type: string, description: Required for request_changes., required: false } } }
+responses:
+  - { status: 200, description: Updated mission and newly earned achievements., body: { type: object, description: Local review result., properties: { mission: { type: object, description: Updated MissionWithProject., required: true }, achievements: { type: array, description: Newly earned achievement records with definitions., required: true, items: { type: object, description: Earned achievement and definition. } } } } }
+  - { status: 400, description: "Invalid decision, missing feedback or non-reviewable run.", body: { type: object, description: Stable validation error., properties: { error: { type: string, description: Safe validation message., required: true }, code: { type: string, description: Optional stable code., required: false } } } }
+trust_boundary:
+  authentication: None; reviewer is server-selected current local demo persona.
+  data_mode: Real local state transition over a demo identity and artifact; no GitHub write occurs.
+  forbidden_claims: [authenticated maintainer approval, upstream PR merge, package release]
+scenarios:
+  - { id: review-keeps-human-boundary, given: A run has a reviewable local artifact., when: The local persona approves or requests changes., then: "The state changes locally, request_changes requires feedback and no upstream action occurs.", test_file: server/product-spec.bdd.test.ts }

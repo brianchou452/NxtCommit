@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.metrics
+title: Prometheus metrics
+summary: Export bounded process, engine, queue, LLM and serving-build observations in Prometheus text format.
+transport: http
+endpoint: { method: GET, path: /metrics }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Prometheus text exposition., body: { type: string, description: Metrics with bounded labels including commoncommit_build_info. } }
+trust_boundary:
+  authentication: None in the prototype deployment.
+  data_mode: Real process observations; metric presence does not prove semantic quality or complete rollout.
+  forbidden_claims: [secret values, free-text repository content, green metric proves deployment chain]
+scenarios:
+  - { id: metrics-route-exposes-bounded-observations, given: The server is running., when: Metrics are scraped., then: Text exposition includes serving build identity and no secret or unbounded repository labels., test_file: server/product-spec.bdd.test.ts }

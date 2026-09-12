@@ -1,0 +1,45 @@
+spec_version: 1
+kind: component
+id: component.design-concept-shell
+title: Standalone design concept shell
+purpose: 將 design concept 的自有導覽、mock canvas 與 disclosure footer 限制在非正式產品探索範圍，不套用 production application shell 或讀寫 product API。
+inputs:
+  - { name: concept, type: 'editorial | kickstarter | network | hybrid', required: true, description: URL 選定的靜態視覺方向；未知值 fallback 為 editorial。 }
+  - { name: page, type: 'home | campaign', required: true, description: wildcard route 是否指向 campaign mock。 }
+component_dependencies: []
+data_dependencies: []
+states:
+  - { name: concept_home, condition: wildcard route 不是 campaign。, rendering: 顯示 concept navigation、mock discovery canvas 與 demo disclosure footer。 }
+  - { name: concept_campaign, condition: wildcard route 是 campaign。, rendering: 顯示 concept navigation、靜態 funding/evidence controls 與 demo disclosure footer。 }
+interactions:
+  - { trigger: 選擇 concept tab 或 Discover。, result: 只在 /concepts 路由間導航，不呼叫 product API。 }
+  - { trigger: hybrid campaign 切換語言或調整 backing amount。, result: 只更新 component-local mock state，不建立 pledge、run 或 review。 }
+content:
+  locales:
+    en:
+      disclosure: Campaign concept · all metrics and identities are demo data
+    zh-TW:
+      disclosure: Campaign 概念展示 · 所有數據與人物皆為示意
+  dynamic_labels:
+    - { name: concept, source: route parameter, fallback: editorial }
+visual_design:
+  design_system_id: design-system.nxtcommit
+  hierarchy:
+    - Concept selector and mock navigation establish an exploration-only chrome.
+    - Authored mock content fills the standalone canvas.
+    - Disclosure footer closes every concept route.
+  layout: Standalone full-width concept canvas; it is deliberately outside the production application shell.
+  geometry: Concept-specific grids and panels retain touch-safe controls and a persistent disclosure footer.
+  colour_semantics: Each concept owns a visual palette, but colour never implies verified product state.
+  surface: Editorial, campaign, network, or hybrid mock surfaces selected by the route.
+  typography: Concept-specific display typography with readable disclosure text.
+  motion: Local transitions may demonstrate a concept; no product outcome depends on them.
+  visual_anchors:
+    - Concept selector remains distinct from production navigation.
+    - Demo-data disclosure remains visible at the end of every concept canvas.
+scenarios:
+  - id: standalone-concept-shell-has-no-product-effects
+    given: Visitor opens a concept home or campaign route
+    when: They navigate, switch local language, or adjust mock backing controls
+    then: Only local exploration state changes and the demo disclosure remains present
+    test_file: server/product-spec.bdd.test.ts

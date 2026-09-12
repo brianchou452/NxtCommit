@@ -1,0 +1,9 @@
+spec_version: 1
+kind: visual
+id: visual.mission-overview
+title: Mission overview desktop component reference
+component_id: component.mission-overview
+fixture_id: persistence.home-demo-seed
+capture_environment: { locale: en, timezone: Asia/Taipei, animation: frozen, browser: chromium in Docker }
+baselines:
+  - { id: mission-overview-funding, viewport: { width: 1440, height: 1200 }, state: Funding mission overview exposes story criteria progress risk provenance and lifecycle action., actions: [Open canonical funding mission, wait for snapshots, freeze motion, capture overview], golden_path: e2e/golden/component-mission-overview-funding.png, status: approved }

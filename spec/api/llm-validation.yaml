@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.llm-validation
+title: LLM credential validation
+summary: Perform a fresh non-secret compatible-model check and expose only bounded model latency gateway and Codex availability evidence.
+transport: http
+endpoint: { method: GET, path: /api/llm/validate }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Fresh validation result without credential values., body: { type: object, description: Non-secret validation evidence., properties: { ok: { type: boolean, description: Whether the compatible endpoint check succeeded., required: true }, model: { type: string, description: Validated model identifier when available., required: false }, latencyMs: { type: number, description: Observed validation latency., required: false }, error: { type: string, description: Safe failure reason., required: false }, gatewayHost: { type: string, description: Configured host without credential or path., required: false }, codexAvailable: { type: boolean, description: Local Codex binary/SDK availability signal., required: true } } } }
+trust_boundary:
+  authentication: None; endpoint must never echo credentials.
+  data_mode: A successful check proves model reachability only and does not change mission execution consent or isolation.
+  forbidden_claims: [credential value, mission runner activated, deployment verified]
+scenarios:
+  - { id: validation-is-nonsecret-and-nonauthorizing, given: Model configuration may or may not be valid., when: Fresh validation runs., then: Non-secret evidence is returned and execution mode is not promoted., test_file: server/product-spec.bdd.test.ts }

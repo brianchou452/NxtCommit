@@ -1,0 +1,107 @@
+spec_version: 1
+kind: api
+id: api.marketplace
+title: Marketplace snapshot
+summary: 提供 campaign browser 與首頁 hero 所需的分類 mission shelves 和 aggregate。
+transport: http
+endpoint:
+  method: GET
+  path: /api/marketplace
+request:
+  path_parameters: []
+  query_parameters: []
+  headers: []
+  body: null
+responses:
+  - status: 200
+    description: 可供 discovery UI render 的 demo marketplace snapshot。
+    body:
+      type: object
+      description: 分類 shelves 與 aggregate。
+      properties:
+        dataMode: { type: string, enum: [demo], description: 整個 marketplace 的 provenance。 }
+        stats:
+          type: object
+          description: hero 與 standalone marketplace 的 aggregate。
+          properties:
+            totalPledged: { type: integer, description: 所有 mission 的 pledged compute credits。 }
+            missionsShipped: { type: integer, description: released mission 數量。 }
+            activeExecutions: { type: integer, description: executing mission 數量。 }
+            contributors: { type: integer, description: local contributor 數量。 }
+        sections:
+          type: array
+          description: 有 mission 的 lifecycle/editorial shelves；順序已由 server 決定。
+          items:
+            type: object
+            description: 一個 mission shelf。
+            properties:
+              key:
+                type: string
+                enum: [almost_funded, now_building, under_verification, recently_shipped, needs_rescue, high_impact, used_by_you]
+                description: shelf 分類。
+              missions:
+                type: array
+                description: 每筆資料包含可重建 Home campaign card 的 mission、project 與 provenance；localized_text object 至少含 en 與 zh-TW。
+                items:
+                  type: object
+                  description: MissionWithProject record。
+                  properties:
+                    id: { type: string, required: true, description: 'Mission identity；detail route 使用 /missions/{id}。' }
+                    projectId: { type: string, required: true, description: 關聯 project identity。 }
+                    title: { type: object, required: true, description: Localized campaign title with en and zh-TW strings。 }
+                    tagline: { type: object, required: true, description: Localized short campaign tagline。 }
+                    status: { type: string, required: true, enum: [funding, funded, executing, needs_review, changes_requested, approved, released, failed, stalled], description: Lifecycle status 與 fundable gate。 }
+                    story:
+                      type: object
+                      required: true
+                      description: Localized campaign narrative；每個 child object 含 en 與 zh-TW。
+                      properties:
+                        what: { type: object, required: true, description: What changes。 }
+                        why: { type: object, required: true, description: Release benefit fallback。 }
+                        whoBenefits: { type: object, required: true, description: Who benefits。 }
+                        approach: { type: object, required: true, description: Proposed approach。 }
+                    generator: { type: string, required: true, enum: [openai, demo], description: Campaign prose provenance。 }
+                    computeGoal: { type: integer, required: true, description: Funding denominator。 }
+                    computePledged: { type: integer, required: true, description: Funding numerator。 }
+                    backerCount: { type: integer, required: true, description: Local contributor count for this campaign。 }
+                    tags:
+                      type: array
+                      required: true
+                      description: Editorial category assignment input。
+                      items: { type: string, description: Authored category or mission tag。 }
+                    progress:
+                      type: object
+                      required: true
+                      description: Four independent 0..1 dimensions。
+                      properties:
+                        funding: { type: number, required: true, description: Funding progress。 }
+                        development: { type: number, required: true, description: Development progress。 }
+                        verification: { type: number, required: true, description: Verification progress。 }
+                        adoption: { type: number, required: true, description: Adoption progress。 }
+                    project:
+                      type: object
+                      required: true
+                      description: Project identity and figure provenance。
+                      properties:
+                        id: { type: string, required: true, description: Project identity。 }
+                        slug: { type: string, required: true, description: Stable presentation identity。 }
+                        name: { type: string, required: true, description: Visible repository/project name。 }
+                        description: { type: object, required: true, description: Localized project description。 }
+                        figuresMode: { type: string, required: true, enum: [demo, live], description: Optional popularity figure provenance。 }
+                        usedByYou: { type: boolean, required: true, description: Local demo editorial relationship。 }
+                        language: { type: string, required: false, description: Optional observed or authored language label。 }
+                        stars: { type: integer, required: false, description: Optional figure；absence means unknown。 }
+                        weeklyDownloads: { type: integer, required: false, description: Optional figure；absence means unknown。 }
+                        dependents: { type: integer, required: false, description: Optional figure；absence means unknown。 }
+trust_boundary:
+  authentication: 沒有 authentication；回傳資料只代表 local demo marketplace。
+  data_mode: dataMode 永遠為 demo，單筆 project figure 的 provenance 仍必須由 figuresMode 表達。
+  forbidden_claims:
+    - 不得把分類或 aggregate 宣稱為 live marketplace activity。
+    - 不得將未量測 popularity 欄位補為零。
+scenarios:
+  - id: marketplace-provides-deduplicable-shelves-and-provenance
+    given: local demo store 已 seed missions 與 contributors
+    when: campaign browser 請求 GET /api/marketplace
+    then: 回應有 demo dataMode、aggregate 和有內容的 shelves，且每個 mission 可由 id 去重
+    test_file: server/home-spec.bdd.test.ts

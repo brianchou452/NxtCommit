@@ -1,0 +1,10 @@
+spec_version: 1
+kind: policy
+id: policy.mission-lifecycle
+title: Mission lifecycle authority
+scope: [domain.mission-lifecycle, domain.review-decision, persistence.mission-execution-store]
+rules:
+  - { id: engine-owns-transition, requirement: Runner 只能回報 attempt outcome；mission/run state transition、verification、artifact 與 accounting 由 engine 決定。, enforcement: server }
+  - { id: one-runner-per-run, requirement: 每次 run 只能選擇 demo、llm、codex 其中一個 runner；retry 是同一 runner path 的 sequential attempts。, enforcement: server }
+  - { id: terminal-once, requirement: Run 進入 terminal status 後只能結算一次，不得被 late callback 或 stale worker 改寫。, enforcement: server }
+  - { id: stalled-vs-failed, requirement: Deliberate abstention 或需要 human handoff 使用 stalled；unexpected error 或 attempts exhausted 使用 failed。, enforcement: server }

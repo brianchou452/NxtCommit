@@ -1,0 +1,34 @@
+spec_version: 1
+kind: api
+id: api.readiness
+title: Service readiness
+summary: Report current server readiness and resolved execution configuration without exposing secret values.
+transport: http
+endpoint: { method: GET, path: /readyz }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  -
+    status: 200
+    description: Database and any required queue worker are ready to serve traffic; execution refusal remains visible in the body.
+    body: &readiness_body
+      type: object
+      description: Database worker and non-secret execution evidence.
+      properties:
+        status: { type: string, description: ok or degraded database state., required: true, enum: [ok, degraded] }
+        db: { type: boolean, description: SQLite query availability., required: true }
+        missions: { type: integer, description: Current local mission row count., required: true }
+        executionMode: { type: string, description: Resolved mode when safe., required: false, enum: [demo, llm, codex] }
+        executionError: { type: string, description: Non-secret refusal reason., required: false }
+        runDispatchMode: { type: string, description: inline or queue dispatch., required: true, enum: [inline, queue] }
+        workerReady: { type: boolean, description: Queue heartbeat freshness or true for inline., required: true }
+        llmConfigured: { type: boolean, description: Credential configuration only., required: true }
+        langfuseEnabled: { type: boolean, description: Observability configuration only., required: true }
+  - status: 503
+    description: Database is unavailable or queue mode lacks a fresh worker heartbeat.
+    body: *readiness_body
+trust_boundary:
+  authentication: None.
+  data_mode: Real current-process configuration and measured isolation status.
+  forbidden_claims: [credential value, cluster rollout complete, real runner executed]
+scenarios:
+  - { id: readiness-reflects-serving-dependencies, given: Database and queue-worker readiness may differ from execution-mode consent., when: Readiness is requested., then: HTTP status follows serving dependencies while any execution refusal is reported without credentials., test_file: server/product-spec.bdd.test.ts }

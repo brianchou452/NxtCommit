@@ -1,0 +1,11 @@
+spec_version: 1
+kind: policy
+id: policy.localization
+title: Product-wide localization
+scope: [component.application-shell, page.marketplace, page.new-mission, page.mission-detail, page.execution-room, page.review, page.contributor-profile, page.guided-demo, page.route-fallbacks]
+rules:
+  - { id: dictionaries-own-copy, requirement: 所有product user-visible copy必須由src/i18n/en.ts與src/i18n/zh-TW.ts成對擁有，不得使用locale conditional inline translation。, enforcement: client }
+  - { id: parity, requirement: English與zh-TW key set必須完全一致並由i18n01 parity test阻擋缺漏。, enforcement: test }
+  - { id: live-output, requirement: Plain-string live model/runner output保持原語言並以source label說明，不可偽裝成curated translation。, enforcement: client }
+  - { id: locale-stability, requirement: 切換locale不得重置mission intent、重送mutation或改變provenance/dataMode。, enforcement: client }
+  - { id: concept-exception, requirement: Design concept內的authored mock localization仍須保持exploration disclosure，不能被視為正式product dictionary coverage。, enforcement: manual_review }

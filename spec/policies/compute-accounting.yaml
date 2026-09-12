@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.compute-accounting
+title: Credit movement and idempotency
+scope: [domain.compute-accounting, persistence.compute-ledger, domain.mission-lifecycle]
+rules:
+  - { id: server-actor, requirement: Pledge contributor 由 server current local persona 決定，不接受 browser-supplied identity。, enforcement: server }
+  - { id: atomic-intent, requirement: Idempotency key、request fingerprint、credit effect 與 response 必須在同一 transaction commit；相同 key 不同 body 回覆 conflict。, enforcement: server }
+  - { id: unkeyed-unprotected, requirement: 未帶 Idempotency-Key 的 pledge 允許但必須視為無重試保護，server 不可猜測是否為重複意圖。, enforcement: server }
+  - { id: bounded-spend, requirement: Consumption 同時受 run budget、mission reservation 與 remaining pledged credits 約束。, enforcement: server }
+  - { id: exact-refund, requirement: Unused pool 依 deterministic largest remainder 分配且 allocation sum 必須完全相等。, enforcement: test }
+  - { id: prototype-units, requirement: UI/API/docs 不得把 credits 或 1000x token conversion 說成 currency、payment、custody 或 provider metering。, enforcement: client }
