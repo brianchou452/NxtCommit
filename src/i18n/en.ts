@@ -71,8 +71,6 @@ export const en = {
   not_found: 'Page not found', back_home: 'Back to Discover',
   english: 'English', traditional_chinese: '繁體中文',
   wallet: 'Compute credits', demo_mode: 'Demo runner', llm_mode: 'LLM runner', codex_mode: 'Codex runner',
-  no_isolation: 'No per-run OS isolation', isolated: 'Per-run OS isolation',
-  truth: 'Local demo identities and compute credits. No authentication, payments or upstream publication.',
   hero_headline_line_1: "Open source is built on commits.",
   hero_headline_line_2: "And every commit starts with a commitment.",
   hero_supporting_text: "Turn your AI tokens into the next open-source release.",

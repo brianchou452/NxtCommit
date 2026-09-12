@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.22 — 2026-09-12
+
+- Remove the persistent demo/isolation notice below navigation. Keep execution errors as standalone alerts; update shell specs, locale dictionaries and browser regression coverage.
+
 ## v0.7.21 - 2026-09-12 (cloud assurance)
 
 - Add the six-stage Agent Lab, authenticated scheduled execution, real controlled checks, model provenance and baseline iteration. See [assurance operations](ASSURANCE.md).
