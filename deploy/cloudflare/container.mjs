@@ -10,3 +10,4 @@ export class NxtCommitContainer extends Container {
   };
 }
 export {default} from './gateway.mjs';
+export { ContainerProxy } from '@cloudflare/containers';

@@ -66,3 +66,9 @@ Node 24.19.0 已依官方 SHA256 驗證；鎖定依賴安裝回報零弱點。�
 已新增本機與雲端共用的伺服器端 OpenAI Responses client、安全錯誤、output／timeout 限制、provenance、環境範本及連線檢查腳本。本機型別與 build 通過，17 測試通過、77 TODO。活動短碼不是 API key，真實連線仍需有效 key。部署接入不代表 Phase 2 runner 或 authoring routes 已完成。
 
 CP-011 build 修正：GitHub CI 34670771366 找出 production Docker build 未複製 ApplicationShell 引用的 spec/assets。已加入品牌素材至 build stage，final image 僅保留 bundle。這是打包錯誤，產品測試獨立通過；source image registry 更新為 0.7.12。
+
+## CP-012 — 容器建立、啟動修復與訂閱決定 / 2026-09-12 04:10 UTC
+
+0d4b9a1 的 CI 34670900558 通過。部署 run 34670900648 建立並推送 image sha256:ff6d414aabebc6355e01c7d8201940f5f23febf8d0d2d1525743c2c329baaca7、建立 application a03eb9ab-e1c7-4f5b-a61d-585856b9e28d 並綁定 hackathon.ianjuan.com；Worker version 為 df9cf4a8-4cc9-4909-a357-821c612624d6。但 smoke gate 收到 HTTP 403；之後本機 HTTPS 探測收到 HTTP 500，指出缺少 ContainerProxy 匯出，已補上 SDK 匯出。公開服務成功啟動仍待驗證。
+
+使用者明確要求撤銷取消續訂；Cloudflare Billing 已顯示 Workers Paid Active，2026/10/12 續訂。截止自動化已改為保留此訂閱。台灣時間 9/13 01:00 關閉作品仍有效，停止的是容器用量，並非訂閱月費。本機正式啟動入口的五個 endpoint 都通過；100 次請求、20 並行的 bootstrap 探測測得 p95 2.02 ms、RSS 77.59 MiB。這些是本機結果，不是 Cloudflare 容量證據。

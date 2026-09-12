@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.13 — 2026-09-12
+
+- Export the Containers SDK outbound proxy required to start the deployed container.
+
 ## v0.7.12 — 2026-09-12 (Cloudflare container integration)
 
 - Package the Phase 1 Node server and frontend in a non-root container; use one basic instance, 2-hour idle sleep, resource logs, and serving-image revision verification. Deployment verification is recorded separately in CI checkpoints.

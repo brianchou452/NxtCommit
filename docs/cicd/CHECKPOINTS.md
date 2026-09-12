@@ -66,3 +66,9 @@ Monitoring checks HTTP/SQLite and Cloudflare resource/usage data every half hour
 Added a shared server-only OpenAI Responses client for local and cloud runtimes, safe errors, bounded output/timeout, provenance, environment template and connection-check script. Local typechecks/build passed, 17 tests passed and 77 remain TODO. The short event code is not an API key; live checks require a valid key. The hosting adapter does not implement the Phase 2 runner or authoring routes.
 
 CP-011 build correction: GitHub CI 34670771366 found the production Docker context omitted spec/assets, imported by ApplicationShell. Added the branding assets to the build stage (excluded from the final image except bundled output). This was a packaging failure; product tests passed independently. Source image registry advanced to 0.7.12.
+
+## CP-012 — Container provisioned; startup repair and subscription decision / 2026-09-12 04:10 UTC
+
+CI 34670900558 passed on 0d4b9a1. Deployment run 34670900648 built and pushed image sha256:ff6d414aabebc6355e01c7d8201940f5f23febf8d0d2d1525743c2c329baaca7, created application a03eb9ab-e1c7-4f5b-a61d-585856b9e28d and bound hackathon.ianjuan.com; Worker version df9cf4a8-4cc9-4909-a357-821c612624d6. Its smoke gate failed with HTTP 403. A later local HTTPS probe returned HTTP 500 explaining the missing ContainerProxy export; added that SDK export. Successful public startup is still pending.
+
+User explicitly requested undoing the subscription cancellation. Cloudflare Billing now shows Workers Paid Active, renewing October 12, 2026. Updated shutdown automation to preserve this subscription. The September 13 01:00 Taiwan application shutdown remains in force; it stops container usage, not the recurring subscription fee. Local production-entry checks passed all five endpoints; a 100-request/20-concurrent bootstrap probe measured p95 2.02 ms and RSS 77.59 MiB. These are local results, not Cloudflare capacity evidence.

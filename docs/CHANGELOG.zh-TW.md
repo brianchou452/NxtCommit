@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.13 — 2026-09-12
+
+- 匯出 Containers SDK 啟動容器所需的 outbound proxy。
+
 ## v0.7.12 — 2026-09-12（Cloudflare 容器接入）
 
 - 將 Phase 1 Node 後端與前端打包為非 root 容器；設定單一 basic 實例、閒置 2 小時休眠、資源紀錄與映像版本驗證。實際部署證據另記於 CI checkpoint。
