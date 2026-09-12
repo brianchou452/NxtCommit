@@ -8,6 +8,8 @@ This deployment packages the repository's Phase 1 React/Vite frontend and Node 2
 
 ## Release and verification
 
+See [CI speed and measured demo capacity](PERFORMANCE.md). Main runs one reusable CI gate; browser images use layer caching and still execute every journey.
+
 Main pushes run contracts/gateway checks, a Docker image dry-run build, Node 24 typechecks/server tests/production build, version checks and Docker foundation browser journeys before deploying. Wrangler embeds the exact Git SHA and Actions run URL as image build arguments. `/__deployment` is answered by the running Node image, not the fronting Worker. Release smoke checks validate that receipt plus the homepage, bootstrap, liveness and SQLite readiness.
 
 The Worker and image are deployed together; cold provisioning can take several minutes. A 503 is a real unavailable container, never a healthy placeholder. GitHub `cloudflare-production` is serialized. CI Actions are SHA-pinned, credentials are not persisted in Git, and evidence artifacts retain 30 days.

@@ -8,7 +8,13 @@ for argument in "$@"; do
     exit 2
   fi
 done
-docker build -f e2e/Dockerfile -t nxtcommit-foundation-e2e:0.1.0 .
+image="${E2E_PREBUILT_IMAGE:-nxtcommit-foundation-e2e:0.1.0}"
+if [[ -z "${E2E_PREBUILT_IMAGE:-}" ]]; then
+  docker build --load -f e2e/Dockerfile -t "$image" .
+else
+  # CI builds and loads this exact-revision image in the preceding step.
+  docker image inspect "$image" >/dev/null
+fi
 arguments=("$@")
 if [[ ${#arguments[@]} -eq 0 ]]; then arguments=(--project=foundation); fi
 report_directory=foundation
@@ -22,4 +28,4 @@ mkdir -p "test-results/docker/$report_directory"
 docker run --rm --init --network=none --shm-size=1g --cap-drop=ALL \
   --user "$(id -u):$(id -g)" \
   --mount "type=bind,source=$PWD/test-results/docker/$report_directory,target=/out" \
-  nxtcommit-foundation-e2e:0.1.0 ./node_modules/.bin/playwright test "${arguments[@]}"
+  "$image" ./node_modules/.bin/playwright test "${arguments[@]}"

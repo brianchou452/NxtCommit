@@ -8,6 +8,8 @@
 
 ## 發布與驗證
 
+見 [CI 速度與实測展示容量](PERFORMANCE.zh-TW.md)。Main 改為一份 reusable CI gate；瀏覽器映像使用 layer cache，仍執行所有 journey。
+
 main 推送先跑 contracts／gateway、Docker image dry-run build、Node 24 型別／server 測試／build、版本檢查與 Docker foundation 瀏覽器流程，成功後才部署。Wrangler 將 Git SHA 與 Actions run URL 編入 image；`/__deployment` 由實際 Node 映像回覆，非前置 Worker。Smoke 同時驗證收據、首頁、bootstrap、liveness 與 SQLite readiness。
 
 Worker 與 image 一起發布，初次配置可能耗時數分鐘。503 代表容器不可用，不以佔位頁假裝成功。`cloudflare-production` 序列部署，Actions 固定 SHA，不保留 Git 憑證，證據 artifacts 保留 30 天。
