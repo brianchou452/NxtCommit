@@ -1,0 +1,9 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--font-body); }
+button, select, input, textarea { font: inherit; }
+button, select { min-height: 44px; }
+:focus-visible { outline: 2px solid var(--brand-violet); outline-offset: 3px; }
+main { padding: var(--gutter); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -1,5 +1,7 @@
 # 架構
 
+> 此重建 checkpoint 的實際模組請見 [Phase 1 runtime 邊界](PHASE1-FOUNDATION.zh-TW.md)。下方完整架構為匯入參考，不代表所有模組已存在。
+
 [English](ARCHITECTURE.md)
 
 本文件描述目前的實作。它刻意將已實作行為，與 `ROADMAP.md` 中的產品方向及 `experiment-report.md` 中的歷史觀察分開。

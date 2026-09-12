@@ -1,5 +1,7 @@
 # Development
 
+> Phase 1 reconstruction uses Node 24.x and the [foundation workflow](PHASE1-FOUNDATION.md). All runner modes remain refused; the older full-application commands below require later-phase modules.
+
 [繁體中文](DEVELOPMENT.zh-TW.md)
 
 This guide owns local setup, configuration, validation, and the repository change workflow. Product scope belongs in the root README; system behaviour belongs in `ARCHITECTURE.md`; security claims belong in `SECURITY.md`.

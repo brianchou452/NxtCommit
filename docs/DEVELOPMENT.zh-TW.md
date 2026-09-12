@@ -1,5 +1,7 @@
 # 開發
 
+> Phase 1 重建使用 Node 24.x 與[骨架開發流程](PHASE1-FOUNDATION.zh-TW.md)。所有 runner mode 仍拒絕執行，下方先前完整應用的指令需後續模組支援。
+
 [English](DEVELOPMENT.md)
 
 本指南是本機設定、組態、驗證與儲存庫變更流程的規範文件。產品範圍屬於根目錄的 README；系統行為屬於 `ARCHITECTURE.md`；安全性聲明屬於 `SECURITY.md`。

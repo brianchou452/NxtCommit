@@ -1,5 +1,7 @@
 # 功能真實性矩陣
 
+> 目前重建範圍請見 [電腦 A／Phase 1](PHASE1-FOUNDATION.zh-TW.md)。此 checkout 僅有共用骨架，下方完整功能清單是匯入背景，不代表功能已在此實作。
+
 [English canonical](FEATURE-REALITY.md)
 
 本文件只回答一個問題：**哪些功能真的串接 LLM 或外部系統，哪些是 demo？**

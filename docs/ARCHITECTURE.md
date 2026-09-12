@@ -1,5 +1,7 @@
 # Architecture
 
+> For this reconstruction checkpoint, use [Phase 1 runtime boundaries](PHASE1-FOUNDATION.md). The full architecture below is imported reference, not a claim that all modules exist here.
+
 [繁體中文](ARCHITECTURE.zh-TW.md)
 
 This document describes the current implementation. It intentionally separates implemented behaviour from the product direction in `ROADMAP.md` and the historical observations in `experiment-report.md`.

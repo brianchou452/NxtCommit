@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
+
+- 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。
+- Run 終止時間統一為 `endedAt`，API run 狀態與 domain 契約同步。
+- 本次重建尚未包含 Phase 2 流程或 execution runner。nonprod overlay 僅記錄版本，不含可部署 workload；未宣稱 rollout 或更新 approved visual baseline。
+
 ## v0.7.9 — 2026-08-23
 
 ### 修正

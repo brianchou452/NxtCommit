@@ -1,0 +1,25 @@
+/* design-system.nxtcommit: foundation values, not a page/approved shell recreation. */
+:root {
+  --font-body: 'DM Sans', 'Noto Sans TC', 'PingFang TC', system-ui, sans-serif;
+  --font-metadata: ui-monospace, monospace;
+  --canvas: #fbfbfa;
+  --surface: #fff;
+  --ink: #101110;
+  --muted: #676b65;
+  --brand-violet: #6657ff;
+  --gradient-mint: #28ebc7;
+  --deep-indigo: #17152f;
+  --funding: #6657ff;
+  --development: #0b9d81;
+  --verification: #277fa6;
+  --adoption: #c26b45;
+  --space: 4px;
+  --section-desktop: 7rem;
+  --radius-pill: 999px;
+  --radius-card: 24px;
+  --radius-feature: 36px;
+  --content-width: 1440px;
+  --gutter: 24px;
+  --motion-enter: 350ms;
+  --motion-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}

@@ -6,6 +6,15 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.10 — 2026-09-12 (local Phase 1 source checkpoint)
+
+- Established TypeScript frontend/backend shared contracts, modular HTTP registration,
+  SQLite migration/transaction/reset foundations, bilingual shell and Docker browser tooling.
+- Standardized terminal runs on `endedAt`; API run statuses now match the domain contract.
+- This reconstruction does not include Phase 2 workflows or an execution runner. The
+  nonprod overlay records a version only and contains no deployable workload. No rollout
+  or approved visual-baseline update is claimed.
+
 ## v0.7.9 — 2026-08-23
 
 ### Fixed

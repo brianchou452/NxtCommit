@@ -1,5 +1,7 @@
 # Feature reality matrix
 
+> Current reconstruction scope: see [Computer A / Phase 1](PHASE1-FOUNDATION.md). This checkout contains the shared foundation; the full feature inventory below is imported context, not proof those features are implemented here.
+
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 
 This document answers one narrow question: **what is genuinely connected to an
