@@ -6,6 +6,13 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.15 — 2026-09-12 (agent cancellation and crash recovery)
+
+- Propagate cancellation to model calls and private chaos requests; resume experiments from completed cases with explicit CLI recovery.
+- Use OS-owned SQLite locks and activation receipts to recover killed workers and roll back interrupted promotions.
+- Reject truncated completions, invalid chaos inputs and incomplete/duplicate measurements; bound monitoring responses and isolate synthetic trace audits.
+- Add a reproducible local benchmark covering three fault seeds and all eight advisory roles, without activating a website update.
+
 ## v0.7.14 — 2026-09-12 (persistent agent workflows and local monitoring)
 
 - Added LangGraph stages and SQLite checkpoints, guarded self-update resume, proposal reuse and activation replay protection.

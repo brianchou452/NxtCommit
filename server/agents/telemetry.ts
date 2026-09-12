@@ -2,9 +2,9 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomBytes } from 'node:crypto';
 import { existsSync, appendFileSync, mkdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { redactText } from '../authoring/analyzer.js';
+import { boundedJson, redactText } from '../authoring/analyzer.js';
 
-export type AgentKind = 'experiment' | 'self-update';
+export type AgentKind = 'experiment' | 'self-update' | 'authoring-evaluation';
 export interface StageMetrics {
   generator?: 'openai' | 'static';
   model?: string;
@@ -36,6 +36,7 @@ export class AgentTrace {
     readonly kind: AgentKind,
     readonly runId: string,
     private readonly transport: typeof fetch = fetch,
+    private readonly audit = true,
   ) {}
   async stage<T>(
     name: string,
@@ -179,12 +180,15 @@ export class AgentTrace {
         body: JSON.stringify(this.payload(status)),
       });
       // OTLP can acknowledge HTTP 200 with rejected spans. Do not label that persisted.
-      const body = await response.text();
-      const partial = body ? JSON.parse(body).partialSuccess : undefined;
-      ok = response.ok && !(Number(partial?.rejectedSpans) > 0);
+      const body = (await boundedJson(response, 8192)) as {
+        partialSuccess?: { rejectedSpans?: number | string };
+      };
+      const rejected = Number(body.partialSuccess?.rejectedSpans ?? 0);
+      ok = Number.isSafeInteger(rejected) && rejected === 0;
     } catch {
       ok = false;
     }
+    if (!this.audit) return ok;
     try {
       const directory = resolve('var/agents');
       mkdirSync(directory, { recursive: true, mode: 0o700 });

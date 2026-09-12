@@ -640,3 +640,7 @@ The first local self-update candidate passed request/server checks but Vite atte
 ## G60 — Langfuse ingestion acceptance is not a readback check
 
 Langfuse v4 accepts OTLP spans but removed the legacy `/api/public/traces` read API. An HTTP 404 there does not establish ingestion loss. Query Observations API v2 by trace ID and a bounded time range; request `model,usage` fields explicitly because they are omitted by default. The local real two-role probe returned all eight observations and measured provider usage. Pin monitoring images and keep unknown usage absent. See [agent operations](AGENT-OPERATIONS.md).
+
+## G61 — Recovering a worker lock is not enough to recover activation
+
+A directory lock can survive SIGKILL, while a PID check followed by deletion can race another worker. Local agents now use SQLite write leases, released by the OS. An activation can also die after pointer switch but before smoke success: recover its journal and receipt before accepting the next control operation. An absent completion receipt rolls the pointer back, even before acknowledging demo freeze. Never delete a live SQLite lock file; that creates separate lock identities. Actual child-process kill tests cover both lock recovery and interrupted activation.

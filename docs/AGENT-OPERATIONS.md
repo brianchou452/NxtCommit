@@ -56,7 +56,7 @@ unknown. Raw prompts, goals, source files, edits, responses, credentials and raw
 errors are excluded. Automatic LangChain/LangSmith tracing is disabled; explicit
 allowlisted OTLP spans avoid automatic callback capture of source/goal data.
 A failed export is recorded in `var/agents/exports.jsonl` and never changes a gate.
-Export is bounded to two seconds, with no unbounded retry queue.
+Export is bounded to two seconds and an 8 KB acknowledgement, with no unbounded retry queue. Synthetic capture tests do not append to the live export audit.
 
 ## Durable update recovery
 
@@ -78,17 +78,32 @@ There is no automatic replay of failed model calls or automatic resume at startu
 If the process dies after the provider charges a call but before saving the proposal,
 manual resume can issue another call; exactly-once provider billing is not promised.
 
-Only the operator `resume` command can recover an iteration lock whose recorded
-PID no longer exists. A live PID or missing/corrupt owner fails closed. A hard kill
-inside the short control-lock/activation transaction requires operator inspection
-of the pointer and lock; it is not automatic crash-safe deployment recovery.
-SIGTERM/SIGINT cancellation cleans up normally. Inspect candidate `context.json`,
-`result.json`, `attempts/`, and verifier logs locally; no public control API exists.
+Workers now hold SQLite write leases, which the OS releases on process death. Do
+not unlink lock databases. Stop older workers before upgrading; legacy directory
+locks fail closed. Activation writes a journal before switching and a receipt
+after smoke verification. The next control operation reconciles an interrupted
+switch: an activation without a completed receipt returns to its previous release
+before a demo freeze is acknowledged. Finished receipts prevent replay. Tests
+kill real child processes with SIGKILL; power-loss and multi-host/NFS recovery are
+not established by these tests. Inspect candidate `context.json`, `result.json`,
+`attempts/`, promotion receipts and verifier logs locally.
 
-Experiment runs also persist plan, measurements, assessment, report and graph
-checkpoints under `var/chaos-agents/runs/`. The experiment CLI starts a fresh run
-per cycle; update `resume` does not resume experiments. Successful deterministic
-checks do not establish semantic quality or production availability.
+Experiment checkpoints include plan, each completed measurement, assessment and
+report under `var/chaos-agents/runs/`. SIGTERM/SIGINT propagates to model/private
+HTTP calls. Resume an interrupted run with its original settings and source:
+
+```bash
+npm run agents:experiment -- --resume <run-id>
+npm run agents:benchmark
+npm run agents:benchmark -- --live
+```
+
+Resume does not rerun saved cases; incomplete or duplicate scenario/repetition
+coverage cannot pass assessment. Catalog v2 contains 19 cases (38 checks with
+default repetitions). The benchmark runs three seeds (114 checks); live mode
+makes at most eight advisory calls across all eight feature roles. Results live
+in `var/agent-benchmarks/<id>/report.json`. It never enables or promotes self-update.
+Format, provenance and containment checks do not measure semantic model quality.
 
 ## Verifier and local evidence
 
@@ -121,4 +136,4 @@ References: [LangGraph persistence](https://docs.langchain.com/oss/javascript/la
 - Verification: `npm run check`, version check, 127-spec lint, Docker tests and all 12 foundation/Computer C browser journeys pass. Existing 54 TODO scenarios remain outside this slice.
 - Real update probe: isolated run `4b2c6eec-d303-4ea3-ad16-33e5ef718d91` returned `no-change`; Langfuse readback found its root, proposal stage and actual generation. Serving settings and release were unchanged.
 - Central integration required: none for these local CLIs. Mission execution remains outside this agent workflow. The historical `scripts/phase4-gate.sh` referenced by the maintainer template is absent in this reconstruction; no phase-4 completion is claimed.
-- Known limits: explicit recovery after failure, trusted local operator, bounded frontend editing, no cloud delivery or automatic Git merge, and the hard-kill control-transaction limitation described above.
+- Known limits: explicit recovery after failure, trusted local operator, bounded frontend editing, no cloud delivery or automatic Git merge, and no power-loss or multi-host recovery claim.

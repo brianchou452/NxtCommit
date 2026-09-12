@@ -1,4 +1,4 @@
-VERSION := 0.7.14
+VERSION := 0.7.15
 
 .PHONY: check-version check
 check-version:

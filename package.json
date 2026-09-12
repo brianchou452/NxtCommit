@@ -25,7 +25,8 @@
     "test:server": "node scripts/run-tests.mjs",
     "agents:experiment": "node --import tsx server/resilience/cli.ts",
     "agents:update": "node --import tsx server/self-update/cli.ts",
-    "agents:monitor": "node scripts/langfuse-local.mjs"
+    "agents:monitor": "node scripts/langfuse-local.mjs",
+    "agents:benchmark": "node --import tsx server/agents/benchmark.ts"
   },
   "dependencies": {
     "@langchain/langgraph": "1.4.15",

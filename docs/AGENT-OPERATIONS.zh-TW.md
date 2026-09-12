@@ -67,14 +67,28 @@ npm run agents:update -- resume <run-id>
 不自動重試失敗的模型呼叫，也不在啟動時自動續跑。若程序在供應商計費後、保存提案前
 死亡，手動續跑可能再呼叫一次；不保證供應商只計費一次。
 
-只有操作員 `resume` 能回收記錄 PID 已不存在的 iteration lock；PID 仍存在或
-owner 遺失／毀損時拒絕續跑。在短暫 control lock／啟用交易內遭強制終止，需要操作員
-檢查版本指標及鎖，不宣稱能自動復原所有部署崩潰。一般 SIGTERM／SIGINT 會清理。
-可於本機查看候選的 `context.json`、`result.json`、`attempts/` 與驗證紀錄；沒有公開控制 API。
+Worker 現在持有 SQLite 寫入鎖，程序死亡後由作業系統釋放；不要刪除 lock database。
+升級前先停止舊 worker；舊版目錄鎖存在時會拒絕啟動。啟用前先寫 journal，煙霧驗證後
+寫入收據。下一次控制操作會處理中斷的切換：若沒有完成收據，會先還原前一版本，再確認
+Demo 凍結；已完成收據可避免重播。測試實際以 SIGKILL 終止子程序；不宣稱已驗證斷電
+或多主機／NFS 復原。可於本機檢查候選的 `context.json`、`result.json`、`attempts/`、
+啟用收據及驗證紀錄。
 
-Experiment 也會將 plan、measurements、assessment、report 與 graph checkpoint
-保存於 `var/chaos-agents/runs/`。Experiment CLI 每輪建立新執行；update 的 `resume`
-不會續跑 experiment。受控檢查通過不等於語意品質或正式環境可用性證明。
+Experiment 會將 plan、每個已完成 measurement、assessment 與 report 保存於
+`var/chaos-agents/runs/`。SIGTERM／SIGINT 會傳入模型與私有 HTTP 請求。
+可以使用原設定與原始碼續跑中斷的工作：
+
+```bash
+npm run agents:experiment -- --resume <run-id>
+npm run agents:benchmark
+npm run agents:benchmark -- --live
+```
+
+續跑不重做已保存案例；不完整或重複的 scenario／repetition 組合不能通過評估。
+Catalog v2 有 19 個案例，預設重複次數產生 38 項檢查。Benchmark 跑三組種子，共
+114 項檢查；live 模式對全部八個建議角色最多呼叫八次模型。結果位於
+`var/agent-benchmarks/<id>/report.json`。它不會啟用或推進自我更新。
+格式、來源與隔離檢查不代表模型語意品質量測。
 
 ## 驗證映像與證據
 
@@ -104,4 +118,4 @@ npm run agents:update -- verifier
 - 驗證：`npm run check`、版本檢查、127 項 spec lint、Docker 測試及 12 條 foundation／Computer C 瀏覽器流程通過；既有 54 項 TODO 不屬於本切片。
 - 真實更新探針：隔離執行 `4b2c6eec-d303-4ea3-ad16-33e5ef718d91` 回傳 `no-change`；Langfuse 查回 root、proposal 階段與真實模型生成。服務中的設定與版本未變更。
 - 中央整合：本機 CLI 無待接線項目；mission execution 不屬於此 agent 流程。維護模板提到的歷史 `scripts/phase4-gate.sh` 在此重建版不存在，不宣稱 phase-4 已完成。
-- 已知限制：失敗後需明確續跑、信任本機操作員、僅限受控前端修改、沒有雲端交付或 Git 自動合併，以及前述控制交易遭強制終止的限制。
+- 已知限制：失敗後需明確續跑、信任本機操作員、僅限受控前端修改、沒有雲端交付或 Git 自動合併；不宣稱已驗證斷電或多主機復原。

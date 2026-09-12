@@ -90,10 +90,15 @@ test('actual trace envelopes exclude raw source, errors, keys and unmeasured usa
   process.env.LANGFUSE_BASE_URL = 'http://127.0.0.1:4310';
   process.env.LANGFUSE_PUBLIC_KEY = 'synthetic-public';
   process.env.LANGFUSE_SECRET_KEY = 'synthetic-secret';
-  const trace = new AgentTrace('self-update', 'synthetic-run', async (_url, init) => {
-    bodies.push(String(init?.body));
-    return new Response('{}', { status: 200 });
-  });
+  const trace = new AgentTrace(
+    'self-update',
+    'synthetic-run',
+    async (_url, init) => {
+      bodies.push(String(init?.body));
+      return new Response('{}', { status: 200 });
+    },
+    false,
+  );
   try {
     await trace.stage(
       'proposal',
@@ -116,17 +121,30 @@ test('actual trace envelopes exclude raw source, errors, keys and unmeasured usa
     assert.ok(
       !spans[2].attributes.some((a: { key: string }) => a.key === 'langfuse.observation.usage_details'),
     );
-    const unavailable = new AgentTrace('experiment', 'failure', async () => {
-      throw Error('network');
-    });
+    const unavailable = new AgentTrace(
+      'experiment',
+      'failure',
+      async () => {
+        throw Error('network');
+      },
+      false,
+    );
     assert.equal(await unavailable.stage('gate', async () => 42), 42);
     assert.equal(await unavailable.flush('completed'), false);
     const rejected = new AgentTrace(
       'experiment',
       'partial',
       async () => new Response('{"partialSuccess":{"rejectedSpans":1}}'),
+      false,
     );
     assert.equal(await rejected.flush('completed'), false);
+    const oversized = new AgentTrace(
+      'experiment',
+      'oversized',
+      async () => new Response('x'.repeat(9000)),
+      false,
+    );
+    assert.equal(await oversized.flush('completed'), false);
   } finally {
     for (const key of [
       'AGENT_TRACING_ENABLED',

@@ -760,3 +760,7 @@ dictionaries，語系選擇應走 `t(...)`；changelog version 也只代表 sour
 ## G60 — Langfuse 接受 ingestion 不等於已查驗入庫
 
 Langfuse v4 接受 OTLP spans，但已移除舊 `/api/public/traces` 讀取 API；此端點回傳 404 不代表資料遺失。應透過 Observations API v2，以 trace ID 與有限時間範圍查詢；明確要求 `model,usage` 欄位，因為預設不回傳。本機真實雙角色探針已查回八筆觀察與供應商用量。固定監控映像，未知用量維持缺省。詳見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。
+
+## G61 — 回收 Worker 鎖不等於復原啟用
+
+目錄鎖可能殘留於 SIGKILL 之後；檢查 PID 再刪除也可能與另一 worker 競爭。本機 agents 改用作業系統釋放的 SQLite 寫入鎖。啟用可能在指標切換後、煙霧測試完成前死亡，所以下次控制操作前須檢查 journal 與收據。沒有完成收據時會先回滾，再確認 Demo 凍結。不要刪除作用中的 SQLite 鎖檔，否則會產生不同鎖識別。實際子程序終止測試涵蓋鎖回收與中斷啟用復原。

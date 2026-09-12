@@ -30,8 +30,9 @@ npm run agents:experiment -- --live --cycles 10 --interval 300
 JSON 報告以原子寫入保存在 `var/chaos-agents/`，含每筆結果、失敗斷言、待辦、
 模型來源與前一份相容報告比較。情境版本或重複次數不同時不做比較。
 任一輪失敗 exit 1，中斷 exit 130，全部執行輪次通過 exit 0。
-SIGINT／SIGTERM 會中斷等待；正在執行的輪次會完成有界操作後停止。
-`active.lock` 防止重疊執行；SIGKILL 後先確認其中 PID 已離開，才手動移除殘留鎖。
+SIGINT／SIGTERM 會取消模型與私有 HTTP 工作，保留已完成案例。
+單獨使用 `--resume <run-id>` 續跑原設定與案例。SQLite 鎖防止重疊執行，
+程序死亡時由作業系統釋放；不要刪除鎖資料庫，升級前先停止舊 worker。
 歷史報告保留供檢視，由操作者管理歸檔與磁碟保留期限。
 
 ## 角色與權限
@@ -50,10 +51,10 @@ SIGINT／SIGTERM 會中斷等待；正在執行的輪次會完成有界操作後
 在成功 transport 路徑回傳 openai 標記，也不能視為外部呼叫；整份量測以
 `controlled-faults-real-modules` 明示此範圍。
 
-## v1 情境（17 個）
+## v2 情境（19 個）
 
 - 正常模型、429、503、合成 timeout、無效 JSON、過大回應、缺語言、純空白建議、
-  機密格式輸出、不受證據支持的宣稱、trace sink 失敗與 trace containment。
+  機密格式輸出、不受證據支持的宣稱、trace sink 失敗、trace containment、截斷回覆與無效用量。
 - 私有應用实例的無效／過大 API 請求、reset 撤銷 capability、DB readiness
   失敗與 worker heartbeat 恢復。
 

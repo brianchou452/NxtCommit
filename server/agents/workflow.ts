@@ -21,6 +21,7 @@ export async function workflow(options: {
   stages: WorkflowStage[];
   resume?: boolean;
   allowed?: () => boolean;
+  interrupted?: () => boolean;
   trace: AgentTrace;
 }) {
   process.env.LANGSMITH_TRACING = 'false';
@@ -34,6 +35,7 @@ export async function workflow(options: {
       options.stages.map((stage) => [
         stage.name,
         async () => {
+          if (options.interrupted?.()) throw Error('run_interrupted');
           if (options.allowed && !options.allowed()) return { status: 'cancelled' };
           try {
             const status = await options.trace.stage(stage.name, stage.run);

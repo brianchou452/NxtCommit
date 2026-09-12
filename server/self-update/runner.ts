@@ -1,3 +1,4 @@
+import { acquireLease } from '../agents/lease.js';
 import {
   cpSync,
   existsSync,
@@ -256,22 +257,14 @@ export async function iterate(
   const settings = control.read();
   if (!control.allowed(settings.epoch)) return { status: 'disabled' };
   if (resumeId && !/^[a-f0-9-]{36}$/.test(resumeId)) throw Error('invalid_run_id');
-  const runLock = join(control.root, 'iteration.lock');
-  if (existsSync(runLock)) {
-    // Recovery is explicit; never steal a live worker's lock.
-    const owner = JSON.parse(readFileSync(join(runLock, 'owner.json'), 'utf8')) as { pid: number };
-    if (!Number.isSafeInteger(owner.pid) || owner.pid <= 0) throw Error('invalid_lock_owner');
-    let alive = true;
-    try {
-      process.kill(owner.pid, 0);
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ESRCH') alive = false;
-    }
-    if (alive || !resumeId) throw Error('iteration_busy');
-    rmSync(runLock, { recursive: true });
+  if (existsSync(join(control.root, 'iteration.lock'))) throw Error('legacy_iteration_lock');
+  let release: () => void;
+  try {
+    release = await acquireLease(join(control.root, 'iteration-lock.sqlite'));
+  } catch (error) {
+    if ((error as Error).message === 'agent_busy') return { status: 'busy' };
+    throw error;
   }
-  mkdirSync(runLock);
-  atomicJson(join(runLock, 'owner.json'), { pid: process.pid });
   const id = resumeId ?? randomUUID();
   const candidate = join(control.root, 'candidates', id);
   const trace = new AgentTrace('self-update', id);
@@ -287,6 +280,7 @@ export async function iterate(
   let base: string | null = null;
   let contextAccepted = false;
   try {
+    await control.locked(() => {}); // Reconcile an interrupted activation before reading its base.
     mkdirSync(candidate, { recursive: true, mode: 0o700 });
     const signature = createHash('sha256')
       .update(digest('server'))
@@ -431,8 +425,6 @@ export async function iterate(
             )
               throw Error('source_integrity_failed');
             // A completed activation may precede its graph checkpoint. Do not switch twice.
-            if (control.active() === id)
-              return (await operations.smoke(control)) ? 'promoted' : 'recovery_smoke_failed';
             return control.promote(context.epoch, base!, id, () => operations.smoke(control));
           },
         },
@@ -450,19 +442,22 @@ export async function iterate(
     clearInterval(poll);
     process.removeListener('SIGINT', stop);
     process.removeListener('SIGTERM', stop);
-    const result = {
-      id,
-      base,
-      status,
-      ...(failureReason ? { failureReason } : {}),
-      endedAt: new Date().toISOString(),
-    };
-    const attempts = join(candidate, 'attempts');
-    mkdirSync(attempts, { recursive: true, mode: 0o700 });
-    atomicJson(join(attempts, `${randomUUID()}.json`), result);
-    if (!resumeId || contextAccepted) atomicJson(join(candidate, 'result.json'), result);
-    rmSync(runLock, { recursive: true });
-    await trace.flush(status);
+    try {
+      const result = {
+        id,
+        base,
+        status,
+        ...(failureReason ? { failureReason } : {}),
+        endedAt: new Date().toISOString(),
+      };
+      const attempts = join(candidate, 'attempts');
+      mkdirSync(attempts, { recursive: true, mode: 0o700 });
+      atomicJson(join(attempts, `${randomUUID()}.json`), result);
+      if (!resumeId || contextAccepted) atomicJson(join(candidate, 'result.json'), result);
+    } finally {
+      release();
+      await trace.flush(status);
+    }
   }
   return { id, base, status, ...(failureReason ? { failureReason } : {}) };
 }

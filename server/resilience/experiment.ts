@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { atomicJson } from '../self-update/control.js';
@@ -26,15 +26,43 @@ export interface ExperimentReport {
   roles: { chaos: 'deterministic' | 'model-assisted'; experiment: 'deterministic' | 'model-assisted' };
   advice?: { chaos: AssistantResult; experiment: AssistantResult };
 }
+export function validMeasurements(rows: Measurement[], repetitions: number, complete = true): boolean {
+  if (
+    !Number.isInteger(repetitions) ||
+    repetitions < 1 ||
+    repetitions > 10 ||
+    (complete && rows.length !== scenarioIds.length * repetitions)
+  )
+    return false;
+  const seen = new Set<string>();
+  return rows.every((row) => {
+    const key = `${row.scenario}:${row.repetition}`;
+    const checks = Object.values(row.checks ?? {});
+    if (
+      !scenarioIds.includes(row.scenario) ||
+      !Number.isInteger(row.repetition) ||
+      row.repetition < 0 ||
+      row.repetition >= repetitions ||
+      seen.has(key) ||
+      !Number.isFinite(row.durationMs) ||
+      row.durationMs < 0 ||
+      typeof row.passed !== 'boolean' ||
+      checks.some((value) => typeof value !== 'boolean')
+    )
+      return false;
+    seen.add(key);
+    return row.error === 'scenario_exception'
+      ? !row.passed
+      : checks.length > 0 && row.passed === checks.every(Boolean);
+  });
+}
 export function assess(measurements: Measurement[], baseline?: ExperimentReport) {
   const failedIds = new Set(measurements.filter((row) => !row.passed).map((row) => row.scenario));
   const comparable = Boolean(
     baseline &&
       baseline.catalogVersion === catalogVersion &&
-      new Set(measurements.map((row) => row.scenario)).size === scenarioIds.length &&
-      baseline.repetitions === measurements.length / scenarioIds.length &&
-      baseline.measurements.length === measurements.length &&
-      scenarioIds.every((id) => baseline.measurements.some((row) => row.scenario === id)),
+      validMeasurements(measurements, baseline.repetitions) &&
+      validMeasurements(baseline.measurements, baseline.repetitions),
   );
   const previous = new Set(
     comparable ? baseline!.measurements.filter((row) => !row.passed).map((row) => row.scenario) : [],
@@ -55,6 +83,7 @@ export class ExperimentAgent {
       repetitions?: number;
       baseline?: ExperimentReport;
       assistance?: Assistance;
+      signal?: AbortSignal;
       runtime?: { directory: string; identity: string; runId?: string; resume?: boolean };
     } = {},
   ): Promise<ExperimentReport> {
@@ -97,10 +126,12 @@ export class ExperimentAgent {
         identity,
         ...(options.runtime?.resume ? { resume: true } : {}),
         trace,
+        interrupted: () => options.signal?.aborted ?? false,
         stages: [
           {
             name: 'plan',
             run: async () => {
+              if (existsSync(join(directory, 'plan.json'))) return;
               let state = seed || 1;
               const order = [...scenarioIds];
               for (let i = order.length - 1; i > 0; i--) {
@@ -142,18 +173,28 @@ export class ExperimentAgent {
             name: 'chaos',
             run: async () => {
               const { order } = read<{ order: typeof scenarioIds }>('plan.json');
-              const measurements: Measurement[] = [];
+              const progress = join(directory, 'measurements.json');
+              const measurements = existsSync(progress) ? read<Measurement[]>('measurements.json') : [];
+              if (!validMeasurements(measurements, repetitions, false))
+                throw Error('invalid_measurement_progress');
+              const completed = new Set(measurements.map((row) => `${row.scenario}:${row.repetition}`));
               for (let repetition = 0; repetition < repetitions; repetition++) {
-                for (const scenario of order)
-                  measurements.push(await this.chaos.execute(scenario, repetition));
+                for (const scenario of order) {
+                  options.signal?.throwIfAborted();
+                  if (completed.has(`${scenario}:${repetition}`)) continue;
+                  const measurement = await this.chaos.execute(scenario, repetition, options.signal);
+                  options.signal?.throwIfAborted();
+                  measurements.push(measurement);
+                  atomicJson(progress, measurements);
+                }
               }
-              atomicJson(join(directory, 'measurements.json'), measurements);
             },
           },
           {
             name: 'assess',
             run: async () => {
               const measurements = read<Measurement[]>('measurements.json');
+              if (!validMeasurements(measurements, repetitions)) throw Error('incomplete_measurements');
               const { chaosAdvice } = read<{ chaosAdvice?: AssistantResult }>('plan.json');
               const failed = measurements.filter((row) => !row.passed);
               const durations = measurements.map((row) => row.durationMs).sort((a, b) => a - b);
@@ -202,6 +243,7 @@ export class ExperimentAgent {
           {
             name: 'review',
             run: async () => {
+              if (existsSync(join(directory, 'report.json'))) return;
               const report = read<ExperimentReport>('assessment.json');
               const { chaosAdvice } = read<{ chaosAdvice?: AssistantResult }>('plan.json');
               if (options.assistance && chaosAdvice) {
@@ -254,7 +296,7 @@ export class ExperimentAgent {
       );
       return report;
     } finally {
-      await trace.flush(outcome);
+      await trace.flush(options.signal?.aborted ? 'cancelled' : outcome);
       if (!options.runtime) rmSync(root, { recursive: true, force: true });
     }
   }

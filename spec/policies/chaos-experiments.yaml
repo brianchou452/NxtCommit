@@ -10,3 +10,5 @@ rules:
   - { id: bounded-loop, requirement: Cycles and intervals are bounded and overlapping runs are refused; failures persist and cause a nonzero exit., enforcement: server }
   - { id: provenance, requirement: Controlled fault results are distinct from real model advisory provenance and cannot establish production readiness., enforcement: server }
   - { id: regression-evidence, requirement: Record each terminal check and compare only compatible catalogs and repetition counts; failures produce a remediation backlog., enforcement: server }
+  - { id: resumable-cancellation, requirement: Cancellation reaches agent model and private HTTP requests; explicit resume reuses persisted completed cases with the same source and settings., enforcement: server }
+  - { id: complete-measurements, requirement: Only complete unique scenario and repetition coverage with consistent measured checks can pass assessment or baseline comparison., enforcement: server }

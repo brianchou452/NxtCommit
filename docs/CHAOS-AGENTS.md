@@ -34,10 +34,10 @@ Reports are atomic JSON files in `var/chaos-agents/`, including every result,
 failed check, backlog item, advisory provenance and comparison with the preceding
 compatible report. A different corpus or repetition count makes comparison
 unavailable. The CLI exits 1 if any cycle fails, 130 on interruption and 0 when
-all executed cycles pass. SIGINT/SIGTERM interrupt interval waits; an active cycle
-finishes within its bounded operations. `active.lock` prevents overlapping loops.
-After SIGKILL, inspect the PID in that file and verify that process has exited
-before manually removing the stale lock. Historical reports are retained for
+all executed cycles pass. SIGINT/SIGTERM cancel model/private HTTP work and preserve
+completed cases. Use `--resume <run-id>` alone to reuse saved settings and cases.
+An OS-owned SQLite lease prevents overlapping loops and releases on process death;
+never delete its database. Stop legacy workers before upgrading. Historical reports are retained for
 review; operators own archival and disk retention.
 
 ## Roles and authority
@@ -61,11 +61,11 @@ inside the tests are synthetic even though the production adapter's generator
 label follows its successful transport path. The report's
 `controlled-faults-real-modules` provenance applies to those measurements.
 
-## Catalog v1 (17 scenarios)
+## Catalog v2 (19 scenarios)
 
 - Healthy model, 429, 503, synthetic timeout, invalid JSON, oversized response,
   missing language, whitespace-only advice, secret-shaped output, unsupported
-  claims, unavailable trace sink and trace containment.
+  claims, unavailable trace sink, trace containment, truncated completions and invalid usage.
 - Malformed/oversized API requests, reset-invalidated capabilities, unavailable
   database readiness and worker-heartbeat recovery on private application instances.
 
