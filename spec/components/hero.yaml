@@ -25,37 +25,37 @@ states:
     rendering: impact snapshot 仍可顯示；僅 marketplace 專屬數字維持 em dash，沒有 error modal。
 interactions:
   - trigger: 選擇主要 CTA。
-    result: 使用頁內錨點移至 campaign browser section。
+    result: 使用頁內錨點移至 workflow 互動示例。
   - trigger: 元件保持可見超過 4.2 秒。
-    result: 將三筆 demo pipeline 中的 highlighted event 輪替到下一筆；不聲稱事件是 GitHub live data。
+    result: 將三筆 illustrated workflow 中的 highlighted event 輪替到下一筆；不聲稱事件是 GitHub live data。
 content:
   locales:
     en:
-      headline_line_1: Open source is built on commits.
-      headline_line_2: And every commit starts with a commitment.
-      supporting_text: Turn your AI tokens into the next open-source release.
-      primary_cta: Explore Campaigns
-      provenance_label: Demo live
-      provenance_note: Rotating demo events—not a live GitHub feed
-      pipeline_title: Live Pipeline
-      pipeline_subtitle: Community compute in motion
-      pipeline_listening: Listening for the next event
-      event_1: WhisperX | 500 compute joined the campaign pool | Community commitment | now
-      event_2: ky | Change evidence is ready | Review checkpoint | 2m ago
-      event_3: marked | Maintainer approved and merged the change | Maintainer decision | 4m ago
+      headline_line_1: "Your repo. Your quality bar."
+      headline_line_2: "A workflow agents can follow."
+      supporting_text: "Turn maintainer requirements into repo-specific development workflows that agents follow and tests verify."
+      primary_cta: "Explore the workflow"
+      provenance_label: "Illustrated concept"
+      provenance_note: "Permanent rules need maintainer confirmation. This is not a live review or execution feed."
+      pipeline_title: "From feedback to future acceptance"
+      pipeline_subtitle: "Fix this change. Carry the right rule forward."
+      pipeline_listening: "Listening for the next event"
+      event_1: "This PR · Add keyboard verification, fix issues and rerun tests"
+      event_2: "Proposed rule · Preserve source, scope and executable checks"
+      event_3: "After confirmation · The next form task inherits a new acceptance gate"
     zh-TW:
-      headline_line_1: Open source is built on commits.
-      headline_line_2: And every commit starts with a commitment.
-      supporting_text: 從 Issue 到 Merge - 把閒置算力投進下一個 Release
-      primary_cta: 探索募資提案
-      provenance_label: Demo 即時
-      provenance_note: 輪播示範事件，不是 GitHub 即時資料
-      pipeline_title: Live Pipeline 即時動態
-      pipeline_subtitle: 社群算力正在推動開源進度
-      pipeline_listening: 等待下一筆事件
-      event_1: WhisperX | 500 算力匯入 Campaign Pool | 社群共同投入 | 剛剛
-      event_2: ky | 變更證據已準備完成 | 審查節點 | 2 分鐘前
-      event_3: marked | Maintainer 已審查並合併變更 | 維護者決策 | 4 分鐘前
+      headline_line_1: "把維護者的品質要求，"
+      headline_line_2: "轉成可遵守、可驗證的開發流程。"
+      supporting_text: "以儲存庫專屬流程驅動代理開發：測試驗收本次修改，審查回饋累積後續規則。"
+      primary_cta: "看懂開發流程"
+      provenance_label: "流程示意"
+      provenance_note: "永久規則須經維護者確認；此處不是即時審查或執行紀錄。"
+      pipeline_title: "從回饋到下一次驗收"
+      pipeline_subtitle: "改對一次，也留下下一次能用的規則。"
+      pipeline_listening: "等待下一筆事件"
+      event_1: "本次修正｜補上鍵盤驗證、修正問題、重新測試"
+      event_2: "候選規則｜保留回饋來源、適用範圍與檢查方式"
+      event_3: "確認後生效｜新版流程讓下一個表單任務多一道驗收關卡"
   dynamic_labels:
     - name: compute_committed
       source: marketplace.stats.totalPledged
@@ -74,7 +74,7 @@ visual_design:
   hierarchy:
     - Provenance kicker establishes open-source and demo context.
     - Two-part display headline carries the primary promise, followed by supporting copy and the campaign CTA.
-    - Four aggregate signals close the editorial column; the live pipeline is the secondary visual narrative.
+    - Four aggregate signals close the editorial column; the illustrated workflow is the secondary visual narrative.
   layout: 左側為 value proposition、CTA 與四格 signal grid；右側為深靛色 pipeline panel。
   geometry: Desktop uses an approximately 0.86/1.14 editorial-to-pipeline split inside a full-width opening section; the hero occupies about the first viewport below persistent chrome.
   colour_semantics: 一般敘事使用 paper/ink；pipeline 為 deep indigo；compute 用 mint、backers 用 blue、repos 用 violet、release 用 amber。

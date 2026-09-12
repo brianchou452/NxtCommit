@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.25 — 2026-09-12
+
+- Reposition the homepage around task correction and maintainer-confirmed repo workflow evolution. Add a nine-stage interactive concept with source, scope, version, explicit simulated confirmation and next-issue acceptance. Rename Chinese Agent Lab navigation and stages consistently. This presentation does not implement PR-reply ingestion or production rule enforcement.
+
 ## v0.7.24 — 2026-09-12
 
 - Add GitHub source workspaces, draft PR creation on funding, bounded AI implementation with Docker verification, and ready-for-review promotion gated by same-commit CI. Add browser/Docker journeys and ownership, retry and failure gates. Not deployed or live GitHub-write verified.

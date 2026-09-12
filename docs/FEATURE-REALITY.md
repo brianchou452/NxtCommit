@@ -1,5 +1,7 @@
 # Feature reality matrix
 
+> **Workflow product direction:** The homepage now has an explicitly labelled interactive concept for maintainer-confirmed workflow evolution. It does not ingest PR replies or install future-task gates. See [scope](WORKFLOW-DIRECTION.md).
+
 > **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
 
 
