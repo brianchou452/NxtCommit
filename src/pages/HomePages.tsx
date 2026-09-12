@@ -19,6 +19,7 @@ import {
 import { CommentWall, CommunityVotes } from "../components/Community.js";
 import { DemoLauncher } from "../components/GuidedDemo.js";
 import "../styles/home.css";
+import "../styles/secondary-pages.css";
 export function HomePage() {
   const impact = useSnapshot<ImpactSnapshot>("/api/impact", true),
     market = useSnapshot<MarketplaceSnapshot>("/api/marketplace", true);
@@ -58,7 +59,7 @@ export function MarketplacePage() {
   const { text, locale } = useLocale();
   const snapshot = useSnapshot<MarketplaceSnapshot>("/api/marketplace", true);
   return (
-    <main className="product-content" id="main-content" tabIndex={-1}>
+    <main className="product-content secondary-page marketplace-page" id="main-content" tabIndex={-1}>
       <header className="market-heading">
         <p className="kicker">{text.demo_data}</p>
         <h1>{text.market_title}</h1>
@@ -91,7 +92,7 @@ export { MyCommitment as ProfilePage } from "./MyCommitment.js";
 export function DemoPage() {
   const { text } = useLocale();
   return (
-    <main className="product-content demo-page" id="main-content" tabIndex={-1}>
+    <main className="product-content secondary-page demo-page" id="main-content" tabIndex={-1}>
       <p className="kicker">{text.demo_data}</p>
       <h1>{text.demo_title}</h1>
       <p>{text.demo_explanation}</p>
@@ -105,7 +106,7 @@ export function RecoveryPage({ error = false }: { error?: boolean }) {
     <main
       id="main-content"
       tabIndex={-1}
-      className="recovery"
+      className="recovery secondary-recovery"
       data-testid="route-recovery"
     >
       <span className="recovery-icon" aria-hidden="true">

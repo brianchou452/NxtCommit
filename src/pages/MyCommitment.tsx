@@ -29,6 +29,7 @@ import { useSnapshot } from "../services/snapshots.js";
 import { RequestState } from "../components/HomeComponents.js";
 import { RecoveryPage } from "./HomePages.js";
 import "../styles/commitment.css";
+import "../styles/secondary-pages.css";
 
 const icons = {
   Sparkles,
@@ -223,7 +224,7 @@ export function MyCommitment() {
     return x && y ? x.first.localeCompare(y.first) : x ? -1 : y ? 1 : 0;
   });
   return (
-    <main className="my-commitment" id="main-content" tabIndex={-1}>
+    <main className="my-commitment secondary-page profile-page" id="main-content" tabIndex={-1}>
       {snapshot.error && <RequestState snapshot={snapshot} />}
       {!profile && !snapshot.error && <Skeleton />}
       {profile && (
