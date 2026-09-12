@@ -54,7 +54,16 @@ test('maintainer guide completes original tempo fixture through actual retry, re
  await page.locator('[data-demo-action="review-artifact"]').click();
  await expect(page.locator('body')).toContainText('20');
  await page.screenshot({path:info.outputPath('review-source.png'),fullPage:true,animations:"disabled"});
+ await page.getByRole('textbox',{name:'Review comment',exact:true}).fill('Please cover malformed input and generous whitespace.');
+ await page.getByRole('button',{name:'Request changes',exact:true}).click();
+ await expect(page).toHaveURL(/\/run/);
+ await expect(page.locator('[data-demo-action="review-artifact"]')).toBeVisible({timeout:15000});
+ await page.locator('[data-demo-action="review-artifact"]').click();
+ await expect(page.locator('body')).toContainText('23');
+ let loseRelease=true;
+ await page.route('**/api/missions/*/release',async route=>{if(loseRelease){loseRelease=false;await route.fulfill({status:503,json:{code:'request_failed'}});}else await route.continue();});
  await page.getByRole('button',{name:"Mark demo state as accepted"}).click();
+ await page.getByRole('button',{name:'Record local demo release',exact:true}).click();
  await expect.poll(async()=>{
   const id=page.url().split('/missions/')[1]?.split('/')[0]?.split('?')[0];
   return (await (await page.request.get(`/api/missions/${id}`)).json()).status;
@@ -89,7 +98,7 @@ for(const concept of ['editorial','kickstarter','network','hybrid'])test(`source
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(`/concepts/${concept}`);await expect(page.getByRole('heading').first()).toBeVisible();expect(errors).toEqual([]);
 });
 test('time machine supports keyboard navigation without converting future projections into facts',async({page})=>{
- await page.goto('/missions/catalog-mermaid');const tabs=page.getByRole('tablist',{name:'Time Machine'}).getByRole('tab');
+ await page.goto('/missions/catalog-mermaid');const tabs=page.getByRole('tablist',{name:/Time machine/i}).getByRole('tab');
  await tabs.first().focus();await page.keyboard.press('End');await expect(tabs.last()).toHaveAttribute('aria-selected','true');
  await expect(page.locator('body')).toContainText('projection');
 });

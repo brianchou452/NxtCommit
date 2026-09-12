@@ -682,7 +682,7 @@ export default function MissionDetail() {
           </div>
         </div>
       </div>
-      {pledgeOpen && <PledgeDialog mission={mission} initialAmount={autoDemo ? undefined : backAmount} open onClose={() => setPledgeOpen(false)} onPledged={handlePledged} guidedDemo={autoDemo} />}
+      {pledgeOpen && <PledgeDialog mission={mission} initialAmount={demoRole ? undefined : backAmount} open onClose={() => setPledgeOpen(false)} onPledged={handlePledged} guidedDemo={autoDemo} />}
     </div>
   );
 

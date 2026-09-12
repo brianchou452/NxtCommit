@@ -269,8 +269,8 @@ export default function App() {
   const location = useLocation();
   const { t } = useI18n();
   useEffect(() => {
-    window.scrollTo(0, 0);
-    document.getElementById("main-content")?.focus();
+    window.scrollTo({top:0,behavior:"instant"});
+    document.getElementById("main-content")?.focus({preventScroll:true});
   }, [location.pathname]);
 
   return (

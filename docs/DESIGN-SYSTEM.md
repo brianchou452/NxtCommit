@@ -1,5 +1,7 @@
 # NxtCommit Design System
 
+The user selected commoncommit as the presentation authority for the integrated routes in 0.7.35. The exact source revision, intentional integration differences and verification scope are recorded in [COMMONCOMMIT-PARITY.md](COMMONCOMMIT-PARITY.md); its referenced source contracts supersede earlier NxtCommit-specific compositions for those routes. Historical approved images are retained, not overwritten.
+
 > **Editorial crowdfunding × developer delivery system**
 >
 > Explain product value through bright narrative pages with generous whitespace; switch to technical interfaces with dotted signals for evidence, funding, and delivery milestones. Help non-engineers understand “what this update changes” first, while showing engineers “how it moves from Issue to Release.”

@@ -13,11 +13,11 @@ states:
   - { name: active, condition: Journey有current step。, rendering: 顯示target instruction、progress與exit。 }
   - { name: error, condition: Reset或expected target失敗。, rendering: 停止automation並顯示recovery。 }
 interactions:
-  - { trigger: Launch perspective., result: Reset成功後才導航，並在每個 route 指向下一個由使用者操作的 visible UI control。 }
+  - { trigger: Launch perspective., result: 非保護環境等待 reset 成功；受保護環境保留資料並建立新的綁定 fixture 任務，且在每個 route 指向下一個由使用者操作的 visible UI control。 }
   - { trigger: Exit demo., result: 停止controller但不把已發生local mutations描述為回滾。 }
 runtime_authority: Launcher owns reset and navigation while each product page owns its real action and publishes the next guide state only after success.
 terminal_outcomes:
-  - Launch never navigates before reset succeeds.
+  - Unprotected launch waits for reset; protected shared launch preserves data and prepares a new bound fixture campaign.
   - Active guide targets a visible product control and can be exited without claiming rollback.
 test_constraints:
   - Controller may highlight controls but must not programmatically click state-changing actions.

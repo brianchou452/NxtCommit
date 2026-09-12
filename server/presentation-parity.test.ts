@@ -36,6 +36,9 @@ test('source tempo scenario records actual failed attempt, revised green suite, 
   const result=await request<{mission:MissionDetail}>(s.url,`/api/missions/${mission.id}/release`,{});
   assert.equal(result.mission.status,'released');assert.match(result.mission.releaseVersion!,/demo/);
   assert.deepEqual(await request(s.url,`/api/missions/${mission.id}/release`,{}),result);
+  const profile=await request<{receipts:Array<{missionId:string;status:string;releaseVersion?:string}>}>(s.url,'/api/contributors/demo-contributor');
+  const receipt=profile.receipts.find(r=>r.missionId===mission.id);
+  assert.equal(receipt?.status,'released');assert.equal(receipt?.releaseVersion,result.mission.releaseVersion);
   assert.equal(s.context.store.db.prepare("SELECT count(*) n FROM b_records WHERE kind='local-release'").get()!.n,1);
   await request(s.url,'/api/missions/catalog-mermaid/release',{},400);
  } finally {await s.stop();}

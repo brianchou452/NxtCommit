@@ -1,5 +1,7 @@
 # NxtCommit Design System
 
+使用者指定 0.7.35 的整合路由以 commoncommit 為畫面基準。確切來源版本、整合差異與驗證範圍見 [COMMONCOMMIT-PARITY.zh-TW.md](COMMONCOMMIT-PARITY.zh-TW.md)；其中引用的來源契約取代這些路由較早的 NxtCommit 專用編排。歷史核准圖片保留，不覆寫。
+
 > **Editorial crowdfunding × developer delivery system**
 >
 > 用明亮、留白的敘事頁面講產品價值；在證據、資金與交付節點切換成帶有點陣訊號的技術介面。畫面先讓非工程師理解「這次更新會改變什麼」，也讓工程師看見「它如何從 Issue 走到 Release」。
