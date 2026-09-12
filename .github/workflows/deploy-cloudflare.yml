@@ -1,0 +1,88 @@
+name: Deploy Cloudflare infrastructure
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-nxtcommit-production
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+  deploy:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: cloudflare-production
+      url: https://hackathon.ianjuan.com
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Refuse to overwrite an unintegrated product with the bootstrap Worker
+        run: |
+          if [ -f package.json ] || [ -d src ] || [ -d server ] || [ -d apps ]; then
+            echo 'Product source detected. Integrate its build/runtime and product checks before replacing this infrastructure-only deployment.' >&2
+            exit 1
+          fi
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.23.2'
+          cache: npm
+          cache-dependency-path: deploy/cloudflare/package-lock.json
+      - run: npm ci --prefix deploy/cloudflare
+      - name: Check deployment credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo 'Missing CLOUDFLARE_API_TOKEN secret'; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo 'Missing CLOUDFLARE_ACCOUNT_ID variable'; exit 1; }
+      - name: Check domain ownership before making changes
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: python3 scripts/ci/cloudflare_preflight.py
+      - name: Deploy exact revision
+        working-directory: deploy/cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p ../../artifacts
+          set -o pipefail
+          npm run deploy -- --var "COMMIT_SHA:$COMMIT_SHA" --var "GITHUB_RUN_URL:$RUN_URL" 2>&1 | tee ../../artifacts/cloudflare-deploy.log
+      - name: Verify HTTPS and serving revision
+        env:
+          DEPLOYMENT_URL: https://hackathon.ianjuan.com
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+          EXPECTED_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 scripts/ci/smoke_deployment.py
+      - name: Record checkpoint
+        if: always()
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          RESULT: ${{ job.status }}
+        run: |
+          echo '### Cloudflare infrastructure checkpoint' >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: $COMMIT_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "Result: $RESULT" >> "$GITHUB_STEP_SUMMARY"
+          echo 'URL: https://hackathon.ianjuan.com/__deployment' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Scope: infrastructure only; product application is not integrated.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: deployment-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: warn

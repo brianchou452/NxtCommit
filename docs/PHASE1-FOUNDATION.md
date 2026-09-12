@@ -129,3 +129,5 @@ authoring/model assistance, review/operations, SSE, complete product journeys an
 their visual baselines. The imported root maintainer `SKILL.md` remains absent;
 AGENTS.md and `skills/yaml-spec-to-code/SKILL.md` were followed, with the imported
 maintainer translation and canonical topic documents consulted as context.
+
+Remote integration: merged `origin/main` through `c945dce`, preserving the Cloudflare infrastructure workflows. The merged delivery guard intentionally rejects product source until a compatible runtime is integrated; pushing this foundation does not deploy it. Both validators and the three Worker tests passed alongside the foundation checks.

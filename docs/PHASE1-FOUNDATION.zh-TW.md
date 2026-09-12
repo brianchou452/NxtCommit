@@ -110,3 +110,5 @@ Phase 2 尚需 Home/community graph、mission/funding/execution、authoring/mode
 review/operations、SSE、完整產品 journey 與各自 visual baselines。匯入後 root maintainer
 `SKILL.md` 仍不存在；本次依 AGENTS.md 與 yaml-spec-to-code skill，並參考已匯入的維護者
 繁中說明及各主題 canonical 文件。
+
+遠端整合：已合併 `origin/main` 至 `c945dce`，保留 Cloudflare 基礎設施 workflows。既有 delivery guard 會在偵測產品 source 時拒絕，需先整合相容 runtime；push 骨架不代表部署。兩套規格 validator、3 個 Worker tests 與 foundation checks 均通過。

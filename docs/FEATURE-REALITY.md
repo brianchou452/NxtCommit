@@ -1,6 +1,6 @@
 # Feature reality matrix
 
-> Current reconstruction scope: see [Computer A / Phase 1](PHASE1-FOUNDATION.md). This checkout contains the shared foundation; the full feature inventory below is imported context, not proof those features are implemented here.
+> **NxtCommit hackathon scope (2026-09-12):** This checkout now contains the [Computer A / Phase 1 shared foundation](PHASE1-FOUNDATION.md). The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 

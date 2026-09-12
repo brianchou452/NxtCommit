@@ -1,6 +1,8 @@
 node_modules/
+.wrangler/
 .venv/
 __pycache__/
+*.pyc
 dist/
 dist-server/
 coverage/
@@ -11,3 +13,6 @@ var/
 .env
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+artifacts/
