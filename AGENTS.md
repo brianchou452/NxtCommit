@@ -21,9 +21,11 @@ boundary is visible to everyone.
 
 ## Facts that must not drift
 
-- GitHub `main` is the source of truth. GitHub Actions mirrors it to GitLab;
-  GitLab tests and builds an immutable image; Argo CD reconciles the checked-in
-  non-production overlay. A green mirror job is not by itself proof of rollout.
+- GitHub `main` is the source of truth. This reconstruction uses GitHub Actions
+  and Cloudflare, as requested for the hackathon. The initial delivery Worker is
+  infrastructure-only; see `docs/GITHUB-OPERATIONS.md` and
+  `docs/cicd/CHECKPOINTS.md`. GitLab mirroring and Argo CD are not configured in
+  this repository. A green infrastructure run does not prove product readiness.
 - Public GitHub import is read-only metadata analysis. It does not clone or run
   the imported repository. Use `https://github.com/PrimeIntellect-ai/prime-agent`
   as the public integration probe; do not substitute a private repository.
@@ -60,8 +62,10 @@ boundary is visible to everyone.
   `docs/GITHUB-OPERATIONS.zh-TW.md`，再修改或描述系統。
 - 新增 model call、prompt、evaluator、Langfuse score／dataset 或 AI dashboard
   metric 前，先讀 `docs/LLM-OBSERVABILITY-PLAN.zh-TW.md`。
-- GitHub `main` 是來源；GitHub Actions 鏡像至 GitLab，GitLab 測試與建置，
-  Argo CD 自動同步。任一單獨綠燈都不能證明整條鏈已上線。
+- GitHub `main` 是來源；本次黑客松依使用者要求採 GitHub Actions 與
+  Cloudflare。首版只部署基礎設施 Worker，詳見 `docs/GITHUB-OPERATIONS.zh-TW.md`
+  與 `docs/cicd/CHECKPOINTS.zh-TW.md`。本 repo 尚未設定 GitLab 鏡像或 Argo CD；
+  基礎設施綠燈不代表產品已就緒。
 - GitHub 匯入只讀 metadata，不 clone、不執行。公開整合測試固定使用
   `PrimeIntellect-ai/prime-agent`，不可拿 private repo 代替。
 - nonprod 任務執行固定是 demo；募資文案與專案說明則可能真的呼叫 LLM。
