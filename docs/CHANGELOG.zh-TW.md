@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.32 — 2026-09-12
+
+- 將 NxtCommit Design System 套用至其他分頁，統一清楚的字體層級、明亮敘事表面、深靛證據面板與資助語意色。保留 Discover、最新版 My Commitment 佈局、既有產品行為與可見來源標籤。部署與線上 provider 驗證另行確認。
+
 ## v0.7.31 — 2026-09-12
 
 - 將 commoncommit 的完整 My Commitment 版型移植到既有貢獻者路由：個人資訊與五項統計、13 種徽章收藏、分組成就、收據流程及認捐歷史。沿用任務帳本，保留未知量測，並透過即時事件更新。

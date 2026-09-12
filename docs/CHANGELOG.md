@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.32 — 2026-09-12
+
+- Apply the NxtCommit design system across secondary pages with clearer typography, light narrative surfaces, indigo evidence panels and semantic funding colours. Preserve Discover, the latest My Commitment layout, existing product behaviour and visible provenance. Deployment and live-provider verification remain separate.
+
 ## v0.7.31 — 2026-09-12
 
 - Port the full commoncommit My Commitment layout into the existing contributor route: identity and five stats, 13-badge shelf, grouped achievements, receipt chains and pledge history. Read existing mission accounting, preserve unknown measurements, and refresh on stream updates.
