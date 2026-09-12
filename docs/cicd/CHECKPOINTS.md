@@ -32,3 +32,7 @@ Verified locally: 125 spec schemas passed; 13 referenced product test files are 
 | CP-009 | Rollback drill with restored serving revision | Not executed |
 
 Each subsequent entry must include time, change, verification, result, evidence link and unresolved work. A configured secret or green contract check is not proof of a deployed product.
+
+## CP-006 — Cloud configuration, CI and concurrent documentation / 2026-09-12
+
+CLOUDFLARE_ACCOUNT_ID was saved and verified in the repository UI. Branch c2eacb9 was published through ianjuantw. [Push CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668690840) and [PR CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668726022) both succeeded. [PR #1](https://github.com/brianchou452/NxtCommit/pull/1) was created. Teammate commit c21d4ed added historical documents concurrently; resolved the two add/add conflicts by retaining their documents and moving this Cloudflare runbook to docs/cicd/RUNBOOK. Added explicit historical-scope labels without removing incident history. The newly imported documents were read; they are not evidence of product source or a current deployment.

@@ -32,3 +32,7 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 | CP-009 | 回滾演練與恢復版本證據 | 未執行 |
 
 後續每筆須包含時間、變更、驗證、結果、證據連結與未完成工作。Secret 已設定或 contract 綠燈不代表產品部署完成。
+
+## CP-006 — 雲端設定、CI 與同步文件衝突／2026-09-12
+
+已在 repo UI 儲存並確認 CLOUDFLARE_ACCOUNT_ID。透過 ianjuantw 發布 c2eacb9 分支。[Push CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668690840) 與 [PR CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668726022) 均成功，已建立 [PR #1](https://github.com/brianchou452/NxtCommit/pull/1)。隊員同時推送 c21d4ed 歷史文件；兩份 add/add 衝突以保留隊員文件、將本次手冊移至 docs/cicd/RUNBOOK 解決。新增歷史範圍標示，未刪除事故紀錄。已讀新匯入文件；它們不代表產品 source 或本次部署已完成。
