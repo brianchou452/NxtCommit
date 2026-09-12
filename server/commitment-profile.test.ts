@@ -53,6 +53,7 @@ test("profile exposes all 13 bilingual badges, deterministic awards and honest u
     assert.ok(profile.achievements.some((a) => a.code === "ship_it"));
     assert.ok(profile.achievements.some((a) => a.code === "first_spark"));
     assert.ok(!profile.achievements.some((a) => a.code === "ai_architect"));
+    assert.ok(profile.receipts.find(r=>r.status==='released')?.achievements?.includes('ship_it'));
     assert.equal(profile.stats.creditsConsumed, undefined);
     assert.equal(profile.stats.downstreamDownloads, undefined);
     assert.ok(

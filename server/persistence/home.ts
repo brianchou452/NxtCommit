@@ -1,4 +1,7 @@
-import { enrichContributor, type ProfileMissionReader } from "./commitment-profile.js";
+import {
+  enrichContributor,
+  type ProfileMissionReader,
+} from "./commitment-profile.js";
 import type { DatabaseSync } from "node:sqlite";
 import type { Migration, PersistenceAdapter } from "./database.js";
 import type {
@@ -283,7 +286,11 @@ export class HomeStore {
   }
   marketplace(): MarketplaceSnapshot {
     return this.store.transaction(() => {
-      const missions = this.campaigns().sort((a, b) => Number(b.id === "mission-fixture") - Number(a.id === "mission-fixture"));
+      const missions = this.campaigns().sort(
+        (a, b) =>
+          Number(b.id === "mission-fixture") -
+          Number(a.id === "mission-fixture"),
+      );
       const sections: [ShelfKey, (m: Campaign) => boolean][] = [
         ["almost_funded", (m) => m.status === "funding"],
         ["now_building", (m) => m.status === "executing"],
@@ -402,29 +409,43 @@ export class HomeStore {
         source: "demo" as const,
       }));
       const releases = receipts.filter((r) => r.status === "released");
-      return enrichContributor({
-        ...persona,
-        totalPledged: pledges.reduce((n, p) => n + p.amount, 0),
-        dataMode: "demo",
-        stats: {
-          missionsSupported: grouped.size,
-          localReleases: releases.length,
+      return enrichContributor(
+        {
+          ...persona,
+          totalPledged: pledges.reduce((n, p) => n + p.amount, 0),
+          dataMode: "demo",
+          stats: {
+            missionsSupported: grouped.size,
+            localReleases: releases.length,
+          },
+          pledges: pledges as ProfilePledge[],
+          receipts,
+          achievements: this.store.db
+            .prepare(
+              "SELECT * FROM home_achievements WHERE contributor_id=? ORDER BY earned_at,id",
+            )
+            .all(id)
+            .map((r) => ({
+              id: String(r.id),
+              code: String(r.code),
+              earnedAt: String(r.earned_at),
+              source: "demo" as const,
+            })),
+          achievementDefs: [],
         },
-        pledges: pledges as ProfilePledge[],
-        receipts,
-        achievements: this.store.db
-          .prepare(
-            "SELECT * FROM home_achievements WHERE contributor_id=? ORDER BY earned_at,id",
-          )
-          .all(id)
-          .map((r) => ({
-            id: String(r.id),
-            code: String(r.code),
-            earnedAt: String(r.earned_at),
-            source: "demo" as const,
+        this.campaigns(),
+        this.store.db
+          .prepare("SELECT * FROM home_pledges ORDER BY created_at,id")
+          .all()
+          .map((row) => ({
+            id: String(row.id),
+            missionId: String(row.mission_id),
+            contributorId: String(row.contributor_id),
+            amount: Number(row.amount),
+            createdAt: String(row.created_at),
           })),
-        achievementDefs: [],
-      }, this.campaigns(), this.store.db.prepare("SELECT * FROM home_pledges ORDER BY created_at,id").all().map(row => ({id:String(row.id),missionId:String(row.mission_id),contributorId:String(row.contributor_id),amount:Number(row.amount),createdAt:String(row.created_at)})), this.missionDetailReader);
+        this.missionDetailReader,
+      );
     });
   }
   nominees(): Nominee[] {

@@ -77,11 +77,11 @@ app.get("/__fixture/:name", (request, response) => {
         });
         router.get("/api/contributors/:id", (req, res, next) => {
           profileRequests++;
-          if (mode === "render-error" && profileRequests === 1) {
+          if (mode === "render-error" && profileRequests <= 2) {
             res.json({ ...context.home.profile(req.params.id), pledges: null });
             return;
           }
-          if (mode === "profile-error" && profileRequests === 1) {
+          if (mode === "profile-error" && profileRequests <= 2) {
             res.status(503).json({ error: "Fixture failure" });
             return;
           }

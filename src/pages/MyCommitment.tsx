@@ -73,7 +73,11 @@ function Badge({
     <span
       className={`mc-badge ${locked ? "is-locked" : `tier-${definition.tier}`}`}
       title={localize(definition.description, locale)}
-      style={{'--mc-accent': `var(--${accents[definition.code] ?? 'funding'})`} as CSSProperties}
+      style={
+        {
+          "--mc-accent": `var(--${accents[definition.code] ?? "funding"})`,
+        } as CSSProperties
+      }
     >
       <span className="mc-badge-icon" aria-hidden="true">
         {locked ? <Lock size={12} /> : <Icon size={16} />}
@@ -129,21 +133,38 @@ function Status({ status }: { status: string }) {
 }
 function relativeDate(value: string, locale: string) {
   const seconds = (Date.parse(value) - Date.now()) / 1000;
-  const units = [[86400, 'day'], [3600, 'hour'], [60, 'minute'], [1, 'second']] as const;
-  const [size, unit] = units.find(([size]) => Math.abs(seconds) >= size) ?? units[3];
-  return new Intl.RelativeTimeFormat(locale, {numeric:'auto'}).format(Math.round(seconds / size), unit);
+  const units = [
+    [86400, "day"],
+    [3600, "hour"],
+    [60, "minute"],
+    [1, "second"],
+  ] as const;
+  const [size, unit] =
+    units.find(([size]) => Math.abs(seconds) >= size) ?? units[3];
+  return new Intl.RelativeTimeFormat(locale, { numeric: "auto" }).format(
+    Math.round(seconds / size),
+    unit,
+  );
 }
-function DateLabel({ value, relative = false }: { value: string | undefined; relative?: boolean }) {
+function DateLabel({
+  value,
+  relative = false,
+}: {
+  value: string | undefined;
+  relative?: boolean;
+}) {
   const { locale, text } = useLocale();
   if (!value || !Number.isFinite(Date.parse(value)))
     return <span>{text.commitment_unknown}</span>;
   return (
     <time dateTime={value} title={new Date(value).toLocaleString(locale)}>
-      {relative ? relativeDate(value, locale) : new Date(value).toLocaleDateString(locale, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      })}
+      {relative
+        ? relativeDate(value, locale)
+        : new Date(value).toLocaleDateString(locale, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
     </time>
   );
 }

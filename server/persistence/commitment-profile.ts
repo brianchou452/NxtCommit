@@ -20,10 +20,13 @@ export function enrichContributor(
   allPledges: PledgeRecord[],
   readMission?: ProfileMissionReader,
 ): ContributorProfile {
+  const recordedReleases = profile.receipts.filter(r => r.status === 'released');
+  const legacyMissionId = recordedReleases.length === 1 ? recordedReleases[0]!.missionId : undefined;
   const achievements: ContributorProfile["achievements"] =
     profile.achievements.map((a) => ({
       ...a,
       code: a.code === "ship" ? "ship_it" : a.code,
+      ...(!a.missionId && (a.code === 'ship' || a.code === 'ship_it') && legacyMissionId ? {missionId: legacyMissionId} : {}),
     }));
   const award = (
     code: CommitmentBadgeCode,

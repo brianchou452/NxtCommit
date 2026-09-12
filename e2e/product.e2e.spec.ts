@@ -359,7 +359,7 @@ test("My Commitment port retains the badge shelf, receipt chain, locale and mobi
   await expect(page.locator('.mc-table-wrap tbody tr')).toHaveCount(2);
   await page.screenshot({path:testInfo.outputPath('commitment-desktop.png'),fullPage:true});
   await page.getByRole('combobox',{name:'Language',exact:true}).selectOption('zh-TW');
-  await expect(page.locator('#mc-badges')).toHaveText('徽章');
+  await expect(page.locator('#mc-badges')).toHaveText('徽章收藏');
   await expect(page.locator('#mc-pledges')).toBeVisible();
   await page.setViewportSize({width:390,height:844});
   await expect(page.locator('.mc-shelf > li')).toHaveCount(13);
@@ -368,4 +368,19 @@ test("My Commitment port retains the badge shelf, receipt chain, locale and mobi
   await page.locator('.mc-receipt > a').first().focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/missions\//);
+});
+
+// Spec: component.contributor-impact; Scenario: impact-record-is-locally-traceable.
+test('My Commitment refreshes the existing wallet and receipts after another tab pledges', async ({page}) => {
+  await page.request.post('http://127.0.0.1:4177/api/demo/reset');
+  await page.goto('http://127.0.0.1:4177/contributors/demo-contributor');
+  await expect(page.locator('.mc-stats dd').first()).toHaveText('2');
+  const result = await page.request.post('http://127.0.0.1:4177/api/missions/mission-fixture/pledge', {data:{amount:10}});
+  expect(result.ok()).toBe(true);
+  await expect(page.locator('.mc-stats dd').first()).toHaveText('3');
+  await expect(page.locator('.mc-hero-stats').first()).toContainText('9,990');
+  await expect(page.locator('.mc-receipt').filter({has:page.locator('a[href="/missions/mission-fixture"]')})).toContainText('10 pledged');
+  await page.reload();
+  await expect(page.locator('.mc-stats dd').first()).toHaveText('3');
+  await page.request.post('http://127.0.0.1:4177/api/demo/reset');
 });

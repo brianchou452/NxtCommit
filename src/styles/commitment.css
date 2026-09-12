@@ -259,12 +259,36 @@
   color: var(--muted);
 }
 /* Rank owns the border; the icon and left edge retain category meaning. */
-.mc-badge.tier-bronze {border-color:#b3763f80;background:#b3763f12;color:#81552e}
-.mc-badge.tier-silver {border-color:#9fb2c880;background:#9fb2c81a;color:#46576d}
-.mc-badge.tier-gold {border-color:#6657ff99;background:#6657ff12;color:var(--funding)}
-.mc-shelf-item.is-earned.tier-bronze {background:#b3763f0d;border-top-color:#b3763f55;border-right-color:#b3763f55;border-bottom-color:#b3763f55}
-.mc-shelf-item.is-earned.tier-silver {background:#9fb2c814;border-top-color:#9fb2c855;border-right-color:#9fb2c855;border-bottom-color:#9fb2c855}
-.mc-shelf-item.is-earned.tier-gold {background:#6657ff0d}
+.mc-badge.tier-bronze {
+  border-color: #b3763f80;
+  background: #b3763f12;
+  color: #81552e;
+}
+.mc-badge.tier-silver {
+  border-color: #9fb2c880;
+  background: #9fb2c81a;
+  color: #46576d;
+}
+.mc-badge.tier-gold {
+  border-color: #6657ff99;
+  background: #6657ff12;
+  color: var(--funding);
+}
+.mc-shelf-item.is-earned.tier-bronze {
+  background: #b3763f0d;
+  border-top-color: #b3763f55;
+  border-right-color: #b3763f55;
+  border-bottom-color: #b3763f55;
+}
+.mc-shelf-item.is-earned.tier-silver {
+  background: #9fb2c814;
+  border-top-color: #9fb2c855;
+  border-right-color: #9fb2c855;
+  border-bottom-color: #9fb2c855;
+}
+.mc-shelf-item.is-earned.tier-gold {
+  background: #6657ff0d;
+}
 .mc-achievements {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
