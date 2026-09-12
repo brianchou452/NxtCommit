@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.34 — 2026-09-12
+
+- 既有 main CI gate 通過後，將完整 production 網站發布為含 provenance 與 SBOM 的 `linux/arm64` image 至 GitHub Container Registry。先於 QEMU 驗證 deployment receipt 與 SQLite readiness，再提升版本與 `arm64-latest` tags；Cloudflare 部署維持獨立 job。
+
 ## v0.7.33 — 2026-09-12
 
 - 將 commoncommit 全部 25 個 repo 專案與募資任務加入既有目錄，包含雙語內容、風險及明確標示的示範歷史。追加匯入並保留現有紀錄、維持統一贊助帳本、新贊助不承擔歷史消耗，修正即時更新對已關閉連線的處理。

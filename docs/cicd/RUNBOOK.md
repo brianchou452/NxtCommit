@@ -16,6 +16,15 @@ Main pushes run contracts/gateway checks, a Worker bundle dry-run, Node 24 typec
 
 The Worker and image are deployed together; cold provisioning can take several minutes. A 503 is a real unavailable container, never a healthy placeholder. GitHub `cloudflare-production` is serialized. CI Actions are SHA-pinned, credentials are not persisted in Git, and evidence artifacts retain 30 days.
 
+The same main CI gate also publishes the complete production website for `linux/arm64` to GitHub Container Registry. CI starts the immutable commit image under QEMU and verifies its deployment receipt plus SQLite readiness before promoting the version and `arm64-latest` tags. This is independent of Cloudflare deployment and uses the repository-scoped `GITHUB_TOKEN`; no registry password is added. Prefer the immutable commit tag for deployment:
+
+```bash
+docker pull ghcr.io/brianchou452/nxtcommit:sha-<full-git-sha>-arm64
+docker run --rm --init -p 8080:8080 ghcr.io/brianchou452/nxtcommit:sha-<full-git-sha>-arm64
+```
+
+Version tags such as `0.7.34-arm64` are stable release references, while `arm64-latest` moves on every successful main publication. The package is initially private unless its GHCR visibility is explicitly changed; authenticate with a token that has `read:packages` when required. Local container state remains ephemeral, and provider-backed functions require their server-side environment configuration.
+
 ## Credentials
 
 GitHub secret `CLOUDFLARE_API_TOKEN` and variable `CLOUDFLARE_ACCOUNT_ID` refer only to the account owning ianjuan.com. The dedicated token requires Account Workers Scripts Edit, Containers Edit, Account Analytics Read; Zone Zone Read, DNS Read and Workers Routes Read scoped to ianjuan.com. The latter is required by Wrangler's route collision check even for a custom domain. No tokens belong in source or evidence. Chat-exposed tokens should be rotated directly in the provider and repository secret UI.
