@@ -45,3 +45,7 @@ Key expiration and credit exhaustion are different. Replacing a key does not rep
 6. After both environments pass, revoke the superseded key in OpenAI Platform. Update bilingual checkpoints with time, key name/expiry, environment, release SHA, model, response ID and token usage; never include key values. For a compromised key, revoke it promptly and accept interruption while replacing it.
 
 The authorized hackathon cutoff remains **2026-09-13 01:00 Asia/Taipei**. Do not restart/redeploy the closed cloud demonstration merely to test a renewed key; extending hosting beyond that deadline requires a new user instruction. Renewing credentials does not extend the deployment lifetime.
+
+## Product call controls — v0.7.19
+
+Both runtime entrypoints use the integrated Responses adapter. Identical prompts share an in-flight request and a five-minute process cache (64 entries); failures cool down for ten seconds. At most two provider calls run concurrently, with 120 attempts per one-hour process window. Restart resets these counters; this is not an organization billing cap. Excess requests return labelled fallback. Cached responses retain original responseId/usage with `cached: true`; they do not add provider token counters or duplicate Langfuse generation traces. Existing spend-alert emails remain active.

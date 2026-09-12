@@ -1,4 +1,5 @@
 import express from 'express';
+import { installDemoProtection } from './services/demo-protection.js';
 import { HomeStore, seedHome, clearHome } from './persistence/home.js';
 import { GlobalStream } from './services/global-stream.js';
 import type { ErrorRequestHandler } from 'express';
@@ -17,9 +18,10 @@ import { missionsRoutes } from './routes/missions.js';
 import { executionRoutes } from './routes/execution.js';
 import { AuthoringServices } from './authoring/services.js';
 import type { AuthoringOptions } from './authoring/services.js';
-import { missionPort, syncMissionProjection } from './services/slice-integration.js';
+import { missionPort, createProjectionSynchronizer } from './services/slice-integration.js';
 
 export interface AppOptions {
+  demoProtection?: {token?: string | undefined};
   databasePath?: string;
   configuredMode?: string;
   staticDirectory?: string;
@@ -51,7 +53,7 @@ export function createApplication(options: AppOptions = {}) {
     bootstrap: () => {
       const persona = readCurrentPersona(store.db);
       const currentUser = { ...persona, totalPledged: home.profile(persona.id)!.totalPledged };
-      return { currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
+      return { ...(options.demoProtection ? {demoProtected: true} : {}), currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
     },
     reset: async () => { await reset.reset().finally(() => { authoring.endReset(); missions?.resume(); }); events.publish('mission_update', home.campaigns()[0]); },
   };
@@ -85,11 +87,13 @@ export function createApplication(options: AppOptions = {}) {
     revision = value;
   }, 500) : undefined;
   workerUpdates?.unref();
+  const syncProjection = integrated ? createProjectionSynchronizer(context, missions) : undefined;
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '32kb' }));
+  if (options.demoProtection) installDemoProtection(app, context, options.demoProtection.token);
   app.use((_request, response, next) => { response.setHeader('Cache-Control', 'no-store'); next(); });
-  app.use((_request, _response, next) => { if (integrated && !reset.pending) syncMissionProjection(context, missions); next(); });
+  app.use((_request, _response, next) => { if (integrated && !reset.pending) syncProjection?.(); next(); });
   app.use((request, response, next) => {
     if (reset.pending && !['GET', 'HEAD', 'OPTIONS'].includes(request.method) && request.path !== '/api/demo/reset') { response.status(503).json({ error: 'Demo reset is in progress.', code: 'reset_in_progress' }); return; }
     next();

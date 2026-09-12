@@ -36,9 +36,10 @@ export class AuthoringServices {
     };
     if (!this.repository.get('review-demo')) store.transaction(() => this.seed());
   }
+  isResetting(): boolean { return this.resetting; }
   epoch(): number { if (this.resetting) throw new Error('reset_in_progress'); return this.generation; }
   assertEpoch(epoch: number): void { if (this.resetting || epoch !== this.generation) throw new Error('capability_expired'); }
-  beginReset(): void { this.resetting = true; this.generation++; this.capabilities.clear(); }
+  beginReset(): void { this.resetting = true; this.generation++; this.capabilities.clear(); this.assistance.clearCache(); }
   endReset(): void { this.resetting = false; }
   reviewability(evidence: ExecutionEvidence | undefined): ReviewabilityResult {
     if (!evidence?.artifact) return { reviewable: false, reasons: ['artifact_missing'] };

@@ -14,6 +14,7 @@ const application = createApplication({
   configuredMode: process.env.EXECUTION_MODE ?? 'auto',
   staticDirectory: resolve('dist'),
   authoring: authoringConfiguration(process.env),
+  ...(process.env.DEMO_PROTECTED === '1' ? {demoProtection: {token: process.env.OPENAI_CHECK_TOKEN}} : {}),
 });
 const server = application.app.listen(port, process.env.HOST ?? '127.0.0.1', () => {
   console.log(`NxtCommit listening on port ${(server.address() as { port: number }).port}`);

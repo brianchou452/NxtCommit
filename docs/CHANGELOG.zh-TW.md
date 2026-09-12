@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.19 — 2026-09-12
+
+Responses 呼叫去重、同時與每小時上限、真實 token counters、依資料庫 revision 更新 projection，以及共享展示重設／備份保護。依使用者指示保留目前視覺，不處理舊 baseline 差異。
+
 ## v0.7.18
 
 - 正式 authoring 接上共用 Responses API，保留受限金鑰與 demo 執行邊界，並向 Langfuse Cloud 匯出實測模型耗時與 usage，僅含受限 metadata。

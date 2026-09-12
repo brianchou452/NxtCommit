@@ -34,6 +34,7 @@ export type ExecutionCapability = ExecutionCapabilityBase & (
   | { resolved: ExecutionMode; error?: never }
 );
 export interface BootstrapSnapshot {
+  demoProtected?: boolean;
   currentUser: Contributor;
   personas: { contributor: Contributor; maintainers: Maintainer[] };
   execution: ExecutionCapability;

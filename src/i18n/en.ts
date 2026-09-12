@@ -1,6 +1,7 @@
 import { missionEn } from './mission.js';
 import { authoringEn } from './authoring.js';
 export const en = {
+  demo_protected: 'Shared demo is protected. Starting a guide keeps existing progress.',
   guide_complete: 'The local walkthrough is complete. Your recorded actions remain saved.',
   project_technical: 'Technical summary', project_impact: 'Project impact',
   project_measured: 'Measured evidence', project_editorial: 'Editorial estimate; no measured impact is claimed.',

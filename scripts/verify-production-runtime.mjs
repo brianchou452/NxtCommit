@@ -5,12 +5,13 @@ import { setTimeout as delay } from 'node:timers/promises';
 
 // Run inside the disposable production image with --network=none and no secrets.
 // This verifies packaging and the real entrypoint; Docker browser journeys remain separate.
-const child = spawn(process.execPath, ['entry.mjs'], { stdio: 'ignore' });
+const operatorToken = 'synthetic-production-operator-token';
+const child = spawn(process.execPath, ['entry.mjs'], { stdio: 'ignore', env: {...process.env, OPENAI_CHECK_TOKEN: operatorToken} });
 const exited = once(child, 'exit');
 const base = 'http://127.0.0.1:8080';
 async function call(path, body) {
   const response = await fetch(base + path, { signal: AbortSignal.timeout(10000), ...(body === undefined ? {} : {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+    method: 'POST', headers: { 'Content-Type': 'application/json', ...(path === '/api/demo/reset' ? {Authorization: `Bearer ${operatorToken}`} : {}) }, body: JSON.stringify(body),
   }) });
   assert.equal(response.status, 200, `${path} status`);
   return response.json();

@@ -106,3 +106,13 @@ Documented key name, project, Responses-only permission, one-day expiry selectio
 ## CP018 — Collaboration and local branch inventory (2026-09-12)
 
 Inspected seven local branch refs across two repositories (including two main refs), preserving teammate checkouts. Added bilingual collaboration/branch guides and a tracked-tree JSON inventory; rewrote README/development entrypoints and corrected infrastructure versus historical product scope. Recorded C/chaos Chat Completions versus main Responses permission differences, integration ownership and evidence requirements. Documentation only: no feature merge, product test rerun or deployment. Validation: local links in the new entrypoints, inventory object-tree consistency and git diff --check.
+
+## CP019 — Product AI, projection performance and demo protection (2026-09-12)
+
+Integrated teammate `b27a764` Responses/Langfuse work rather than replacing it; source version 0.7.19 adds per-process caching/concurrency/hourly bounds, measured token counters without duplicate cached generation exports, database-revision projection refresh, operator-only reset/SQLite export and a protected guide. Existing 40 visual differences are explicitly out of scope by user instruction; no golden was changed. Workers size, two-hour sleep and cutoff remain unchanged.
+
+Verification: Docker Node 24 typecheck/build/version + 106 server tests and 39 interactive journeys passed (49.0 s); eight gateway tests passed. Actual production image entrypoint completed duration 5/5 → approval, retry 3/3 → needs_review and authorized reset without external networking. Unauthorized reset and backup refusal, downloaded backup integrity/reopen, cache/rate bounds and separate-connection invalidation have regression coverage.
+
+Local warm marketplace probe against baseline b27a764: 200 sequential requests, 1,600 SQLite changes → 0; p50 2.481 → 1.761 ms, p95 2.741 → 2.206 ms. Isolated seeded databases on one machine; not production load or a cloud throughput claim. Reproduce with `node --import tsx scripts/probe-projection.mjs /path/to/baseline/server/app.ts`.
+
+Real local product calls: gpt-5-mini-2025-08-07 campaign draft 380 reported tokens / 4,358 ms, issue advice 405 tokens / 3,013 ms; repeated generation reused the same response ID. No mission/reset was created by this probe. Reproduce explicitly with `node --import tsx scripts/check-product-ai.mjs`; cloud requires its URL argument after rollout. Live deployment evidence is appended only after serving identity and product calls are checked.

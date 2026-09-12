@@ -32,6 +32,11 @@ export const operationsRoutes: RouteModule = context => {
       `commoncommit_build_info{version="${bounded(process.env.APP_VERSION)}",commit="${bounded(process.env.APP_COMMIT)}"} 1`,
       '# TYPE commoncommit_process_uptime_seconds gauge', `commoncommit_process_uptime_seconds ${Math.floor(process.uptime())}`,
       '# TYPE commoncommit_llm_calls_total counter', `commoncommit_llm_calls_total ${counts?.calls ?? 0}`,
+      '# TYPE commoncommit_llm_cached_total counter', `commoncommit_llm_cached_total ${counts?.cached ?? 0}`,
+      '# TYPE commoncommit_llm_limited_total counter', `commoncommit_llm_limited_total ${counts?.limited ?? 0}`,
+      '# TYPE commoncommit_llm_input_tokens_total counter', `commoncommit_llm_input_tokens_total ${counts?.inputTokens ?? 0}`,
+      '# TYPE commoncommit_llm_output_tokens_total counter', `commoncommit_llm_output_tokens_total ${counts?.outputTokens ?? 0}`,
+      '# TYPE commoncommit_llm_unknown_usage_total counter', `commoncommit_llm_unknown_usage_total ${counts?.unknownUsage ?? 0}`,
       '# TYPE commoncommit_llm_fallbacks_total counter', `commoncommit_llm_fallbacks_total ${counts?.fallback ?? 0}`,
       '# TYPE commoncommit_langfuse_exports_total counter', `commoncommit_langfuse_exports_total{outcome="success"} ${counts?.exportSuccess ?? 0}`, `commoncommit_langfuse_exports_total{outcome="failure"} ${counts?.exportFailure ?? 0}`, '',
     ].join('\n'));

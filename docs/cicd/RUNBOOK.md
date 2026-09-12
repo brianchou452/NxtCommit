@@ -35,3 +35,20 @@ Retry transient cold starts; inspect resource logs before resizing. Redeployment
 ## Mandatory cutoff
 
 At 2026-09-13 01:00 Asia/Taipei (2026-09-12 17:00 UTC), the gateway returns 410 and the Node process exits. Monitor and deployment scripts refuse to wake or deploy containers after cutoff. Scheduled deletion attempts at 17:00, 17:05 and 17:15 UTC target only this named container app. GitHub schedules can be delayed; runtime cutoff is independent. Codex verifies deletion. Per the latest explicit user instruction, Workers Paid remains Active and renews on October 12, 2026; application shutdown does not cancel its monthly fee. Future shutdown is not claimed as completed.
+
+## Shared demo protection — v0.7.19
+
+Cloudflare always protects reset, failing closed without an operator token. The footer hides public reset and guided demos keep existing progress. Visitors still share a demo identity; this is destructive-reset protection, not authentication or full session isolation. Local development remains resettable unless `DEMO_PROTECTED=1`. The server-side `OPENAI_CHECK_TOKEN`, separate from the provider key, authorizes operator reset and backup.
+
+```bash
+# Operator checkout with ignored .env; no secret in arguments.
+node scripts/demo-control.mjs backup https://hackathon.ianjuan.com artifacts/demo-backups/before-demo.sqlite
+# Destructive: only when the operator explicitly wants fresh shared state.
+node scripts/demo-control.mjs reset https://hackathon.ianjuan.com
+```
+
+Backup uses SQLite online backup. Concurrent exports and reset during export are rejected; temporary server files are deleted after download. The CLI creates a new mode-0600 local file, refusing overwrites. Keep backups private. For local recovery, stop the target server, preserve its old VAR_DIR, copy the backup as `nxtcommit.sqlite` into a NEW empty VAR_DIR, then start the same source/schema version and verify readiness and expected missions. Never replace a live SQLite file or its WAL.
+
+Cloudflare replacement still loses ephemeral state: this export is an offline recovery copy, not automatic cloud persistence or restore. Take a backup before planned redeployments and avoid deploying while presenting. Two-hour idle and the Taiwan 9/13 01:00 cutoff remain intact.
+
+Projection refresh now checks SQLite `total_changes()` and `data_version`: unchanged reads do no projection writes; writes from the same process or a separate worker invalidate the snapshot. This reduces repeated work without claiming a throughput improvement until measured.

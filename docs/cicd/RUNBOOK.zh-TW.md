@@ -35,3 +35,20 @@ Workers Paid 為 US$5／月加用量。實例上限限制資源，並非帳單�
 ## 強制截止
 
 台灣時間 2026-09-13 01:00（UTC 2026-09-12 17:00）gateway 回傳 410、Node 程序退出。監測與部署在截止後拒絕喚醒或重新發布。UTC 17:00、17:05、17:15 排程刪除僅限本次命名容器。GitHub 排程可能延誤，runtime 截止獨立運作。Codex 後續確認刪除；依使用者最新明確指示，Workers Paid 保持 Active 並於 2026/10/12 續訂，關閉作品不會取消月費；目前不宣稱未來關閉已完成。
+
+## 共享展示保護 — v0.7.19
+
+Cloudflare 一律保護重設，沒有操作員 token 時仍拒絕公開重設。頁尾隱藏公開重設，導覽保留進度。訪客仍共用 demo 身分；這是清空資料保護，不是身分驗證或完整 session 隔離。本機預設可重設，可設 `DEMO_PROTECTED=1` 啟用保護。伺服器端 `OPENAI_CHECK_TOKEN` 與 provider key 分開，用來授權操作員重設及備份。
+
+```bash
+# 在操作員 checkout 使用 ignored .env，參數不含秘密。
+node scripts/demo-control.mjs backup https://hackathon.ianjuan.com artifacts/demo-backups/before-demo.sqlite
+# 會清空資料：僅在操作員明確要重建共享狀態時使用。
+node scripts/demo-control.mjs reset https://hackathon.ianjuan.com
+```
+
+採 SQLite online backup；拒絕同時匯出或匯出期間重設，下載完刪除伺服器暫存檔。CLI 建立新的 0600 本機檔案，不覆寫既有檔；備份須私密保存。本機復原：先停止目標伺服器、保留舊 VAR_DIR，把備份副本放到全新空 VAR_DIR 並命名為 `nxtcommit.sqlite`，用相同 source/schema 版本啟動，確認 readiness 與預期任務。不可替換使用中的 SQLite 或 WAL。
+
+Cloudflare container 替換仍會遺失暫存資料；此功能提供離線復原副本，不是雲端自動持久化／還原。預計重新部署前先備份，展示中避免部署。兩小時 idle 與台灣 9/13 01:00 截止不變。
+
+Projection 更新先檢查 SQLite `total_changes()` 與 `data_version`；未變動的讀取不寫入 projection，同 process 或其他 worker 寫入後會重新同步。這會減少重複工作，但未量測前不宣稱吞吐提升比例。

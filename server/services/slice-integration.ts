@@ -65,11 +65,12 @@ export function missionPort(service: MissionServices): AuthoringMissionPort {
 
 /** Home tables are rebuildable projections; B remains the sole lifecycle/ledger writer. */
 export function syncMissionProjection(context: ServiceContext, service: MissionServices): void {
+  const currentUserId = context.bootstrap().currentUser.id;
   context.store.transaction(db => {
     for (const row of service.store.list<MissionRecord>('mission')) {
       const detail = service.getMission(row.id);
       const campaign: Campaign = { ...authoredView(detail), projectId: row.projectId, tagline: row.tagline,
-        project: { ...row.project, usedByYou: detail.pledges.some(p => p.contributorId === context.bootstrap().currentUser.id) } };
+        project: { ...row.project, usedByYou: detail.pledges.some(p => p.contributorId === currentUserId) } };
       db.prepare('INSERT INTO home_projects VALUES (?,?) ON CONFLICT(id) DO UPDATE SET snapshot=excluded.snapshot').run(row.projectId, JSON.stringify(campaign.project));
       db.prepare('INSERT INTO home_missions VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET snapshot=excluded.snapshot').run(row.id, row.projectId, JSON.stringify(campaign));
       for (const pledge of service.store.list<PledgeRecord>('pledge', row.id)) {
@@ -78,4 +79,21 @@ export function syncMissionProjection(context: ServiceContext, service: MissionS
       }
     }
   });
+}
+
+/** O(1) invalidation checks; idle HTTP reads never rebuild/write Home projections.
+ * total_changes covers this connection (including rolled-back writes conservatively),
+ * data_version observes commits from the separate queue worker. Capture AFTER sync.
+ */
+export function createProjectionSynchronizer(context: ServiceContext, service: MissionServices) {
+  const changes = context.store.db.prepare('SELECT total_changes() AS revision');
+  const external = context.store.db.prepare('PRAGMA data_version');
+  const revision = () => `${changes.get()!.revision}:${external.get()!.data_version}`;
+  let synced = '';
+  return () => {
+    if (revision() === synced) return false;
+    syncMissionProjection(context, service);
+    synced = revision();
+    return true;
+  };
 }

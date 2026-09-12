@@ -2,6 +2,7 @@ import type { Dictionary } from './en.js';
 import { missionZhTW } from './mission.js';
 import { authoringZh } from './authoring.js';
 export const zhTW = {
+  demo_protected: '共享展示已受保護。開始導覽會保留現有進度。',
   guide_complete: '本機導覽已完成，已記錄的操作會保留。',
   project_technical: '技術摘要', project_impact: '專案影響',
   project_measured: '已量測證據', project_editorial: '編輯估計，未宣稱已量測影響。',

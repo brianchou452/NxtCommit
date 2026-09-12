@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocale } from "../i18n/LocaleProvider.js";
-import { resetDemo } from "../services/api.js";
+import { resetDemo, fetchBootstrap } from "../services/api.js";
 export function DemoLauncher() {
   const { text } = useLocale();
   const navigate = useNavigate();
   const [state, setState] = useState<"ready" | "resetting" | "error">("ready");
+  const [protectedDemo, setProtectedDemo] = useState(false);
+  useEffect(() => { let active = true; void fetchBootstrap().then(value => { if (active) setProtectedDemo(value.demoProtected === true); }).catch(() => {}); return () => { active = false; }; }, []);
   async function launch(role: "provider" | "maintainer") {
     if (state === "resetting") return;
     setState("resetting");
     try {
-      await resetDemo();
+      const snapshot = await fetchBootstrap();
+      if (!snapshot.demoProtected) await resetDemo();
       navigate(`${role === "provider" ? "/marketplace" : "/new"}?demo=${role}`);
     } catch {
       setState("error");
@@ -18,7 +21,7 @@ export function DemoLauncher() {
   }
   return (
     <>
-      <p className="reset-disclosure">{text.demo_reset_notice}</p>
+      <p className="reset-disclosure">{protectedDemo ? text.demo_protected : text.demo_reset_notice}</p>
       {state === "error" && <p role="alert">{text.reset_error}</p>}
       {state === "resetting" && <p role="status">{text.reset_pending}</p>}
       <div className="demo-choices">

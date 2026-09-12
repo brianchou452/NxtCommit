@@ -45,3 +45,7 @@ Cloudflare：將相同 key 存為 `nxtcommit-delivery` Worker 的 `OPENAI_API_KE
 6. 兩側通過後，到 OpenAI Platform 撤銷被替換的舊 key。雙語 checkpoint 記錄時間、key 名稱／期限、環境、release SHA、模型、response ID 與 token 用量，永不記錄秘密值。若 key 已遭盜用，應優先撤銷並接受更換期間的服務中斷。
 
 本次授權的展示截止仍為 **台灣時間 2026-09-13 01:00**。不得為了測試新 key 而重啟／重新部署已關閉的雲端展示；超過期限繼續 hosting 需使用者另行指示。更換憑證不會延長部署期限。
+
+## 產品呼叫保護 — v0.7.19
+
+兩個 runtime 入口使用已整合的 Responses adapter。同 prompt 共用進行中的請求及五分鐘 process cache（最多 64 筆）；失敗冷卻十秒。同時最多兩個 provider 呼叫，每個 process 的一小時視窗最多 120 次嘗試。重啟會清除計數，這不是組織帳單硬上限；超限回傳明確 fallback。快取回應保留原 responseId／usage 並標記 `cached: true`，不重複增加 provider token counter 或 Langfuse generation trace。既有花費 email 告警持續啟用。

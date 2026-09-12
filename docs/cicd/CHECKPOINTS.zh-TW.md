@@ -106,3 +106,13 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 ## CP018 — 協作文件與本機分支盤點（2026-09-12）
 
 盤點兩份 repository 的七個本機 branch ref（含兩份 main），保留所有隊員 checkout。新增雙語協作／分支指南與 tracked tree JSON；重寫 README／開發入口，修正基礎設施與產品歷史混淆。記錄 C／chaos Chat Completions 與 main Responses 權限差異、整合責任與證據要求。本次只改文件，未合併功能、未重跑產品測試、未部署。驗證：新增入口的本機連結、清單 object tree 一致性與 git diff --check。
+
+## CP019 — 產品 AI、projection 效能與展示保護（2026-09-12）
+
+保留並整合隊友 `b27a764` Responses／Langfuse 更新；source 0.7.19 新增 process cache、同時／每小時呼叫上限、避免快取重複計帳的 token counter、資料庫 revision projection 更新、操作員重設／SQLite 匯出與受保護導覽。依使用者指示，40 個視覺差異不處理，未修改 golden。Workers 大小、兩小時休眠與截止不變。
+
+驗證：Docker Node 24 型別／build／version、106 個 server tests 與 39 個互動旅程通過（49.0 秒）；8 個 gateway tests 通過。正式 image 的實際入口在無外網下完成 duration 5/5 → approval、retry 3/3 → needs_review 與授權重設。未授權重設／備份拒絕、下載備份完整性與重新開啟、快取／流量限制、另一個 DB connection 更新均有回歸測試。
+
+本機暖機 marketplace probe 對照 b27a764：200 次循序請求，SQLite changes 1,600 → 0；p50 2.481 → 1.761 ms，p95 2.741 → 2.206 ms。單機隔離 seed 資料，不是正式負載或雲端吞吐主張。重現：`node --import tsx scripts/probe-projection.mjs /path/to/baseline/server/app.ts`。
+
+本機產品真實呼叫：gpt-5-mini-2025-08-07 文案 380 個回報 tokens／4,358 ms，議題建議 405 tokens／3,013 ms；重複生成沿用相同 response ID。probe 未建立 mission 或重設。明確執行 `node --import tsx scripts/check-product-ai.mjs` 可重現；部署後加 cloud URL 才驗證雲端。確認 serving identity 與產品呼叫後才追加線上證據。

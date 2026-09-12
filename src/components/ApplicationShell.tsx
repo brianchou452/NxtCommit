@@ -63,9 +63,9 @@ export function ApplicationShell({ children }: { children: ReactNode }) {
     {children}
     <footer className="shell-footer"><div className="shell-container">
       <p>{text.product} · {text.build_note}</p><p>{text.disclaimer}</p>
-      <button disabled={session.resetState === 'pending'} onClick={() => void reset()}>
+      {session.state.status === 'ready' && session.state.data.demoProtected ? <p>{text.demo_protected}</p> : <button disabled={session.resetState === 'pending'} onClick={() => void reset()}>
         {session.resetState === 'pending' ? text.reset_pending : text.reset}
-      </button>
+      </button>}
     </div></footer>
   </div>;
 }

@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.19 — 2026-09-12
+
+Responses request deduplication and bounded concurrency/hourly calls, measured token counters, revision-based SQLite projection refresh, and protected shared demo reset/backup. Visual baselines remain unchanged by user instruction.
+
 ## v0.7.18
 
 - Wire production authoring to the shared Responses API, preserve restricted keys and demo execution, and export measured model duration/usage to Langfuse Cloud with bounded metadata only.
