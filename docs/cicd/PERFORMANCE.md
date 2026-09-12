@@ -4,7 +4,9 @@ Main previously ran standalone CI and the same reusable CI inside deployment. Ke
 
 An experimental GitHub layer-cache run (34674498977) spent several minutes in image build/export and was cancelled. That extra cache machinery was removed rather than imposed on short hackathon builds.
 
-Baseline deployment run 34673517601: application CI 68 seconds (browser step 41 seconds), contracts CI 41 seconds, deployment job 92 seconds. Standalone CI duplicated another pair of jobs. Optimized branch run 34674654411 passed: application CI 59 seconds (13% less than 68), contracts CI 26 seconds (37% less than 41). Across main, removing the duplicate pair reduces these measured CI job-seconds from about 218 to 85 (61%); that is runner work, not a claim of 61% less end-to-end deployment latency. These are individual hosted-runner samples and will vary.
+Baseline deployment run 34673517601: application CI 68 seconds, contracts CI 41 seconds, deployment job 92 seconds. Simultaneous standalone CI run 34673517417 duplicated 63 + 31 seconds. Optimized branch run 34674654411 passed in 59 + 26 CI seconds. [Final main deployment 34674730346](https://github.com/brianchou452/NxtCommit/actions/runs/34674730346) passed: application CI 61 seconds, contracts CI 16 seconds, deployment job 91 seconds. Main now launches only the deployment workflow. Measured CI runner work fell from 203 to 77 job-seconds (about 62%); this is not a 62% reduction in end-to-end deployment latency. Application CI improved from 68 to 59–61 seconds. These hosted-runner samples will vary.
+
+The live deployment receipt matched commit `974ed8b747aa226de1daad5246655910173dfcfd`. Twelve additional post-deployment requests across the four endpoints all returned HTTP 200, with SQLite ready and latencies of 472–901 ms.
 
 | Round | Concurrent clients | Requests | Errors | p95 ms | Requests/s |
 |---|---:|---:|---:|---:|---:|

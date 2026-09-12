@@ -4,7 +4,9 @@ main 原本同時執行獨立 CI 與部署內相同 reusable CI。改為 main �
 
 GitHub layer-cache 實驗 run 34674498977 在 image build／export 花費數分鐘，已取消；最終移除這套快取機制，避免增加比賽短流程的負擔。
 
-基準 deployment run 34673517601：application CI 68 秒（browser step 41 秒）、contracts CI 41 秒、deployment job 92 秒；獨立 CI 另重複兩個 jobs。優化分支 run 34674654411 通過：application CI 59 秒（減少 13%）、contracts CI 26 秒（減少 37%）。移除 main 重複 jobs 後，這組測得的 CI runner 工作量約由 218 降為 85 job-seconds（減少 61%）；這不是整體部署時間縮短 61% 的宣稱。皆為單次 hosted runner 樣本，實際耗時會波動。
+基準 deployment run 34673517601：application CI 68 秒、contracts CI 41 秒、deployment job 92 秒；同時執行的獨立 CI run 34673517417 另重複 63 + 31 秒。優化分支 run 34674654411 通過，CI 耗時 59 + 26 秒。[最終 main 部署 34674730346](https://github.com/brianchou452/NxtCommit/actions/runs/34674730346) 全數通過：application CI 61 秒、contracts CI 16 秒、deployment job 91 秒。main 現在只觸發部署 workflow。測得的 CI runner 工作量由 203 降為 77 job-seconds（約減少 62%）；這不是整體部署時間縮短 62%。Application CI 由 68 秒改善至 59–61 秒。Hosted runner 樣本耗時仍會波動。
+
+正式部署 receipt 已確認 commit `974ed8b747aa226de1daad5246655910173dfcfd`。部署後另測四個端點共 12 次，全部 HTTP 200、SQLite ready，延遲 472–901 ms。
 
 | 輪次 | 併發連線 | 請求數 | 錯誤 | p95 ms | 每秒請求 |
 |---|---:|---:|---:|---:|---:|
