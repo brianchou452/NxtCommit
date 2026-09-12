@@ -1,5 +1,5 @@
 import { resolve } from 'node:path';
-import { existsSync } from 'node:fs';
+import { existsSync, readlinkSync } from 'node:fs';
 import { createApplication } from './app.js';
 import { authoringConfiguration } from './authoring/configuration.js';
 
@@ -12,7 +12,8 @@ if (process.env.RUN_DISPATCH_MODE && !['inline', 'queue'].includes(process.env.R
 const application = createApplication({
   databasePath: resolve(process.env.VAR_DIR ?? 'var', 'nxtcommit.sqlite'),
   configuredMode: process.env.EXECUTION_MODE ?? 'auto',
-  staticDirectory: resolve('dist'),
+  staticDirectory: process.env.SELF_UPDATE_ROOT ? resolve(process.env.SELF_UPDATE_ROOT, 'current/dist') : resolve('dist'),
+  ...(process.env.SELF_UPDATE_ROOT ? { staticRelease: () => readlinkSync(resolve(process.env.SELF_UPDATE_ROOT!, 'current')).split('/').at(-1)! } : {}),
   authoring: authoringConfiguration(process.env),
   ...(process.env.DEMO_PROTECTED === '1' ? {demoProtection: {token: process.env.OPENAI_CHECK_TOKEN}} : {}),
 });

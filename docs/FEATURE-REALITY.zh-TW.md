@@ -1,6 +1,13 @@
 # 功能真實性矩陣
 
 
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
+> **Self-update lane (2026-09-12):** 本機前端自我更新流程新增真實模型候選程式、容器驗證及選用的靜態版本套用。預設關閉並鎖定 Demo，不更新後端或修復任意產品功能。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** 本機穩定度 CLI 新增對真實模組的受控故障實驗，可選真實模型假設／解讀；不啟用任務 runner 或自動修復，須查看報告來源。 [Runbook](CHAOS-AGENTS.zh-TW.md).
+
+
 [English canonical](FEATURE-REALITY.md)
 
 > **整合原始碼，2026-09-12：** main 以 `0.7.17` 合併 Phase 3 A／B／C（`08bead6`）與 Cloudflare delivery 基準（`7d9fbba`）。本機建立、募資、帳務、留言、SSE 與本機決策共用單一 mission authority。兩個內附 fixture 使用腳本修改與 engine 實測 tests/diff；seed review 仍標示 demo，匯入 repository 不執行。保留既有雲端 egress 與 Responses 權限：container 的產品建議使用已標示 fallback，GitHub 匯入需要本機 server 網路。未宣稱 live 產品建議或視覺核准；先前 Responses probe 與 serving revision 以 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準，合併 source 不等於新部署。詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)；下方歷史清單不完整代表本次重建。

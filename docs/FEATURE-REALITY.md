@@ -1,6 +1,13 @@
 # Feature reality matrix
 
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
+> **Self-update lane (2026-09-12):** The local frontend self-update lane adds real model-authored source candidates, container verification and optional static-release promotion. It is disabled and demo-locked by default; it neither updates backend code nor repairs arbitrary product features. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** Local resilience CLI adds controlled fault experiments over real modules and optional real model hypotheses/interpretation. It does not enable mission runners or automatic repair; inspect each report’s provenance. [Runbook](CHAOS-AGENTS.md).
+
+
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 
 > **Integrated source, 2026-09-12:** main combines Phase 3 A/B/C (`08bead6`) with the Cloudflare delivery baseline (`7d9fbba`) at version `0.7.17`. Local authoring, funding, accounting, comments, SSE and local decisions share one mission authority. Two bundled fixtures use scripted patches with measured engine tests/diffs. Seed review remains demo; imported repositories never execute. Existing cloud egress and Responses permissions are unchanged: product advice uses labelled fallbacks in the container and GitHub import requires the local server network path. Live product assistance and visual approval are not established. The previous Responses probe and serving revision are documented in [checkpoints](cicd/CHECKPOINTS.md); source merging does not establish a new deployment. See [integration evidence](PHASE3-INTEGRATION.md). The historical inventory below does not describe this reconstruction in full.

@@ -2,6 +2,13 @@
 
 [English](DEVELOPMENT.md) · [協作指南](COLLABORATION.zh-TW.md)
 
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
+> **Self-update lane (2026-09-12):** 自我更新開關與 Demo 凍結請見自我更新操作手冊。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** Node 24 本機 Chaos／實驗流程、命令、本機部署及停止行為，請見 agent 操作手冊。 [Runbook](CHAOS-AGENTS.zh-TW.md).
+
+
 Main 已整合 Phase 3 A／B／C 與 Cloudflare delivery，source version 為 `0.7.17`。
 詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)；舊版 CommonCommit 的 worker、seed、sandbox 指令不適用於本次重建。
 

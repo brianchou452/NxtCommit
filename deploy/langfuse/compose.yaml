@@ -1,0 +1,121 @@
+# Local development only. Secrets are generated in ignored var/langfuse/.env.
+name: nxtcommit-langfuse
+services:
+  web:
+    image: docker.langfuse.com/langfuse/langfuse@sha256:a5d8d2457702ab7e051bc0788d73871970caebd10aae6635e87cfb736e4067cd
+    restart: unless-stopped
+    mem_limit: 1400m
+    ports: ['127.0.0.1:4310:3000']
+    depends_on: &dependencies
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      clickhouse: {condition: service_healthy}
+      minio: {condition: service_healthy}
+    environment:
+      <<: &shared
+        DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?}@postgres:5432/postgres
+        NEXTAUTH_URL: http://127.0.0.1:4310
+        SALT: ${SALT:?}
+        ENCRYPTION_KEY: ${ENCRYPTION_KEY:?}
+        TELEMETRY_ENABLED: 'false'
+        CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+        CLICKHOUSE_URL: http://clickhouse:8123
+        CLICKHOUSE_USER: clickhouse
+        CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:?}
+        CLICKHOUSE_CLUSTER_ENABLED: 'false'
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
+        REDIS_AUTH: ${REDIS_AUTH:?}
+        REDIS_TLS_ENABLED: 'false'
+        LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+        LANGFUSE_S3_EVENT_UPLOAD_REGION: auto
+        LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+        LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:?}
+        LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: http://minio:9000
+        LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: 'true'
+        LANGFUSE_S3_EVENT_UPLOAD_PREFIX: events/
+        LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: langfuse
+        LANGFUSE_S3_MEDIA_UPLOAD_REGION: auto
+        LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: minio
+        LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:?}
+        LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: http://127.0.0.1:4311
+        LANGFUSE_S3_MEDIA_UPLOAD_INTERNAL_ENDPOINT: http://minio:9000
+        LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: 'true'
+        LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: media/
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?}
+      AUTH_DISABLE_SIGNUP: 'true'
+      LANGFUSE_INIT_ORG_ID: nxtcommit-local
+      LANGFUSE_INIT_ORG_NAME: NxtCommit Local
+      LANGFUSE_INIT_PROJECT_ID: nxtcommit-agents
+      LANGFUSE_INIT_PROJECT_NAME: NxtCommit Agents
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:?}
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: ${LANGFUSE_SECRET_KEY:?}
+      LANGFUSE_INIT_USER_EMAIL: ${LANGFUSE_INIT_USER_EMAIL:-maintainer@nxtcommit.local}
+      LANGFUSE_INIT_USER_NAME: NxtCommit Maintainer
+      LANGFUSE_INIT_USER_PASSWORD: ${ADMIN_PASSWORD:?}
+  worker:
+    image: docker.langfuse.com/langfuse/langfuse-worker@sha256:5e35e625a214dd868bb22adad90fc52e8f83cc856c3750e47f9a922622c207fb
+    restart: unless-stopped
+    mem_limit: 768m
+    depends_on: *dependencies
+    environment: *shared
+  postgres:
+    image: postgres@sha256:67f41722b7a8cbdb868a44a4995c846eddfdc2973bccb291ce937dce88ad5675
+    restart: unless-stopped
+    mem_limit: 256m
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+    volumes: ['postgres:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis@sha256:71da9275c5f3fcb97d0fa0c8c5b36cc995327265420f17a04bfd544f458059f7
+    restart: unless-stopped
+    mem_limit: 128m
+    environment: {REDISCLI_AUTH: '${REDIS_AUTH:?}'}
+    command: ['sh', '-c', 'exec redis-server --requirepass "$$REDISCLI_AUTH" --appendonly yes --maxmemory 96mb --maxmemory-policy noeviction']
+    volumes: ['redis:/data']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  clickhouse:
+    image: clickhouse/clickhouse-server@sha256:8a790dd3468db22b1d4e7b18a176f378ff5ff6053b9c48dd4ea1fa71a24c5ba6
+    restart: unless-stopped
+    mem_limit: 1600m
+    user: '101:101'
+    environment:
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:?}
+    volumes: ['clickhouse:/var/lib/clickhouse', 'clickhouse-logs:/var/log/clickhouse-server']
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8123/ping']
+      interval: 5s
+      timeout: 3s
+      retries: 30
+  minio:
+    image: cgr.dev/chainguard/minio@sha256:039800e64ec7247d2fde7cff3697e964f6fe20b6d7d2c46aa7d82cc63355d512
+    restart: unless-stopped
+    mem_limit: 256m
+    entrypoint: sh
+    command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" /data'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?}
+    ports: ['127.0.0.1:4311:9000']
+    volumes: ['minio:/data']
+    healthcheck:
+      test: ['CMD', 'mc', 'ready', 'local']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  postgres:
+  redis:
+  clickhouse:
+  clickhouse-logs:
+  minio:

@@ -25,6 +25,7 @@ export interface AppOptions {
   databasePath?: string;
   configuredMode?: string;
   staticDirectory?: string;
+  staticRelease?: () => string;
   modules?: readonly RouteModule[];
   resetParticipants?: readonly ResetParticipant[];
   installMissions?: boolean;
@@ -105,6 +106,7 @@ export function createApplication(options: AppOptions = {}) {
   app.use('/api', (_request, response) => response.status(404).json({ error: 'Route is not implemented.', code: 'not_found' }));
   if (options.staticDirectory) {
     const directory = resolve(options.staticDirectory);
+    if (options.staticRelease) app.use((_request, response, next) => { response.setHeader('X-NxtCommit-Static-Release', options.staticRelease!()); next(); });
     app.use(express.static(directory));
     app.get('/{*path}', (request, response, next) => {
       if (!request.accepts('html') || !existsSync(resolve(directory, 'index.html'))) return next();

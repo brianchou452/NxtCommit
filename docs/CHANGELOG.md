@@ -6,6 +6,13 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.20 — 2026-09-12 (integrated local agents)
+
+- Merge the local chaos/experiment, LangGraph checkpoints, Langfuse monitoring and switchable frontend update lane into current main.
+- Preserve Responses-only production advice, request deduplication/budgets, measured usage, protected demo reset and A/B/C fixture execution.
+- Propagate agent cancellation through both model APIs; retain bounded responses, crash recovery, immutable update gates and explicit fallback status.
+- Local agent branch versions 0.7.12–0.7.16 are now integrated here; their dated verification remains in [the agent report](AGENT-TEST-REPORT.md). This merge does not deploy or enable automatic updates.
+
 ## v0.7.19 — 2026-09-12
 
 Responses request deduplication and bounded concurrency/hourly calls, measured token counters, revision-based SQLite projection refresh, and protected shared demo reset/backup. Visual baselines remain unchanged by user instruction.

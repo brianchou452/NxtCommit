@@ -1,5 +1,7 @@
 # 部署與維運
 
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
 [English](DEPLOYMENT.md)
 
 本文件是隨附之非正式環境 Kubernetes 設定的操作手冊。提交進儲存庫的 `Makefile`、Kustomize overlay 與 `deploy/` 範本包含環境專用值。在其他專案或叢集使用此儲存庫前，請先檢視這些內容；不要將內部拓撲複製到公開文件。

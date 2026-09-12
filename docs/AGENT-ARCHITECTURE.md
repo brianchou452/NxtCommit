@@ -2,6 +2,12 @@
 
 > **Current reconstruction (Phase 3):** One scripted fixture engine performs each run. The web server and optional separate queue worker exchange persisted state through SQLite; they are deterministic processes, not collaborating model agents. C assistance is advisory and B owns engine evidence and lifecycle decisions. Historical LLM/Codex runners described below are not installed by this reconstruction. See [integration evidence](PHASE3-INTEGRATION.md).
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
+> **Self-update lane (2026-09-12):** A separate operator-enabled self-update controller now requests bounded frontend edits, verifies them in a container and optionally switches the local static release. Its enable/demo lock is independent of the advisory chaos loop and mission runner topology. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** A separate local resilience workflow now coordinates Chaos Agent hypotheses → fixed-catalog execution → Experiment Agent interpretation through a report handoff. This is a sequential advisory workflow, not the mission topology or an autonomous coding fleet. The historical mission description below remains separate. [Runbook](CHAOS-AGENTS.md).
+
 [繁體中文](AGENT-ARCHITECTURE.zh-TW.md)
 
 ## Short answer

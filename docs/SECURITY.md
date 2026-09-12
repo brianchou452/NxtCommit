@@ -8,6 +8,10 @@
 > Codex tool loops or per-run OS isolation described below. Docker is the browser
 > test environment, not a product sandbox guarantee. See [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
 
+> **Self-update lane (2026-09-12):** The separate self-update lane can now apply bounded model edits to three local frontend files only. Candidate execution occurs in a pinned Docker image without network, credentials or a Docker socket; source and tests are read-only. Demo/off epoch changes revoke pending activation. See the self-update runbook for residual risks. [Runbook](SELF-UPDATE.md).
+
+> **Local resilience update (2026-09-12):** Local chaos faults use synthetic credentials, private transports and disposable in-memory databases. There is no public injection surface or arbitrary target. Models cannot execute commands, alter gates or source; periodic loops have cycle limits and a single-process lock. [Runbook](CHAOS-AGENTS.md).
+
 ## Computer C authoring and review boundary
 
 The C slice accepts public HTTPS GitHub identities only and reads at most five issue/PR records per request, then excludes PRs; an empty result means no issues observed in that bounded window. Responses, issue text and model output are size-bounded. Process-local analysis/draft tokens expire within 30 minutes, are capacity-bounded and are invalidated by reset. Client edits never replace server snapshots. Reset epochs reject in-flight authoring results. Review comments are redacted before persistence.

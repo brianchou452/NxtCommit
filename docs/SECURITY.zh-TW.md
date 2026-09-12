@@ -7,6 +7,10 @@
 > fence。下方歷史 LLM／Codex tool loop 與 per-run OS isolation 並未實作。
 > Docker 用於 browser tests，不代表產品具備 sandbox 保證。見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
 
+> **Self-update lane (2026-09-12):** 獨立自我更新流程可將有界模型修改套用至三個本機前端檔案。候選在固定 Docker image 中執行，無網路、憑證或 Docker socket，原始碼與測試唯讀。Demo／off 的 epoch 變更撤銷待套用版本；剩餘風險見操作手冊。 [Runbook](SELF-UPDATE.zh-TW.md).
+
+> **Local resilience update (2026-09-12):** 本機 chaos 使用合成憑證、私有 transport 與可拋棄記憶體資料庫；無公開注入介面或任意目標。模型不能執行命令、改 gate 或原始碼；週期迴圈具輪數上限與互斥鎖。 [Runbook](CHAOS-AGENTS.zh-TW.md).
+
 ## 電腦 C authoring 與 review 邊界
 
 C 切片僅接受公開 HTTPS GitHub identity，每次最多讀取五筆 issue／PR 資料再排除 PR；空結果表示該有限視窗未觀察到 issue。Response、issue text 與模型輸出都有大小上限。Process-local analysis／draft token 最多 30 分鐘到期，具容量限制並由 reset 失效；client edits 不會取代 server snapshot。Reset epoch 拒絕進行中的舊 authoring 結果，review comment 在儲存前先遮罩秘密。
