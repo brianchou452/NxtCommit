@@ -4,7 +4,7 @@ main 原本同時執行獨立 CI 與部署內相同 reusable CI。改為 main �
 
 GitHub layer-cache 實驗 run 34674498977 在 image build／export 花費數分鐘，已取消；最終移除這套快取機制，避免增加比賽短流程的負擔。
 
-基準 deployment run 34673517601：application CI 68 秒（browser step 41 秒）、contracts CI 41 秒、deployment job 92 秒；獨立 CI 另重複兩個 jobs。優化後遠端耗時待實測記錄。
+基準 deployment run 34673517601：application CI 68 秒（browser step 41 秒）、contracts CI 41 秒、deployment job 92 秒；獨立 CI 另重複兩個 jobs。優化分支 run 34674654411 通過：application CI 59 秒（減少 13%）、contracts CI 26 秒（減少 37%）。移除 main 重複 jobs 後，這組測得的 CI runner 工作量約由 218 降為 85 job-seconds（減少 61%）；這不是整體部署時間縮短 61% 的宣稱。皆為單次 hosted runner 樣本，實際耗時會波動。
 
 | 輪次 | 併發連線 | 請求數 | 錯誤 | p95 ms | 每秒請求 |
 |---|---:|---:|---:|---:|---:|

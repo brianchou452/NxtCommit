@@ -4,7 +4,7 @@ Main previously ran standalone CI and the same reusable CI inside deployment. Ke
 
 An experimental GitHub layer-cache run (34674498977) spent several minutes in image build/export and was cancelled. That extra cache machinery was removed rather than imposed on short hackathon builds.
 
-Baseline deployment run 34673517601: application CI 68 seconds (browser step 41 seconds), contracts CI 41 seconds, deployment job 92 seconds. Standalone CI duplicated another pair of jobs. Optimized remote timings are pending measurement.
+Baseline deployment run 34673517601: application CI 68 seconds (browser step 41 seconds), contracts CI 41 seconds, deployment job 92 seconds. Standalone CI duplicated another pair of jobs. Optimized branch run 34674654411 passed: application CI 59 seconds (13% less than 68), contracts CI 26 seconds (37% less than 41). Across main, removing the duplicate pair reduces these measured CI job-seconds from about 218 to 85 (61%); that is runner work, not a claim of 61% less end-to-end deployment latency. These are individual hosted-runner samples and will vary.
 
 | Round | Concurrent clients | Requests | Errors | p95 ms | Requests/s |
 |---|---:|---:|---:|---:|---:|
