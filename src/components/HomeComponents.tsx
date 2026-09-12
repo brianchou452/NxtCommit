@@ -51,15 +51,15 @@ export function Hero({
   }, []);
   const stats = [
     [text.compute_committed, market?.stats.totalPledged],
-    [text.backers, market?.stats.contributors],
-    [text.repos_moved, impact?.stats.projectsRevived],
-    [text.releases_shipped, market?.stats.missionsShipped],
+    [text.hero_stat_backers, market?.stats.contributors],
+    [text.hero_stat_repos, impact?.stats.projectsRevived],
+    [text.hero_stat_releases, market?.stats.missionsShipped],
   ] as const;
   return (
     <section id="hero" className="hero">
       <div className="hero-copy">
         <p className="kicker">
-          {text.product} · {text.demo_data}
+          {text.hero_eyebrow}
         </p>
         <h1>
           {text.hero_headline_line_1}
