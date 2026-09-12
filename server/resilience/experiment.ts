@@ -155,6 +155,7 @@ export class ExperimentAgent {
                       ),
                     (result) => ({
                       generator: result.evidence.generator === 'openai' ? 'openai' : 'static',
+                      status: result.evidence.fallbackReason ? 'fallback' : 'model-response',
                       ...(result.evidence.model ? { model: result.evidence.model } : {}),
                       promptVersion: result.evidence.promptVersion,
                       ...(result.evidence.usage
@@ -264,6 +265,7 @@ export class ExperimentAgent {
                     ),
                   (result) => ({
                     generator: result.evidence.generator === 'openai' ? 'openai' : 'static',
+                    status: result.evidence.fallbackReason ? 'fallback' : 'model-response',
                     ...(result.evidence.model ? { model: result.evidence.model } : {}),
                     promptVersion: result.evidence.promptVersion,
                     ...(result.evidence.usage

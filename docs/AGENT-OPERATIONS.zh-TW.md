@@ -92,6 +92,9 @@ Catalog v2 有 19 個案例，預設重複次數產生 38 項檢查。Benchmark 
 
 ## 驗證映像與證據
 
+最新證據：[2026-09-12 Agent 驗證](AGENT-TEST-REPORT.zh-TW.md)，包含 92 項測試、12 條瀏覽器流程及明確的真實模型 fallback 結果。
+
+
 ```bash
 docker --context colima build -f e2e/Dockerfile -t nxtcommit-agent-verifier:local .
 npm run agents:update -- verifier

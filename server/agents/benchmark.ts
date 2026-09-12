@@ -88,6 +88,7 @@ try {
         ),
       (value) => ({
         generator: value.evidence.generator === 'openai' ? 'openai' : 'static',
+        status: value.evidence.fallbackReason ? 'fallback' : 'model-response',
         ...(value.evidence.model ? { model: value.evidence.model } : {}),
         promptVersion: value.evidence.promptVersion,
         ...(value.evidence.usage
@@ -137,6 +138,9 @@ try {
       servingUnchanged,
       cases: reports.reduce((sum, report) => sum + report.summary.total, 0),
       modelCalls: assistance.counts.calls,
+      fallbacks: assistance.counts.fallback,
+      modelAvailability:
+        live && assistance.counts.fallback > 0 ? 'degraded' : live ? 'available' : 'not-requested',
       report: join(root, 'report.json'),
     }),
   );

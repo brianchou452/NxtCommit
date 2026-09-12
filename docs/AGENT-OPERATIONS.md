@@ -107,6 +107,9 @@ Format, provenance and containment checks do not measure semantic model quality.
 
 ## Verifier and local evidence
 
+Latest evidence: [2026-09-12 agent verification](AGENT-TEST-REPORT.md), including 92 tests, 12 browser journeys and explicit live-model fallback results.
+
+
 ```bash
 docker --context colima build -f e2e/Dockerfile -t nxtcommit-agent-verifier:local .
 npm run agents:update -- verifier

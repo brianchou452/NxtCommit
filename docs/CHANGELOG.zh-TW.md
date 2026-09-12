@@ -6,6 +6,11 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.16 — 2026-09-12（模型降級狀態可見）
+
+- 在監控與 benchmark 摘要呈現建議角色 fallback；保留未知用量及確定性關卡結果。
+- 將本機復原、Docker、瀏覽器與真實模型驗證記錄於 [Agent 測試報告](AGENT-TEST-REPORT.zh-TW.md)。
+
 ## v0.7.15 — 2026-09-12（Agent 取消與崩潰復原）
 
 - 將取消訊號傳入模型與私有故障請求；Experiment CLI 可從已保存案例續跑。

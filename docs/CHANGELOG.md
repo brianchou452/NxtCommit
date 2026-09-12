@@ -6,6 +6,11 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.16 — 2026-09-12 (visible model fallback)
+
+- Expose advisory fallback status in monitoring and benchmark summaries; preserve unknown usage and deterministic gate results.
+- Record local recovery, Docker, browser and real-model verification in [the agent test report](AGENT-TEST-REPORT.md).
+
 ## v0.7.15 — 2026-09-12 (agent cancellation and crash recovery)
 
 - Propagate cancellation to model calls and private chaos requests; resume experiments from completed cases with explicit CLI recovery.
