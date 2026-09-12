@@ -47,5 +47,10 @@
         "NxtCommitContainer"
       ]
     }
-  ]
+  ],
+  "triggers": {
+    "crons": [
+      "*/5 * * * *"
+    ]
+  }
 }

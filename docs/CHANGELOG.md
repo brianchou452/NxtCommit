@@ -6,6 +6,11 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.21 - 2026-09-12 (cloud assurance)
+
+- Add the six-stage Agent Lab, authenticated scheduled execution, real controlled checks, model provenance and baseline iteration. See [assurance operations](ASSURANCE.md).
+- Preserve scripted mission scope, demo data protection and shutdown cutoff. No cloud source repair or automatic promotion is claimed.
+
 ## v0.7.20 — 2026-09-12 (integrated local agents)
 
 - Merge the local chaos/experiment, LangGraph checkpoints, Langfuse monitoring and switchable frontend update lane into current main.

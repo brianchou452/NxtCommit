@@ -1,0 +1,19 @@
+spec_version: 1
+kind: api
+id: api.assurance-run
+title: Run bounded assurance cycle
+summary: Authenticate and coalesce scheduled or operator work through terminal evidence.
+transport: http
+endpoint: { method: POST, path: /api/assurance/run }
+request: { path_parameters: [], query_parameters: [], headers: [{ type: string, description: Operator bearer capability. }], body: null }
+responses:
+  - { status: 200, description: Terminal cycle or existing cooldown result., body: { type: object, description: Persisted AssuranceRun. } }
+  - { status: 403, description: Invalid or missing capability., body: { type: object, description: operator_required. } }
+  - { status: 503, description: Disabled lane., body: { type: object, description: assurance_disabled. } }
+trust_boundary:
+  authentication: Fail-closed operator bearer token with constant-time comparison.
+  data_mode: Fixed catalog over private in-memory application instances.
+  forbidden_claims: [public arbitrary fault injection, model-controlled commands, source editing]
+scenarios:
+  - { id: assurance-no-public-spending, given: A visitor has no operator capability., when: A cycle is requested., then: Request is denied without any run or provider call., test_file: server/agents/assurance.test.ts }
+  - { id: assurance-coalesces-terminal-work, given: Two authenticated requests arrive together., when: The cycle finishes., then: Both return the same persisted terminal evidence and cooldown refuses duplicate spending., test_file: server/agents/assurance.test.ts }

@@ -1,0 +1,16 @@
+spec_version: 1
+kind: api
+id: api.assurance
+title: Agent assurance evidence
+summary: Read bounded persisted cycle evidence with explicit model and controlled-fault provenance.
+transport: http
+endpoint: { method: GET, path: /api/assurance }
+request: { path_parameters: [], query_parameters: [], headers: [], body: null }
+responses:
+  - { status: 200, description: Latest observed cycles., body: { type: object, description: AssuranceSnapshot from shared/assurance.ts. } }
+trust_boundary:
+  authentication: Public read-only evidence.
+  data_mode: Real controlled faults and labelled model advice; ephemeral storage.
+  forbidden_claims: [production security certified, automatic source repair, private model reasoning]
+scenarios:
+  - { id: assurance-terminal-evidence, given: An operator completes a bounded cycle., when: Evidence is requested., then: All actual checks and model provenance remain visible after reopening storage., test_file: server/agents/assurance.test.ts }

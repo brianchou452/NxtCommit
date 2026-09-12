@@ -1,5 +1,7 @@
 # 安全性與信任邊界
 
+> **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
+
 > **Phase 3 整合：** Authoring capability 只可選擇已納入版控的 duration fixture，B 保留 retry fixture。兩者皆使用固定驗證設定、既有測試／Git seal、有界子程序與 engine-owned diff。未知 fixture ID 與 GitHub metadata 不能取得執行權限。C 透過 B repository／reviewability 介面操作，只能對目前 run 記錄決策；重試回饋是遮罩後儲存的 maintainer evidence，不是模型指令。Docker Chromium 測試不代表產品具備 per-run OS isolation。
 
 > 重建範圍：電腦 B 實作 scripted bundled-fixture runner、固定 Node verification、

@@ -1,5 +1,7 @@
 # Measured LLM expansion and Langfuse optimization plan
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
 > **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
 
 > **Self-update lane (2026-09-12):** self-update-proposal-v1 sends only three allowlisted local frontend files plus a bounded goal to the official OpenAI endpoint. Exact-match edits, bilingual summary, provider usage when present and candidate results are persisted locally; raw source is not exported to Langfuse. [Runbook](SELF-UPDATE.md).

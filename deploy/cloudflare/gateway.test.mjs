@@ -21,3 +21,21 @@ test('monitor reads lifecycle without starting or fetching the container', async
  assert.equal((await gateway.fetch(new Request('https://example.com/__container-status',{method:'POST'}),env)).status,405);
  assert.equal(reads,1);
 });
+
+test('scheduled cycle waits for terminal evidence and sends only the operator capability', async () => {
+ let completion;
+ await gateway.scheduled({}, {OPENAI_CHECK_TOKEN: 'private-test-token', NXTCOMMIT: {getByName(name) {
+  assert.equal(name, 'hackathon'); return {async fetch(request) {
+   assert.equal(new URL(request.url).pathname, '/api/assurance/run'); assert.equal(request.method, 'POST');
+   assert.equal(request.headers.get('Authorization'), 'Bearer private-test-token');
+   assert.equal(request.headers.get('X-Assurance-Trigger'), 'scheduled');
+   return Response.json({id:'test',status:'passed',modelCalls:4});
+  }};
+ }}}, {waitUntil(promise) {completion = promise;}});
+ await completion;
+});
+test('scheduled failure is observable instead of accepted as completed work', async () => {
+ let completion;
+ await gateway.scheduled({}, {OPENAI_CHECK_TOKEN: 'test', NXTCOMMIT: {getByName() {return {fetch() {return Response.json({status:'failed'});}};}}}, {waitUntil(promise) {completion = promise;}});
+ await assert.rejects(completion, /assurance_cycle_failed/);
+});

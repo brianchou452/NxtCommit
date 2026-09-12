@@ -23,6 +23,7 @@ export async function workflow(options: {
   allowed?: () => boolean;
   interrupted?: () => boolean;
   trace: AgentTrace;
+  onStage?: (stage: string, status: "running" | "completed" | "failed") => void;
 }) {
   process.env.LANGSMITH_TRACING = 'false';
   process.env.LANGCHAIN_TRACING_V2 = 'false';
@@ -38,9 +39,12 @@ export async function workflow(options: {
           if (options.interrupted?.()) throw Error('run_interrupted');
           if (options.allowed && !options.allowed()) return { status: 'cancelled' };
           try {
+            options.onStage?.(stage.name, "running");
             const status = await options.trace.stage(stage.name, stage.run);
+            options.onStage?.(stage.name, "completed");
             return { status: status ?? '' };
           } catch {
+            options.onStage?.(stage.name, "failed");
             throw new Error('stage_failed');
           } // Raw provider/container errors must not enter checkpoints.
         },

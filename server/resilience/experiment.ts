@@ -84,6 +84,9 @@ export class ExperimentAgent {
       baseline?: ExperimentReport;
       assistance?: Assistance;
       signal?: AbortSignal;
+      beforeChaos?: () => Promise<void>;
+      priorHypothesis?: unknown;
+      onStage?: (stage: string, status: "running" | "completed" | "failed") => void;
       runtime?: { directory: string; identity: string; runId?: string; resume?: boolean };
     } = {},
   ): Promise<ExperimentReport> {
@@ -126,6 +129,7 @@ export class ExperimentAgent {
         identity,
         ...(options.runtime?.resume ? { resume: true } : {}),
         trace,
+        ...(options.onStage ? { onStage: options.onStage } : {}),
         interrupted: () => options.signal?.aborted ?? false,
         stages: [
           {
@@ -147,6 +151,7 @@ export class ExperimentAgent {
                         'chaos-planner',
                         {
                           catalogVersion,
+                          priorHypothesis: options.priorHypothesis,
                           allowedScenarios: order,
                           mode: 'controlled-faults-real-modules',
                           task: 'Prioritize risks and suggest a hypothesis from this fixed catalog. Every case runs regardless of advice. Give one hypothesis in at most 60 words per language.',
@@ -170,6 +175,7 @@ export class ExperimentAgent {
               atomicJson(join(directory, 'plan.json'), { order, chaosAdvice });
             },
           },
+          ...(options.beforeChaos ? [{ name: 'safety', run: options.beforeChaos }] : []),
           {
             name: 'chaos',
             run: async () => {

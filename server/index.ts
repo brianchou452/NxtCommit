@@ -10,6 +10,7 @@ if (process.env.RUN_DISPATCH_MODE && !['inline', 'queue'].includes(process.env.R
   throw new Error('Invalid RUN_DISPATCH_MODE');
 }
 const application = createApplication({
+  ...(process.env.AGENT_ASSURANCE_ENABLED === '1' ? {assurance: {directory: resolve(process.env.VAR_DIR ?? 'var', 'assurance'), enabled: true, token: process.env.OPENAI_CHECK_TOKEN, commit: process.env.COMMIT_SHA ?? 'local', authoring: authoringConfiguration(process.env)}} : {}),
   databasePath: resolve(process.env.VAR_DIR ?? 'var', 'nxtcommit.sqlite'),
   configuredMode: process.env.EXECUTION_MODE ?? 'auto',
   staticDirectory: process.env.SELF_UPDATE_ROOT ? resolve(process.env.SELF_UPDATE_ROOT, 'current/dist') : resolve('dist'),

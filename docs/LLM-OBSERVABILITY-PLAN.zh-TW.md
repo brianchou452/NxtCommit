@@ -1,5 +1,7 @@
 # 可量測的 LLM 擴充與 Langfuse 優化計畫
 
+> **雲端品質驗證流程：** 六階段排程、實測證據、模型來源與能力範圍見 [Agent 實驗室](ASSURANCE.zh-TW.md)。部署證明另行記錄。
+
 > **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
 
 > **Self-update lane (2026-09-12):** self-update-proposal-v1 僅將三個允許的本機前端檔案與有界目標傳送至 OpenAI 官方端點。精確替換、雙語摘要、存在時的 provider usage 與候選結果保存在本機；不將原始碼匯出至 Langfuse。 [Runbook](SELF-UPDATE.zh-TW.md).

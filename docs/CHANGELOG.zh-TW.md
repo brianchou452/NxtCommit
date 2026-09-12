@@ -6,6 +6,11 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.21 - 2026-09-12（雲端品質驗證）
+
+- 新增六階段 Agent 實驗室、驗證身分的排程執行、真實受控測試、模型來源與基準迭代。參見[操作說明](ASSURANCE.zh-TW.md)。
+- 保留腳本式任務範圍、展示資料保護及關閉時間。不宣稱雲端原始碼自動修復或發布。
+
 ## v0.7.20 — 2026-09-12（整合本機 Agents）
 
 - 將本機 Chaos／Experiment、LangGraph checkpoint、Langfuse 監控及可開關的前端更新流程整合至最新 main。

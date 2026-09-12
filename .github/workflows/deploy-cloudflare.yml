@@ -80,6 +80,11 @@ jobs:
           EXPECTED_COMMIT_SHA: ${{ github.sha }}
           EXPECTED_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: python3 scripts/ci/smoke_deployment.py
+      - name: Verify real assurance cycle through terminal evidence
+        env:
+          OPENAI_CHECK_TOKEN: ${{ secrets.OPENAI_CHECK_TOKEN }}
+          EXPECTED_COMMIT_SHA: ${{ github.sha }}
+        run: python3 scripts/ci/probe_assurance.py
       - name: Record checkpoint
         if: always()
         env:

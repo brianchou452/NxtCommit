@@ -24,6 +24,7 @@ export function ApplicationShell({ children }: { children: ReactNode }) {
           <NavLink to="/" end>{text.discover}</NavLink>
           <NavLink to="/new">{text.new_mission}</NavLink>
           {data ? <NavLink to={`/contributors/${encodeURIComponent(data.currentUser.id)}`}>{text.profile}</NavLink> : <span aria-disabled="true">{text.profile}</span>}
+          <NavLink to="/assurance">{text.assurance_nav}</NavLink>
           <NavLink to="/demo">{text.demo}</NavLink>
         </nav>
         <div className="shell-controls">

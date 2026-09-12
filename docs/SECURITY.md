@@ -1,5 +1,7 @@
 # Security and trust boundaries
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
 > **Phase 3 integration:** Authoring capabilities select only the checked-in duration fixture; B retains its retry fixture. Both use fixed verification facts, existing-test/Git seals, bounded subprocesses and engine-owned diffs. Unknown fixture identifiers and GitHub metadata cannot select execution. C consumes the B repository/reviewability port and records decisions against the current run only; retry feedback is redacted persisted maintainer evidence, not a model instruction. Docker Chromium testing does not establish per-run OS isolation.
 
 > Reconstruction scope: Computer B implements a scripted bundled-fixture runner,

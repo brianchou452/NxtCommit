@@ -1,3 +1,4 @@
+import { AssurancePage } from './pages/AssurancePage.js';
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { GuidedDemo } from './components/GuidedDemo.js';
@@ -25,6 +26,7 @@ export function AppRouter() {
   return <BrowserRouter><RouteFocus /><Routes><Route path="/concepts/:concept/*" element={<DesignConcepts />} /><Route path="*" element={<ApplicationShell><RouteErrorBoundary><Routes>
     <Route path="/" element={<HomePage />} />
     <Route path="/marketplace" element={<MarketplacePage />} />
+    <Route path="/assurance" element={<AssurancePage />} />
     <Route path="/new" element={<NewMission />} />
     <Route path="/missions/:id" element={<MissionDetailPage />} />
     <Route path="/missions/:id/run" element={<ExecutionRoomPage />} />

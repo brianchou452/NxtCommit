@@ -1,5 +1,7 @@
 # Agent architecture and multi-agent status
 
+> **Cloud assurance lane:** See [Agent Lab](ASSURANCE.md) for the six-stage scheduled workflow, measured evidence, model provenance and scope limits. Deployment proof is recorded separately.
+
 > **Current reconstruction (Phase 3):** One scripted fixture engine performs each run. The web server and optional separate queue worker exchange persisted state through SQLite; they are deterministic processes, not collaborating model agents. C assistance is advisory and B owns engine evidence and lifecycle decisions. Historical LLM/Codex runners described below are not installed by this reconstruction. See [integration evidence](PHASE3-INTEGRATION.md).
 
 > **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.

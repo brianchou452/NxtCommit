@@ -1,3 +1,5 @@
+import { AssuranceController } from './agents/assurance.js';
+import type { AssuranceOptions } from './agents/assurance.js';
 import express from 'express';
 import { installDemoProtection } from './services/demo-protection.js';
 import { HomeStore, seedHome, clearHome } from './persistence/home.js';
@@ -21,6 +23,7 @@ import type { AuthoringOptions } from './authoring/services.js';
 import { missionPort, createProjectionSynchronizer } from './services/slice-integration.js';
 
 export interface AppOptions {
+  assurance?: AssuranceOptions;
   demoProtection?: {token?: string | undefined};
   databasePath?: string;
   configuredMode?: string;
@@ -103,6 +106,8 @@ export function createApplication(options: AppOptions = {}) {
   registerRoutes(app, context, options.installMissions === false
     ? selectedModules.filter(module => module !== missionsRoutes && module !== executionRoutes)
     : selectedModules);
+  const assurance = options.assurance ? new AssuranceController(options.assurance) : undefined;
+  assurance?.install(app);
   app.use('/api', (_request, response) => response.status(404).json({ error: 'Route is not implemented.', code: 'not_found' }));
   if (options.staticDirectory) {
     const directory = resolve(options.staticDirectory);
@@ -125,5 +130,5 @@ export function createApplication(options: AppOptions = {}) {
     }
   };
   app.use(errors);
-  return { app, context, close: async () => { clearInterval(workerUpdates); await missions?.quiesce(); events.close(); store.close(); } };
+  return { app, context, close: async () => { clearInterval(workerUpdates); await assurance?.close(); await missions?.quiesce(); events.close(); store.close(); } };
 }

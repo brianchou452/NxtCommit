@@ -15,6 +15,8 @@ export const features = [
   'project-explanation',
   'chaos-planner',
   'experiment-review',
+  'safety-review',
+  'iteration-planner',
 ] as const;
 export type Feature = (typeof features)[number];
 export interface TraceRecord {
