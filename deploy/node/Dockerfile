@@ -20,6 +20,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/dist-server ./dist-server
 COPY deploy/node/entry.mjs ./entry.mjs
+COPY deploy/node/openai-check.mjs ./openai-check.mjs
 COPY deploy/shutdown-policy.mjs ./shutdown-policy.mjs
 USER node
 EXPOSE 8080

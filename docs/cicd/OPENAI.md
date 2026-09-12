@@ -9,3 +9,7 @@ Cloudflare: save the same key as the `OPENAI_API_KEY` Worker secret for `nxtcomm
 An event credit redemption code is not an API key. Redeem credits in the OpenAI project first, then create a project key in the provider UI. Never commit or paste the key into checkpoint files. API/project budget alerts are not claimed as configured. The hosting cutoff blocks cloud traffic and stops the container at 2026-09-13 01:00 Asia/Taipei; local processes must also be stopped when the demonstration ends.
 
 [Responses API](https://developers.openai.com/api/reference/cli/resources/responses/methods/create) · [Model](https://developers.openai.com/api/docs/models/gpt-5-mini)
+
+## Deployment connection evidence
+
+The container adapter offers POST `/__openai-check` only with the separate `OPENAI_CHECK_TOKEN` bearer secret. Without that secret it returns 404. It accepts no prompt input, performs at most one fixed-prompt provider call per process, and returns only provenance/usage. It uses the same compiled server client as local development. Normal health probes never call OpenAI. This is an operational check, not an authoring feature.

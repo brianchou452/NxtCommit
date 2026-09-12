@@ -1,3 +1,5 @@
+import {createOpenAICheck} from './openai-check.mjs';
+import {createOpenAIResponse} from './dist-server/server/services/openai.js';
 import {SHUTDOWN_AT, hasExpired} from './shutdown-policy.mjs';
 import { createServer } from 'node:http';
 import { resolve } from 'node:path';
@@ -5,7 +7,9 @@ import { createApplication } from './dist-server/server/app.js';
 if (hasExpired()) process.exit(0);
 const application = createApplication({databasePath: resolve(process.env.VAR_DIR, 'nxtcommit.sqlite'), configuredMode: 'demo', staticDirectory: resolve('dist')});
 const startedAt = new Date().toISOString();
+const checkOpenAI = createOpenAICheck(createOpenAIResponse);
 const server = createServer((request, response) => {
+  if (request.url?.split('?')[0] === '/__openai-check') {void checkOpenAI(request, response);return;}
   if (request.url?.split('?')[0] === '/__deployment') {
     response.setHeader('Cache-Control', 'no-store');
     response.setHeader('Content-Type', 'application/json');

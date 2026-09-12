@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.15 — 2026-09-12
+
+- 在實際 Cloudflare 容器新增需驗證身分的固定 prompt OpenAI 連線檢查，每個程序最多一次 provider 呼叫。
+
 ## v0.7.14 — 2026-09-12
 
 - 部署探測使用明確的服務 User-Agent；監測只讀容器狀態，不重設兩小時閒置計時。

@@ -84,3 +84,7 @@ Release 186fea4640545716698a88143c0219e1e9e9eb52 is serving at https://hackathon
 Workers Paid is Active and remains renewable per the user's latest instruction. Runtime cutoff, guarded deletion workflow and one-time Codex verification remain set for September 13 01:00 Taiwan. Future shutdown has not yet occurred. OpenAI shared local/cloud configuration and bounded client are committed, but no valid API key is available; no successful provider call or completed AI product feature is claimed. Teammates' uncommitted dev/computer-c checkout was preserved.
 
 Cloudflare Worker version: `213a4d22-7a4f-46cc-9e71-da680361ec60`; image digest: `sha256:7ddfb5661277cb7c3e8a03963922a49e4a789c75d47801801511a8afd3f2a977`.
+
+## CP-014 — OpenAI credentials and local verification / 2026-09-12
+
+Confirmed USD 100 promotion already applied in Personal Organization; did not redeem again. User created a restricted Responses Write key and supplied it. Saved it in mode-0600, Git-ignored .env files for both the teammate checkout and delivery worktree, and in the Cloudflare OPENAI_API_KEY secret. Local fixed-prompt validation succeeded with gpt-5-mini-2025-08-07: 11 input, 64 output, 75 total tokens, 2836 ms, no fallback. No credential values recorded. Added a separately authenticated, cached fixed-prompt container check to verify the actual cloud runtime; cloud result is pending. This does not implement product authoring routes or an execution runner.

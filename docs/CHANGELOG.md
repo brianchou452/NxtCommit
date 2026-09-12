@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.15 — 2026-09-12
+
+- Add an authenticated fixed-prompt OpenAI connection check in the actual Cloudflare container, limited to one provider call per process.
+
 ## v0.7.14 — 2026-09-12
 
 - Identify deployment probes with a service User-Agent and monitor container lifecycle without resetting its two-hour idle timer.

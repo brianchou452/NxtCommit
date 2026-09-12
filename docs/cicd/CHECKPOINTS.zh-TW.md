@@ -84,3 +84,7 @@ https://hackathon.ianjuan.com 已提供版本 186fea4640545716698a88143c0219e1e9
 Workers Paid 為 Active，依使用者最新要求保留續訂。Runtime 截止、受時間保護的刪除 workflow 與一次性 Codex 驗證仍設定於台灣時間 9/13 01:00；未來關閉尚未發生。OpenAI 本機／雲端共用設定與限制呼叫的 client 已提交，但尚無有效 API key，不宣稱 provider 呼叫成功或 AI 產品功能完成。隊友 dev/computer-c checkout 的未提交工作保持不動。
 
 Cloudflare Worker version: `213a4d22-7a4f-46cc-9e71-da680361ec60`; image digest: `sha256:7ddfb5661277cb7c3e8a03963922a49e4a789c75d47801801511a8afd3f2a977`.
+
+## CP-014 — OpenAI 憑證與本機驗證 / 2026-09-12
+
+確認 Personal Organization 已套用 US$100 promotion，未重複兌換。使用者建立限 Responses Write 的 key 並提供；已存入隊友 checkout 與 delivery worktree 的 Git 忽略 .env（權限 0600），以及 Cloudflare OPENAI_API_KEY secret。本機固定 prompt 驗證成功，模型 gpt-5-mini-2025-08-07，input 11、output 64、total 75 tokens，2836 ms，無 fallback。不記錄憑證值。新增需獨立驗證身分且快取結果的容器固定 prompt 檢查，以驗證真正雲端 runtime；雲端結果仍待確認。此項未實作產品文案 route 或 execution runner。

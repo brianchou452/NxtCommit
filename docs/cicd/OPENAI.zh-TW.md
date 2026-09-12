@@ -9,3 +9,7 @@ Cloudflare：將相同 key 存為 `nxtcommit-delivery` Worker 的 `OPENAI_API_KE
 活動額度兌換碼不是 API key；先在 OpenAI project 兌換，再透過 provider UI 建立專案 key。秘密不得寫入 checkpoint。目前不宣稱 API/project budget alert 已設定。雲端展示於台灣時間 2026-09-13 01:00 阻擋流量並停止容器，本機程式也應在展示結束時停止。
 
 [Responses API](https://developers.openai.com/api/reference/cli/resources/responses/methods/create) · [模型](https://developers.openai.com/api/docs/models/gpt-5-mini)
+
+## 部署連線證據
+
+容器 adapter 的 POST `/__openai-check` 必須提供獨立 `OPENAI_CHECK_TOKEN` bearer secret，未提供則回傳 404。不接受使用者 prompt，每個程序最多執行一次固定 prompt provider 呼叫，僅回傳 provenance／usage；使用與本機相同的編譯後 server client。一般健康檢查不呼叫 OpenAI。此為維運檢查，不是文案產生功能。
