@@ -1,15 +1,19 @@
+import type { CatalogContent } from "./catalog.js";
 import type { LocalizedText } from './primitives.js';
 import type { MissionStatus, RunArtifact, RunSummary } from './execution.js';
 import type { CampaignDraft } from './authoring.js';
 import type { ReviewDecision } from './execution.js';
 
 export interface MissionProject {
+  language?: string; license?: string; stars?: number; weeklyDownloads?: number; dependents?: number;
   id: string; slug: string; name: string; description: LocalizedText; repoUrl: string;
   figuresMode: 'demo' | 'live';
   maintainer: { id: string; name: string; verified: boolean };
   workspace: { kind: 'fixture' | 'github' | 'none'; path?: string; url?: string };
 }
 export interface MissionRecord {
+  catalog?: CatalogContent;
+  backerCount?: number;
   id: string; projectId: string; title: LocalizedText; tagline: LocalizedText;
   story: { what: LocalizedText; why: LocalizedText; whoBenefits: LocalizedText; approach: LocalizedText };
   generator: 'demo' | 'openai'; dataMode: 'demo'; status: MissionStatus;

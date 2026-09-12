@@ -18,6 +18,7 @@ composition:
   - { id: pledge, kind: component, spec_id: component.pledge-dialog, purpose: 在funding state建立retry-safe credit intent。, data: Mission status wallet and remaining goal., visual_role: Modal decision surface., width: Dialog., relationship_to_previous: Launched from lifecycle actions. }
   - { id: comments, kind: component, spec_id: component.comment-wall, purpose: 顯示與新增server-assigned local comments。, data: Refreshed mission wall., visual_role: Closing community evidence., width: Main column., relationship_to_previous: Follows mission evidence. }
 page_owned_behaviour:
+  - Imported catalog campaigns retain demo provenance; scope risks authored history and release content display separately from engine evidence; funding never grants a workspace.
   - CTA 必須由 server mission status 與 workspace eligibility 決定；動畫或 credential 不能解鎖 real execution。
   - Pledge idempotency key 代表一次使用者 intent，retry 必須重用而新 intent 必須換 key。
   - funding 與 stalled 顯示 pledge；funded fixture 顯示 execute；executing 顯示 watch；needs_review 顯示 review；failed fixture 顯示 restart；approved 與 changes_requested 顯示 run history；released 顯示 local release evidence；metadata-only 狀態顯示 boundary 或 history而不提供 execution mutation。

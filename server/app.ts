@@ -1,3 +1,4 @@
+import { installCatalog } from './persistence/catalog.js';
 import { AssuranceController } from './agents/assurance.js';
 import type { AssuranceOptions } from './agents/assurance.js';
 import express from 'express';
@@ -73,6 +74,7 @@ export function createApplication(options: AppOptions = {}) {
     ...(options.executionTimeoutMs !== undefined ? { executionTimeoutMs: options.executionTimeoutMs } : {}),
   });
   const integrated = options.integrateSlices !== false && missions;
+  if (integrated) installCatalog(store);
   if (integrated) home.missionDetailReader = id => missions.store.detail(id);
   const authoring = new AuthoringServices(store, {
     ...(integrated ? { missions: missionPort(missions), reviewabilityForRun: (id: string) => missions.reviewabilityForRun(id) } : {}),
@@ -85,7 +87,7 @@ export function createApplication(options: AppOptions = {}) {
   const reset = createResetHarness(store, [{
     id: 'foundation-persona', quiesce: async () => {},
     clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
-  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), { id: 'authoring-review', quiesce: async () => { authoring.beginReset(); }, clear: () => authoring.repository.clear(), seed: () => authoring.seed() }, ...options.resetParticipants ?? []]);
+  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), ...(integrated ? [{id:'catalog',quiesce:async()=>{},clear:()=>{},seed:()=>installCatalog(store)}] : []), { id: 'authoring-review', quiesce: async () => { authoring.beginReset(); }, clear: () => authoring.repository.clear(), seed: () => authoring.seed() }, ...options.resetParticipants ?? []]);
   // A queue worker runs in another process. Bridge persisted changes to the web
   // process's SSE subscribers, using REST snapshots as the evidence authority.
   let revision = '';

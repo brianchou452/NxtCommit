@@ -110,3 +110,11 @@
   .execution-timeline ol { padding-left: 28px; padding-right: 16px; }
   .execution-phase { flex-wrap: wrap; gap: 8px; }
 }
+
+.catalog-content details { margin-top: 16px; border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+.catalog-content summary { cursor: pointer; min-height: 44px; overflow-wrap: anywhere; }
+.catalog-content li { margin-bottom: 12px; line-height: 1.65; }
+.catalog-content pre { white-space: pre; overflow: auto; max-width: 100%; font-size: 12px; }
+
+.catalog-content dl { display: flex; flex-wrap: wrap; gap: 24px; }
+.catalog-content dd { margin: 4px 0 0; font-weight: 700; }

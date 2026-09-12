@@ -99,6 +99,9 @@ export function enrichContributor(
       projectName: campaign.project.name,
       missionTitle: campaign.title,
     };
+    if (detail?.catalog?.releaseVersion) enriched.releaseVersion=detail.catalog.releaseVersion;
+    if (detail?.catalog?.releasedAt) enriched.releasedAt=detail.catalog.releasedAt;
+    if (detail?.catalog?.adoption) enriched.adoption=detail.catalog.adoption;
     if (detail) {
       const consumed = allocateCredits(
         detail.computeConsumed,
@@ -126,7 +129,7 @@ export function enrichContributor(
     }
     // Release awards require a recorded release/award date, never the read time.
     const releasedAt =
-      receipt.releasedAt ??
+      enriched.releasedAt ??
       (profile.receipts.filter((r) => r.status === "released").length === 1
         ? profile.achievements.find(
             (a) => a.code === "ship" || a.code === "ship_it",

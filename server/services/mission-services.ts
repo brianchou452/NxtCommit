@@ -84,6 +84,7 @@ export class MissionServices {
         if (prior) { if (prior.fingerprint !== fingerprint) throw new MissionError('idempotency_conflict', 'Key belongs to a different pledge intent.', 409); return JSON.parse(String(prior.response)) as { mission: MissionDetail; wallet: number; achievements: never[]; executionStarting: boolean }; }
       }
       const mission = this.getMission(id);
+      if (mission.status === 'stalled' && mission.catalog) { assertTransition('stalled', 'funding'); mission.status = 'funding'; }
       if (mission.status !== 'funding' || amount > mission.computeGoal - mission.computePledged) throw new MissionError('mission_ineligible', 'Pledge must fit the remaining funding goal.');
       const wallet = this.store.get<{ balance: number }>('wallet', actor);
       if (!wallet || wallet.balance < amount) throw new MissionError('insufficient_balance', 'Insufficient prototype credits.');

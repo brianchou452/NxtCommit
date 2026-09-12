@@ -2,6 +2,23 @@ import type { Dictionary } from './en.js';
 import { missionZhTW } from './mission.js';
 import { authoringZh } from './authoring.js';
 export const zhTW = {
+  catalog_facts: "Repo 資訊 · 示範數據",
+  catalog_language: "開發語言",
+  catalog_license: "授權",
+  catalog_stars: "星標",
+  catalog_downloads: "每週下載量",
+  catalog_dependents: "相依專案",
+  catalog_risk_low: "低",
+  catalog_risk_medium: "中",
+  catalog_risk_high: "高",
+
+  catalog_note: "從 commoncommit 匯入的示範募資內容。Repo 連結指向真實專案；議題編號、募資、熱門度與歷史成果屬示範內容。新的認捐使用 NxtCommit 原型點數；達標不會自動啟動這些 repo 的開發。",
+  catalog_scope: "募資範圍",
+  catalog_release: "示範發布紀錄",
+  catalog_adoption: "示範每週下載量",
+  catalog_history: "編寫的活動歷史",
+  catalog_artifact: "示範變更產物",
+
 
   commitment_badge_first_spark: "第一把火",
   commitment_badge_first_spark_desc: "成為任務的第一位認捐者。",

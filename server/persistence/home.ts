@@ -284,9 +284,14 @@ export class HomeStore {
   mission(id: string) {
     return this.campaigns().find((m) => m.id === id);
   }
+  visibleCampaigns(): Campaign[] {
+    const all=this.campaigns();
+    const importedNames=new Set(all.filter(m=>m.catalog).map(m=>m.project.name.toLowerCase()));
+    return all.filter(m=>m.catalog || !importedNames.has(m.project.name.toLowerCase()) || !!this.missionDetailReader?.(m.id));
+  }
   marketplace(): MarketplaceSnapshot {
     return this.store.transaction(() => {
-      const missions = this.campaigns().sort(
+      const missions = this.visibleCampaigns().sort(
         (a, b) =>
           Number(b.id === "mission-fixture") -
           Number(a.id === "mission-fixture"),
@@ -323,7 +328,7 @@ export class HomeStore {
   }
   impact(): ImpactSnapshot {
     return this.store.transaction(() => {
-      const missions = this.campaigns(),
+      const missions = this.visibleCampaigns(),
         released = missions.filter((m) => m.status === "released");
       const beacons = this.store.db
         .prepare(

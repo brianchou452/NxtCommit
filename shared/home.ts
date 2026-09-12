@@ -1,5 +1,7 @@
+import type { CatalogContent } from "./catalog.js";
 import type { Contributor, LocalizedText, MissionStatus } from "./types.js";
 export interface Campaign {
+  catalog?: CatalogContent;
   id: string;
   projectId: string;
   title: LocalizedText;

@@ -1,0 +1,5895 @@
+{
+  "source": "commoncommit/server/seed.ts",
+  "revision": "a52346519fa7258a56ec39f70212b243d599e833",
+  "capturedAt": "2026-09-12T00:00:00.000Z",
+  "projects": [
+    {
+      "id": "prj_2",
+      "usedByYou": true,
+      "workspace": {
+        "kind": "fixture",
+        "path": "tempo"
+      },
+      "slug": "ms",
+      "name": "ms",
+      "repoUrl": "https://github.com/vercel/ms",
+      "description": {
+        "en": "Tiny, dependency-free human duration parser and formatter. 2.1M weekly downloads.",
+        "zh-TW": "輕量、零相依的人類可讀時間解析與格式化函式庫。每週 210 萬次下載。"
+      },
+      "language": "JavaScript",
+      "license": "MIT",
+      "stars": 412,
+      "weeklyDownloads": 2140000,
+      "dependents": 14302,
+      "healthScore": 65,
+      "maintainer": {
+        "id": "mnt_1",
+        "name": "Vercel",
+        "handle": "@vercel",
+        "avatarColor": "#EDEFF5",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_17",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "node-csv",
+      "name": "node-csv",
+      "repoUrl": "https://github.com/adaltas/node-csv",
+      "description": {
+        "en": "Streaming CSV/TSV codec for Node with zero-copy parsing.",
+        "zh-TW": "Node 串流 CSV/TSV 編解碼器，零複製解析。"
+      },
+      "language": "TypeScript",
+      "license": "Apache-2.0",
+      "stars": 3120,
+      "weeklyDownloads": 860000,
+      "dependents": 5400,
+      "healthScore": 78,
+      "maintainer": {
+        "id": "mnt_16",
+        "name": "Adaltas",
+        "handle": "@adaltas",
+        "avatarColor": "#4D9FFF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_54",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "cosign",
+      "name": "cosign",
+      "repoUrl": "https://github.com/sigstore/cosign",
+      "description": {
+        "en": "Minimal artifact signature verification for CI pipelines.",
+        "zh-TW": "為 CI 流水線設計的極簡產物簽章驗證。"
+      },
+      "language": "Go",
+      "license": "MIT",
+      "stars": 289,
+      "weeklyDownloads": 41000,
+      "dependents": 310,
+      "healthScore": 44,
+      "maintainer": {
+        "id": "mnt_53",
+        "name": "Sigstore",
+        "handle": "@sigstore",
+        "avatarColor": "#3DD68C",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_59",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "quick-lru",
+      "name": "quick-lru",
+      "repoUrl": "https://github.com/sindresorhus/quick-lru",
+      "description": {
+        "en": "300-byte LRU cache used by half the bundler ecosystem.",
+        "zh-TW": "300 位元組的 LRU 快取，被半個打包器生態系使用。"
+      },
+      "language": "JavaScript",
+      "license": "MIT",
+      "stars": 8900,
+      "weeklyDownloads": 19400000,
+      "dependents": 88000,
+      "healthScore": 35,
+      "maintainer": {
+        "id": "mnt_58",
+        "name": "Sindre Sorhus",
+        "handle": "@sindresorhus",
+        "avatarColor": "#8A8F98",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_66",
+      "usedByYou": true,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "yaml",
+      "name": "yaml",
+      "repoUrl": "https://github.com/eemeli/yaml",
+      "description": {
+        "en": "Schema-validated YAML loader with helpful errors.",
+        "zh-TW": "支援結構驗證、錯誤訊息友善的 YAML 載入器。"
+      },
+      "language": "TypeScript",
+      "license": "MIT",
+      "stars": 1670,
+      "weeklyDownloads": 480000,
+      "dependents": 3900,
+      "healthScore": 71,
+      "maintainer": {
+        "id": "mnt_65",
+        "name": "eemeli",
+        "handle": "@eemeli",
+        "avatarColor": "#F5A623",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_82",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "ky",
+      "name": "ky",
+      "repoUrl": "https://github.com/sindresorhus/ky",
+      "description": {
+        "en": "Retry-aware fetch wrapper with circuit breaking.",
+        "zh-TW": "支援重試與斷路機制的 fetch 包裝器。"
+      },
+      "language": "TypeScript",
+      "license": "MIT",
+      "stars": 950,
+      "weeklyDownloads": 210000,
+      "dependents": 1800,
+      "healthScore": 66,
+      "maintainer": {
+        "id": "mnt_81",
+        "name": "Sindre Sorhus",
+        "handle": "@sindresorhus",
+        "avatarColor": "#2FBFDE",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_106",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "marked",
+      "name": "marked",
+      "repoUrl": "https://github.com/markedjs/marked",
+      "description": {
+        "en": "CommonMark renderer with plugin pipeline.",
+        "zh-TW": "支援外掛管線的 CommonMark 渲染器。"
+      },
+      "language": "JavaScript",
+      "license": "BSD-2-Clause",
+      "stars": 445,
+      "weeklyDownloads": 96000,
+      "dependents": 720,
+      "healthScore": 58,
+      "maintainer": {
+        "id": "mnt_105",
+        "name": "Marked",
+        "handle": "@markedjs",
+        "avatarColor": "#B197FC",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_120",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "redis-mock",
+      "name": "redis-mock",
+      "repoUrl": "https://github.com/yeahoffline/redis-mock",
+      "description": {
+        "en": "Redis-compatible in-process cache for tests.",
+        "zh-TW": "供測試使用、相容 Redis 的行程內快取。"
+      },
+      "language": "TypeScript",
+      "license": "MIT",
+      "stars": 210,
+      "weeklyDownloads": 33000,
+      "dependents": 260,
+      "healthScore": 52,
+      "maintainer": {
+        "id": "mnt_119",
+        "name": "yeahoffline",
+        "handle": "@yeahoffline",
+        "avatarColor": "#FF7A59",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_135",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "jose",
+      "name": "jose",
+      "repoUrl": "https://github.com/panva/jose",
+      "description": {
+        "en": "JWT rotation helper with zero-downtime key rollover.",
+        "zh-TW": "JWT 輪替輔助工具，支援零停機金鑰換發。"
+      },
+      "language": "TypeScript",
+      "license": "MIT",
+      "stars": 1340,
+      "weeklyDownloads": 155000,
+      "dependents": 1100,
+      "healthScore": 69,
+      "maintainer": {
+        "id": "mnt_134",
+        "name": "panva",
+        "handle": "@panva",
+        "avatarColor": "#3DD68C",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_149",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "globset",
+      "name": "globset",
+      "repoUrl": "https://github.com/BurntSushi/globset",
+      "description": {
+        "en": "Fast glob matcher with .gitignore semantics.",
+        "zh-TW": "支援 .gitignore 語意的高速 glob 比對器。"
+      },
+      "language": "Rust",
+      "license": "MIT",
+      "stars": 5200,
+      "weeklyDownloads": 7800000,
+      "dependents": 41000,
+      "healthScore": 82,
+      "maintainer": {
+        "id": "mnt_148",
+        "name": "BurntSushi",
+        "handle": "@BurntSushi",
+        "avatarColor": "#4D9FFF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner",
+          "zh-TW": "公開儲存庫擁有者"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_177",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "localsend",
+      "name": "LocalSend",
+      "repoUrl": "https://github.com/localsend/localsend",
+      "description": {
+        "en": "The private nearby-transfer layer behind phone-to-laptop sharing.",
+        "zh-TW": "讓手機與電腦能私密、近距離互傳的技術。"
+      },
+      "maintainer": {
+        "id": "mnt_176",
+        "name": "LocalSend",
+        "handle": "@localsend",
+        "avatarColor": "#66EBC5",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_180",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "pdfjs",
+      "name": "PDF.js",
+      "repoUrl": "https://github.com/mozilla/pdf.js",
+      "description": {
+        "en": "The browser engine that turns PDFs into readable, searchable pages.",
+        "zh-TW": "在瀏覽器裡把 PDF 變成可閱讀、可搜尋頁面的引擎。"
+      },
+      "maintainer": {
+        "id": "mnt_179",
+        "name": "PDF.js",
+        "handle": "@pdfjs",
+        "avatarColor": "#8174FF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_183",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "tesseractjs",
+      "name": "Tesseract.js",
+      "repoUrl": "https://github.com/naptha/tesseract.js",
+      "description": {
+        "en": "OCR in the browser: pixels in, searchable words out.",
+        "zh-TW": "在瀏覽器裡運作的 OCR：讀入畫面，輸出可搜尋文字。"
+      },
+      "maintainer": {
+        "id": "mnt_182",
+        "name": "Tesseract.js",
+        "handle": "@tesseractjs",
+        "avatarColor": "#4D9FFF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_186",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "mermaid",
+      "name": "Mermaid",
+      "repoUrl": "https://github.com/mermaid-js/mermaid",
+      "description": {
+        "en": "The text-to-diagram layer inside docs, wikis, and technical notes.",
+        "zh-TW": "把文字變成文件、Wiki 與技術筆記中圖表的工具。"
+      },
+      "maintainer": {
+        "id": "mnt_185",
+        "name": "Mermaid",
+        "handle": "@mermaid",
+        "avatarColor": "#FFBD66",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_189",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "scrcpy",
+      "name": "scrcpy",
+      "repoUrl": "https://github.com/Genymobile/scrcpy",
+      "description": {
+        "en": "A fast bridge that mirrors and controls Android from a computer.",
+        "zh-TW": "將 Android 畫面快速鏡射到電腦並可直接操作的橋梁。"
+      },
+      "maintainer": {
+        "id": "mnt_188",
+        "name": "scrcpy",
+        "handle": "@scrcpy",
+        "avatarColor": "#A78BFA",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_192",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "immich",
+      "name": "Immich",
+      "repoUrl": "https://github.com/immich-app/immich",
+      "description": {
+        "en": "A self-hosted home for backing up and searching personal photos.",
+        "zh-TW": "可自己掌握的相片備份與搜尋空間。"
+      },
+      "maintainer": {
+        "id": "mnt_191",
+        "name": "Immich",
+        "handle": "@immich",
+        "avatarColor": "#66EBC5",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_195",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "homeassistant",
+      "name": "Home Assistant",
+      "repoUrl": "https://github.com/home-assistant/core",
+      "description": {
+        "en": "The local control layer connecting lights, sensors, energy, and routines.",
+        "zh-TW": "在本地串起燈具、感測器、能源與日常流程的控制層。"
+      },
+      "maintainer": {
+        "id": "mnt_194",
+        "name": "Home Assistant",
+        "handle": "@homeassistant",
+        "avatarColor": "#8174FF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_198",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "excalidraw",
+      "name": "Excalidraw",
+      "repoUrl": "https://github.com/excalidraw/excalidraw",
+      "description": {
+        "en": "The hand-drawn collaborative canvas behind workshops and quick explanations.",
+        "zh-TW": "支撐快速說明、工作坊與協作的手繪畫布。"
+      },
+      "maintainer": {
+        "id": "mnt_197",
+        "name": "Excalidraw",
+        "handle": "@excalidraw",
+        "avatarColor": "#4D9FFF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_201",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "whisperx",
+      "name": "WhisperX",
+      "repoUrl": "https://github.com/m-bain/whisperX",
+      "description": {
+        "en": "The timing layer behind searchable, aligned subtitles for audio and video.",
+        "zh-TW": "讓音訊與影片字幕可對齊、可搜尋的時間層。"
+      },
+      "maintainer": {
+        "id": "mnt_200",
+        "name": "WhisperX",
+        "handle": "@whisperx",
+        "avatarColor": "#FFBD66",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_204",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "jellyfin",
+      "name": "Jellyfin",
+      "repoUrl": "https://github.com/jellyfin/jellyfin",
+      "description": {
+        "en": "A self-hosted media library that keeps your collection under your control.",
+        "zh-TW": "讓影音收藏仍由自己掌握的自建媒體庫。"
+      },
+      "maintainer": {
+        "id": "mnt_203",
+        "name": "Jellyfin",
+        "handle": "@jellyfin",
+        "avatarColor": "#A78BFA",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_207",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "ollama",
+      "name": "Ollama",
+      "repoUrl": "https://github.com/ollama/ollama",
+      "description": {
+        "en": "The local runtime that makes downloading and running models approachable.",
+        "zh-TW": "讓下載與執行語言模型更容易的本機 runtime。"
+      },
+      "maintainer": {
+        "id": "mnt_206",
+        "name": "Ollama",
+        "handle": "@ollama",
+        "avatarColor": "#66EBC5",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_210",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "langgraph",
+      "name": "LangGraph",
+      "repoUrl": "https://github.com/langchain-ai/langgraph",
+      "description": {
+        "en": "A stateful graph for coordinating long-running agent workflows.",
+        "zh-TW": "協調長時間 Agent 工作流的狀態化圖結構。"
+      },
+      "maintainer": {
+        "id": "mnt_209",
+        "name": "LangGraph",
+        "handle": "@langgraph",
+        "avatarColor": "#8174FF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_213",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "deno",
+      "name": "Deno",
+      "repoUrl": "https://github.com/denoland/deno",
+      "description": {
+        "en": "A secure JavaScript and TypeScript runtime with web-standard APIs.",
+        "zh-TW": "採用 Web 標準 API 的安全 JavaScript 與 TypeScript runtime。"
+      },
+      "maintainer": {
+        "id": "mnt_212",
+        "name": "Deno",
+        "handle": "@deno",
+        "avatarColor": "#4D9FFF",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_216",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "supabase",
+      "name": "Supabase",
+      "repoUrl": "https://github.com/supabase/supabase",
+      "description": {
+        "en": "An open backend built around Postgres, auth, storage, and realtime.",
+        "zh-TW": "圍繞 Postgres、身份驗證、儲存與即時訊息組成的開放後端。"
+      },
+      "maintainer": {
+        "id": "mnt_215",
+        "name": "Supabase",
+        "handle": "@supabase",
+        "avatarColor": "#FFBD66",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    },
+    {
+      "id": "prj_219",
+      "usedByYou": false,
+      "workspace": {
+        "kind": "none"
+      },
+      "slug": "bun",
+      "name": "Bun",
+      "repoUrl": "https://github.com/oven-sh/bun",
+      "description": {
+        "en": "An all-in-one JavaScript runtime, package manager, bundler, and test runner.",
+        "zh-TW": "整合 runtime、套件管理、bundler 與測試的快速 JavaScript 工具。"
+      },
+      "maintainer": {
+        "id": "mnt_218",
+        "name": "Bun",
+        "handle": "@bun",
+        "avatarColor": "#A78BFA",
+        "verified": true,
+        "role": {
+          "en": "Public repository owner persona (demo)",
+          "zh-TW": "公開儲存庫擁有者人物（示範）"
+        }
+      },
+      "figuresMode": "demo"
+    }
+  ],
+  "missions": [
+    {
+      "id": "msn_3",
+      "projectId": "prj_2",
+      "title": {
+        "en": "Make ms parse what it prints",
+        "zh-TW": "讓 ms 能解析自己輸出的格式"
+      },
+      "tagline": {
+        "en": "Fix #142 so ms can parse the strings it prints.",
+        "zh-TW": "修復 #142，讓 ms 能解析自己輸出的字串。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "ms is a tiny, dependency-free library that turns human-friendly text like \"1h 30m\" into machine time — it quietly powers timeouts and schedules.",
+          "zh-TW": "ms 是一個輕量、零相依的函式庫，負責把「1h 30m」這類人類可讀的文字轉成機器時間，默默支撐著各種逾時與排程設定。"
+        },
+        "why": {
+          "en": "Today the library cannot read the very strings it prints (#142). Every dependent tool that stores a formatted duration and parses it back hits NaN.",
+          "zh-TW": "目前這個函式庫無法解析自己輸出的字串（#142）。所有先儲存格式化結果、之後再解析的相依工具都會得到 NaN。"
+        },
+        "whoBenefits": {
+          "en": "CLI tools, cron wrappers and CI pipelines that depend on ms, plus maintainers evaluating the bundled demonstration issue.",
+          "zh-TW": "依賴 ms 的 CLI 工具、cron 包裝器與 CI 流水線，以及評估這個內建示範 issue 的維護者。"
+        },
+        "approach": {
+          "en": "An autonomous agent works in a bounded fixture copy, whose OS boundary depends on the deployment: it adds tests, implements compound parsing, and iterates until the engine-run suite is green. An unauthenticated local demo user then records a local decision; nothing is pushed or published upstream.",
+          "zh-TW": "自主代理會在受限的 fixture 副本中作業（作業系統邊界視部署環境而定）：新增測試、實作複合時間解析，並反覆修正到引擎執行的套件全綠。之後由未驗證身分的本機示範使用者記錄本機決定；不會向上游推送或發布。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#142",
+        "title": "parseDuration returns NaN for compound durations like \"1h 30m\""
+      },
+      "computeGoal": 3400,
+      "computePledged": 2890,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Parser edge cases (no-space and mixed-order segments) historically break naive implementations — mitigated by criteria-first tests.",
+          "zh-TW": "解析器的邊界情況（無空格、順序混合）常讓過於簡化的實作出錯 — 以「先寫驗收測試」策略降低風險。"
+        },
+        {
+          "en": "Behaviour change: previously-NaN inputs will now parse; flagged for release notes.",
+          "zh-TW": "行為變更：原本回傳 NaN 的輸入將可解析；已標記於發行說明。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "parseDuration(\"1h 30m\") returns 5400",
+            "zh-TW": "parseDuration(\"1h 30m\") 回傳 5400"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "No-space form works: parseDuration(\"1h30m\") returns 5400",
+            "zh-TW": "無空格形式可用：parseDuration(\"1h30m\") 回傳 5400"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Repeated units accumulate: \"30m 30m\" → 3600",
+            "zh-TW": "重複單位可累加：「30m 30m」→ 3600"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_3",
+          "text": {
+            "en": "The existing engine-run test suite remains green",
+            "zh-TW": "引擎執行的既有測試套件維持全綠"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_4",
+          "text": {
+            "en": "Trailing garbage still returns NaN (\"1h banana\")",
+            "zh-TW": "結尾雜訊仍回傳 NaN（\"1h banana\"）"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_5",
+          "text": {
+            "en": "New tests cover every criterion above",
+            "zh-TW": "新增測試涵蓋上述所有條件"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "parser",
+        "dx",
+        "reliability",
+        "used-by-you"
+      ],
+      "createdAt": "2026-09-06T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 4
+    },
+    {
+      "id": "msn_18",
+      "projectId": "prj_17",
+      "title": {
+        "en": "Streaming quote-escape hardening for node-csv",
+        "zh-TW": "強化 node-csv 串流引號跳脫處理"
+      },
+      "tagline": {
+        "en": "Kill the last CSV edge case that corrupts exports at 2am.",
+        "zh-TW": "消滅最後一個在凌晨兩點毀掉匯出的 CSV 邊界案例。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "node-csv streams large CSV datasets without loading them all into memory.",
+          "zh-TW": "node-csv 能串流處理大型 CSV，無需一次全部載入記憶體。"
+        },
+        "why": {
+          "en": "Embedded quotes inside quoted fields silently truncate rows in rare flushes (#88).",
+          "zh-TW": "引號欄位內的內嵌引號在少見的 flush 邊界會靜默截斷資料列（#88）。"
+        },
+        "whoBenefits": {
+          "en": "Every ETL pipeline and analytics exporter downstream.",
+          "zh-TW": "所有下游的 ETL 流水線與分析匯出工具。"
+        },
+        "approach": {
+          "en": "Agent adds fuzz cases first, then patches the state machine.",
+          "zh-TW": "代理先加入模糊測試案例，再修補狀態機。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#88",
+        "title": {
+          "en": "Quoted-field escape lost across chunk boundary",
+          "zh-TW": "跨區塊邊界遺失引號欄位跳脫"
+        }
+      },
+      "computeGoal": 3200,
+      "computePledged": 2300,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "State machine touches the hot path; perf regression possible.",
+          "zh-TW": "狀態機位於熱路徑，可能造成效能回歸。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Fuzz suite passes 10K generated rows",
+            "zh-TW": "模糊測試通過一萬筆生成資料列"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "No throughput regression >2%",
+            "zh-TW": "吞吐量回歸不得超過 2%"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "parser",
+        "reliability"
+      ],
+      "createdAt": "2026-09-03T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 17
+    },
+    {
+      "id": "msn_55",
+      "projectId": "prj_54",
+      "title": {
+        "en": "Patch signature bypass on empty manifest",
+        "zh-TW": "修補空 manifest 簽章繞過漏洞"
+      },
+      "tagline": {
+        "en": "A five-line bug lets unsigned artifacts through. Fund the fix and the regression tests.",
+        "zh-TW": "五行程式的錯誤讓未簽章產物矇混過關。資助修復與回歸測試。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "cosign signs and verifies software artifacts.",
+          "zh-TW": "cosign 負責簽署並驗證軟體產物。"
+        },
+        "why": {
+          "en": "Empty manifests skip verification entirely — a real bypass reported by an auditor.",
+          "zh-TW": "空 manifest 會完全跳過驗證 — 稽核人員回報的真實繞過漏洞。"
+        },
+        "whoBenefits": {
+          "en": "Any team gating deploys on artifact signatures.",
+          "zh-TW": "所有以產物簽章把關部署的團隊。"
+        },
+        "approach": {
+          "en": "Agent reproduces the bypass as a failing test, then closes it.",
+          "zh-TW": "代理先以失敗測試重現繞過，再修補。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#41",
+        "title": {
+          "en": "Empty manifest bypasses signature check",
+          "zh-TW": "空 manifest 繞過簽章檢查"
+        }
+      },
+      "computeGoal": 1800,
+      "computePledged": 420,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "Security-sensitive path; maintainer review mandatory.",
+          "zh-TW": "屬資安敏感路徑，維護者審查為必要條件。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Bypass reproduced as failing test",
+            "zh-TW": "以失敗測試重現繞過"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "Empty manifest rejected with explicit error",
+            "zh-TW": "空 manifest 需以明確錯誤拒絕"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "security"
+      ],
+      "createdAt": "2026-09-08T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 1
+    },
+    {
+      "id": "msn_60",
+      "projectId": "prj_59",
+      "title": {
+        "en": "Quick-lru memory-leak demo scenario",
+        "zh-TW": "quick-lru 記憶體洩漏示範情境"
+      },
+      "tagline": {
+        "en": "19M weekly downloads, zero active maintainers, one confirmed leak.",
+        "zh-TW": "每週 1900 萬次下載、零位在職維護者、一個已確認的洩漏。"
+      },
+      "status": "stalled",
+      "story": {
+        "what": {
+          "en": "quick-lru provides a compact least-recently-used cache.",
+          "zh-TW": "quick-lru 提供精簡的 LRU 快取。"
+        },
+        "why": {
+          "en": "A WeakRef interaction leaks entries on long-lived processes; the fix has sat unreviewed for months.",
+          "zh-TW": "WeakRef 互動在長時間執行的程序中洩漏項目；修復方案已數月無人審查。"
+        },
+        "whoBenefits": {
+          "en": "Every dev server that stays up longer than a day.",
+          "zh-TW": "所有連續運作超過一天的開發伺服器。"
+        },
+        "approach": {
+          "en": "Agent lands the fix with leak-detection tests; a volunteer maintainer reviews.",
+          "zh-TW": "代理提交附洩漏偵測測試的修復，由志願維護者審查。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#212",
+        "title": {
+          "en": "Entries never collected when values hold WeakRefs",
+          "zh-TW": "值持有 WeakRef 時項目永不回收"
+        }
+      },
+      "computeGoal": 5200,
+      "computePledged": 1560,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "high",
+      "riskFactors": [
+        {
+          "en": "No active maintainer — review depends on a volunteer.",
+          "zh-TW": "無在職維護者 — 審查仰賴志願者。"
+        },
+        {
+          "en": "GC-dependent behaviour is hard to test deterministically.",
+          "zh-TW": "GC 相關行為難以決定性測試。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Leak reproduced under --expose-gc harness",
+            "zh-TW": "在 --expose-gc 測試架構下重現洩漏"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "Heap stable across 1M insertions",
+            "zh-TW": "百萬次插入後堆積記憶體維持穩定"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "rescue",
+        "performance"
+      ],
+      "createdAt": "2026-08-12T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 2
+    },
+    {
+      "id": "msn_67",
+      "projectId": "prj_66",
+      "title": {
+        "en": "Anchor/alias cycles: fail fast with a real error",
+        "zh-TW": "錨點/別名循環：快速失敗並回報明確錯誤"
+      },
+      "tagline": {
+        "en": "Stop the infinite loop a malformed CI config can trigger.",
+        "zh-TW": "阻止格式錯誤的 CI 設定引發的無窮迴圈。"
+      },
+      "status": "executing",
+      "story": {
+        "what": {
+          "en": "yaml parses and serializes YAML documents for JavaScript.",
+          "zh-TW": "yaml 為 JavaScript 解析與序列化 YAML 文件。"
+        },
+        "why": {
+          "en": "Cyclic anchors hang the loader; CI jobs time out instead of erroring.",
+          "zh-TW": "循環錨點會讓載入器卡死；CI 工作因逾時而非錯誤而失敗。"
+        },
+        "whoBenefits": {
+          "en": "Everyone whose pipeline reads user-supplied YAML.",
+          "zh-TW": "所有流水線需讀取使用者提供 YAML 的人。"
+        },
+        "approach": {
+          "en": "Agent adds cycle detection with a bounded visitor.",
+          "zh-TW": "代理以有界訪問器實作循環偵測。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#156",
+        "title": {
+          "en": "Cyclic anchors hang load()",
+          "zh-TW": "循環錨點導致 load() 卡死"
+        }
+      },
+      "computeGoal": 2600,
+      "computePledged": 2740,
+      "computeReserved": 2600,
+      "computeConsumed": 610,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Visitor rewrite touches core traversal.",
+          "zh-TW": "訪問器重寫涉及核心遍歷邏輯。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Cycle input raises YamlCycleError < 50ms",
+            "zh-TW": "循環輸入需在 50ms 內拋出 YamlCycleError"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "Existing corpus keeps passing",
+            "zh-TW": "既有測試語料全數通過"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "active"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "reliability",
+        "used-by-you"
+      ],
+      "createdAt": "2026-08-31T00:00:00.000Z",
+      "fundedAt": "2026-09-04T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2,
+      "latestRunId": "run_73"
+    },
+    {
+      "id": "msn_83",
+      "projectId": "prj_82",
+      "title": {
+        "en": "Jittered backoff for ky retries",
+        "zh-TW": "為 ky 重試加入抖動退避"
+      },
+      "tagline": {
+        "en": "Synchronized retries are tiny DDoS machines. Add jitter.",
+        "zh-TW": "同步化的重試就是小型 DDoS。加入抖動吧。"
+      },
+      "status": "needs_review",
+      "story": {
+        "what": {
+          "en": "ky is a small HTTP client built on the Fetch API.",
+          "zh-TW": "ky 是建立在 Fetch API 上的小型 HTTP 客戶端。"
+        },
+        "why": {
+          "en": "Fixed-interval retries stampede recovering services (#63).",
+          "zh-TW": "固定間隔重試會踩踏正在恢復的服務（#63）。"
+        },
+        "whoBenefits": {
+          "en": "Microservice fleets and the on-call engineers who love them.",
+          "zh-TW": "微服務叢集，以及守護它們的值班工程師。"
+        },
+        "approach": {
+          "en": "Agent implements full-jitter backoff with deterministic tests via seeded RNG.",
+          "zh-TW": "代理以種子化亂數實作全抖動退避並附決定性測試。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#63",
+        "title": {
+          "en": "Retries lack jitter, stampede on recovery",
+          "zh-TW": "重試缺乏抖動，恢復期發生踩踏"
+        }
+      },
+      "computeGoal": 1500,
+      "computePledged": 1500,
+      "computeReserved": 1500,
+      "computeConsumed": 980,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Behavioural change to default retry timing.",
+          "zh-TW": "預設重試時序屬行為變更。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "p95 retry spread > 40% of interval",
+            "zh-TW": "p95 重試分佈需大於間隔的 40%"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "Seeded tests reproduce exact schedules",
+            "zh-TW": "種子化測試可重現精確排程"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "done"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "active"
+        }
+      ],
+      "tags": [
+        "reliability"
+      ],
+      "createdAt": "2026-08-28T00:00:00.000Z",
+      "fundedAt": "2026-09-01T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2,
+      "latestRunId": "run_90"
+    },
+    {
+      "id": "msn_107",
+      "projectId": "prj_106",
+      "title": {
+        "en": "Table alignment lost in nested blockquotes",
+        "zh-TW": "巢狀引用區塊中表格對齊遺失"
+      },
+      "tagline": {
+        "en": "Small renderer bug, 720 downstream docs sites.",
+        "zh-TW": "渲染器小錯誤，影響 720 個下游文件網站。"
+      },
+      "status": "released",
+      "story": {
+        "what": {
+          "en": "marked parses and compiles Markdown for web applications.",
+          "zh-TW": "marked 為網頁應用解析並編譯 Markdown。"
+        },
+        "why": {
+          "en": "Alignment markers vanish inside nested quotes (#77).",
+          "zh-TW": "巢狀引用內的對齊標記會消失（#77）。"
+        },
+        "whoBenefits": {
+          "en": "Docs sites, changelog pages, README badges everywhere.",
+          "zh-TW": "各地的文件網站、更新日誌與 README。"
+        },
+        "approach": {
+          "en": "The scripted demo records a token-stack fix in a local v3.8.0 release record; it does not assert an upstream release.",
+          "zh-TW": "腳本化示範在本機 v3.8.0 發布紀錄中記載 token 堆疊修正；不代表上游已實際發布。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#77",
+        "title": {
+          "en": "Table alignment lost in nested blockquotes",
+          "zh-TW": "巢狀引用區塊中表格對齊遺失"
+        }
+      },
+      "computeGoal": 1200,
+      "computePledged": 1200,
+      "computeReserved": 1200,
+      "computeConsumed": 830,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Renderer output change — golden files updated.",
+          "zh-TW": "渲染輸出變更 — 已更新黃金測試檔。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Golden corpus matches for 400 fixtures",
+            "zh-TW": "400 個測試樣本的黃金輸出一致"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "No API change",
+            "zh-TW": "API 無變更"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "done"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "done"
+        }
+      ],
+      "tags": [
+        "dx"
+      ],
+      "createdAt": "2026-08-17T00:00:00.000Z",
+      "fundedAt": "2026-08-21T00:00:00.000Z",
+      "releasedAt": "2026-08-26T00:00:00.000Z",
+      "releaseVersion": "3.8.0",
+      "adoption": {
+        "dataMode": "demo",
+        "weeklyDownloads": 96000,
+        "downloadsDelta": 8.3,
+        "dependents": 720,
+        "versionAdoption": 0.34,
+        "series": [
+          {
+            "week": "W1",
+            "downloads": 86400
+          },
+          {
+            "week": "W2",
+            "downloads": 90720
+          },
+          {
+            "week": "W3",
+            "downloads": 95040
+          },
+          {
+            "week": "W4",
+            "downloads": 99360
+          },
+          {
+            "week": "W5",
+            "downloads": 103680
+          },
+          {
+            "week": "W6",
+            "downloads": 108000
+          }
+        ]
+      },
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2
+    },
+    {
+      "id": "msn_121",
+      "projectId": "prj_120",
+      "title": {
+        "en": "TTL drift under fake timers",
+        "zh-TW": "假時器下的 TTL 漂移"
+      },
+      "tagline": {
+        "en": "Make redis-mock honest about time so your tests can lie about it.",
+        "zh-TW": "讓 redis-mock 對時間誠實，你的測試才能對時間說謊。"
+      },
+      "status": "released",
+      "story": {
+        "what": {
+          "en": "redis-mock emulates a Redis client for fast tests.",
+          "zh-TW": "redis-mock 模擬 Redis 客戶端，讓測試更快。"
+        },
+        "why": {
+          "en": "TTLs drift when suites use fake timers (#29).",
+          "zh-TW": "測試套件使用假時器時 TTL 會漂移（#29）。"
+        },
+        "whoBenefits": {
+          "en": "Any test suite mixing fake timers with cache expiry.",
+          "zh-TW": "所有混用假時器與快取過期的測試套件。"
+        },
+        "approach": {
+          "en": "The scripted demo records a clock abstraction in a local v1.9.0 release record; it does not assert an upstream release.",
+          "zh-TW": "腳本化示範在本機 v1.9.0 發布紀錄中記載時鐘抽象層；不代表上游已實際發布。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#29",
+        "title": {
+          "en": "TTL drift under fake timers",
+          "zh-TW": "假時器下的 TTL 漂移"
+        }
+      },
+      "computeGoal": 900,
+      "computePledged": 900,
+      "computeReserved": 900,
+      "computeConsumed": 610,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Clock injection is API-visible for adapters.",
+          "zh-TW": "時鐘注入對配接器屬可見 API。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Deterministic expiry under sinon fake timers",
+            "zh-TW": "sinon 假時器下過期行為可決定"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "done"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "done"
+        }
+      ],
+      "tags": [
+        "dx"
+      ],
+      "createdAt": "2026-08-03T00:00:00.000Z",
+      "fundedAt": "2026-08-07T00:00:00.000Z",
+      "releasedAt": "2026-08-12T00:00:00.000Z",
+      "releaseVersion": "1.9.0",
+      "adoption": {
+        "dataMode": "demo",
+        "weeklyDownloads": 33000,
+        "downloadsDelta": 8.3,
+        "dependents": 260,
+        "versionAdoption": 0.58,
+        "series": [
+          {
+            "week": "W1",
+            "downloads": 29700
+          },
+          {
+            "week": "W2",
+            "downloads": 31185
+          },
+          {
+            "week": "W3",
+            "downloads": 32670
+          },
+          {
+            "week": "W4",
+            "downloads": 34155
+          },
+          {
+            "week": "W5",
+            "downloads": 35640
+          },
+          {
+            "week": "W6",
+            "downloads": 37125
+          }
+        ]
+      },
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2
+    },
+    {
+      "id": "msn_136",
+      "projectId": "prj_135",
+      "title": {
+        "en": "Constant-time kid comparison in jose",
+        "zh-TW": "jose 的 kid 常數時間比較"
+      },
+      "tagline": {
+        "en": "Close a timing side-channel in token key lookup.",
+        "zh-TW": "封堵權杖金鑰查找的時序旁路。"
+      },
+      "status": "released",
+      "story": {
+        "what": {
+          "en": "jose implements interoperable JOSE standards including JWT and JWK.",
+          "zh-TW": "jose 實作包含 JWT 與 JWK 的可互通 JOSE 標準。"
+        },
+        "why": {
+          "en": "Key-id comparison used === — a measurable timing oracle (#95).",
+          "zh-TW": "金鑰 ID 比較使用 === — 可量測的時序預言機（#95）。"
+        },
+        "whoBenefits": {
+          "en": "Services that rely on JOSE token verification.",
+          "zh-TW": "仰賴 JOSE 權杖驗證的服務。"
+        },
+        "approach": {
+          "en": "The scripted demo records timingSafeEqual and regression tests in a local v2.4.0 release record; it does not assert an upstream release.",
+          "zh-TW": "腳本化示範在本機 v2.4.0 發布紀錄中記載 timingSafeEqual 與回歸測試；不代表上游已實際發布。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#95",
+        "title": {
+          "en": "kid comparison is not constant-time",
+          "zh-TW": "kid 比較並非常數時間"
+        }
+      },
+      "computeGoal": 2000,
+      "computePledged": 2000,
+      "computeReserved": 2000,
+      "computeConsumed": 1240,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "Crypto-adjacent change; external review requested.",
+          "zh-TW": "屬密碼學相關變更；已請外部審查。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "timingSafeEqual on all kid paths",
+            "zh-TW": "所有 kid 路徑皆使用 timingSafeEqual"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "Perf delta < 1μs per verification",
+            "zh-TW": "每次驗證效能差異小於 1μs"
+          },
+          "status": "verified",
+          "verifiedBy": "seeded-demo"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "done"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "done"
+        }
+      ],
+      "tags": [
+        "security",
+        "high-impact"
+      ],
+      "createdAt": "2026-07-19T00:00:00.000Z",
+      "fundedAt": "2026-07-23T00:00:00.000Z",
+      "releasedAt": "2026-07-28T00:00:00.000Z",
+      "releaseVersion": "2.4.0",
+      "adoption": {
+        "dataMode": "demo",
+        "weeklyDownloads": 155000,
+        "downloadsDelta": 8.3,
+        "dependents": 1100,
+        "versionAdoption": 0.71,
+        "series": [
+          {
+            "week": "W1",
+            "downloads": 139500
+          },
+          {
+            "week": "W2",
+            "downloads": 146475
+          },
+          {
+            "week": "W3",
+            "downloads": 153450
+          },
+          {
+            "week": "W4",
+            "downloads": 160425
+          },
+          {
+            "week": "W5",
+            "downloads": 167400
+          },
+          {
+            "week": "W6",
+            "downloads": 174375
+          }
+        ]
+      },
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2
+    },
+    {
+      "id": "msn_150",
+      "projectId": "prj_149",
+      "title": {
+        "en": "Brace expansion blowup guard for globset",
+        "zh-TW": "globset 大括號展開爆量防護"
+      },
+      "tagline": {
+        "en": "A crafted pattern can eat 8GB of RAM. Bound it.",
+        "zh-TW": "精心構造的模式可吃掉 8GB 記憶體。加上上限。"
+      },
+      "status": "stalled",
+      "story": {
+        "what": {
+          "en": "globset provides fast glob matching in Rust.",
+          "zh-TW": "globset 提供高速的 Rust glob 比對。"
+        },
+        "why": {
+          "en": "Nested brace expansion is exponential; CI boxes OOM (#301).",
+          "zh-TW": "巢狀大括號展開呈指數成長；CI 主機因此 OOM（#301）。"
+        },
+        "whoBenefits": {
+          "en": "Build farms and laptop fans everywhere.",
+          "zh-TW": "各地的建置農場與筆電風扇。"
+        },
+        "approach": {
+          "en": "First run exhausted its budget mid-refactor; needs a rescoped attempt.",
+          "zh-TW": "首次執行於重構途中耗盡預算；需重新界定範圍再試。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "#301",
+        "title": {
+          "en": "Exponential brace expansion",
+          "zh-TW": "大括號展開呈指數成長"
+        }
+      },
+      "computeGoal": 6000,
+      "computePledged": 4000,
+      "computeReserved": 4000,
+      "computeConsumed": 4000,
+      "riskLevel": "high",
+      "riskFactors": [
+        {
+          "en": "Parser core rewrite — largest change class we run.",
+          "zh-TW": "解析器核心重寫 — 屬最大型變更類別。"
+        },
+        {
+          "en": "Budget-exhaustion risk was flagged at 40% pre-run.",
+          "zh-TW": "執行前即標記 40% 預算耗盡風險。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Pattern depth bound with clear error",
+            "zh-TW": "模式深度需有上限並回報明確錯誤"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "No regression on 2K-pattern corpus",
+            "zh-TW": "兩千筆模式語料無回歸"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "done"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "active"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "performance",
+        "high-impact"
+      ],
+      "createdAt": "2026-08-22T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": "demo",
+      "backerCount": 2,
+      "latestRunId": "run_157"
+    },
+    {
+      "id": "msn_178",
+      "projectId": "prj_177",
+      "title": {
+        "en": "Send a file across the room without sending it through the cloud.",
+        "zh-TW": "讓檔案直接穿過房間，不必先繞去雲端。"
+      },
+      "tagline": {
+        "en": "Recover local device discovery cleanly after Wi-Fi changes.",
+        "zh-TW": "讓裝置在 Wi-Fi 切換後，仍能重新找到彼此。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The private nearby-transfer layer behind phone-to-laptop sharing.",
+          "zh-TW": "讓手機與電腦能私密、近距離互傳的技術。"
+        },
+        "why": {
+          "en": "Recover local device discovery cleanly after Wi-Fi changes.",
+          "zh-TW": "讓裝置在 Wi-Fi 切換後，仍能重新找到彼此。"
+        },
+        "whoBenefits": {
+          "en": "Anyone moving photos or documents between their own devices.",
+          "zh-TW": "在自己的裝置之間傳照片與文件的每個人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-01",
+        "title": {
+          "en": "Recover local device discovery cleanly after Wi-Fi changes.",
+          "zh-TW": "讓裝置在 Wi-Fi 切換後，仍能重新找到彼此。"
+        }
+      },
+      "computeGoal": 4200,
+      "computePledged": 2860,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "everyday",
+        "privacy",
+        "networking"
+      ],
+      "createdAt": "2026-08-28T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 6
+    },
+    {
+      "id": "msn_181",
+      "projectId": "prj_180",
+      "title": {
+        "en": "Make scanned PDFs readable without losing the page you were on.",
+        "zh-TW": "讓掃描 PDF 也能流暢閱讀，不再突然跳離當前頁。"
+      },
+      "tagline": {
+        "en": "Keep long documents responsive while text layers are still loading.",
+        "zh-TW": "文字圖層還在載入時，長文件也不再卡住。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The browser engine that turns PDFs into readable, searchable pages.",
+          "zh-TW": "在瀏覽器裡把 PDF 變成可閱讀、可搜尋頁面的引擎。"
+        },
+        "why": {
+          "en": "Keep long documents responsive while text layers are still loading.",
+          "zh-TW": "文字圖層還在載入時，長文件也不再卡住。"
+        },
+        "whoBenefits": {
+          "en": "Students, researchers, and anyone opening a PDF in the browser.",
+          "zh-TW": "學生、研究者，以及每個在瀏覽器開 PDF 的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-02",
+        "title": {
+          "en": "Keep long documents responsive while text layers are still loading.",
+          "zh-TW": "文字圖層還在載入時，長文件也不再卡住。"
+        }
+      },
+      "computeGoal": 5600,
+      "computePledged": 4020,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "everyday",
+        "document",
+        "accessibility"
+      ],
+      "createdAt": "2026-08-29T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 13
+    },
+    {
+      "id": "msn_184",
+      "projectId": "prj_183",
+      "title": {
+        "en": "Turn the words trapped in an image back into text you can use.",
+        "zh-TW": "讓卡在圖片裡的文字，重新變成可以使用的文字。"
+      },
+      "tagline": {
+        "en": "Improve mixed Chinese and English recognition on everyday receipts.",
+        "zh-TW": "提升日常收據上中英文字混合的辨識結果。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "OCR in the browser: pixels in, searchable words out.",
+          "zh-TW": "在瀏覽器裡運作的 OCR：讀入畫面，輸出可搜尋文字。"
+        },
+        "why": {
+          "en": "Improve mixed Chinese and English recognition on everyday receipts.",
+          "zh-TW": "提升日常收據上中英文字混合的辨識結果。"
+        },
+        "whoBenefits": {
+          "en": "People digitizing receipts, notes, signs, and old documents.",
+          "zh-TW": "把收據、筆記、招牌與舊文件數位化的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-03",
+        "title": {
+          "en": "Improve mixed Chinese and English recognition on everyday receipts.",
+          "zh-TW": "提升日常收據上中英文字混合的辨識結果。"
+        }
+      },
+      "computeGoal": 6800,
+      "computePledged": 3510,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "everyday",
+        "ocr",
+        "accessibility"
+      ],
+      "createdAt": "2026-08-30T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 20
+    },
+    {
+      "id": "msn_187",
+      "projectId": "prj_186",
+      "title": {
+        "en": "Keep diagrams understandable after the system changes again.",
+        "zh-TW": "系統又改了之後，圖還是要讓人看得懂。"
+      },
+      "tagline": {
+        "en": "Make dense flowcharts stay legible on smaller screens.",
+        "zh-TW": "讓複雜流程圖在小螢幕上也不再擠成一團。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The text-to-diagram layer inside docs, wikis, and technical notes.",
+          "zh-TW": "把文字變成文件、Wiki 與技術筆記中圖表的工具。"
+        },
+        "why": {
+          "en": "Make dense flowcharts stay legible on smaller screens.",
+          "zh-TW": "讓複雜流程圖在小螢幕上也不再擠成一團。"
+        },
+        "whoBenefits": {
+          "en": "Teams explaining how a product, process, or system works.",
+          "zh-TW": "要說明產品、流程與系統如何運作的團隊。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-04",
+        "title": {
+          "en": "Make dense flowcharts stay legible on smaller screens.",
+          "zh-TW": "讓複雜流程圖在小螢幕上也不再擠成一團。"
+        }
+      },
+      "computeGoal": 5000,
+      "computePledged": 4310,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "everyday",
+        "diagram",
+        "documentation"
+      ],
+      "createdAt": "2026-08-31T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 27
+    },
+    {
+      "id": "msn_190",
+      "projectId": "prj_189",
+      "title": {
+        "en": "Control your phone from your computer without adding another account.",
+        "zh-TW": "不用再註冊一個帳號，就能從電腦操作手機。"
+      },
+      "tagline": {
+        "en": "Keep touch and keyboard input stable after a brief disconnect.",
+        "zh-TW": "連線短暫中斷後，觸控與鍵盤操作仍能穩定恢復。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "A fast bridge that mirrors and controls Android from a computer.",
+          "zh-TW": "將 Android 畫面快速鏡射到電腦並可直接操作的橋梁。"
+        },
+        "why": {
+          "en": "Keep touch and keyboard input stable after a brief disconnect.",
+          "zh-TW": "連線短暫中斷後，觸控與鍵盤操作仍能穩定恢復。"
+        },
+        "whoBenefits": {
+          "en": "People presenting, testing, or typing on Android from a desktop.",
+          "zh-TW": "用電腦操作 Android 手機進行展示、測試或輸入的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-05",
+        "title": {
+          "en": "Keep touch and keyboard input stable after a brief disconnect.",
+          "zh-TW": "連線短暫中斷後，觸控與鍵盤操作仍能穩定恢復。"
+        }
+      },
+      "computeGoal": 4500,
+      "computePledged": 3180,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "everyday",
+        "android",
+        "device"
+      ],
+      "createdAt": "2026-09-01T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 34
+    },
+    {
+      "id": "msn_193",
+      "projectId": "prj_192",
+      "title": {
+        "en": "Find the photo you remember without giving your library to another cloud.",
+        "zh-TW": "不把整個相簿交給另一個雲端，也能找回你記得的那張照片。"
+      },
+      "tagline": {
+        "en": "Make face and place search useful for multilingual libraries.",
+        "zh-TW": "讓多語言相簿的人物與地點搜尋更好用。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "A self-hosted home for backing up and searching personal photos.",
+          "zh-TW": "可自己掌握的相片備份與搜尋空間。"
+        },
+        "why": {
+          "en": "Make face and place search useful for multilingual libraries.",
+          "zh-TW": "讓多語言相簿的人物與地點搜尋更好用。"
+        },
+        "whoBenefits": {
+          "en": "Families who want a searchable photo library they control.",
+          "zh-TW": "想擁有自主、可搜尋家庭相簿的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-06",
+        "title": {
+          "en": "Make face and place search useful for multilingual libraries.",
+          "zh-TW": "讓多語言相簿的人物與地點搜尋更好用。"
+        }
+      },
+      "computeGoal": 7600,
+      "computePledged": 6240,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "public-interest",
+        "photos",
+        "privacy"
+      ],
+      "createdAt": "2026-09-02T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 41
+    },
+    {
+      "id": "msn_196",
+      "projectId": "prj_195",
+      "title": {
+        "en": "Let your home keep working when the internet does not.",
+        "zh-TW": "就算網路斷了，家裡還是應該繼續運作。"
+      },
+      "tagline": {
+        "en": "Make automations recover predictably after an outage.",
+        "zh-TW": "讓家電自動化在停電或斷線後可預期地恢復。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The local control layer connecting lights, sensors, energy, and routines.",
+          "zh-TW": "在本地串起燈具、感測器、能源與日常流程的控制層。"
+        },
+        "why": {
+          "en": "Make automations recover predictably after an outage.",
+          "zh-TW": "讓家電自動化在停電或斷線後可預期地恢復。"
+        },
+        "whoBenefits": {
+          "en": "Households building useful automation without surrendering every signal.",
+          "zh-TW": "想做智慧家居，卻不想把所有訊號交給雲端的家庭。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-07",
+        "title": {
+          "en": "Make automations recover predictably after an outage.",
+          "zh-TW": "讓家電自動化在停電或斷線後可預期地恢復。"
+        }
+      },
+      "computeGoal": 9000,
+      "computePledged": 5480,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "public-interest",
+        "home",
+        "privacy"
+      ],
+      "createdAt": "2026-09-03T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 11
+    },
+    {
+      "id": "msn_199",
+      "projectId": "prj_198",
+      "title": {
+        "en": "Keep a shared sketch editable after the meeting ends.",
+        "zh-TW": "會議結束後，剛才一起畫的圖還是可以繼續改。"
+      },
+      "tagline": {
+        "en": "Reconnect large collaborative canvases without losing recent edits.",
+        "zh-TW": "讓大型協作畫布重連後，不再遺失最新筆畫。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The hand-drawn collaborative canvas behind workshops and quick explanations.",
+          "zh-TW": "支撐快速說明、工作坊與協作的手繪畫布。"
+        },
+        "why": {
+          "en": "Reconnect large collaborative canvases without losing recent edits.",
+          "zh-TW": "讓大型協作畫布重連後，不再遺失最新筆畫。"
+        },
+        "whoBenefits": {
+          "en": "Teachers, product teams, and anyone who thinks better with a sketch.",
+          "zh-TW": "教師、產品團隊，以及每個用圖思考更快的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-08",
+        "title": {
+          "en": "Reconnect large collaborative canvases without losing recent edits.",
+          "zh-TW": "讓大型協作畫布重連後，不再遺失最新筆畫。"
+        }
+      },
+      "computeGoal": 6400,
+      "computePledged": 3360,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "public-interest",
+        "collaboration",
+        "canvas"
+      ],
+      "createdAt": "2026-09-04T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 18
+    },
+    {
+      "id": "msn_202",
+      "projectId": "prj_201",
+      "title": {
+        "en": "Make Chinese subtitles break where people naturally pause.",
+        "zh-TW": "讓中文字幕在人真正停頓的地方自然斷句。"
+      },
+      "tagline": {
+        "en": "Ship language-aware subtitle segmentation with regression evidence.",
+        "zh-TW": "以回歸測試完成可辨識語言的字幕分句。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The timing layer behind searchable, aligned subtitles for audio and video.",
+          "zh-TW": "讓音訊與影片字幕可對齊、可搜尋的時間層。"
+        },
+        "why": {
+          "en": "Ship language-aware subtitle segmentation with regression evidence.",
+          "zh-TW": "以回歸測試完成可辨識語言的字幕分句。"
+        },
+        "whoBenefits": {
+          "en": "Podcast editors, educators, and viewers following subtitles.",
+          "zh-TW": "Podcast 剪輯、教育工作者，以及依賴字幕理解內容的觀眾。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-09",
+        "title": {
+          "en": "Ship language-aware subtitle segmentation with regression evidence.",
+          "zh-TW": "以回歸測試完成可辨識語言的字幕分句。"
+        }
+      },
+      "computeGoal": 10000,
+      "computePledged": 7480,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "public-interest",
+        "audio",
+        "accessibility"
+      ],
+      "createdAt": "2026-09-05T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 25
+    },
+    {
+      "id": "msn_205",
+      "projectId": "prj_204",
+      "title": {
+        "en": "Stream your own media without turning your living room into a loading screen.",
+        "zh-TW": "播放自己的影音，不讓客廳變成無限載入畫面。"
+      },
+      "tagline": {
+        "en": "Reduce stalls when devices switch between direct play and transcoding.",
+        "zh-TW": "減少裝置在直接播放與轉碼間切換時的卡頓。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "A self-hosted media library that keeps your collection under your control.",
+          "zh-TW": "讓影音收藏仍由自己掌握的自建媒體庫。"
+        },
+        "why": {
+          "en": "Reduce stalls when devices switch between direct play and transcoding.",
+          "zh-TW": "減少裝置在直接播放與轉碼間切換時的卡頓。"
+        },
+        "whoBenefits": {
+          "en": "Households streaming personal film, music, or family-video collections.",
+          "zh-TW": "播放個人電影、音樂與家庭影片收藏的人。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-10",
+        "title": {
+          "en": "Reduce stalls when devices switch between direct play and transcoding.",
+          "zh-TW": "減少裝置在直接播放與轉碼間切換時的卡頓。"
+        }
+      },
+      "computeGoal": 7200,
+      "computePledged": 2870,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "public-interest",
+        "media",
+        "self-hosted"
+      ],
+      "createdAt": "2026-09-06T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 32
+    },
+    {
+      "id": "msn_208",
+      "projectId": "prj_207",
+      "title": {
+        "en": "Keep a local AI model useful when memory is tight.",
+        "zh-TW": "記憶體不夠時，本機 AI 模型還是要好用。"
+      },
+      "tagline": {
+        "en": "Make model loading degrade gracefully across smaller machines.",
+        "zh-TW": "讓模型在較小的電腦上載入時，能更平滑地降級運作。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "The local runtime that makes downloading and running models approachable.",
+          "zh-TW": "讓下載與執行語言模型更容易的本機 runtime。"
+        },
+        "why": {
+          "en": "Make model loading degrade gracefully across smaller machines.",
+          "zh-TW": "讓模型在較小的電腦上載入時，能更平滑地降級運作。"
+        },
+        "whoBenefits": {
+          "en": "Developers prototyping AI without sending every prompt to a hosted service.",
+          "zh-TW": "想在本機實驗 AI，而不把每個 prompt 都送上雲端的開發者。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-11",
+        "title": {
+          "en": "Make model loading degrade gracefully across smaller machines.",
+          "zh-TW": "讓模型在較小的電腦上載入時，能更平滑地降級運作。"
+        }
+      },
+      "computeGoal": 12000,
+      "computePledged": 9120,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "medium",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "builder-trend",
+        "local-ai",
+        "runtime"
+      ],
+      "createdAt": "2026-09-07T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 39
+    },
+    {
+      "id": "msn_211",
+      "projectId": "prj_210",
+      "title": {
+        "en": "Let an AI workflow resume from the step where it actually failed.",
+        "zh-TW": "讓 AI 流程從真正失敗的那一步繼續，不必全部重來。"
+      },
+      "tagline": {
+        "en": "Expose durable checkpoints and retry evidence across nested agents.",
+        "zh-TW": "讓嵌套 Agent 的 checkpoint 與重試證據都可見。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "A stateful graph for coordinating long-running agent workflows.",
+          "zh-TW": "協調長時間 Agent 工作流的狀態化圖結構。"
+        },
+        "why": {
+          "en": "Expose durable checkpoints and retry evidence across nested agents.",
+          "zh-TW": "讓嵌套 Agent 的 checkpoint 與重試證據都可見。"
+        },
+        "whoBenefits": {
+          "en": "Teams building agents that must pause, retry, and ask humans for decisions.",
+          "zh-TW": "建置需停等、重試與請人類決策 Agent 的團隊。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-12",
+        "title": {
+          "en": "Expose durable checkpoints and retry evidence across nested agents.",
+          "zh-TW": "讓嵌套 Agent 的 checkpoint 與重試證據都可見。"
+        }
+      },
+      "computeGoal": 11000,
+      "computePledged": 6830,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "builder-trend",
+        "agents",
+        "workflow"
+      ],
+      "createdAt": "2026-09-08T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 9
+    },
+    {
+      "id": "msn_214",
+      "projectId": "prj_213",
+      "title": {
+        "en": "Make one JavaScript project behave the same on a laptop and at the edge.",
+        "zh-TW": "讓同一個 JavaScript 專案，在筆電與 Edge 上表現一致。"
+      },
+      "tagline": {
+        "en": "Close the remaining compatibility gaps in package resolution.",
+        "zh-TW": "補上 package resolution 還存在的相容性落差。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "A secure JavaScript and TypeScript runtime with web-standard APIs.",
+          "zh-TW": "採用 Web 標準 API 的安全 JavaScript 與 TypeScript runtime。"
+        },
+        "why": {
+          "en": "Close the remaining compatibility gaps in package resolution.",
+          "zh-TW": "補上 package resolution 還存在的相容性落差。"
+        },
+        "whoBenefits": {
+          "en": "Developers shipping server code across local, cloud, and edge.",
+          "zh-TW": "在本機、雲端與 Edge 之間部署 server code 的開發者。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-13",
+        "title": {
+          "en": "Close the remaining compatibility gaps in package resolution.",
+          "zh-TW": "補上 package resolution 還存在的相容性落差。"
+        }
+      },
+      "computeGoal": 9800,
+      "computePledged": 5220,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "builder-trend",
+        "javascript",
+        "runtime"
+      ],
+      "createdAt": "2026-09-09T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 16
+    },
+    {
+      "id": "msn_217",
+      "projectId": "prj_216",
+      "title": {
+        "en": "Keep realtime app data in sync without hiding the database underneath.",
+        "zh-TW": "不隱藏底層資料庫，也能讓 App 的即時資料保持同步。"
+      },
+      "tagline": {
+        "en": "Let reconnecting clients catch up without duplicate events.",
+        "zh-TW": "讓重新連線的客戶端補上進度，卻不重複收到事件。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "An open backend built around Postgres, auth, storage, and realtime.",
+          "zh-TW": "圍繞 Postgres、身份驗證、儲存與即時訊息組成的開放後端。"
+        },
+        "why": {
+          "en": "Let reconnecting clients catch up without duplicate events.",
+          "zh-TW": "讓重新連線的客戶端補上進度，卻不重複收到事件。"
+        },
+        "whoBenefits": {
+          "en": "Product teams that want speed without giving up database control.",
+          "zh-TW": "想開發得快，也不想放棄資料庫控制權的團隊。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-14",
+        "title": {
+          "en": "Let reconnecting clients catch up without duplicate events.",
+          "zh-TW": "讓重新連線的客戶端補上進度，卻不重複收到事件。"
+        }
+      },
+      "computeGoal": 13500,
+      "computePledged": 8610,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "builder-trend",
+        "database",
+        "backend"
+      ],
+      "createdAt": "2026-09-10T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 23
+    },
+    {
+      "id": "msn_220",
+      "projectId": "prj_219",
+      "title": {
+        "en": "Make fast JavaScript tooling reliable on the projects people already have.",
+        "zh-TW": "讓快速的 JavaScript 工具，真的能穩定用在現有專案上。"
+      },
+      "tagline": {
+        "en": "Remove install and test-runner surprises in monorepos.",
+        "zh-TW": "減少 monorepo 安裝套件與執行測試時的相容性意外。"
+      },
+      "status": "funding",
+      "story": {
+        "what": {
+          "en": "An all-in-one JavaScript runtime, package manager, bundler, and test runner.",
+          "zh-TW": "整合 runtime、套件管理、bundler 與測試的快速 JavaScript 工具。"
+        },
+        "why": {
+          "en": "Remove install and test-runner surprises in monorepos.",
+          "zh-TW": "減少 monorepo 安裝套件與執行測試時的相容性意外。"
+        },
+        "whoBenefits": {
+          "en": "JavaScript teams deciding whether faster tools are ready for production.",
+          "zh-TW": "評估更快工具是否能用於正式專案的 JavaScript 團隊。"
+        },
+        "approach": {
+          "en": "AI drafts a bounded plan from public evidence; the maintainer confirms scope and review commitment.",
+          "zh-TW": "AI 根據公開證據草擬有範圍的計畫；Maintainer 確認 scope 與 Review 承諾。"
+        }
+      },
+      "generator": "demo",
+      "issueRef": {
+        "id": "DEMO-15",
+        "title": {
+          "en": "Remove install and test-runner surprises in monorepos.",
+          "zh-TW": "減少 monorepo 安裝套件與執行測試時的相容性意外。"
+        }
+      },
+      "computeGoal": 10500,
+      "computePledged": 7770,
+      "computeReserved": 0,
+      "computeConsumed": 0,
+      "riskLevel": "low",
+      "riskFactors": [
+        {
+          "en": "Demo scope requires maintainer confirmation before upstream work.",
+          "zh-TW": "示範 scope 必須由 Maintainer 確認後，才能成為上游工作。"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "ac_0",
+          "text": {
+            "en": "Maintainer confirms scope and regression cases",
+            "zh-TW": "Maintainer 確認 scope 與回歸案例"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_1",
+          "text": {
+            "en": "CI evidence maps to every acceptance gate",
+            "zh-TW": "CI 證據對應每項驗收關卡"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "ac_2",
+          "text": {
+            "en": "Owner review completes within one week of funding",
+            "zh-TW": "募資完成後一週內完成 Owner Review"
+          },
+          "status": "pending"
+        }
+      ],
+      "milestones": [
+        {
+          "id": "ms_0",
+          "title": {
+            "en": "Analyze & plan",
+            "zh-TW": "分析與規劃"
+          },
+          "share": 0.2,
+          "status": "pending"
+        },
+        {
+          "id": "ms_1",
+          "title": {
+            "en": "Implement & self-test",
+            "zh-TW": "實作與自我測試"
+          },
+          "share": 0.55,
+          "status": "pending"
+        },
+        {
+          "id": "ms_2",
+          "title": {
+            "en": "Verify & prepare local review artifact",
+            "zh-TW": "驗證並準備本機審查產物"
+          },
+          "share": 0.25,
+          "status": "pending"
+        }
+      ],
+      "tags": [
+        "builder-trend",
+        "javascript",
+        "tooling"
+      ],
+      "createdAt": "2026-09-11T00:00:00.000Z",
+      "progress": {
+        "funding": 0,
+        "development": 0,
+        "verification": 0,
+        "adoption": 0
+      },
+      "executionMode": null,
+      "backerCount": 30
+    }
+  ],
+  "contributors": [
+    {
+      "id": "c_you",
+      "handle": "@ian",
+      "name": "Ian Juan",
+      "avatarColor": "#F5A623",
+      "bio": {
+        "en": "Platform engineer. Donates leftover inference budget from nightly batch jobs.",
+        "zh-TW": "平台工程師。捐出夜間批次作業剩餘的推理額度。"
+      },
+      "walletBalance": 100000,
+      "totalPledged": 3860,
+      "reputation": 742,
+      "joinedAt": "2026-03-16T00:00:00.000Z",
+      "isCurrentUser": true
+    },
+    {
+      "id": "c_mei",
+      "handle": "@meiwork",
+      "name": "Mei Chen",
+      "avatarColor": "#4D9FFF",
+      "bio": {
+        "en": "Data engineer, backs parser libraries she depends on.",
+        "zh-TW": "資料工程師，支持自己相依的解析函式庫。"
+      },
+      "walletBalance": 2200,
+      "totalPledged": 6100,
+      "reputation": 1204,
+      "joinedAt": "2025-10-27T00:00:00.000Z"
+    },
+    {
+      "id": "c_raj",
+      "handle": "@rajdev",
+      "name": "Raj Patel",
+      "avatarColor": "#3DD68C",
+      "bio": {
+        "en": "Runs a CI SaaS; funds reliability fixes upstream.",
+        "zh-TW": "經營 CI SaaS，資助上游可靠性修復。"
+      },
+      "walletBalance": 900,
+      "totalPledged": 9800,
+      "reputation": 2210,
+      "joinedAt": "2025-08-08T00:00:00.000Z"
+    },
+    {
+      "id": "c_sofia",
+      "handle": "@sofialng",
+      "name": "Sofia Lang",
+      "avatarColor": "#B197FC",
+      "bio": {
+        "en": "Security researcher. Hunts unmaintained deps.",
+        "zh-TW": "資安研究員，專找乏人維護的相依套件。"
+      },
+      "walletBalance": 3100,
+      "totalPledged": 4300,
+      "reputation": 980,
+      "joinedAt": "2026-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "c_tom",
+      "handle": "@tomboldt",
+      "name": "Tom Boldt",
+      "avatarColor": "#FF7A59",
+      "bio": {
+        "en": "Indie dev with spare API credits on weekends.",
+        "zh-TW": "獨立開發者，週末有閒置 API 額度。"
+      },
+      "walletBalance": 640,
+      "totalPledged": 1200,
+      "reputation": 310,
+      "joinedAt": "2026-06-14T00:00:00.000Z"
+    },
+    {
+      "id": "c_yuki",
+      "handle": "@yukio",
+      "name": "Yuki Okada",
+      "avatarColor": "#2FBFDE",
+      "bio": {
+        "en": "OSS maintainer paying it forward.",
+        "zh-TW": "開源維護者，回饋社群。"
+      },
+      "walletBalance": 1500,
+      "totalPledged": 2700,
+      "reputation": 830,
+      "joinedAt": "2026-02-24T00:00:00.000Z"
+    },
+    {
+      "id": "c_amara",
+      "handle": "@amara-ops",
+      "name": "Amara Njeri",
+      "avatarColor": "#F97316",
+      "bio": {
+        "en": "Cloud engineer who sponsors reliability work.",
+        "zh-TW": "資助可靠性工作的雲端工程師。"
+      },
+      "walletBalance": 1200,
+      "totalPledged": 100,
+      "reputation": 180,
+      "joinedAt": "2026-06-29T00:00:00.000Z"
+    },
+    {
+      "id": "c_lucas",
+      "handle": "@lucasbuilds",
+      "name": "Lucas Silva",
+      "avatarColor": "#14B8A6",
+      "bio": {
+        "en": "Indie builder supporting data tooling.",
+        "zh-TW": "支持資料工具的獨立開發者。"
+      },
+      "walletBalance": 980,
+      "totalPledged": 100,
+      "reputation": 160,
+      "joinedAt": "2026-07-13T00:00:00.000Z"
+    },
+    {
+      "id": "c_nora",
+      "handle": "@noracodes",
+      "name": "Nora Evans",
+      "avatarColor": "#EC4899",
+      "bio": {
+        "en": "Frontend engineer backing shared infrastructure.",
+        "zh-TW": "支持共用基礎設施的前端工程師。"
+      },
+      "walletBalance": 760,
+      "totalPledged": 100,
+      "reputation": 145,
+      "joinedAt": "2026-07-16T00:00:00.000Z"
+    },
+    {
+      "id": "c_jiho",
+      "handle": "@jiho-dev",
+      "name": "Ji-ho Park",
+      "avatarColor": "#60A5FA",
+      "bio": {
+        "en": "Maintainer focused on developer experience.",
+        "zh-TW": "專注開發者體驗的維護者。"
+      },
+      "walletBalance": 1320,
+      "totalPledged": 100,
+      "reputation": 210,
+      "joinedAt": "2026-06-16T00:00:00.000Z"
+    },
+    {
+      "id": "c_aisha",
+      "handle": "@aisha-sec",
+      "name": "Aisha Rahman",
+      "avatarColor": "#A78BFA",
+      "bio": {
+        "en": "Application security engineer funding safer defaults.",
+        "zh-TW": "資助更安全預設值的應用資安工程師。"
+      },
+      "walletBalance": 1900,
+      "totalPledged": 100,
+      "reputation": 260,
+      "joinedAt": "2026-05-31T00:00:00.000Z"
+    },
+    {
+      "id": "c_liam",
+      "handle": "@liamstack",
+      "name": "Liam Brooks",
+      "avatarColor": "#22C55E",
+      "bio": {
+        "en": "Platform developer sharing spare compute.",
+        "zh-TW": "分享閒置算力的平台開發者。"
+      },
+      "walletBalance": 840,
+      "totalPledged": 100,
+      "reputation": 150,
+      "joinedAt": "2026-07-25T00:00:00.000Z"
+    },
+    {
+      "id": "c_kavya",
+      "handle": "@kavya-data",
+      "name": "Kavya Rao",
+      "avatarColor": "#EAB308",
+      "bio": {
+        "en": "Data engineer supporting parser ecosystems.",
+        "zh-TW": "支持解析器生態的資料工程師。"
+      },
+      "walletBalance": 1100,
+      "totalPledged": 100,
+      "reputation": 175,
+      "joinedAt": "2026-07-07T00:00:00.000Z"
+    },
+    {
+      "id": "c_mateo",
+      "handle": "@mateooss",
+      "name": "Mateo García",
+      "avatarColor": "#F43F5E",
+      "bio": {
+        "en": "Open-source contributor helping small fixes ship.",
+        "zh-TW": "協助小型修復發布的開源貢獻者。"
+      },
+      "walletBalance": 690,
+      "totalPledged": 100,
+      "reputation": 135,
+      "joinedAt": "2026-07-31T00:00:00.000Z"
+    },
+    {
+      "id": "c_maya",
+      "handle": "@maya-ml",
+      "name": "Maya Brooks",
+      "avatarColor": "#6366F1",
+      "bio": {
+        "en": "ML engineer backing dependable developer tools.",
+        "zh-TW": "支持可靠開發工具的機器學習工程師。"
+      },
+      "walletBalance": 1250,
+      "totalPledged": 100,
+      "reputation": 195,
+      "joinedAt": "2026-07-02T00:00:00.000Z"
+    },
+    {
+      "id": "c_wei",
+      "handle": "@weiships",
+      "name": "Wei Tan",
+      "avatarColor": "#06B6D4",
+      "bio": {
+        "en": "Platform builder sharing spare inference credits.",
+        "zh-TW": "分享閒置推理額度的平台開發者。"
+      },
+      "walletBalance": 1450,
+      "totalPledged": 100,
+      "reputation": 205,
+      "joinedAt": "2026-06-23T00:00:00.000Z"
+    },
+    {
+      "id": "c_noor",
+      "handle": "@noor-web",
+      "name": "Noor de Vries",
+      "avatarColor": "#8B5CF6",
+      "bio": {
+        "en": "Web engineer sponsoring accessible infrastructure.",
+        "zh-TW": "資助無障礙基礎設施的網頁工程師。"
+      },
+      "walletBalance": 920,
+      "totalPledged": 100,
+      "reputation": 155,
+      "joinedAt": "2026-07-21T00:00:00.000Z"
+    },
+    {
+      "id": "c_chidi",
+      "handle": "@chidi-cloud",
+      "name": "Chidi Okafor",
+      "avatarColor": "#10B981",
+      "bio": {
+        "en": "Cloud engineer funding resilient open source.",
+        "zh-TW": "資助韌性開源專案的雲端工程師。"
+      },
+      "walletBalance": 1180,
+      "totalPledged": 100,
+      "reputation": 185,
+      "joinedAt": "2026-07-10T00:00:00.000Z"
+    },
+    {
+      "id": "c_elsa",
+      "handle": "@elsa-dev",
+      "name": "Elsa Lind",
+      "avatarColor": "#F59E0B",
+      "bio": {
+        "en": "Developer advocate helping maintenance work ship.",
+        "zh-TW": "協助維護工作發布的開發者倡議者。"
+      },
+      "walletBalance": 870,
+      "totalPledged": 100,
+      "reputation": 148,
+      "joinedAt": "2026-07-28T00:00:00.000Z"
+    },
+    {
+      "id": "c_thandi",
+      "handle": "@thandi-code",
+      "name": "Thandi Ndlovu",
+      "avatarColor": "#E11D48",
+      "bio": {
+        "en": "Independent developer supporting shared libraries.",
+        "zh-TW": "支持共用函式庫的獨立開發者。"
+      },
+      "walletBalance": 1010,
+      "totalPledged": 100,
+      "reputation": 172,
+      "joinedAt": "2026-07-15T00:00:00.000Z"
+    }
+  ],
+  "pledges": [
+    {
+      "id": "plg_4",
+      "missionId": "msn_3",
+      "contributorId": "c_mei",
+      "amount": 1098,
+      "createdAt": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "plg_7",
+      "missionId": "msn_3",
+      "contributorId": "c_raj",
+      "amount": 780,
+      "createdAt": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "plg_10",
+      "missionId": "msn_3",
+      "contributorId": "c_yuki",
+      "amount": 578,
+      "createdAt": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "plg_13",
+      "missionId": "msn_3",
+      "contributorId": "c_tom",
+      "amount": 434,
+      "createdAt": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "plg_19",
+      "missionId": "msn_18",
+      "contributorId": "c_sofia",
+      "amount": 700,
+      "createdAt": "2026-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "plg_21",
+      "missionId": "msn_18",
+      "contributorId": "c_raj",
+      "amount": 500,
+      "createdAt": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "plg_23",
+      "missionId": "msn_18",
+      "contributorId": "c_you",
+      "amount": 300,
+      "createdAt": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "plg_25",
+      "missionId": "msn_18",
+      "contributorId": "c_amara",
+      "amount": 100,
+      "createdAt": "2026-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "plg_27",
+      "missionId": "msn_18",
+      "contributorId": "c_lucas",
+      "amount": 100,
+      "createdAt": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "plg_29",
+      "missionId": "msn_18",
+      "contributorId": "c_nora",
+      "amount": 100,
+      "createdAt": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "plg_31",
+      "missionId": "msn_18",
+      "contributorId": "c_jiho",
+      "amount": 100,
+      "createdAt": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "plg_33",
+      "missionId": "msn_18",
+      "contributorId": "c_aisha",
+      "amount": 100,
+      "createdAt": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "plg_35",
+      "missionId": "msn_18",
+      "contributorId": "c_liam",
+      "amount": 100,
+      "createdAt": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "plg_37",
+      "missionId": "msn_18",
+      "contributorId": "c_kavya",
+      "amount": 100,
+      "createdAt": "2026-09-11T00:00:00.000Z"
+    },
+    {
+      "id": "plg_39",
+      "missionId": "msn_18",
+      "contributorId": "c_mateo",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_41",
+      "missionId": "msn_18",
+      "contributorId": "c_maya",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_43",
+      "missionId": "msn_18",
+      "contributorId": "c_wei",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_45",
+      "missionId": "msn_18",
+      "contributorId": "c_noor",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_47",
+      "missionId": "msn_18",
+      "contributorId": "c_chidi",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_49",
+      "missionId": "msn_18",
+      "contributorId": "c_elsa",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_51",
+      "missionId": "msn_18",
+      "contributorId": "c_thandi",
+      "amount": 100,
+      "createdAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "plg_56",
+      "missionId": "msn_55",
+      "contributorId": "c_tom",
+      "amount": 420,
+      "createdAt": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "plg_61",
+      "missionId": "msn_60",
+      "contributorId": "c_sofia",
+      "amount": 900,
+      "createdAt": "2026-08-23T00:00:00.000Z"
+    },
+    {
+      "id": "plg_63",
+      "missionId": "msn_60",
+      "contributorId": "c_yuki",
+      "amount": 660,
+      "createdAt": "2026-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "plg_68",
+      "missionId": "msn_67",
+      "contributorId": "c_you",
+      "amount": 1400,
+      "createdAt": "2026-09-02T00:00:00.000Z"
+    },
+    {
+      "id": "plg_70",
+      "missionId": "msn_67",
+      "contributorId": "c_mei",
+      "amount": 1340,
+      "createdAt": "2026-09-03T00:00:00.000Z"
+    },
+    {
+      "id": "plg_84",
+      "missionId": "msn_83",
+      "contributorId": "c_raj",
+      "amount": 800,
+      "createdAt": "2026-08-30T00:00:00.000Z"
+    },
+    {
+      "id": "plg_86",
+      "missionId": "msn_83",
+      "contributorId": "c_tom",
+      "amount": 700,
+      "createdAt": "2026-08-31T00:00:00.000Z"
+    },
+    {
+      "id": "plg_108",
+      "missionId": "msn_107",
+      "contributorId": "c_yuki",
+      "amount": 700,
+      "createdAt": "2026-08-19T00:00:00.000Z"
+    },
+    {
+      "id": "plg_110",
+      "missionId": "msn_107",
+      "contributorId": "c_you",
+      "amount": 500,
+      "createdAt": "2026-08-21T00:00:00.000Z"
+    },
+    {
+      "id": "plg_122",
+      "missionId": "msn_121",
+      "contributorId": "c_mei",
+      "amount": 600,
+      "createdAt": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "plg_124",
+      "missionId": "msn_121",
+      "contributorId": "c_sofia",
+      "amount": 300,
+      "createdAt": "2026-08-07T00:00:00.000Z"
+    },
+    {
+      "id": "plg_137",
+      "missionId": "msn_136",
+      "contributorId": "c_sofia",
+      "amount": 1100,
+      "createdAt": "2026-07-24T00:00:00.000Z"
+    },
+    {
+      "id": "plg_139",
+      "missionId": "msn_136",
+      "contributorId": "c_raj",
+      "amount": 900,
+      "createdAt": "2026-07-26T00:00:00.000Z"
+    },
+    {
+      "id": "plg_151",
+      "missionId": "msn_150",
+      "contributorId": "c_raj",
+      "amount": 2500,
+      "createdAt": "2026-08-24T00:00:00.000Z"
+    },
+    {
+      "id": "plg_153",
+      "missionId": "msn_150",
+      "contributorId": "c_yuki",
+      "amount": 1500,
+      "createdAt": "2026-08-25T00:00:00.000Z"
+    }
+  ],
+  "ledger": [
+    {
+      "id": "ledger_5",
+      "missionId": "msn_3",
+      "contributorId": "c_mei",
+      "type": "pledge",
+      "amount": 1098,
+      "memo": {
+        "en": "@meiwork pledged 1098 credits",
+        "zh-TW": "@meiwork 認捐 1098 點"
+      },
+      "ts": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_8",
+      "missionId": "msn_3",
+      "contributorId": "c_raj",
+      "type": "pledge",
+      "amount": 780,
+      "memo": {
+        "en": "@rajdev pledged 780 credits",
+        "zh-TW": "@rajdev 認捐 780 點"
+      },
+      "ts": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_11",
+      "missionId": "msn_3",
+      "contributorId": "c_yuki",
+      "type": "pledge",
+      "amount": 578,
+      "memo": {
+        "en": "@yukio pledged 578 credits",
+        "zh-TW": "@yukio 認捐 578 點"
+      },
+      "ts": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_14",
+      "missionId": "msn_3",
+      "contributorId": "c_tom",
+      "type": "pledge",
+      "amount": 434,
+      "memo": {
+        "en": "@tomboldt pledged 434 credits",
+        "zh-TW": "@tomboldt 認捐 434 點"
+      },
+      "ts": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_20",
+      "missionId": "msn_18",
+      "contributorId": "c_sofia",
+      "type": "pledge",
+      "amount": 700,
+      "memo": {
+        "en": "@sofialng pledged 700 credits",
+        "zh-TW": "@sofialng 認捐 700 點"
+      },
+      "ts": "2026-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_22",
+      "missionId": "msn_18",
+      "contributorId": "c_raj",
+      "type": "pledge",
+      "amount": 500,
+      "memo": {
+        "en": "@rajdev pledged 500 credits",
+        "zh-TW": "@rajdev 認捐 500 點"
+      },
+      "ts": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_24",
+      "missionId": "msn_18",
+      "contributorId": "c_you",
+      "type": "pledge",
+      "amount": 300,
+      "memo": {
+        "en": "@ian pledged 300 credits",
+        "zh-TW": "@ian 認捐 300 點"
+      },
+      "ts": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_26",
+      "missionId": "msn_18",
+      "contributorId": "c_amara",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@amara-ops pledged 100 credits",
+        "zh-TW": "@amara-ops 認捐 100 點"
+      },
+      "ts": "2026-09-05T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_28",
+      "missionId": "msn_18",
+      "contributorId": "c_lucas",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@lucasbuilds pledged 100 credits",
+        "zh-TW": "@lucasbuilds 認捐 100 點"
+      },
+      "ts": "2026-09-06T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_30",
+      "missionId": "msn_18",
+      "contributorId": "c_nora",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@noracodes pledged 100 credits",
+        "zh-TW": "@noracodes 認捐 100 點"
+      },
+      "ts": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_32",
+      "missionId": "msn_18",
+      "contributorId": "c_jiho",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@jiho-dev pledged 100 credits",
+        "zh-TW": "@jiho-dev 認捐 100 點"
+      },
+      "ts": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_34",
+      "missionId": "msn_18",
+      "contributorId": "c_aisha",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@aisha-sec pledged 100 credits",
+        "zh-TW": "@aisha-sec 認捐 100 點"
+      },
+      "ts": "2026-09-09T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_36",
+      "missionId": "msn_18",
+      "contributorId": "c_liam",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@liamstack pledged 100 credits",
+        "zh-TW": "@liamstack 認捐 100 點"
+      },
+      "ts": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_38",
+      "missionId": "msn_18",
+      "contributorId": "c_kavya",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@kavya-data pledged 100 credits",
+        "zh-TW": "@kavya-data 認捐 100 點"
+      },
+      "ts": "2026-09-11T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_40",
+      "missionId": "msn_18",
+      "contributorId": "c_mateo",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@mateooss pledged 100 credits",
+        "zh-TW": "@mateooss 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_42",
+      "missionId": "msn_18",
+      "contributorId": "c_maya",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@maya-ml pledged 100 credits",
+        "zh-TW": "@maya-ml 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_44",
+      "missionId": "msn_18",
+      "contributorId": "c_wei",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@weiships pledged 100 credits",
+        "zh-TW": "@weiships 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_46",
+      "missionId": "msn_18",
+      "contributorId": "c_noor",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@noor-web pledged 100 credits",
+        "zh-TW": "@noor-web 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_48",
+      "missionId": "msn_18",
+      "contributorId": "c_chidi",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@chidi-cloud pledged 100 credits",
+        "zh-TW": "@chidi-cloud 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_50",
+      "missionId": "msn_18",
+      "contributorId": "c_elsa",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@elsa-dev pledged 100 credits",
+        "zh-TW": "@elsa-dev 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_52",
+      "missionId": "msn_18",
+      "contributorId": "c_thandi",
+      "type": "pledge",
+      "amount": 100,
+      "memo": {
+        "en": "@thandi-code pledged 100 credits",
+        "zh-TW": "@thandi-code 認捐 100 點"
+      },
+      "ts": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_57",
+      "missionId": "msn_55",
+      "contributorId": "c_tom",
+      "type": "pledge",
+      "amount": 420,
+      "memo": {
+        "en": "@tomboldt pledged 420 credits",
+        "zh-TW": "@tomboldt 認捐 420 點"
+      },
+      "ts": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_62",
+      "missionId": "msn_60",
+      "contributorId": "c_sofia",
+      "type": "pledge",
+      "amount": 900,
+      "memo": {
+        "en": "@sofialng pledged 900 credits",
+        "zh-TW": "@sofialng 認捐 900 點"
+      },
+      "ts": "2026-08-23T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_64",
+      "missionId": "msn_60",
+      "contributorId": "c_yuki",
+      "type": "pledge",
+      "amount": 660,
+      "memo": {
+        "en": "@yukio pledged 660 credits",
+        "zh-TW": "@yukio 認捐 660 點"
+      },
+      "ts": "2026-08-29T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_69",
+      "missionId": "msn_67",
+      "contributorId": "c_you",
+      "type": "pledge",
+      "amount": 1400,
+      "memo": {
+        "en": "@ian pledged 1400 credits",
+        "zh-TW": "@ian 認捐 1400 點"
+      },
+      "ts": "2026-09-02T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_71",
+      "missionId": "msn_67",
+      "contributorId": "c_mei",
+      "type": "pledge",
+      "amount": 1340,
+      "memo": {
+        "en": "@meiwork pledged 1340 credits",
+        "zh-TW": "@meiwork 認捐 1340 點"
+      },
+      "ts": "2026-09-03T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_85",
+      "missionId": "msn_83",
+      "contributorId": "c_raj",
+      "type": "pledge",
+      "amount": 800,
+      "memo": {
+        "en": "@rajdev pledged 800 credits",
+        "zh-TW": "@rajdev 認捐 800 點"
+      },
+      "ts": "2026-08-30T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_87",
+      "missionId": "msn_83",
+      "contributorId": "c_tom",
+      "type": "pledge",
+      "amount": 700,
+      "memo": {
+        "en": "@tomboldt pledged 700 credits",
+        "zh-TW": "@tomboldt 認捐 700 點"
+      },
+      "ts": "2026-08-31T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_88",
+      "missionId": "msn_83",
+      "type": "reserve",
+      "amount": 1500,
+      "memo": {
+        "en": "Reserved 1500 credits for execution",
+        "zh-TW": "已保留 1500 點運算額度供執行使用"
+      },
+      "ts": "2026-08-31T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_89",
+      "missionId": "msn_83",
+      "type": "consume",
+      "amount": 980,
+      "memo": {
+        "en": "Execution consumed 980 credits over 2 attempts",
+        "zh-TW": "執行共消耗 980 點（2 次嘗試）"
+      },
+      "ts": "2026-09-01T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_109",
+      "missionId": "msn_107",
+      "contributorId": "c_yuki",
+      "type": "pledge",
+      "amount": 700,
+      "memo": {
+        "en": "@yukio pledged 700 credits",
+        "zh-TW": "@yukio 認捐 700 點"
+      },
+      "ts": "2026-08-19T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_111",
+      "missionId": "msn_107",
+      "contributorId": "c_you",
+      "type": "pledge",
+      "amount": 500,
+      "memo": {
+        "en": "@ian pledged 500 credits",
+        "zh-TW": "@ian 認捐 500 點"
+      },
+      "ts": "2026-08-21T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_115",
+      "missionId": "msn_107",
+      "type": "reserve",
+      "amount": 1200,
+      "memo": {
+        "en": "Seeded demo ledger records 1200 reserved credits",
+        "zh-TW": "種子示範帳本記錄保留 1200 點運算額度"
+      },
+      "ts": "2026-08-26T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_116",
+      "missionId": "msn_107",
+      "type": "consume",
+      "amount": 830,
+      "memo": {
+        "en": "Seeded demo ledger records 830 consumed credits",
+        "zh-TW": "種子示範帳本記錄消耗 830 點運算額度"
+      },
+      "ts": "2026-08-26T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_117",
+      "missionId": "msn_107",
+      "contributorId": "c_yuki",
+      "type": "refund_unused",
+      "amount": 216,
+      "memo": {
+        "en": "Seeded demo ledger allocates 216 unused credits to @yukio; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 216 點未使用額度給 @yukio；錢包快照不變"
+      },
+      "ts": "2026-08-26T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_118",
+      "missionId": "msn_107",
+      "contributorId": "c_you",
+      "type": "refund_unused",
+      "amount": 154,
+      "memo": {
+        "en": "Seeded demo ledger allocates 154 unused credits to @ian; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 154 點未使用額度給 @ian；錢包快照不變"
+      },
+      "ts": "2026-08-26T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_123",
+      "missionId": "msn_121",
+      "contributorId": "c_mei",
+      "type": "pledge",
+      "amount": 600,
+      "memo": {
+        "en": "@meiwork pledged 600 credits",
+        "zh-TW": "@meiwork 認捐 600 點"
+      },
+      "ts": "2026-08-05T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_125",
+      "missionId": "msn_121",
+      "contributorId": "c_sofia",
+      "type": "pledge",
+      "amount": 300,
+      "memo": {
+        "en": "@sofialng pledged 300 credits",
+        "zh-TW": "@sofialng 認捐 300 點"
+      },
+      "ts": "2026-08-07T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_130",
+      "missionId": "msn_121",
+      "type": "reserve",
+      "amount": 900,
+      "memo": {
+        "en": "Seeded demo ledger records 900 reserved credits",
+        "zh-TW": "種子示範帳本記錄保留 900 點運算額度"
+      },
+      "ts": "2026-08-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_131",
+      "missionId": "msn_121",
+      "type": "consume",
+      "amount": 610,
+      "memo": {
+        "en": "Seeded demo ledger records 610 consumed credits",
+        "zh-TW": "種子示範帳本記錄消耗 610 點運算額度"
+      },
+      "ts": "2026-08-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_132",
+      "missionId": "msn_121",
+      "contributorId": "c_sofia",
+      "type": "refund_unused",
+      "amount": 97,
+      "memo": {
+        "en": "Seeded demo ledger allocates 97 unused credits to @sofialng; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 97 點未使用額度給 @sofialng；錢包快照不變"
+      },
+      "ts": "2026-08-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_133",
+      "missionId": "msn_121",
+      "contributorId": "c_mei",
+      "type": "refund_unused",
+      "amount": 193,
+      "memo": {
+        "en": "Seeded demo ledger allocates 193 unused credits to @meiwork; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 193 點未使用額度給 @meiwork；錢包快照不變"
+      },
+      "ts": "2026-08-12T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_138",
+      "missionId": "msn_136",
+      "contributorId": "c_sofia",
+      "type": "pledge",
+      "amount": 1100,
+      "memo": {
+        "en": "@sofialng pledged 1100 credits",
+        "zh-TW": "@sofialng 認捐 1100 點"
+      },
+      "ts": "2026-07-24T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_140",
+      "missionId": "msn_136",
+      "contributorId": "c_raj",
+      "type": "pledge",
+      "amount": 900,
+      "memo": {
+        "en": "@rajdev pledged 900 credits",
+        "zh-TW": "@rajdev 認捐 900 點"
+      },
+      "ts": "2026-07-26T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_144",
+      "missionId": "msn_136",
+      "type": "reserve",
+      "amount": 2000,
+      "memo": {
+        "en": "Seeded demo ledger records 2000 reserved credits",
+        "zh-TW": "種子示範帳本記錄保留 2000 點運算額度"
+      },
+      "ts": "2026-07-28T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_145",
+      "missionId": "msn_136",
+      "type": "consume",
+      "amount": 1240,
+      "memo": {
+        "en": "Seeded demo ledger records 1240 consumed credits",
+        "zh-TW": "種子示範帳本記錄消耗 1240 點運算額度"
+      },
+      "ts": "2026-07-28T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_146",
+      "missionId": "msn_136",
+      "contributorId": "c_raj",
+      "type": "refund_unused",
+      "amount": 342,
+      "memo": {
+        "en": "Seeded demo ledger allocates 342 unused credits to @rajdev; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 342 點未使用額度給 @rajdev；錢包快照不變"
+      },
+      "ts": "2026-07-28T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_147",
+      "missionId": "msn_136",
+      "contributorId": "c_sofia",
+      "type": "refund_unused",
+      "amount": 418,
+      "memo": {
+        "en": "Seeded demo ledger allocates 418 unused credits to @sofialng; wallet snapshot is unchanged",
+        "zh-TW": "種子示範帳本分配 418 點未使用額度給 @sofialng；錢包快照不變"
+      },
+      "ts": "2026-07-28T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_152",
+      "missionId": "msn_150",
+      "contributorId": "c_raj",
+      "type": "pledge",
+      "amount": 2500,
+      "memo": {
+        "en": "@rajdev pledged 2500 credits",
+        "zh-TW": "@rajdev 認捐 2500 點"
+      },
+      "ts": "2026-08-24T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_154",
+      "missionId": "msn_150",
+      "contributorId": "c_yuki",
+      "type": "pledge",
+      "amount": 1500,
+      "memo": {
+        "en": "@yukio pledged 1500 credits",
+        "zh-TW": "@yukio 認捐 1500 點"
+      },
+      "ts": "2026-08-25T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_155",
+      "missionId": "msn_150",
+      "type": "reserve",
+      "amount": 4000,
+      "memo": {
+        "en": "Reserved 4000 credits for execution",
+        "zh-TW": "已保留 4000 點運算額度供執行使用"
+      },
+      "ts": "2026-08-25T00:00:00.000Z"
+    },
+    {
+      "id": "ledger_156",
+      "missionId": "msn_150",
+      "type": "consume",
+      "amount": 4000,
+      "memo": {
+        "en": "Run ended (budget_exhausted) after consuming 4000 credits — transparent failed-run accounting",
+        "zh-TW": "執行結束（預算耗盡），共消耗 4000 點 — 失敗執行帳目透明公開"
+      },
+      "ts": "2026-08-26T00:00:00.000Z"
+    }
+  ],
+  "runs": [
+    {
+      "id": "run_73",
+      "missionId": "msn_67",
+      "mode": "demo",
+      "status": "running",
+      "computeBudget": 2600,
+      "computeUsed": 610,
+      "attempt": 1,
+      "maxAttempts": 3,
+      "startedAt": "2026-09-11T23:51:00.000Z",
+      "currentActivity": {
+        "en": "Added cycle-detection tests",
+        "zh-TW": "新增循環偵測測試"
+      }
+    },
+    {
+      "id": "run_90",
+      "missionId": "msn_83",
+      "mode": "demo",
+      "status": "succeeded",
+      "computeBudget": 1500,
+      "computeUsed": 980,
+      "attempt": 2,
+      "maxAttempts": 3,
+      "startedAt": "2026-09-11T23:14:00.000Z",
+      "endedAt": "2026-09-11T23:18:00.000Z",
+      "currentActivity": {
+        "en": "Waiting for a local demo reviewer decision",
+        "zh-TW": "等待本機示範審查者決定"
+      }
+    },
+    {
+      "id": "run_157",
+      "missionId": "msn_150",
+      "mode": "demo",
+      "status": "budget_exhausted",
+      "computeBudget": 4000,
+      "computeUsed": 4000,
+      "attempt": 3,
+      "maxAttempts": 3,
+      "startedAt": "2026-08-26T00:00:00.000Z",
+      "endedAt": "2026-08-26T00:04:00.000Z",
+      "currentActivity": {
+        "en": "Scripted demo record ended",
+        "zh-TW": "腳本化示範紀錄結束"
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "evt_74",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 1,
+      "ts": "2026-09-11T23:51:00.000Z",
+      "type": "run_started",
+      "source": "demo",
+      "title": {
+        "en": "Scripted demo run record loaded (no execution performed)",
+        "zh-TW": "已載入腳本化示範執行紀錄（未實際執行）"
+      },
+      "detail": {
+        "en": "Scenario budget: 2600 credits · max 3 attempts · bounded local fixture copy · no OS-level isolation or upstream push.",
+        "zh-TW": "情境預算：2600 點 · 最多 3 次嘗試 · 有界本機 fixture 副本 · 不具作業系統層級隔離，亦不推送上游。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_75",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 2,
+      "ts": "2026-09-11T23:51:21.000Z",
+      "type": "workspace",
+      "source": "demo",
+      "title": {
+        "en": "Bounded local fixture-copy scenario prepared",
+        "zh-TW": "已準備有界本機 fixture 副本情境"
+      },
+      "detail": {
+        "en": "Authored demo record only; no sandbox was created.",
+        "zh-TW": "僅為編寫的示範紀錄；未建立任何沙箱。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_76",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 3,
+      "ts": "2026-09-11T23:51:42.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Baseline test run: 84/84 passing",
+        "zh-TW": "基準測試：84/84 通過"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 84,
+          "fail": 0,
+          "total": 84,
+          "durationMs": 2140
+        },
+        "command": "npm test",
+        "exitCode": 0
+      }
+    },
+    {
+      "id": "evt_77",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 4,
+      "ts": "2026-09-11T23:52:03.000Z",
+      "type": "analysis",
+      "source": "demo",
+      "title": {
+        "en": "Repository analyzed",
+        "zh-TW": "已分析程式庫"
+      },
+      "detail": {
+        "en": "load() walks the anchor graph recursively in src/resolve.ts with no visited set — a cyclic alias re-enters the same node forever.",
+        "zh-TW": "src/resolve.ts 的 load() 以遞迴走訪錨點圖但未維護 visited 集合 — 循環別名會無限重入同一節點。"
+      },
+      "verified": false,
+      "computeDelta": 180
+    },
+    {
+      "id": "evt_78",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 5,
+      "ts": "2026-09-11T23:52:24.000Z",
+      "type": "plan",
+      "source": "demo",
+      "title": {
+        "en": "Implementation plan drafted",
+        "zh-TW": "已擬定實作計畫"
+      },
+      "detail": {
+        "en": "1. Add cycle fixtures to test/anchors.test.ts.\n2. Thread a visited Set through resolveAnchor with a depth ceiling.\n3. Raise YamlCycleError with the offending anchor path.",
+        "zh-TW": "1. 於 test/anchors.test.ts 新增循環測試樣本。\n2. 在 resolveAnchor 中傳遞 visited Set 並設定深度上限。\n3. 拋出 YamlCycleError 並標示出問題錨點路徑。"
+      },
+      "verified": false,
+      "computeDelta": 230
+    },
+    {
+      "id": "evt_79",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 6,
+      "ts": "2026-09-11T23:52:45.000Z",
+      "type": "budget",
+      "source": "demo",
+      "title": {
+        "en": "Milestone completed: Analyze & plan",
+        "zh-TW": "里程碑完成：分析與規劃"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "milestoneId": "ms_0"
+      }
+    },
+    {
+      "id": "evt_80",
+      "runId": "run_73",
+      "missionId": "msn_67",
+      "seq": 7,
+      "ts": "2026-09-11T23:53:06.000Z",
+      "type": "file_change",
+      "source": "demo",
+      "title": {
+        "en": "Added cycle-detection tests",
+        "zh-TW": "新增循環偵測測試"
+      },
+      "detail": {
+        "en": "test/anchors.test.ts — self-referencing, mutual, and deep-chain alias cycles.",
+        "zh-TW": "test/anchors.test.ts — 自我參照、互相參照與深層鏈狀別名循環。"
+      },
+      "verified": false,
+      "computeDelta": 200,
+      "payload": {
+        "files": [
+          {
+            "path": "test/anchors.test.ts",
+            "kind": "modify"
+          }
+        ]
+      }
+    },
+    {
+      "id": "evt_91",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 1,
+      "ts": "2026-09-11T23:14:00.000Z",
+      "type": "run_started",
+      "source": "demo",
+      "title": {
+        "en": "Scripted demo run record loaded (no execution performed)",
+        "zh-TW": "已載入腳本化示範執行紀錄（未實際執行）"
+      },
+      "detail": {
+        "en": "Scenario budget: 1500 credits · max 3 attempts · bounded local fixture copy · no OS-level isolation or upstream push.",
+        "zh-TW": "情境預算：1500 點 · 最多 3 次嘗試 · 有界本機 fixture 副本 · 不具作業系統層級隔離，亦不推送上游。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_92",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 2,
+      "ts": "2026-09-11T23:14:21.000Z",
+      "type": "workspace",
+      "source": "demo",
+      "title": {
+        "en": "Bounded local fixture-copy scenario prepared",
+        "zh-TW": "已準備有界本機 fixture 副本情境"
+      },
+      "detail": {
+        "en": "Authored demo record only; no sandbox was created.",
+        "zh-TW": "僅為編寫的示範紀錄；未建立任何沙箱。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_93",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 3,
+      "ts": "2026-09-11T23:14:42.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Baseline test run: 41/41 passing",
+        "zh-TW": "基準測試：41/41 通過"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 41,
+          "fail": 0,
+          "total": 41,
+          "durationMs": 1180
+        },
+        "command": "npm test",
+        "exitCode": 0
+      }
+    },
+    {
+      "id": "evt_94",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 4,
+      "ts": "2026-09-11T23:15:03.000Z",
+      "type": "analysis",
+      "source": "demo",
+      "title": {
+        "en": "Repository analyzed",
+        "zh-TW": "已分析程式庫"
+      },
+      "detail": {
+        "en": "backoff() in src/retry.ts multiplies a fixed base by 2**attempt with no randomization, so every client retries on the same tick.",
+        "zh-TW": "src/retry.ts 的 backoff() 以固定基數乘上 2**attempt 且無隨機化，所有客戶端會在同一刻重試。"
+      },
+      "verified": false,
+      "computeDelta": 150
+    },
+    {
+      "id": "evt_95",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 5,
+      "ts": "2026-09-11T23:15:24.000Z",
+      "type": "plan",
+      "source": "demo",
+      "title": {
+        "en": "Implementation plan drafted",
+        "zh-TW": "已擬定實作計畫"
+      },
+      "detail": {
+        "en": "1. Inject a seedable RNG so schedules are testable.\n2. Apply full jitter: delay = random(0, base * 2**attempt).\n3. Assert p95 spread across 1000 simulated clients.",
+        "zh-TW": "1. 注入可設種子的隨機源以便測試排程。\n2. 套用 full jitter：delay = random(0, base * 2**attempt)。\n3. 以 1000 個模擬客戶端驗證 p95 分佈。"
+      },
+      "verified": false,
+      "computeDelta": 190
+    },
+    {
+      "id": "evt_96",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 6,
+      "ts": "2026-09-11T23:15:45.000Z",
+      "type": "file_change",
+      "source": "demo",
+      "title": {
+        "en": "Implemented full-jitter backoff",
+        "zh-TW": "實作 full-jitter 退避"
+      },
+      "detail": {
+        "en": "src/retry.ts, test/backoff.test.ts",
+        "zh-TW": "src/retry.ts、test/backoff.test.ts"
+      },
+      "verified": false,
+      "computeDelta": 320,
+      "payload": {
+        "files": [
+          {
+            "path": "src/retry.ts",
+            "kind": "modify"
+          },
+          {
+            "path": "test/backoff.test.ts",
+            "kind": "add"
+          }
+        ]
+      }
+    },
+    {
+      "id": "evt_97",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 7,
+      "ts": "2026-09-11T23:16:06.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Tests failed: 1 of 44",
+        "zh-TW": "測試失敗：44 項中有 1 項未通過"
+      },
+      "detail": "✖ retries respect maxDelay ceiling",
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 43,
+          "fail": 1,
+          "total": 44,
+          "durationMs": 1320,
+          "failures": [
+            {
+              "name": "retries respect maxDelay ceiling",
+              "message": "AssertionError: 8400 > 8000"
+            }
+          ]
+        },
+        "command": "npm test",
+        "exitCode": 1
+      }
+    },
+    {
+      "id": "evt_98",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 8,
+      "ts": "2026-09-11T23:16:27.000Z",
+      "type": "retry",
+      "source": "demo",
+      "title": {
+        "en": "Attempt 2 of 3",
+        "zh-TW": "第 2 次嘗試（共 3 次）"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_99",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 9,
+      "ts": "2026-09-11T23:16:48.000Z",
+      "type": "diagnosis",
+      "source": "demo",
+      "title": {
+        "en": "Failure diagnosed",
+        "zh-TW": "已診斷失敗原因"
+      },
+      "detail": {
+        "en": "Jitter is applied after the maxDelay clamp, so a jittered value can exceed the ceiling. Clamp must come last.",
+        "zh-TW": "抖動在 maxDelay 上限之後才套用，導致抖動後的值可能超出上限。上限必須最後套用。"
+      },
+      "verified": false,
+      "computeDelta": 120
+    },
+    {
+      "id": "evt_100",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 10,
+      "ts": "2026-09-11T23:17:09.000Z",
+      "type": "file_change",
+      "source": "demo",
+      "title": {
+        "en": "Clamp after jitter",
+        "zh-TW": "改為抖動後再套上限"
+      },
+      "verified": false,
+      "computeDelta": 180,
+      "payload": {
+        "files": [
+          {
+            "path": "src/retry.ts",
+            "kind": "modify"
+          }
+        ]
+      }
+    },
+    {
+      "id": "evt_101",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 11,
+      "ts": "2026-09-11T23:17:30.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Tests passed: 44/44",
+        "zh-TW": "測試通過：44/44"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 44,
+          "fail": 0,
+          "total": 44,
+          "durationMs": 1290
+        },
+        "command": "npm test",
+        "exitCode": 0
+      }
+    },
+    {
+      "id": "evt_102",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 12,
+      "ts": "2026-09-11T23:17:51.000Z",
+      "type": "quality_check",
+      "source": "demo",
+      "title": {
+        "en": "Scripted quality-check outcome recorded",
+        "zh-TW": "已記錄腳本化品質檢查結果"
+      },
+      "detail": {
+        "en": "Authored scenario: 44/44 passing · 2 files changed (+64 −9) · MIT unchanged. This is demo evidence, not an observed test run.",
+        "zh-TW": "編寫情境：44/44 通過 · 變更 2 個檔案（+64 −9）· MIT 不變。此為示範證據，並非實際觀測的測試執行。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_103",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 13,
+      "ts": "2026-09-11T23:18:12.000Z",
+      "type": "pr_prepared",
+      "source": "demo",
+      "title": {
+        "en": "Local review artifact prepared with branch label mission/ky-issue-63",
+        "zh-TW": "已準備本機審查產物，分支標籤為 mission/ky-issue-63"
+      },
+      "detail": {
+        "en": "Stored only in CommonCommit demo data; no branch, commit, pull request, or upstream push was created.",
+        "zh-TW": "僅存於 CommonCommit 示範資料；未建立分支、commit、Pull Request，亦未推送上游。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_104",
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "seq": 14,
+      "ts": "2026-09-11T23:18:33.000Z",
+      "type": "approval_gate",
+      "source": "demo",
+      "title": {
+        "en": "Waiting for a local demo reviewer decision",
+        "zh-TW": "等待本機示範審查者決定"
+      },
+      "detail": {
+        "en": "This local demo gate is neither authenticated upstream-maintainer approval nor a publication mechanism.",
+        "zh-TW": "此本機示範關卡既非經上游維護者身分驗證的核可，也不是發布機制。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_158",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 1,
+      "ts": "2026-08-26T00:00:00.000Z",
+      "type": "run_started",
+      "source": "demo",
+      "title": {
+        "en": "Scripted demo run record loaded (no execution performed)",
+        "zh-TW": "已載入腳本化示範執行紀錄（未實際執行）"
+      },
+      "detail": {
+        "en": "Authored failure scenario only; no agent process was started.",
+        "zh-TW": "僅為編寫的失敗情境；未啟動代理程序。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_159",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 2,
+      "ts": "2026-08-26T00:00:21.000Z",
+      "type": "workspace",
+      "source": "demo",
+      "title": {
+        "en": "Bounded local fixture-copy scenario prepared",
+        "zh-TW": "已準備有界本機 fixture 副本情境"
+      },
+      "detail": {
+        "en": "Authored demo record only; no sandbox was created.",
+        "zh-TW": "僅為編寫的示範紀錄；未建立任何沙箱。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_160",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 3,
+      "ts": "2026-08-26T00:00:42.000Z",
+      "type": "analysis",
+      "source": "demo",
+      "title": {
+        "en": "Repository analyzed",
+        "zh-TW": "已分析程式庫"
+      },
+      "detail": {
+        "en": "Brace expansion in src/parse.rs materializes the full cross-product before matching; nested braces are exponential in depth.",
+        "zh-TW": "src/parse.rs 的大括號展開在比對前先產生完整笛卡爾積；巢狀大括號的複雜度隨深度呈指數成長。"
+      },
+      "verified": false,
+      "computeDelta": 420
+    },
+    {
+      "id": "evt_161",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 4,
+      "ts": "2026-08-26T00:01:03.000Z",
+      "type": "plan",
+      "source": "demo",
+      "title": {
+        "en": "Implementation plan drafted",
+        "zh-TW": "已擬定實作計畫"
+      },
+      "detail": {
+        "en": "Replace eager expansion with a lazy iterator and add a configurable expansion ceiling.",
+        "zh-TW": "以惰性迭代器取代預先展開，並加入可設定的展開上限。"
+      },
+      "verified": false,
+      "computeDelta": 380
+    },
+    {
+      "id": "evt_162",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 5,
+      "ts": "2026-08-26T00:01:24.000Z",
+      "type": "file_change",
+      "source": "demo",
+      "title": {
+        "en": "Started lazy-iterator refactor",
+        "zh-TW": "開始惰性迭代器重構"
+      },
+      "verified": false,
+      "computeDelta": 1180,
+      "payload": {
+        "files": [
+          {
+            "path": "src/parse.rs",
+            "kind": "modify"
+          },
+          {
+            "path": "src/expand.rs",
+            "kind": "add"
+          }
+        ]
+      }
+    },
+    {
+      "id": "evt_163",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 6,
+      "ts": "2026-08-26T00:01:45.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Tests failed: 37 of 208",
+        "zh-TW": "測試失敗：208 項中有 37 項未通過"
+      },
+      "detail": "✖ 37 pattern-corpus cases regressed",
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 171,
+          "fail": 37,
+          "total": 208,
+          "durationMs": 9840,
+          "failures": [
+            {
+              "name": "corpus/brace-nesting-depth-4",
+              "message": "AssertionError: expected 12 matches, got 0"
+            }
+          ]
+        },
+        "command": "cargo test",
+        "exitCode": 101
+      }
+    },
+    {
+      "id": "evt_164",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 7,
+      "ts": "2026-08-26T00:02:06.000Z",
+      "type": "retry",
+      "source": "demo",
+      "title": {
+        "en": "Attempt 2 of 3",
+        "zh-TW": "第 2 次嘗試（共 3 次）"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "attempt": 2
+      }
+    },
+    {
+      "id": "evt_165",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 8,
+      "ts": "2026-08-26T00:02:27.000Z",
+      "type": "diagnosis",
+      "source": "demo",
+      "title": {
+        "en": "Failure diagnosed",
+        "zh-TW": "已診斷失敗原因"
+      },
+      "detail": {
+        "en": "The lazy iterator loses ordering guarantees the corpus depends on. Restoring order requires reworking the matcher too — larger than the funded scope.",
+        "zh-TW": "惰性迭代器破壞了測試語料所依賴的順序保證。要恢復順序必須連帶重構比對器 — 已超出募資範圍。"
+      },
+      "verified": false,
+      "computeDelta": 640
+    },
+    {
+      "id": "evt_166",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 9,
+      "ts": "2026-08-26T00:02:48.000Z",
+      "type": "file_change",
+      "source": "demo",
+      "title": {
+        "en": "Attempted ordering fix",
+        "zh-TW": "嘗試修復排序"
+      },
+      "verified": false,
+      "computeDelta": 980,
+      "payload": {
+        "files": [
+          {
+            "path": "src/expand.rs",
+            "kind": "modify"
+          }
+        ]
+      }
+    },
+    {
+      "id": "evt_167",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 10,
+      "ts": "2026-08-26T00:03:09.000Z",
+      "type": "test_result",
+      "source": "demo",
+      "title": {
+        "en": "Tests failed: 11 of 208",
+        "zh-TW": "測試失敗：208 項中有 11 項未通過"
+      },
+      "verified": false,
+      "computeDelta": 0,
+      "payload": {
+        "tests": {
+          "pass": 197,
+          "fail": 11,
+          "total": 208,
+          "durationMs": 10210,
+          "failures": [
+            {
+              "name": "corpus/brace-order-stability",
+              "message": "AssertionError: match order differs"
+            }
+          ]
+        },
+        "command": "cargo test",
+        "exitCode": 101
+      }
+    },
+    {
+      "id": "evt_168",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 11,
+      "ts": "2026-08-26T00:03:30.000Z",
+      "type": "budget",
+      "source": "demo",
+      "title": {
+        "en": "Attempt 3 compute: 400 credits",
+        "zh-TW": "第 3 次嘗試消耗 400 點"
+      },
+      "verified": false,
+      "computeDelta": 400
+    },
+    {
+      "id": "evt_169",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 12,
+      "ts": "2026-08-26T00:03:51.000Z",
+      "type": "error",
+      "source": "demo",
+      "title": {
+        "en": "Scripted scenario budget exhausted",
+        "zh-TW": "腳本化情境預算耗盡"
+      },
+      "detail": {
+        "en": "The authored scenario ends before verification. A larger, re-scoped mission would be needed; no external maintainer notification was sent.",
+        "zh-TW": "編寫的情境在驗證前結束。若要繼續需建立範圍重新界定的較大型任務；未向外部維護者發送通知。"
+      },
+      "verified": false,
+      "computeDelta": 0
+    },
+    {
+      "id": "evt_170",
+      "runId": "run_157",
+      "missionId": "msn_150",
+      "seq": 13,
+      "ts": "2026-08-26T00:04:12.000Z",
+      "type": "run_finished",
+      "source": "demo",
+      "title": {
+        "en": "Scripted demo record ended",
+        "zh-TW": "腳本化示範紀錄結束"
+      },
+      "verified": false,
+      "computeDelta": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "branch": "mission/ky-issue-63",
+      "title": {
+        "en": "Add full-jitter backoff to retry scheduling",
+        "zh-TW": "為重試排程加入 full-jitter 退避"
+      },
+      "summary": {
+        "en": "Retry delays are now drawn from random(0, base * 2**attempt) using an injectable seedable RNG, then clamped to maxDelay. Adds a 1000-client simulation asserting p95 spread, and keeps the existing 41 tests green.",
+        "zh-TW": "重試延遲改為以可注入的種子化隨機源取 random(0, base * 2**attempt)，再套用 maxDelay 上限。新增 1000 客戶端模擬驗證 p95 分佈，且原有 41 項測試維持通過。"
+      },
+      "risks": [
+        {
+          "en": "Default retry timing changes for every caller — flagged for the release notes.",
+          "zh-TW": "所有呼叫端的預設重試時序都會改變 — 已標記於發行說明。"
+        }
+      ],
+      "files": [
+        {
+          "path": "src/retry.ts",
+          "kind": "modify",
+          "additions": 21,
+          "deletions": 9,
+          "patch": "diff --git a/src/retry.ts b/src/retry.ts\n--- a/src/retry.ts\n+++ b/src/retry.ts\n@@ -12,17 +12,29 @@ export interface RetryOptions {\n   maxDelay?: number;\n+  /** Injectable RNG so retry schedules are deterministically testable. */\n+  random?: () => number;\n }\n\n-export function backoff(attempt: number, opts: RetryOptions = {}): number {\n-  const base = opts.baseDelay ?? 100;\n-  const delay = base * 2 ** attempt;\n-  return Math.min(delay, opts.maxDelay ?? 30_000);\n-}\n+/**\n+ * Full-jitter exponential backoff: delay is drawn uniformly from\n+ * [0, base * 2**attempt), then clamped to maxDelay. Randomizing before\n+ * clamping keeps the ceiling authoritative.\n+ */\n+export function backoff(attempt: number, opts: RetryOptions = {}): number {\n+  const base = opts.baseDelay ?? 100;\n+  const random = opts.random ?? Math.random;\n+  const ceiling = base * 2 ** attempt;\n+  const jittered = random() * ceiling;\n+  return Math.min(jittered, opts.maxDelay ?? 30_000);\n+}\n"
+        },
+        {
+          "path": "test/backoff.test.ts",
+          "kind": "add",
+          "additions": 43,
+          "deletions": 0,
+          "patch": "diff --git a/test/backoff.test.ts b/test/backoff.test.ts\nnew file mode 100644\n--- /dev/null\n+++ b/test/backoff.test.ts\n@@ -0,0 +1,43 @@\n+import { test } from \"node:test\";\n+import assert from \"node:assert/strict\";\n+import { backoff } from \"../src/retry.ts\";\n+\n+/** Deterministic RNG so schedules are reproducible in CI. */\n+function seeded(seed: number): () => number {\n+  let s = seed;\n+  return () => ((s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);\n+}\n+\n+test(\"spreads retries across the window\", () => {\n+  const rng = seeded(42);\n+  const delays = Array.from({ length: 1000 }, () => backoff(4, { random: rng }));\n+  const sorted = [...delays].sort((a, b) => a - b);\n+  const p95 = sorted[Math.floor(sorted.length * 0.95)];\n+  assert.ok(p95 > 1600 * 0.4, \"p95 spread exceeds 40% of the window\");\n+});\n+\n+test(\"retries respect maxDelay ceiling\", () => {\n+  const rng = seeded(7);\n+  for (let i = 0; i < 200; i++) {\n+    assert.ok(backoff(9, { random: rng, maxDelay: 8000 }) <= 8000);\n+  }\n+});\n"
+        }
+      ],
+      "testEvidence": {
+        "pass": 44,
+        "fail": 0,
+        "total": 44,
+        "durationMs": 1290
+      },
+      "commands": [
+        {
+          "command": "npm test",
+          "exitCode": 0
+        }
+      ],
+      "additions": 64,
+      "deletions": 9,
+      "runId": "run_90",
+      "missionId": "msn_83",
+      "createdAt": "2026-09-11T23:19:00.000Z",
+      "mode": "demo",
+      "testEvidenceSource": "demo"
+    }
+  ],
+  "wall": [
+    {
+      "id": "wal_171",
+      "missionId": "msn_3",
+      "authorRole": "maintainer",
+      "authorHandle": "@vercel",
+      "authorColor": "#EDEFF5",
+      "body": "I've wanted round-tripping since 2023 and never had a free weekend for it. If this gets funded I'll read the diff properly.",
+      "createdAt": "2026-09-07T00:00:00.000Z"
+    },
+    {
+      "id": "wal_172",
+      "missionId": "msn_3",
+      "authorRole": "sponsor",
+      "authorHandle": "@meiwork",
+      "authorColor": "#4D9FFF",
+      "body": "We store formatted durations in Postgres and parse them back on read. This bug costs us a migration every time someone forgets.",
+      "createdAt": "2026-09-08T00:00:00.000Z"
+    },
+    {
+      "id": "wal_173",
+      "missionId": "msn_3",
+      "authorRole": "sponsor",
+      "authorHandle": "@ian",
+      "authorColor": "#F5A623",
+      "body": "夜間批次跑完還有剩的推理額度，丟一點過來。順便想看代理怎麼處理無空格的格式。",
+      "createdAt": "2026-09-10T00:00:00.000Z"
+    },
+    {
+      "id": "wal_174",
+      "missionId": "msn_60",
+      "authorRole": "sponsor",
+      "authorHandle": "@sofialng",
+      "authorColor": "#B197FC",
+      "body": "19M downloads a week and nobody is home. I'll match whatever the next backer puts in.",
+      "createdAt": "2026-08-28T00:00:00.000Z"
+    },
+    {
+      "id": "wal_175",
+      "missionId": "msn_83",
+      "authorRole": "maintainer",
+      "authorHandle": "@sindresorhus",
+      "authorColor": "#2FBFDE",
+      "body": "Reading the diff now. The clamp-after-jitter ordering is the part I care about — that was the original bug in my own patch.",
+      "createdAt": "2026-09-11T00:00:00.000Z"
+    }
+  ],
+  "awards": [
+    {
+      "id": "award_6",
+      "contributorId": "c_mei",
+      "code": "first_spark",
+      "missionId": "msn_3",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_9",
+      "contributorId": "c_raj",
+      "code": "early_backer",
+      "missionId": "msn_3",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_12",
+      "contributorId": "c_yuki",
+      "code": "early_backer",
+      "missionId": "msn_3",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_15",
+      "contributorId": "c_tom",
+      "code": "early_backer",
+      "missionId": "msn_3",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_72",
+      "contributorId": "c_you",
+      "code": "dependency_defender",
+      "missionId": "msn_67",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_112",
+      "contributorId": "c_you",
+      "code": "ship_it",
+      "missionId": "msn_107",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_113",
+      "contributorId": "c_you",
+      "code": "hidden_gem",
+      "missionId": "msn_107",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_114",
+      "contributorId": "c_yuki",
+      "code": "ship_it",
+      "missionId": "msn_107",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_126",
+      "contributorId": "c_mei",
+      "code": "ship_it",
+      "missionId": "msn_121",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_127",
+      "contributorId": "c_mei",
+      "code": "first_spark",
+      "missionId": "msn_121",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_128",
+      "contributorId": "c_sofia",
+      "code": "ship_it",
+      "missionId": "msn_121",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_129",
+      "contributorId": "c_sofia",
+      "code": "hidden_gem",
+      "missionId": "msn_121",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_141",
+      "contributorId": "c_sofia",
+      "code": "security_guardian",
+      "missionId": "msn_136",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_142",
+      "contributorId": "c_sofia",
+      "code": "final_push",
+      "missionId": "msn_136",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    },
+    {
+      "id": "award_143",
+      "contributorId": "c_raj",
+      "code": "ship_it",
+      "missionId": "msn_136",
+      "earnedAt": "2026-09-12T00:00:00.000Z"
+    }
+  ]
+}

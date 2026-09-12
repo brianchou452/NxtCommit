@@ -1,6 +1,23 @@
 import { missionEn } from './mission.js';
 import { authoringEn } from './authoring.js';
 export const en = {
+  catalog_facts: "Repository facts · demo figures",
+  catalog_language: "Language",
+  catalog_license: "License",
+  catalog_stars: "Stars",
+  catalog_downloads: "Weekly downloads",
+  catalog_dependents: "Dependents",
+  catalog_risk_low: "Low",
+  catalog_risk_medium: "Medium",
+  catalog_risk_high: "High",
+
+  catalog_note: "Authored demo campaigns imported from commoncommit. Repository links are real; issue references, funding, popularity and historical outcomes are demonstration content. New pledges use NxtCommit prototype credits; funding does not start work on these repositories.",
+  catalog_scope: "Campaign scope",
+  catalog_release: "Demo release record",
+  catalog_adoption: "Demo weekly downloads",
+  catalog_history: "Authored activity history",
+  catalog_artifact: "Demo change artifact",
+
 
   commitment_badge_first_spark: "First Spark",
   commitment_badge_first_spark_desc: "Made the very first pledge on a Mission.",

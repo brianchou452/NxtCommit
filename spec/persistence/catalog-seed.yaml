@@ -1,0 +1,20 @@
+spec_version: 1
+kind: persistence
+id: persistence.catalog-seed
+title: Imported commoncommit fundraising catalog
+summary: Add the complete authored source catalog to integrated NxtCommit without resetting existing state.
+mode: seed_fixture
+domain_ids: [domain.home-impact, domain.marketplace, domain.provenance]
+fixtures:
+  - name: commoncommit_catalog
+    guarantees:
+      - Exactly 25 source repositories and fundraising missions with stable catalog-prefixed identifiers.
+      - Public GitHub links, bilingual story, issue reference, goals, risks and acceptance criteria are retained.
+      - Imported financial popularity history and adoption content remain explicitly demo; imported source claims never become engine verification.
+      - Source aggregate pools are labelled authored data; existing per-person pledge rows determine their ledger sum.
+      - Imported missions accept local prototype pledges but never gain an executable workspace or upstream publication authority.
+      - Legacy routes and pledges remain; discovery hides only superseded legacy cards and never user-created campaigns.
+reset:
+  - Install once per database using a transactional marker; reopening never replaces wallet or pledge updates.
+  - Full demo reset recreates the same imported catalog after foundation and mission seeds.
+  - Isolated legacy Home fixture tests retain their original deterministic seed.

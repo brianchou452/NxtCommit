@@ -11,7 +11,7 @@ import { MissionError, assertTransition } from '../domain/mission.js';
 export function authoredView(mission: MissionDetail): AuthoredMission {
   return { id: mission.id, title: mission.title, status: mission.status, story: mission.story,
     generator: mission.generator, computeGoal: mission.computeGoal, computePledged: mission.computePledged,
-    backerCount: new Set(mission.pledges.map(p => p.contributorId)).size, tags: mission.tags ?? [], progress: mission.progress,
+    backerCount: mission.backerCount ?? new Set(mission.pledges.map(p => p.contributorId)).size, tags: mission.tags ?? [], progress: mission.progress,
     project: { ...mission.project, source: mission.project.workspace.kind === 'github' ? 'github' : 'fixture', executable: mission.project.workspace.kind === 'fixture' },
     ...(mission.draft ? { draft: mission.draft } : {}), ...(mission.latestRunId ? { latestRunId: mission.latestRunId } : {}) };
 }
@@ -69,7 +69,7 @@ export function syncMissionProjection(context: ServiceContext, service: MissionS
   context.store.transaction(db => {
     for (const row of service.store.list<MissionRecord>('mission')) {
       const detail = service.getMission(row.id);
-      const campaign: Campaign = { ...authoredView(detail), projectId: row.projectId, tagline: row.tagline,
+      const campaign: Campaign = { ...authoredView(detail), ...(row.catalog ? {catalog:row.catalog} : {}), projectId: row.projectId, tagline: row.tagline,
         project: { ...row.project, usedByYou: detail.pledges.some(p => p.contributorId === currentUserId) } };
       db.prepare('INSERT INTO home_projects VALUES (?,?) ON CONFLICT(id) DO UPDATE SET snapshot=excluded.snapshot').run(row.projectId, JSON.stringify(campaign.project));
       db.prepare('INSERT INTO home_missions VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET snapshot=excluded.snapshot').run(row.id, row.projectId, JSON.stringify(campaign));

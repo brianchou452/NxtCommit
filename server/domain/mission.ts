@@ -6,7 +6,7 @@ export class MissionError extends Error {
 const transitions: Record<MissionStatus, readonly MissionStatus[]> = {
   funding: ['funded', 'stalled'], funded: ['executing'], executing: ['needs_review', 'failed', 'stalled'],
   needs_review: ['approved', 'changes_requested'], changes_requested: ['executing'], approved: ['released'],
-  released: [], failed: ['executing'], stalled: [],
+  released: [], failed: ['executing'], stalled: ['funding'],
 };
 export function assertTransition(from: MissionStatus, to: MissionStatus): void {
   if (!transitions[from].includes(to)) throw new MissionError('invalid_transition', `Cannot transition ${from} to ${to}.`);
