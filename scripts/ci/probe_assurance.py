@@ -20,7 +20,8 @@ assert run['modelCalls'] == 4, 'Four provider calls were not observed'
 assert all(value['evidence']['generator'] == 'openai' for value in run['advice'].values()), 'A model role fell back'
 if os.environ.get('EXPECTED_COMMIT_SHA'):
     assert run['commit'] == os.environ['EXPECTED_COMMIT_SHA']
-with urllib.request.urlopen(base + '/api/assurance', timeout=20) as response:
+readback = urllib.request.Request(base + '/api/assurance', headers={'User-Agent': 'NxtCommit-Assurance-Probe/1.0'})
+with urllib.request.urlopen(readback, timeout=20) as response:
     snapshot = json.load(response)
 assert any(row['id'] == run['id'] and row['status'] == run['status'] for row in snapshot['runs'])
 Path('artifacts').mkdir(exist_ok=True)
