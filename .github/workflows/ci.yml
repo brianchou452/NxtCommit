@@ -47,3 +47,39 @@ jobs:
           path: artifacts/
           retention-days: 30
           if-no-files-found: warn
+
+  application-foundation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --ignore-scripts
+      - name: Typecheck, server tests and production build
+        run: |
+          mkdir -p artifacts
+          set -o pipefail
+          npm run check 2>&1 | tee artifacts/application-check.log
+      - run: npm run check-version
+      - name: Foundation browser journeys in Docker
+        run: npm run test:e2e
+      - name: Record application verification scope
+        if: always()
+        run: |
+          echo '### Application foundation' >> "$GITHUB_STEP_SUMMARY"
+          echo 'TypeScript checks, server tests, production build and Docker foundation journeys. TODO cases remain unimplemented; visual equality and Phase 2 features are not certified.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: application-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/
+            test-results/docker/foundation/
+          retention-days: 30
+          if-no-files-found: warn
