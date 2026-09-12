@@ -46,7 +46,10 @@ A 整合時需保留這些接線。
 - `make check-version`：`0.7.11` 一致。`git diff --check`：通過。
 - Visual：保留全部 13 個歷史 baselines，比對存在差異；使用者授權 YAML／fixture
   優先，不代表核准替換 approved PNG。
-- 部署：僅本機原始碼；沒有部署或線上驗證。
+- 最終 visual capture：完整執行有 12 張穩定比較；metadata-refusal 首次逾時，
+  單獨重跑後取得穩定截圖。13 張仍是歷史 golden mismatch，不是 visual 通過。
+- 交付：實作 commits `e8f683d`、`0883102` 已推送至 `dev/computer-b`；
+  [PR #2](https://github.com/brianchou452/NxtCommit/pull/2)。未合併、部署或線上驗證。
 
 ## Runtime 與重現
 

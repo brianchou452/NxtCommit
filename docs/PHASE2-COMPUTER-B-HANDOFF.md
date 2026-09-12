@@ -49,7 +49,12 @@ files and reporting differences. No new baseline approval is implied.
 - `make check-version`: `0.7.11` consistent. `git diff --check`: passed.
 - Visual: all 13 historical baselines are retained; comparisons differ. The
   user authorized YAML/fixture priority, not replacement of approved PNGs.
-- Deployment: local source only; no deployment or online verification.
+- Final visual capture: 12 stable comparisons on the full run; metadata-refusal
+  timed out once, then produced a stable capture on its targeted rerun. All 13
+  remain historical golden mismatches, not visual passes.
+- Delivery: implementation commits `e8f683d` and `0883102` pushed to
+  `dev/computer-b`; [PR #2](https://github.com/brianchou452/NxtCommit/pull/2).
+  Not merged, deployed, or verified online.
 
 ## Runtime and reproduction
 
