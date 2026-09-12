@@ -4,7 +4,7 @@
 
 NxtCommit 既有的貢獻者頁面現在採用 commoncommit 完整個人頁呈現。目的地是既有 `/contributors/:id` 路由與 Cloudflare 應用，並非另一個網站或資料庫。
 
-來源：commoncommit `a52346519fa7258a56ec39f70212b243d599e833` 的 `src/pages/Profile.tsx`、`src/components/BadgeShelf.tsx`、成就元件與後端規則。目標基準為 NxtCommit `397adcd`，並整合 main `df9462c` 的 Agent Lab 導覽更新。本次整合工作位於 `codex/my-commitment-port` 分支。
+來源：commoncommit `a52346519fa7258a56ec39f70212b243d599e833` 的 `src/pages/Profile.tsx`、`src/components/BadgeShelf.tsx`、成就元件與後端規則。目標基準為 NxtCommit `397adcd`，並整合 main `02986b0` 的首頁文案與 Agent Lab 導覽更新。本次整合工作位於 `codex/my-commitment-port` 分支。
 
 ## 行為與資料
 
@@ -28,4 +28,4 @@ NxtCommit 既有的貢獻者頁面現在採用 commoncommit 完整個人頁呈�
 
 驗證以 Docker 固定 Node 24 環境為準。首輪應用檢查通過型別、正式建置與 168 項後端測試；初次瀏覽器測試發現需調整支援 SSE 的錯誤 fixture 與翻譯文字斷言。本機執行因 npm 阻擋安裝腳本而無法載入 better-sqlite3；Docker 明確重建該套件後相關測試通過。
 
-最終測試與發布證據記錄於 PR／交接。桌面／手機截圖保留於 Docker 測試產物。正式發布須通過既有 CI、操作員備份，以及獨立比對 HTTPS `/__deployment` SHA。Cloudflare 仍使用暫存 SQLite；備份是離線復原副本，並非自動還原。回滾需以相同流程重建先前已驗證版本。
+最終本機 Docker 驗證通過全部 168 項後端測試及 49 項互動瀏覽器流程，包含跨頁認捐刷新與重新載入持久性。131 份規格檢查零錯誤；合併 main 後型別及 0.7.31 版本檢查通過。發布證據記錄於交接。桌面／手機截圖保留於 Docker 測試產物。正式發布須通過既有 CI、操作員備份，以及獨立比對 HTTPS `/__deployment` SHA。Cloudflare 仍使用暫存 SQLite；備份是離線復原副本，並非自動還原。回滾需以相同流程重建先前已驗證版本。
