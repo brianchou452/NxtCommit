@@ -22,7 +22,7 @@ test("Home discovery, map pinning, categories, release link and repeated navigat
     await page
       .locator("main > section")
       .evaluateAll((nodes) => nodes.map((n) => n.id)),
-  ).toEqual(["hero", "how", "map", "projects", "mvp"]);
+  ).toEqual(["hero", "workflow", "how", "map", "projects", "mvp"]);
   await expect(page.locator("#how li")).toHaveCount(4);
   await expect(page.locator("#how")).toContainText(
     "Maintainers review and decide.",
@@ -31,9 +31,10 @@ test("Home discovery, map pinning, categories, release link and repeated navigat
   await expect(page.locator("#hero")).toContainText(
     String(stats.projectsRevived),
   );
-  await page.getByRole("link", { name: "Explore Campaigns" }).click();
-  await expect(page).toHaveURL(/#projects$/);
-  await expect(page.locator("#projects")).toBeInViewport();
+  await page.getByRole("link", { name: "Explore the workflow" }).click();
+  await expect(page).toHaveURL(/#workflow$/);
+  await expect(page.locator("#workflow")).toBeInViewport();
+  await page.locator("#projects").scrollIntoViewIfNeeded();
   const cards = await page
     .locator("#projects [data-mission-id]")
     .evaluateAll((nodes) =>
@@ -283,7 +284,7 @@ test("Unknown route recovers through Home and language preference survives repea
   await page.getByRole("link", { name: "Back to Discover" }).click();
   await expect(page.locator("#hero")).toBeVisible();
   await page.getByLabel("Language", { exact: true }).selectOption("zh-TW");
-  await expect(page.locator("#hero")).toContainText("探索募資提案");
+  await expect(page.locator("#hero")).toContainText("看懂開發流程");
   await page.getByRole("link", { name: "Demo", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "啟動提供者導覽" }),
@@ -291,7 +292,7 @@ test("Unknown route recovers through Home and language preference survives repea
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-TW");
   await page.getByTestId("shell-header").getByRole("link", { name: "Discover", exact: true }).click();
-  await expect(page.locator("#hero")).toContainText("探索募資提案");
+  await expect(page.locator("#hero")).toContainText("看懂開發流程");
 });
 test("Loading remains unknown; heartbeat never changes or refetches snapshots", async ({
   page,
@@ -300,7 +301,7 @@ test("Loading remains unknown; heartbeat never changes or refetches snapshots", 
   await expect(page.locator("#hero .signals dd").first()).toHaveText("—");
   await expect(page.locator('#map [role="status"]')).toBeVisible();
   await expect(page.locator("#projects .skeletons")).toBeVisible();
-  await page.getByRole("link", { name: "Explore Campaigns" }).click();
+  await page.getByRole("link", { name: "Explore the workflow" }).click();
   await expect(page.locator("#projects .campaign")).toHaveCount(16);
   await fixture(page, "heartbeat");
   await expect(page.locator(".beacon")).toHaveCount(20);
@@ -336,7 +337,7 @@ test("Mobile discovery keeps controls usable and does not overflow the viewport"
   await page.setViewportSize({ width: 390, height: 844 });
   await fixture(page);
   await expect(page.locator("#projects .campaign")).toHaveCount(16);
-  await page.getByRole("link", { name: "Explore Campaigns" }).click();
+  await page.getByRole("link", { name: "Explore the workflow" }).click();
   await page.locator("#projects .campaign").first().getByRole("link").click();
   await page.getByLabel("Leave a local note").fill("Mobile note");
   await page.getByRole("button", { name: "Post", exact: true }).click();
