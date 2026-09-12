@@ -2,6 +2,13 @@
 
 [繁體中文](ASSURANCE.zh-TW.md)
 
+The judge-facing view starts with what is tested, this cycle's measured result,
+and the next step. Six stages explain model advice versus engine verification;
+observed checks are grouped into response quality, provider failures, privacy
+and system recovery. IDs, usage and individual assertions remain expandable.
+Latest activity is separate from the selected historical record. No data is
+shown as unknown, and missing comparable baselines never imply improvement.
+
 The Agent Lab at /assurance exposes six persisted stages: plan, safety, chaos,
 assessment, experiment review and iteration. A Cloudflare Worker cron invokes the
 operator-only endpoint every five minutes; it awaits the terminal result. The
