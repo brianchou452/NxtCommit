@@ -12,6 +12,7 @@ states:
   - { name: empty, condition: 尚無pledges receipts或achievements。, rendering: 顯示honest empty states與demo identity。 }
   - { name: populated, condition: Local records存在。, rendering: 顯示stats、badge groups、receipt chains與pledge table。 }
 interactions:
+  - { trigger: Mission update or stream reconnect., result: Refetch the authoritative contributor aggregate without a full page reload. }
   - { trigger: Select mission from receipt or pledge., result: 開啟matching local mission detail。 }
 content:
   locales:
@@ -22,7 +23,7 @@ content:
 visual_design:
   design_system_id: design-system.nxtcommit
   hierarchy: [Identity and demo label lead., Accounting precedes achievements and receipts.]
-  layout: Profile header stat grid badge groups and stacked receipts.
+  layout: Profile header with wallet pledge reputation; five stats; thirteen earned-first badges; grouped achievement cards; stacked receipt chains; pledge history table.
   geometry: Full page-width sections with compact cards.
   colour_semantics: Receipt stages use lifecycle colours; unknown adoption remains neutral/absent.
   surface: Light dashboard cards.

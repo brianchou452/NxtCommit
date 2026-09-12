@@ -109,17 +109,30 @@ export interface ContributorProfile extends Contributor {
     localReleases: number;
     creditsConsumed?: number;
     creditsRefunded?: number;
+    downstreamDownloads?: number;
+    accountingPartial?: boolean;
   };
   pledges: ProfilePledge[];
   receipts: {
     missionId: string;
     pledged: number;
+    projectName?: string;
+    missionTitle?: LocalizedText;
+    consumedShare?: number;
+    refundedShare?: number;
+    runId?: string;
+    artifactPrepared?: boolean;
+    releaseVersion?: string;
+    releasedAt?: string;
+    adoption?: { dataMode: "demo" | "live"; weeklyDownloads: number };
+    achievements?: string[];
     status: string;
     source: "demo";
   }[];
   achievements: {
     id: string;
     code: string;
+    missionId?: string;
     earnedAt: string;
     source: "demo";
   }[];

@@ -1,3 +1,4 @@
+import { enrichContributor, type ProfileMissionReader } from "./commitment-profile.js";
 import type { DatabaseSync } from "node:sqlite";
 import type { Migration, PersistenceAdapter } from "./database.js";
 import type {
@@ -269,6 +270,7 @@ export function seedHome(db: DatabaseSync) {
   ).run();
 }
 export class HomeStore {
+  missionDetailReader: ProfileMissionReader | undefined;
   constructor(readonly store: PersistenceAdapter) {}
   campaigns(): Campaign[] {
     return this.store.db
@@ -400,7 +402,7 @@ export class HomeStore {
         source: "demo" as const,
       }));
       const releases = receipts.filter((r) => r.status === "released");
-      return {
+      return enrichContributor({
         ...persona,
         totalPledged: pledges.reduce((n, p) => n + p.amount, 0),
         dataMode: "demo",
@@ -421,19 +423,8 @@ export class HomeStore {
             earnedAt: String(r.earned_at),
             source: "demo" as const,
           })),
-        achievementDefs: [
-          {
-            code: "ship",
-            name: copy("Ship It", "完成交付"),
-            description: copy(
-              "Backed a recorded local demo release.",
-              "支持一筆已記錄的本機示範發布。",
-            ),
-            tier: "demo",
-            icon: "package",
-          },
-        ],
-      };
+        achievementDefs: [],
+      }, this.campaigns(), this.store.db.prepare("SELECT * FROM home_pledges ORDER BY created_at,id").all().map(row => ({id:String(row.id),missionId:String(row.mission_id),contributorId:String(row.contributor_id),amount:Number(row.amount),createdAt:String(row.created_at)})), this.missionDetailReader);
     });
   }
   nominees(): Nominee[] {

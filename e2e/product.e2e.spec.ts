@@ -173,7 +173,7 @@ test("Profile accounting links persisted pledge records and handles missing and 
     "Local demo persona and prototype credits.",
   );
   await expect(page.getByRole("heading", { name: "Ship It" })).toBeVisible();
-  await page.getByRole("link", { name: "marked", exact: true }).click();
+  await page.locator(".mc-receipt > a").filter({ hasText: "marked" }).click();
   await expect(page).toHaveURL(/\/missions\/marked$/);
   await page.goto("http://127.0.0.1:4179/contributors/missing");
   await expect(
@@ -346,4 +346,26 @@ test("Mobile discovery keeps controls usable and does not overflow the viewport"
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+});
+
+// Spec: component.contributor-impact; Scenario: impact-record-is-locally-traceable.
+test("My Commitment port retains the badge shelf, receipt chain, locale and mobile reflow", async ({ page }, testInfo) => {
+  await fixture(page);
+  await page.getByRole('link', {name:'My Commitment',exact:true}).click();
+  await expect(page.locator('.mc-shelf > li')).toHaveCount(13);
+  await expect(page.locator('.mc-stats > div')).toHaveCount(5);
+  await expect(page.locator('.mc-shelf .is-locked').first()).toBeVisible();
+  await expect(page.locator('.mc-receipt').first()).toContainText('pledged');
+  await expect(page.locator('.mc-table-wrap tbody tr')).toHaveCount(2);
+  await page.screenshot({path:testInfo.outputPath('commitment-desktop.png'),fullPage:true});
+  await page.getByRole('combobox',{name:'Language',exact:true}).selectOption('zh-TW');
+  await expect(page.locator('#mc-badges')).toHaveText('徽章');
+  await expect(page.locator('#mc-pledges')).toBeVisible();
+  await page.setViewportSize({width:390,height:844});
+  await expect(page.locator('.mc-shelf > li')).toHaveCount(13);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({path:testInfo.outputPath('commitment-mobile-zh.png'),fullPage:true});
+  await page.locator('.mc-receipt > a').first().focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/missions\//);
 });

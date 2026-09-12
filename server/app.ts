@@ -73,6 +73,7 @@ export function createApplication(options: AppOptions = {}) {
     ...(options.executionTimeoutMs !== undefined ? { executionTimeoutMs: options.executionTimeoutMs } : {}),
   });
   const integrated = options.integrateSlices !== false && missions;
+  if (integrated) home.missionDetailReader = id => missions.store.detail(id);
   const authoring = new AuthoringServices(store, {
     ...(integrated ? { missions: missionPort(missions), reviewabilityForRun: (id: string) => missions.reviewabilityForRun(id) } : {}),
     ...options.authoring,

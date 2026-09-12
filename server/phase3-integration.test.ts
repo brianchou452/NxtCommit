@@ -73,6 +73,16 @@ test('Phase 3 authored fixture uses one lifecycle authority through funding, rev
     const profile = await request<ContributorProfile>(server.url, '/api/contributors/demo-contributor');
     assert.ok(profile.pledges.some(p => p.missionId === mission.id));
     assert.ok(profile.receipts.some(p => p.missionId === mission.id && p.status === 'approved'));
+    const receipt = profile.receipts.find(p => p.missionId === mission.id)!;
+    assert.equal(receipt.consumedShare, outcome.computeConsumed);
+    assert.equal(receipt.refundedShare, outcome.ledger.filter(l => l.type === 'refund_unused' && l.contributorId === profile.id).reduce((sum,l)=>sum+l.amount,0));
+    assert.equal(receipt.artifactPrepared, true);
+    assert.equal(receipt.runId, outcome.latestRun!.id);
+    assert.equal(receipt.adoption, undefined);
+    assert.equal(profile.stats.accountingPartial, true);
+    assert.ok(receipt.achievements?.includes('final_push'));
+    assert.ok(!receipt.achievements?.includes('ai_architect'));
+
     await server.stop(); server = await startTestServer({ databasePath });
     const persisted = await request<MissionDetail>(server.url, `/api/missions/${mission.id}`);
     assert.equal(persisted.status, 'approved'); assert.equal(persisted.computeReserved, 0);

@@ -27,11 +27,11 @@ responses:
         reputation: { type: integer, description: Local demo reputation., required: true }
         joinedAt: { type: string, description: Seed/local ISO timestamp., required: true }
         dataMode: { type: string, description: Aggregate provenance., required: true, enum: [demo] }
-        stats: { type: object, description: Credits consumed/refunded and local release totals., required: true }
+        stats: { type: object, description: Measured ledger consumption/refunds and local releases; absent unknown history and explicit partial accounting., required: true }
         pledges: { type: array, description: Local pledge records., required: true, items: { type: object, description: Mission pledge summary. } }
         receipts: { type: array, description: Traceable mission impact receipts., required: true, items: { type: object, description: Accounting execution review release and optional adoption chain. } }
         achievements: { type: array, description: Earned deterministic achievement records., required: true, items: { type: object, description: Achievement with code and timestamp. } }
-        achievementDefs: { type: array, description: Definitions used to render earned records., required: true, items: { type: object, description: Code name description tier and icon. } }
+        achievementDefs: { type: array, description: Full thirteen-code catalog used for earned and locked badges., required: true, items: { type: object, description: Code name description tier and icon. } }
   - { status: 404, description: Contributor does not exist., body: { type: object, description: Error message., properties: { error: { type: string, description: Safe not-found message., required: true } } } }
 trust_boundary:
   authentication: None; profile is not an authenticated account.

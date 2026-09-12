@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import { useLocale } from "../i18n/LocaleProvider.js";
 import { localize } from "../i18n/locale.js";
 import type {
-  ContributorProfile,
   ImpactSnapshot,
   MarketplaceSnapshot,
 } from "../../shared/home.js";
@@ -88,112 +87,7 @@ export function MarketplacePage() {
     </main>
   );
 }
-export function ProfilePage() {
-  const { id = "" } = useParams();
-  const { text, locale } = useLocale();
-  const snapshot = useSnapshot<ContributorProfile>(
-    `/api/contributors/${encodeURIComponent(id)}`,
-  );
-  if (snapshot.error === 404) return <RecoveryPage />;
-  const p = snapshot.data;
-  return (
-    <main className="product-content" id="main-content" tabIndex={-1}>
-      <RequestState snapshot={snapshot} />
-      {p && (
-        <div data-testid="contributor-impact">
-          <p className="kicker">
-            {text.profile} · {text.demo_data}
-          </p>
-          <header className="profile-header panel">
-            <div className="avatar" style={{ background: p.avatarColor }}>
-              {p.name.slice(0, 1)}
-            </div>
-            <div>
-              <h1>{p.name}</h1>
-              <p>@{p.handle}</p>
-              <p>{localize(p.bio, locale)}</p>
-              <p>{text.contributor_impact_identity}</p>
-            </div>
-            <dl>
-              <dt>{text.wallet}</dt>
-              <dd>{p.walletBalance.toLocaleString(locale)}</dd>
-              <dt>{text.reputation}</dt>
-              <dd>{p.reputation}</dd>
-            </dl>
-          </header>
-          <dl className="profile-stats">
-            {[
-              [text.pledged, p.totalPledged],
-              [text.supported, p.stats.missionsSupported],
-              [text.releases_shipped, p.stats.localReleases],
-            ].map(([label, value]) => (
-              <div className="panel" key={label}>
-                <dd>{value}</dd>
-                <dt>{label}</dt>
-              </div>
-            ))}
-          </dl>
-          <section>
-            <h2>{text.achievements}</h2>
-            {!p.achievements.length && <p>{text.empty_records}</p>}
-            <div className="achievement-grid">
-              {p.achievements.map((a) => (
-                <div className="panel" key={a.id}>
-                  <h3>
-                    {localize(
-                      p.achievementDefs.find((d) => d.code === a.code)?.name ??
-                        text.unknown,
-                      locale,
-                    )}
-                  </h3>
-                  <p>
-                    {localize(
-                      p.achievementDefs.find((d) => d.code === a.code)
-                        ?.description ?? text.unknown,
-                      locale,
-                    )}
-                  </p>
-                  <span>
-                    {text.demo_data} · {a.earnedAt}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-          <section>
-            <h2>{text.receipts}</h2>
-            {!p.receipts.length && <p>{text.empty_records}</p>}
-            {p.receipts.map((r) => (
-              <div className="receipt panel" key={r.missionId}>
-                <Link to={`/missions/${r.missionId}`}>{r.missionId}</Link>
-                <span>
-                  {r.pledged} {text.pledged}
-                </span>
-                <span>{text[`status_${r.status}` as keyof typeof text]}</span>
-                <span>{text.demo_data}</span>
-              </div>
-            ))}
-          </section>
-          <section>
-            <h2>{text.pledges}</h2>
-            {!p.pledges.length && <p>{text.empty_records}</p>}
-            {p.pledges.map((pledge) => (
-              <div className="receipt panel" key={pledge.id}>
-                <Link to={`/missions/${pledge.missionId}`}>
-                  {localize(pledge.mission.title, locale)}
-                </Link>
-                <span>
-                  {pledge.amount} {text.pledged}
-                </span>
-                <time>{pledge.createdAt}</time>
-              </div>
-            ))}
-          </section>
-        </div>
-      )}
-    </main>
-  );
-}
+export { MyCommitment as ProfilePage } from "./MyCommitment.js";
 export function DemoPage() {
   const { text } = useLocale();
   return (
