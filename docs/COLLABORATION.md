@@ -21,6 +21,12 @@ git worktree add ../NxtCommit-docs-task -b codex/docs-task main
 
 Install dependencies in the new worktree using the development guide. Never copy production `.env` into shared files or artifacts; configure credentials separately using the OpenAI runbook.
 
+## Frontend design system
+
+All frontend contributors, including remote developers and coding agents, must read and follow the [Design System](DESIGN-SYSTEM.md) before changing frontend layout, styling, components, interactions, or visual assets. Check the applicable design-system YAML, component/page/visual contracts, and approved goldens in the document's authority order. Complete its design review checklist and attach screenshots, contract-check output, or issue links to the PR/handoff; explicitly identify unverified items and missing mobile visual coverage. A documentation update alone is not visual acceptance.
+
+The [Traditional Chinese document](DESIGN-SYSTEM.zh-TW.md) preserves the user-provided `commoncommit/docs/DESIGN-SYSTEM.md` source verbatim; the English document is its translation. Its 2026-09-12 synchronization and implementation statements describe that source baseline, not a fresh verification of this checkout. This repository contains `spec/design-systems/nxtcommit.yaml`, `spec/components/release-update.yaml`, `spec/pages/home.yaml`, `spec/visual/home.yaml`, and the declared `e2e/golden/home-desktop-ready.png`; their presence does not prove that the current UI matches them. The source's `src/styles.css` path is absent here: inspect this repository's `src/styles/*.css` instead. If a referenced contract, golden, or implementation is missing or differs, record the gap and reconcile the canonical artifacts before claiming conformity; do not infer coverage or import unrelated implementation automatically.
+
 ## Ownership and integration
 
 | Workstream | Responsibility | Integration boundary |
@@ -53,6 +59,7 @@ Distinguish source implemented, offline tests, browser verified, live provider a
 
 | Document | Scope |
 | --- | --- |
+| [Design System](DESIGN-SYSTEM.md) | Required frontend guide, authority order, and design review checklist |
 | [Development](DEVELOPMENT.md) | Current main setup and commands |
 | [Branches](BRANCHES.md) | Local, separate clone and cached remote refs |
 | [Spec delivery](SPEC-DELIVERY.md) | YAML to tests and implementation |
