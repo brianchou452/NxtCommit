@@ -1,5 +1,7 @@
 # 功能真實性矩陣
 
+> **NxtCommit 黑客松範圍（2026-09-12）：** 下文是匯入的 CommonCommit 歷史參考。目前本 repo 部署的是 Cloudflare 基礎設施 Worker；現行流程見 [Cloudflare 維運手冊](cicd/RUNBOOK.zh-TW.md)，實際證據見 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)。下文 GitLab／Argo 歷史結果不代表 NxtCommit 部署成功。
+
 [English canonical](FEATURE-REALITY.md)
 
 本文件只回答一個問題：**哪些功能真的串接 LLM 或外部系統，哪些是 demo？**
