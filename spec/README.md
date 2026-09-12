@@ -46,3 +46,9 @@ frontend or shared-type source files.
 
 Fields and YAML keys are English. Narrative values and BDD prose may use the
 language that best conveys the product requirement.
+
+The shared run contract uses `endedAt` for terminal timestamps. `stalled` is a
+mission state; run states are `running`, `succeeded`, `failed`, `budget_exhausted`,
+`blocked`, and `cancelled`. The linter rejects drift between the domain and the
+expanded latest-run API shape. Scenario files with explicit TODO/skip declarations
+provide Phase 1 handoff traceability, not implemented behavior coverage.

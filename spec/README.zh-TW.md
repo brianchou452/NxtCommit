@@ -39,3 +39,9 @@ service endpoint：`/healthz`、`/readyz` 與 `/metrics`；schema 不接受其�
 root-level HTTP path。
 
 所有 YAML key 使用英文；敘述值與 BDD 內容可用最能清楚表達產品需求的語言。
+# Phase 1 共用契約
+
+Run 終止時間統一使用 `endedAt`。`stalled` 是 mission 狀態；run 狀態為
+`running`、`succeeded`、`failed`、`budget_exhausted`、`blocked`、`cancelled`。
+Linter 會阻止 domain 與 latest-run API 展開欄位漂移。
+明確標示 TODO／skip 的 scenario 檔案只提供 Phase 1 分工追溯，不代表行為已實作。

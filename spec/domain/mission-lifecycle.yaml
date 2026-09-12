@@ -18,7 +18,7 @@ entities:
       - { name: status, type: enum, required: true, description: Run outcome., values: [running, succeeded, failed, budget_exhausted, blocked, cancelled] }
       - { name: mode, type: enum, required: true, description: Runner selected for this run., values: [demo, llm, codex] }
       - { name: startedAt, type: ISO-8601 string, required: true, description: Engine start time. }
-      - { name: completedAt, type: ISO-8601 string, required: false, description: Terminal time; absent while running. }
+      - { name: endedAt, type: ISO-8601 string, required: false, description: Terminal time; required for every terminal run and absent while running. }
 relations:
   - A mission owns zero or more runs and points at at most one latest run.
   - A run selects exactly one runner mode and never coordinates multiple runners.
