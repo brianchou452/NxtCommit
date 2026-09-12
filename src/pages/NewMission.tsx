@@ -6,6 +6,7 @@ import { useLocale } from '../i18n/LocaleProvider.js';
 import { productRequest, ProductError } from '../services/authoring.js';
 import { Advisory } from '../components/AuthoringEvidence.js';
 import { CampaignAuthoring } from '../components/CampaignAuthoring.js';
+import { MarkdownBody } from '../components/MarkdownBody.js';
 import '../styles/authoring.css';
 
 export function NewMission() {
@@ -43,7 +44,7 @@ export function NewMission() {
       <h3>{text.c_coverage}</h3><dl className="c-measurements"><div><dt>{text.c_metadata}</dt><dd>{analysis.measured.metadata ? text.c_yes : text.c_no}</dd></div><div><dt>{text.c_filesystem}</dt><dd>{analysis.measured.filesystem ? text.c_yes : text.c_no}</dd></div><div><dt>{text.c_fulltree}</dt><dd>{analysis.measured.fullTree ? text.c_yes : text.c_no}</dd></div><div><dt>{text.c_files}</dt><dd>{analysis.files ?? text.c_unknown}</dd></div><div><dt>{text.c_tests}</dt><dd>{text.c_no}</dd></div></dl>
       {analysis.commitSha && <code>{analysis.commitSha}</code>}
       {!draft && <><h3>{text.c_issues}</h3>{analysis.issues.length === 0 ? <p>{text.c_empty_issues}</p> : analysis.issues.map(item => <label className="c-issue" key={item.id}><input type="radio" name="issue" checked={issueId === item.id} disabled={pending} onChange={() => { setIssueId(item.id); setAdvice(undefined); }} />{item.title}</label>)}
-      {issue && <><p>{issue.body}</p><p>{issue.feasibility.basis}</p><div className="c-actions">
+      {issue && <><MarkdownBody markdown={issue.body} sourceUrl={issue.url ?? analysis.repoUrl} /><p>{issue.feasibility.basis}</p><div className="c-actions">
         <button disabled={pending || expired} onClick={() => void action(async () => setAdvice((await productRequest<{ assistant: AssistantResult }>('/api/analysis/assist', { analysis, issueId })).assistant))}>{text.c_assist}</button>
         <button data-guide-target="next" data-guide-step="2" data-guide-title="c_generate" className="c-primary" disabled={pending || expired} onClick={() => void action(async () => setDraft((await productRequest<{ draft: CampaignDraft }>('/api/campaigns/generate', { analysis, issueId })).draft))}>{text.c_generate}</button>
         <button disabled={pending || expired} onClick={() => void action(async () => setDraft((await productRequest<{ draft: CampaignDraft }>('/api/campaigns/generate', { analysis, issueId, mode: 'demo' })).draft))}>{text.c_generate_demo}</button>

@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.26 — 2026-09-12
+
+- Render imported GitHub issue bodies as GitHub Flavored Markdown, including headings, emphasis, code, task lists and links. Raw HTML remains disabled and rendered URLs are protocol-bounded because issue content is untrusted.
+
 ## v0.7.25 — 2026-09-12
 
 - Reposition the homepage around task correction and maintainer-confirmed repo workflow evolution. Add a nine-stage interactive concept with source, scope, version, explicit simulated confirmation and next-issue acceptance. Rename Chinese Agent Lab navigation and stages consistently. This presentation does not implement PR-reply ingestion or production rule enforcement.
