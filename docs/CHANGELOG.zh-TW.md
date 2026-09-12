@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.11 — 2026-09-12（本機電腦 A / Phase 2）
+
+- 新增 SQLite Home/community 快照、示範資料重設、SSE 重新驗證、持久化遮罩留言、每類別投票鎖定與本機 contributor 收據。
+- 新增 Home、Marketplace、profile、導覽啟動／恢復與路由恢復，包含雙語控制及 Docker 互動測試。B/C 流程仍由各自切片提供。
+- 依要求，在首輪 13 個互動 journey 通過後移除 logo 背景矩形。保留既有 approved visual PNG；完整 Phase 2 驗證仍需視覺核准及缺少的 maintainer 控制項。
+
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 
 - 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。

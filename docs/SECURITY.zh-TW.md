@@ -4,6 +4,15 @@
 
 NxtCommit 是實驗性原型。其控制措施旨在讓 fixture 示範可供稽核；這些措施不足以在共享或正式環境中執行任意第三方程式碼。
 
+## 目前重建：社群輸入
+
+電腦 A／Phase 2 的 wall 先套用有限範圍的明文秘密 pattern redaction，才寫入資料庫；
+伺服器指定本機 author、role、timestamp，寫入前限制 280 個 Unicode code points，
+瀏覽器文字由 React escape。MVP vote 由 SQLite 限制每個本機 persona／category 一筆，
+兩者均不驗證使用者身分。Reset 會先 drain participants，並拒絕競爭 mutation。
+詳見[目前切片交付文件](PHASE2-COMPUTER-A.zh-TW.md)；下方 runner controls 是
+此重建尚未提供之模組的歷史背景。
+
 ## 威脅模型
 
 下列所有項目皆應視為不可信：

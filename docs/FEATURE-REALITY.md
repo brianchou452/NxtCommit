@@ -1,6 +1,6 @@
 # Feature reality matrix
 
-> **NxtCommit hackathon scope (2026-09-12):** This checkout now contains the [Computer A / Phase 1 shared foundation](PHASE1-FOUNDATION.md). The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
+> **NxtCommit hackathon scope (2026-09-12):** This checkout contains the [Phase 1 foundation](PHASE1-FOUNDATION.md) and [Computer A / Phase 2 Home/community implementation](PHASE2-COMPUTER-A.md). SQLite aggregates, SSE, redacted comments, category voting, profile records and reset are real local mechanisms over labelled seed data. Mission execution and model calls remain unavailable; maintainer launch is recoverable but lacks the C-owned analysis control. The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 

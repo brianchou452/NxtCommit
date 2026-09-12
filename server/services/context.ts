@@ -1,7 +1,12 @@
 import type { BootstrapSnapshot, ExecutionCapability, ExecutionEvidenceReader } from '../../shared/types.js';
 import type { PersistenceAdapter } from '../persistence/database.js';
 
+import type { HomeStore } from '../persistence/home.js';
+import type { GlobalStream } from './global-stream.js';
+
 export interface ServiceContext {
+  home: HomeStore;
+  events: GlobalStream;
   store: PersistenceAdapter;
   execution: ExecutionCapability;
   bootstrap(): BootstrapSnapshot;

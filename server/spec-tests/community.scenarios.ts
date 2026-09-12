@@ -1,4 +1,3 @@
-import { test } from 'node:test';
 
 /**
  * Spec: api.contributor-profile
@@ -7,7 +6,7 @@ import { test } from 'node:test';
  * When Its profile is requested.
  * Then Local records and dataMode are returned while unknown external facts remain absent.
  */
-test.todo("api.contributor-profile / contributor-profile-route — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.contributor-profile / contributor-profile-route
 
 /**
  * Spec: api.mvp-list
@@ -16,7 +15,7 @@ test.todo("api.contributor-profile / contributor-profile-route — Phase 2 owner
  * When Nominees are requested.
  * Then Each category includes local basis and lock state without external-governance claims.
  */
-test.todo("api.mvp-list / mvp-list-route — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.mvp-list / mvp-list-route
 
 /**
  * Spec: api.mvp-vote
@@ -25,16 +24,9 @@ test.todo("api.mvp-list / mvp-list-route — Phase 2 owner implementation pendin
  * When A vote is cast.
  * Then One vote is stored and later votes in that category are refused.
  */
-test.todo("api.mvp-vote / one-local-vote-per-category — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.mvp-vote / one-local-vote-per-category
 
-/**
- * Spec: api.run-evidence-explanation
- * Scenario: explanation-never-rewrites-evidence
- * Given A run has a stored artifact.
- * When Explanation is requested.
- * Then Bounded prose and provenance are returned while source evidence remains authoritative.
- */
-test.todo("api.run-evidence-explanation / explanation-never-rewrites-evidence — Phase 2 owner implementation pending");
+
 
 /**
  * Spec: api.wall-list
@@ -43,7 +35,7 @@ test.todo("api.run-evidence-explanation / explanation-never-rewrites-evidence �
  * When Its wall is requested.
  * Then Persisted redacted messages are returned in order.
  */
-test.todo("api.wall-list / wall-list-route — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.wall-list / wall-list-route
 
 /**
  * Spec: api.wall-post
@@ -52,7 +44,7 @@ test.todo("api.wall-list / wall-list-route — Phase 2 owner implementation pend
  * When The local user posts it.
  * Then Redaction happens before persistence and the server assigns identity fields.
  */
-test.todo("api.wall-post / wall-post-redacts-before-storage — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.wall-post / wall-post-redacts-before-storage
 
 /**
  * Spec: component.comment-wall
@@ -61,7 +53,7 @@ test.todo("api.wall-post / wall-post-redacts-before-storage — Phase 2 owner im
  * When Post succeeds.
  * Then The refreshed redacted server thread replaces optimistic content and identity is not client-selected.
  */
-test.todo("component.comment-wall / wall-trusts-server-thread — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.comment-wall / wall-trusts-server-thread
 
 /**
  * Spec: component.contributor-impact
@@ -70,7 +62,7 @@ test.todo("component.comment-wall / wall-trusts-server-thread — Phase 2 owner 
  * When Impact renders.
  * Then Every aggregate is traceable and no wallet identity or adoption is promoted beyond its provenance.
  */
-test.todo("component.contributor-impact / impact-record-is-locally-traceable — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.contributor-impact / impact-record-is-locally-traceable
 
 /**
  * Spec: component.guided-demo-controller
@@ -79,7 +71,7 @@ test.todo("component.contributor-impact / impact-record-is-locally-traceable —
  * When User launches it.
  * Then Navigation begins only after reset succeeds and scripted intelligence remains disclosed.
  */
-test.todo("component.guided-demo-controller / controller-waits-for-real-reset — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.guided-demo-controller / controller-waits-for-real-reset
 
 /**
  * Spec: component.route-recovery
@@ -88,7 +80,7 @@ test.todo("component.guided-demo-controller / controller-waits-for-real-reset �
  * When Recovery renders.
  * Then Accessible action exists and no stack secret or mission-state claim appears.
  */
-test.todo("component.route-recovery / recovery-does-not-leak-internals — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.route-recovery / recovery-does-not-leak-internals
 
 /**
  * Spec: page.contributor-profile
@@ -97,7 +89,7 @@ test.todo("component.route-recovery / recovery-does-not-leak-internals — Phase
  * When Profile renders.
  * Then Accounting and achievements are traceable while identity and adoption remain honestly labelled.
  */
-test.todo("page.contributor-profile / profile-keeps-demo-identity-visible — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — page.contributor-profile / profile-keeps-demo-identity-visible
 
 /**
  * Spec: page.guided-demo
@@ -106,7 +98,7 @@ test.todo("page.contributor-profile / profile-keeps-demo-identity-visible — Ph
  * When A walkthrough is launched.
  * Then Real UI automation remains visibly separated from scripted runner and demo identity claims.
  */
-test.todo("page.guided-demo / guided-demo-discloses-hybrid-boundary — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — page.guided-demo / guided-demo-discloses-hybrid-boundary
 
 /**
  * Spec: page.marketplace
@@ -115,7 +107,7 @@ test.todo("page.guided-demo / guided-demo-discloses-hybrid-boundary — Phase 2 
  * When Data loads or stream updates arrive.
  * Then Shelves revalidate from API and preserve dataMode and generator labels.
  */
-test.todo("page.marketplace / marketplace-route-composes-live-read-model — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — page.marketplace / marketplace-route-composes-live-read-model
 
 /**
  * Spec: page.route-fallbacks
@@ -124,4 +116,6 @@ test.todo("page.marketplace / marketplace-route-composes-live-read-model — Pha
  * When Fallback renders.
  * Then Accessible recovery text and Home or reload action are available without internal details.
  */
-test.todo("page.route-fallbacks / route-fallbacks-remain-recoverable — Phase 2 owner implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — page.route-fallbacks / route-fallbacks-remain-recoverable
+
+import "./community-behavior.js";

@@ -21,7 +21,7 @@ test('foundation migrations are durable, idempotent and enforce one current pers
     store = openDatabase(path);
     try {
       store.migrate(migrations);
-      assert.equal(store.db.prepare('SELECT count(*) AS count FROM schema_migrations').get()?.count, 1);
+      assert.equal(store.db.prepare('SELECT count(*) AS count FROM schema_migrations').get()?.count, migrations.length);
       assert.equal(readCurrentPersona(store.db).id, 'demo-contributor');
       assert.throws(() => store.db.prepare('INSERT INTO local_personas VALUES (?, ?, 1)').run('another', '{}'));
     } finally { store.close(); }

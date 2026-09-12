@@ -1,4 +1,3 @@
-import { test } from 'node:test';
 
 /**
  * Spec: component.hero
@@ -7,7 +6,7 @@ import { test } from 'node:test';
  * When Hero component render
  * Then 它連到 campaign section、讀取 marketplace aggregate，並把未知數值顯示為 unknown 而非虛構的零
  */
-test.todo("component.hero / hero-links-the-story-to-real-payloads — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.hero / hero-links-the-story-to-real-payloads
 
 /**
  * Spec: page.home
@@ -16,4 +15,4 @@ test.todo("component.hero / hero-links-the-story-to-real-payloads — Phase 2 im
  * When 首頁完成 render
  * Then 依既定順序呈現 hero、流程說明、地圖、campaign shelf 與 monthly MVP，並保留穩定的頁內錨點
  */
-test.todo("page.home / impact-first-journey-preserves-section-anchors — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — page.home / impact-first-journey-preserves-section-anchors

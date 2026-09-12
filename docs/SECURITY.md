@@ -4,6 +4,16 @@
 
 NxtCommit is an experimental prototype. Its controls are designed to make fixture demonstrations auditable; they are not sufficient for executing arbitrary third-party code in a shared or production environment.
 
+## Current reconstruction: community input
+
+The Computer A / Phase 2 implementation stores wall text only after bounded plaintext
+secret-pattern redaction. It assigns the local author, role and timestamp on the server
+and enforces a 280-code-point limit before insertion. Browser text nodes are escaped
+by React. MVP votes are unique per local persona/category in SQLite; neither surface
+authenticates people. Reset drains participants and rejects competing writes.
+See [the current slice handoff](PHASE2-COMPUTER-A.md); the runner controls below
+remain historical context for modules not present in this reconstruction.
+
 ## Threat model
 
 Treat all of the following as untrusted:
