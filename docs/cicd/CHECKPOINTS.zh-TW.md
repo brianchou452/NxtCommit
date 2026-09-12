@@ -126,3 +126,5 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 檢查時 GitHub 沒有排程關閉執行紀錄，因此手動觸發 [34708011431](https://github.com/brianchou452/NxtCommit/actions/runs/34708011431)。台灣 01:22:06 成功刪除唯一符合名稱的 `nxtcommit-delivery-nxtcommitcontainer`，ID `a03eb9ab-e1c7-4f5b-a61d-585856b9e28d`，重新列出結果為零。HTTPS `/__deployment` 回傳 410 與展示已結束訊息；截止判斷發生在容器路由之前。不可宣稱容器恰於 01:00 刪除。
 
 已停用 GitHub monitor workflow，且沒有進行中的 run。原始碼移除 monitor／shutdown 排程（保留手動操作），並清空設定的 Worker assurance cron。擴充截止保護的 shutdown workflow，以 API 移除線上 Worker 排程並核對空清單，不重新部署容器；後續執行證據另行追加。刻意保留 Workers Paid 訂閱，未操作取消或降級。關閉證據由 GitHub artifact 保留 90 天。
+
+最後驗證：[34718420233](https://github.com/brianchou452/NxtCommit/actions/runs/34718420233) 成功。Cloudflare 證據時間 2026-09-12 20:54:09 UTC（台灣 04:54:09），容器應用仍為零；Worker 排程由 `*/5 * * * *` 清空為 `[]`。GitHub monitor 維持 `disabled_manually`，沒有進行中的 workflow。保留已關閉的 Worker 與截止保護，外部請求無法經由 gateway 重新建立已刪除應用。未變更訂閱。已完成的 Codex 關閉 heartbeat 暫停，不再重複檢查。
