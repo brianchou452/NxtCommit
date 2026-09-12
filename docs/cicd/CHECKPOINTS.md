@@ -98,3 +98,7 @@ CP-014 cloud correction: the container check reached the compiled client but ret
 ## CP-016 — OpenAI credit spend alerts / 2026-09-12
 
 User requested warning before API credit exhaustion. In Personal Organization, changed the monthly spend reference from USD 120 to USD 100 while leaving hard enforcement OFF. Saved and reloaded provider-native email alerts at 80% (USD 80), 90% (USD 90), and 95% (USD 95), explicitly addressed to ianjuantw@gmail.com; retained the existing 100% owner alert. UI reload confirmed all thresholds and recipients persisted. These monitor organization-wide calendar-month spend, including local and Cloudflare calls; they are not exact real-time promotional credit balance alerts and do not stop API calls. The dashboard rounded current spend to USD 0.00; this is not a claim of zero usage. Actual alert email delivery awaits a threshold event and was not artificially triggered by spending credits.
+
+## CP-017 — Credential replacement handoff / 2026-09-12
+
+Documented key name, project, Responses-only permission, one-day expiry selection, separate credit/key lifecycles, local and Cloudflare replacement steps, restart and actual-call verification, old-key revocation, and the unchanged hosting cutoff in both OpenAI runbooks. Corrected stale alert text to reflect CP-016. Documentation only; no new key, provider call or deployment.

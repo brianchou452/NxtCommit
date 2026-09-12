@@ -98,3 +98,7 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 ## CP-016 — OpenAI 額度用量告警 / 2026-09-12
 
 使用者要求 API 額度快用完時通知。Personal Organization 月用量參考值由 US$120 改為 US$100，強制上限維持 OFF。已儲存並重新載入確認 provider 原生 Email 告警：80%（US$80）、90%（US$90）、95%（US$95），明確寄至 ianjuantw@gmail.com；原本 100% owner 告警保留。重新載入後門檻與收件人均存在。此監測涵蓋組織整個日曆月用量，包括本機與 Cloudflare 呼叫；不是即時精確的 promotion 餘額告警，也不會停止 API。Dashboard 目前四捨五入顯示 US$0.00，不表示完全沒有用量。實際寄信須等跨越門檻，未為測試告警而刻意消耗額度。
+
+## CP-017 — 金鑰更換交接文件 / 2026-09-12
+
+雙語 OpenAI 手冊已記錄 key 名稱、專案、僅 Responses 權限、建立時選擇一天期限、額度與金鑰生命週期差異、本機／Cloudflare 更換步驟、重啟與真實呼叫驗證、舊 key 撤銷，以及不變的 hosting 截止。修正告警舊文案以符合 CP-016。本次僅文件，未建立新 key、呼叫 provider 或部署。

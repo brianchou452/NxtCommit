@@ -6,10 +6,34 @@ Local: put `OPENAI_API_KEY` in the ignored root `.env`, and optionally set `OPEN
 
 Cloudflare: save the same key as the `OPENAI_API_KEY` Worker secret for `nxtcommit-delivery`. The Container class forwards it only at runtime; it is never a Docker build argument or frontend variable. Only api.openai.com is allowed for outbound connections. A newly started container is needed after secret changes. OPENAI_MODEL may be a non-secret Worker variable. A valid key in one environment does not prove the other works; record both live checks separately.
 
-An event credit redemption code is not an API key. Redeem credits in the OpenAI project first, then create a project key in the provider UI. Never commit or paste the key into checkpoint files. API/project budget alerts are not claimed as configured. The hosting cutoff blocks cloud traffic and stops the container at 2026-09-13 01:00 Asia/Taipei; local processes must also be stopped when the demonstration ends.
+An event credit redemption code is not an API key. Confirm credits in the correct OpenAI organization first, then create a project key in the provider UI. Never commit or paste the key into checkpoint files. Organization spend alerts are configured at USD 80, 90 and 95, sent to ianjuantw@gmail.com, with the existing USD 100 owner alert retained (CP-016). The hosting cutoff blocks cloud traffic and stops the container at 2026-09-13 01:00 Asia/Taipei; local processes must also be stopped when the demonstration ends.
 
 [Responses API](https://developers.openai.com/api/reference/cli/resources/responses/methods/create) · [Model](https://developers.openai.com/api/docs/models/gpt-5-mini)
 
 ## Deployment connection evidence
 
 The container adapter offers POST `/__openai-check` only with the separate `OPENAI_CHECK_TOKEN` bearer secret. Without that secret it returns 404. It accepts no prompt input, performs at most one fixed-prompt provider call per process, and returns only provenance/usage. It uses the same compiled server client as local development. Normal health probes never call OpenAI. This is an operational check, not an authoring feature.
+
+## Key inventory and replacement runbook
+
+| Setting | Hackathon configuration |
+| --- | --- |
+| Organization / project | Personal Organization / Default project |
+| Project ID | `proj_1BGh59tTmK8tJBTCxbxfjlIN` |
+| Key name | `NxtCommit Hackathon Local and Cloudflare` |
+| Permissions | Restricted: Responses (`/v1/responses`) Write only |
+| Expiration selected | 1 day; check the key's actual expiry in OpenAI Platform |
+| Local secret | Root `.env`: `OPENAI_API_KEY`; file mode 0600, ignored by Git |
+| Cloud secret | Worker `nxtcommit-delivery`: `OPENAI_API_KEY` |
+| Model | `OPENAI_MODEL=gpt-5-mini` |
+
+Key expiration and credit exhaustion are different. Replacing a key does not replenish the organization's credits. If credits are exhausted, resolve the organization's billing/credit balance; if the key expires or is revoked, create a replacement. Never put a promotional redemption code in `OPENAI_API_KEY`.
+
+1. In [OpenAI API keys](https://platform.openai.com/settings/organization/api-keys), confirm Personal Organization and Default project. Create a replacement with the name above (optionally add the date), Restricted → Model capabilities → Responses → Write, and the required expiration. Keep other permissions at None. Record the actual expiration without recording the secret.
+2. Update only `OPENAI_API_KEY` in each active local checkout's ignored root `.env`. This session configured `/Users/ian_juan/Documents/GitHub/NxtCommit/.env` and `/Users/ian_juan/Documents/GitHub/NxtCommit-delivery/.env`. Preserve unrelated variables; keep mode 0600. Do not put it in `VITE_*`, GitHub source, Docker arguments, or command-line arguments.
+3. Restart local server processes so they load the new environment. From the delivery worktree with Node 24 and dependencies installed, run `node --import tsx scripts/check-openai.mjs`. Require `ok:true`, `generator:openai`, `fallback:false` and real usage. A running process does not automatically reload `.env`.
+4. In the Cloudflare owning account, open Workers & Pages → `nxtcommit-delivery` → Settings → Variables and Secrets. Replace `OPENAI_API_KEY` as a **Secret**, save/apply it, then stop/restart the existing container so runtime `envVars` receives the new value. A Worker secret update alone is not proof that an already-running Node process has the new key. Restarts may erase the ephemeral SQLite demo state.
+5. Check the live `/__deployment` receipt and health/readiness. Send an authenticated POST to `/__openai-check`, using the separate `OPENAI_CHECK_TOKEN` as the Bearer credential—not the OpenAI key. The delivery worktree's ignored `.env` stores this separate operational token. Require a successful result from the newly started container. This endpoint caches one provider result per process, so an old process's cached success cannot prove rotation worked.
+6. After both environments pass, revoke the superseded key in OpenAI Platform. Update bilingual checkpoints with time, key name/expiry, environment, release SHA, model, response ID and token usage; never include key values. For a compromised key, revoke it promptly and accept interruption while replacing it.
+
+The authorized hackathon cutoff remains **2026-09-13 01:00 Asia/Taipei**. Do not restart/redeploy the closed cloud demonstration merely to test a renewed key; extending hosting beyond that deadline requires a new user instruction. Renewing credentials does not extend the deployment lifetime.
