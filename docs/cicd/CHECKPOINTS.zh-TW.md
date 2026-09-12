@@ -90,3 +90,7 @@ Cloudflare Worker version: `213a4d22-7a4f-46cc-9e71-da680361ec60`; image digest:
 確認 Personal Organization 已套用 US$100 promotion，未重複兌換。使用者建立限 Responses Write 的 key 並提供；已存入隊友 checkout 與 delivery worktree 的 Git 忽略 .env（權限 0600），以及 Cloudflare OPENAI_API_KEY secret。本機固定 prompt 驗證成功，模型 gpt-5-mini-2025-08-07，input 11、output 64、total 75 tokens，2836 ms，無 fallback。不記錄憑證值。新增需獨立驗證身分且快取結果的容器固定 prompt 檢查，以驗證真正雲端 runtime；雲端結果仍待確認。此項未實作產品文案 route 或 execution runner。
 
 CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏感內容的 openai_transport_failed。Cloudflare 預設 interceptHttps=false，在全面禁止外網時 HTTP allowlist 不會開啟 HTTPS。已加入限定 HTTPS interception、api.openai.com handler，並以 NODE_EXTRA_CA_CERTS 信任 Cloudflare runtime CA，保留 TLS 驗證與 allowlist。容器配置耗時數分鐘，另延長收據重試窗口；雲端成功仍待驗證。
+
+## CP-015 — 本機與雲端 OpenAI 均驗證成功 / 2026-09-12 04:43 UTC
+
+19ed0793e6f5466eaa36aed707af590cdc409a72 的 [CI 34673517417](https://github.com/brianchou452/NxtCommit/actions/runs/34673517417) 與[部署 34673517601](https://github.com/brianchou452/NxtCommit/actions/runs/34673517601) 全部通過。線上容器經身分驗證的 OpenAI 檢查成功，模型 gpt-5-mini-2025-08-07，2677 ms，input 11 + output 63 = total 74 tokens，fallback=false。加上先前本機 75 tokens 成功紀錄，兩個 runtime 已使用同一 key 取得真正 provider 呼叫證據。未授權雲端探測回傳 404；重複授權探測回傳相同 response ID，確認沒有第二次 provider 呼叫。金鑰與 prompt 不進公開前端或 checkpoint。API 存取已接通，產品文案／runner 實作仍屬隊友的應用程式工作。
