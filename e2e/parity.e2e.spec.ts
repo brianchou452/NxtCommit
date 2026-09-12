@@ -118,3 +118,11 @@ test('protected demo launch preserves existing pledges while preparing an execut
  await expect(page).toHaveURL(/campaign=/);
  const campaign=await (await page.request.get('/api/missions/catalog-mermaid')).json();expect(campaign.computePledged).toBe(4320);expect(resets).toBe(0);
 });
+
+for(const reducedMotion of ['reduce','no-preference'] as const)test(`mobile pledge celebration stays within the viewport ${reducedMotion}`,async({page})=>{
+ await page.setViewportSize({width:390,height:900});await page.emulateMedia({reducedMotion});
+ await page.goto('/missions/catalog-mermaid');await page.locator('[data-demo-action="pledge"]:visible').first().click();
+ await page.getByRole('spinbutton').fill('10');await page.locator('[data-demo-action="confirm-pledge"]').click();
+ await expect(page.getByText('Compute committed', {exact:true})).toBeVisible();
+ await assertReadable(page);
+});

@@ -11,3 +11,5 @@ Review scope: homepage, Demo, marketplace, mission authoring, campaign, My Commi
 No production pledges or reset are part of this UI verification. Server behavior, accounting authority and demo provenance remain unchanged.
 
 Verification: 133 contracts valid, typecheck/build/version checks passed, 173 server tests passed. The full browser run passed 48 cases and found one mobile journey overflow; after correcting the analysis summary and review breadcrumb, both complete journeys passed again, covering all 49 cases across the runs. Screenshots are retained under `test-results/docker/interactive/artifacts` (page matrix) and `test-results/docker/product/artifacts` (final journeys).
+
+Cloud CI additionally caught the transient pledge celebration exceeding mobile width before dismissal. Its panel now fits the viewport, including reduced motion. Four targeted regressions passed: desktop/mobile journeys and both mobile celebration modes. The integrated browser suite now contains 51 cases.

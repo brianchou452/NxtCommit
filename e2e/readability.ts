@@ -11,7 +11,7 @@ export async function assertReadable(page:Page){
    if(rect.width===0||rect.height===0||style.visibility==='hidden'||style.display==='none')continue;
    const size=parseFloat(style.fontSize);if(size<13.9)small.push({text:node.textContent.trim().slice(0,80),size,tag:el.tagName});
   }
-  return {small:small.slice(0,20),width:document.documentElement.scrollWidth,viewport:innerWidth,overflow:Array.from(document.querySelectorAll('main *')).filter(el=>el.getBoundingClientRect().right>innerWidth+1).slice(0,5).map(el=>({tag:el.tagName,cls:el.className,text:el.textContent?.slice(0,60)}))};
+  return {small:small.slice(0,20),width:document.documentElement.scrollWidth,viewport:innerWidth,overflow:Array.from(document.querySelectorAll('body *')).filter(el=>el.getBoundingClientRect().right>innerWidth+1).slice(0,5).map(el=>({tag:el.tagName,cls:el.className,text:el.textContent?.slice(0,60)}))};
  });
  expect(audit.small,'Visible interface copy must remain at least 14px').toEqual([]);
  expect(audit.width,'Content must reflow without horizontal page scrolling: '+JSON.stringify(audit.overflow)).toBeLessThanOrEqual(audit.viewport+1);

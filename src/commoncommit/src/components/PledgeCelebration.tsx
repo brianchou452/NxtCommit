@@ -29,11 +29,11 @@ export function PledgeCelebration() {
   const content = pledgeCelebration.executionStarting ? t("pledgeFx.starting") : t("pledgeFx.funded");
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center" aria-live="polite">
+    <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center overflow-hidden p-4" aria-live="polite">
       {!reduced && <div className="cc-pledge-backdrop absolute inset-0 bg-bg0/35" aria-hidden />}
       <div
         key={pledgeCelebration.id}
-        className={`relative flex flex-col items-center text-center ${reduced ? "cc-glass rounded-2xl p-5 shadow-2xl" : "cc-pledge-pop"}`}
+        className={`relative flex w-full min-w-0 max-w-sm flex-col items-center break-words text-center ${reduced ? "cc-glass rounded-2xl p-5 shadow-2xl" : "cc-pledge-pop"}`}
       >
         {!reduced && (
           <div className="absolute left-1/2 top-1/2" aria-hidden>
