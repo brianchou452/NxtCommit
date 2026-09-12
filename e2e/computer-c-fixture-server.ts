@@ -19,7 +19,12 @@ const faults: RouteModule = () => {
   return router;
 };
 const application = createApplication({ staticDirectory: resolve('dist'), modules: [faults, ...routeModules], authoring: {
-  fetcher: async input => Response.json(String(input).includes('/issues?') ? [{ number: 1, title: 'Observed public issue fixture', body: 'A bounded public issue excerpt.', labels: [] }] : { name: 'prime-agent', private: false, description: 'Server-owned public metadata test fixture' }),
+  fetcher: async input => Response.json(String(input).includes('/issues?') ? [{
+    number: 1,
+    title: 'Observed public issue fixture',
+    body: "## Reproduction\n\nThe storage **warning** misses `QuotaExceededError`.\n\n- [x] Confirmed in Firefox\n\nSee the [upstream issue](https://github.com/PrimeIntellect-ai/prime-agent/issues/1).\n\n<script>alert('untrusted')</script>",
+    labels: [],
+  }] : { name: 'prime-agent', private: false, description: 'Server-owned public metadata test fixture' }),
   observations: { trace: async () => true, score: async () => true },
 } });
 const server = application.app.listen(4201, '127.0.0.1');

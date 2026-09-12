@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.28 — 2026-09-12
+
+- Render imported GitHub issue bodies as GitHub Flavored Markdown, including headings, emphasis, code, task lists and links. Raw HTML remains disabled and rendered URLs are protocol-bounded because issue content is untrusted.
+
 ## v0.7.27 — 2026-09-12
 
 - Redesign Agent Lab around what is tested, measured results and next steps. Group observed checks into practical risk categories; explain role boundaries and collapse diagnostics behind evidence controls. Preserve live, idle, disconnected and provenance states.

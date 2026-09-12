@@ -76,6 +76,13 @@ test('public metadata retry preserves input, loading, scope advice and non-execu
   await page.getByRole('button', { name: 'Analyze repository', exact: true }).click();
   await expect(page.getByText('Unknown / not measured', { exact: true })).toBeVisible();
   await page.getByRole('radio', { name: 'Observed public issue fixture' }).check();
+  const issueBody = page.getByTestId('issue-body');
+  await expect(issueBody.getByRole('heading', { name: 'Reproduction', exact: true })).toBeVisible();
+  await expect(issueBody.locator('strong')).toHaveText('warning');
+  await expect(issueBody.locator('code')).toHaveText('QuotaExceededError');
+  await expect(issueBody.getByRole('listitem')).toContainText('Confirmed in Firefox');
+  await expect(issueBody.getByRole('link', { name: 'upstream issue' })).toHaveAttribute('href', 'https://github.com/PrimeIntellect-ai/prime-agent/issues/1');
+  await expect(issueBody.locator('script')).toHaveCount(0);
   await page.getByRole('button', { name: 'Suggest issue scope', exact: true }).click();
   await expect(page.getByText(/Generator: Static fallback/)).toBeVisible();
   await page.getByRole('button', { name: 'Helpful', exact: true }).click(); await expect(page.getByText(/Feedback submitted as local-demo-user/)).toBeVisible();
