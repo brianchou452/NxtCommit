@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.20 — 2026-09-12
+
+- 移除導覽列下方常駐的示範／隔離提示區段，執行錯誤保留為獨立 alert；同步 shell 規格、雙語字典與瀏覽器回歸測試。
+
 ## v0.7.19 — 2026-09-12
 
 Responses 呼叫去重、同時與每小時上限、真實 token counters、依資料庫 revision 更新 projection，以及共享展示重設／備份保護。依使用者指示保留目前視覺，不處理舊 baseline 差異。

@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.20 — 2026-09-12
+
+- Remove the persistent demo/isolation notice below navigation. Keep execution errors as standalone alerts; update shell specs, locale dictionaries and browser regression coverage.
+
 ## v0.7.19 — 2026-09-12
 
 Responses request deduplication and bounded concurrency/hourly calls, measured token counters, revision-based SQLite projection refresh, and protected shared demo reset/backup. Visual baselines remain unchanged by user instruction.

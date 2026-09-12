@@ -31,7 +31,7 @@ test('shell exposes demo mode, supports local profile navigation and UI reset', 
   await page.goto('/demo');
   await expect(page.getByText('Demo runner', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('10,000');
-  await expect(page.getByText('Local demo identities and compute credits. No authentication, payments or upstream publication.')).toBeVisible();
+  await expect(page.locator('.truth-strip')).toHaveCount(0);
   await page.getByRole('link', { name: 'My Commitment' }).click();
   await expect(page).toHaveURL(/\/contributors\/demo-contributor$/);
   const resetResponse = page.waitForResponse(response => response.url().endsWith('/api/demo/reset') && response.request().method() === 'POST');
@@ -57,7 +57,7 @@ test('server-owned bootstrap and reset failures recover through visible controls
   page.on('request', request => { if (request.method() === 'POST' && request.url().endsWith('/api/demo/reset')) resetRequests.push(request.url()); });
   await page.getByRole('button', { name: 'Reset demo data' }).click();
   await expect(page.getByRole('button', { name: 'Resetting…' })).toBeDisabled();
-  await expect(page.getByRole('alert')).toHaveText('Demo data could not be reset.');
+  await expect(page.getByRole('alert').filter({ hasText: 'Demo data could not be reset.' })).toBeVisible();
   await expect(page).toHaveURL(/\/new$/);
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('7');
   await page.getByRole('button', { name: 'Reset demo data' }).click();
@@ -68,4 +68,38 @@ test('server-owned bootstrap and reset failures recover through visible controls
   await page.reload();
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('10,000');
   expect(resetRequests).toHaveLength(2);
+});
+
+test('navigation has no persistent notice across locales, routes and reloads', async ({ page }) => {
+  await page.goto('/demo');
+  for (const locale of ['en', 'zh-TW', 'en']) {
+    await page.locator('.locale-control select').selectOption(locale);
+    for (const route of ['/', '/new', '/demo']) {
+      await page.locator('nav').locator('a[href="' + route + '"]').click();
+      await expect(page.locator('main')).toBeVisible();
+      await expect(page.locator('.mode-badge')).toBeVisible();
+      await expect(page.locator('.truth-strip')).toHaveCount(0);
+      await expect(page.locator('body')).not.toContainText('Local demo identities and compute credits.');
+      await expect(page.locator('body')).not.toContainText('本機示範角色與運算點數');
+      await expect(page.locator('body')).not.toContainText('No per-run OS isolation is installed.');
+      await expect(page.locator('.shell-header + main')).toBeVisible();
+    }
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await expect(page.locator('.shell-header + main')).toBeVisible();
+  }
+});
+
+test('execution refusal remains visible without the persistent notice', async ({ page }) => {
+  await page.route('**/api/bootstrap', async route => {
+    const response = await route.fetch();
+    const data = await response.json();
+    data.execution.resolved = null;
+    data.execution.error = 'Execution refused for this test.';
+    await route.fulfill({ response, json: data });
+  });
+  await page.goto('/demo');
+  await expect(page.locator('.mode-badge')).toHaveText('Execution unavailable');
+  await expect(page.getByRole('alert')).toHaveText('Execution refused for this test.');
+  await expect(page.locator('.truth-strip')).toHaveCount(0);
 });
