@@ -64,3 +64,5 @@ Node 24.19.0 已依官方 SHA256 驗證；鎖定依賴安裝回報零弱點。�
 每半小時監測 HTTP／SQLite 與 Cloudflare 資源用量。費用為估算而非帳單，缺少數據不是零用量。截止後部署與探測停止。使用者提供另一顆專用 Cloudflare token，正存入 GitHub Secrets，不進 source。實際容器上線仍待驗證。
 
 已新增本機與雲端共用的伺服器端 OpenAI Responses client、安全錯誤、output／timeout 限制、provenance、環境範本及連線檢查腳本。本機型別與 build 通過，17 測試通過、77 TODO。活動短碼不是 API key，真實連線仍需有效 key。部署接入不代表 Phase 2 runner 或 authoring routes 已完成。
+
+CP-011 build 修正：GitHub CI 34670771366 找出 production Docker build 未複製 ApplicationShell 引用的 spec/assets。已加入品牌素材至 build stage，final image 僅保留 bundle。這是打包錯誤，產品測試獨立通過；source image registry 更新為 0.7.12。

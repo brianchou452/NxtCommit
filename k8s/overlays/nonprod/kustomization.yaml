@@ -4,4 +4,4 @@ kind: Kustomization
 resources: []
 images:
   - name: nxtcommit
-    newTag: 0.7.11
+    newTag: 0.7.12

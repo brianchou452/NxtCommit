@@ -6,6 +6,7 @@ COPY tsconfig*.json vite.config.ts index.html ./
 COPY src ./src
 COPY shared ./shared
 COPY server ./server
+COPY spec/assets ./spec/assets
 RUN npm run build && npm prune --omit=dev --ignore-scripts
 
 FROM node:24.19.0-bookworm-slim
