@@ -46,3 +46,13 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 已確認使用的 token 與使用者 Cloudflare 畫面顯示者一致。已準備專用 NxtCommit GitHub Actions token 摘要：只對所屬帳戶提供 Workers Scripts:Edit，只對 ianjuan.com 提供 Zone:Read 與 DNS:Read。官方 Worker 上傳與自訂網域 API 均要求 Workers Scripts Write。目前等待使用者按下建立；代理未產生新 token。這會授予部署權限，因此電腦操作工具的憑證交接規則要求使用者完成最後提交。建立後須更新 GitHub 既有 secret、重跑失敗部署，再驗證線上 SHA/run 收據。
 
 本機已 fast-forward 至合併後 main。此次僅補 checkpoint 的後續提交使用 [skip ci]，避免記錄權限錯誤時再產生相同失敗；沒有修改 runtime 或 workflow。
+
+## CP-010 — 新 token 與產品程式碼／2026-09-12 03:15 UTC
+
+使用者建立專用 token 並授權部署；GitHub 已確認更新既有 secret。[第 2 次嘗試](https://github.com/brianchou452/NxtCommit/actions/runs/34668938513/attempts/2) 成功上傳 Worker，但 Wrangler 列出 zone Workers Routes 時回傳 10000。已證明 Workers Scripts 寫入有效；網域綁定與 HTTPS 仍未完成。Wrangler 的衝突檢查另需 Workers Routes:Read。紀錄不含憑證內容。
+
+使用者要求部署新推送程式。確認 main d376137 使用 React/Vite、Express、Node 24 與同步 node:sqlite。Workers 的 node:sqlite 只有無功能 stub，不能直接執行此後端。在不重設資料庫介面的前提下，需要 Cloudflare Containers 或既有 Node 主機；已詢問使用者執行環境。Containers 的本機磁碟是暫存資料。
+
+Node 24.19.0 已依官方 SHA256 驗證；鎖定依賴安裝回報零弱點。本機型別檢查與正式 build 通過，server 測試為 14 通過、77 TODO、零失敗。本機 Docker 因公司組織登入政策拒絕 build。新增 GitHub hosted 產品 CI job，包含鎖定安裝、型別、server 測試、build、版本檢查與 Docker foundation 瀏覽器流程；尚待發布取得 run。執行環境接入前保留產品部署 guard。
+
+驗證補記：[GitHub CI 34669746467](https://github.com/brianchou452/NxtCommit/actions/runs/34669746467) 在 feb0a21 的 contracts-and-delivery 與 application-foundation 均通過，包含 Docker foundation 瀏覽器流程。本機正式啟動的 /、/healthz、/readyz、/api/bootstrap 均回傳 200，db=true、execution.resolved=null；/api/missions 依骨架現況回傳 404。這是本機與 CI 證據，並非公開部署完成。

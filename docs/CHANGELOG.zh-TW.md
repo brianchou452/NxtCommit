@@ -12,6 +12,12 @@
 - 新增 Home、Marketplace、profile、導覽啟動／恢復與路由恢復，包含雙語控制及 Docker 互動測試。B/C 流程仍由各自切片提供。
 - 依要求，在首輪 13 個互動 journey 通過後移除 logo 背景矩形。保留既有 approved visual PNG；完整 Phase 2 驗證仍需視覺核准及缺少的 maintainer 控制項。
 
+- 新增 mission／funding／execution 垂直切片，包含本機 compute accounting、
+  僅限 fixture 的 demo execution、持久化 evidence 與 mission／execution 頁面。
+- 使用者已明確授權 `dev/computer-b` 的 B 中央接線；驗證與剩餘限制記錄於
+  [B 交接文件](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+- 這是原始碼候選，不代表部署或 approved visual baseline 更新。
+
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 
 - 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。

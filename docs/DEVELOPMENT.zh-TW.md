@@ -1,6 +1,6 @@
 # 開發
 
-> Phase 1 重建使用 Node 24.x 與[骨架開發流程](PHASE1-FOUNDATION.zh-TW.md)。所有 runner mode 仍拒絕執行，下方先前完整應用的指令需後續模組支援。
+> 重建使用 Node 24.x 與[骨架開發流程](PHASE1-FOUNDATION.zh-TW.md)。電腦 B 新增僅限 fixture 的 demo execution；目前驗證見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。強制 real runner mode 仍拒絕執行，下方先前完整應用指令屬於歷史背景。
 
 [English](DEVELOPMENT.md)
 

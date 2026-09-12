@@ -121,7 +121,7 @@ test('foundation reset HTTP restores persona, repeated requests remain determini
 });
 
 test('health is liveness only and readiness follows database availability despite execution refusal', async () => {
-  const server = await startTestServer();
+  const server = await startTestServer({ installMissions: false });
   try {
     const health = await (await fetch(`${server.url}/healthz`)).json();
     assert.equal(health.status, 'ok'); assert.equal(health.mode, undefined);

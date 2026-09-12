@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { GuidedDemo } from './components/GuidedDemo.js';
-import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteErrorBoundary, MissionCommunityPage } from './pages/HomePages.js';
+import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteErrorBoundary } from './pages/HomePages.js';
 import { FoundationPage } from './pages/FoundationPage.js';
 import { ApplicationShell } from './components/ApplicationShell.js';
+import { MissionDetailPage } from './pages/MissionDetailPage.js';
+import { ExecutionRoomPage } from './pages/ExecutionRoomPage.js';
 
 function RouteFocus() {
   const { pathname } = useLocation();
@@ -22,8 +24,8 @@ export function AppRouter() {
     <Route path="/" element={<HomePage />} />
     <Route path="/marketplace" element={<MarketplacePage />} />
     <Route path="/new" element={<FoundationPage />} />
-    <Route path="/missions/:id" element={<MissionCommunityPage />} />
-    <Route path="/missions/:id/run" element={<FoundationPage />} />
+    <Route path="/missions/:id" element={<MissionDetailPage />} />
+    <Route path="/missions/:id/run" element={<ExecutionRoomPage />} />
     <Route path="/missions/:id/review" element={<FoundationPage />} />
     <Route path="/contributors/:id" element={<ProfilePage />} />
     <Route path="/demo" element={<DemoPage />} />

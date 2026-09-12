@@ -4,6 +4,11 @@
 
 [English canonical](FEATURE-REALITY.md)
 
+電腦 B 的 `dev/computer-b` 原始碼候選新增本機 pledge 帳務與 scripted fixture
+execution，test／diff evidence 由 engine 取得；沒有新增 LLM call 或 imported
+repository execution。範圍與驗證狀態見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)；
+下方歷史清單不代表 A/C 功能已重建。
+
 本文件只回答一個問題：**哪些功能真的串接 LLM 或外部系統，哪些是 demo？**
 這是產品文案、QA 與 coding agent 判斷真實性標籤的 canonical 清單。架構與
 安全細節仍以各自文件為準。

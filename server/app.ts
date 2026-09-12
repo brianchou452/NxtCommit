@@ -11,6 +11,10 @@ import { foundationCapability } from './services/context.js';
 import type { ServiceContext } from './services/context.js';
 import { registerRoutes, routeModules } from './routes/index.js';
 import type { RouteModule } from './routes/types.js';
+import { installMissionServices } from './services/mission-services.js';
+import type { MissionOptions } from './services/mission-services.js';
+import { missionsRoutes } from './routes/missions.js';
+import { executionRoutes } from './routes/execution.js';
 
 export interface AppOptions {
   databasePath?: string;
@@ -18,6 +22,11 @@ export interface AppOptions {
   staticDirectory?: string;
   modules?: readonly RouteModule[];
   resetParticipants?: readonly ResetParticipant[];
+  installMissions?: boolean;
+  dispatchMode?: 'inline' | 'queue';
+  autoWorker?: boolean;
+  executionTimeoutMs?: number;
+  missionOptions?: MissionOptions;
 }
 
 export function createApplication(options: AppOptions = {}) {
@@ -28,10 +37,6 @@ export function createApplication(options: AppOptions = {}) {
     if (!store.db.prepare('SELECT 1 FROM local_personas WHERE current = 1').get()) store.transaction(seedFoundation);
     if (!store.db.prepare('SELECT 1 FROM home_projects LIMIT 1').get()) store.transaction(seedHome);
   } catch (error) { store.close(); throw error; }
-  const reset = createResetHarness(store, [{
-    id: 'foundation-persona', quiesce: async () => {},
-    clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
-  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...options.resetParticipants ?? []]);
   const home = new HomeStore(store);
   const events = new GlobalStream();
   const context: ServiceContext = {
@@ -43,6 +48,16 @@ export function createApplication(options: AppOptions = {}) {
     },
     reset: async () => { await reset.reset(); events.publish('mission_update', home.campaigns()[0]); },
   };
+  const missions = options.installMissions === false ? undefined : installMissionServices(context, {
+    ...options.missionOptions,
+    ...(options.dispatchMode !== undefined ? { dispatchMode: options.dispatchMode } : {}),
+    ...(options.autoWorker !== undefined ? { autoWorker: options.autoWorker } : {}),
+    ...(options.executionTimeoutMs !== undefined ? { executionTimeoutMs: options.executionTimeoutMs } : {}),
+  });
+  const reset = createResetHarness(store, [{
+    id: 'foundation-persona', quiesce: async () => {},
+    clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
+  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...(missions ? [missions.resetParticipant] : []), ...options.resetParticipants ?? []]);
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '32kb' }));
@@ -51,7 +66,10 @@ export function createApplication(options: AppOptions = {}) {
     if (reset.pending && !['GET', 'HEAD', 'OPTIONS'].includes(request.method) && request.path !== '/api/demo/reset') { response.status(503).json({ error: 'Demo reset is in progress.', code: 'reset_in_progress' }); return; }
     next();
   });
-  registerRoutes(app, context, options.modules ?? routeModules);
+  const selectedModules = options.modules ?? routeModules;
+  registerRoutes(app, context, options.installMissions === false
+    ? selectedModules.filter(module => module !== missionsRoutes && module !== executionRoutes)
+    : selectedModules);
   app.use('/api', (_request, response) => response.status(404).json({ error: 'Route is not implemented.', code: 'not_found' }));
   if (options.staticDirectory) {
     const directory = resolve(options.staticDirectory);
@@ -73,5 +91,5 @@ export function createApplication(options: AppOptions = {}) {
     }
   };
   app.use(errors);
-  return { app, context, close: () => { events.close(); store.close(); } };
+  return { app, context, close: async () => { await missions?.quiesce(); events.close(); store.close(); } };
 }

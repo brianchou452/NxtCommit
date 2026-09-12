@@ -16,6 +16,8 @@ for argument in "${arguments[@]}"; do
   case "$argument" in
     --project=visual) report_directory=visual ;;
     --project=product) report_directory=product ;;
+    --project=mission) report_directory=mission ;;
+    --project=mission-visual) report_directory=mission-visual ;;
   esac
 done
 if [[ " ${arguments[*]} " == *" --project=foundation "* && " ${arguments[*]} " == *" --project=product "* ]]; then report_directory=interactive; fi

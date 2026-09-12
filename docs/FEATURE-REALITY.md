@@ -4,6 +4,12 @@
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
 
+Computer B's `dev/computer-b` source candidate adds local pledge accounting and
+scripted fixture execution with engine-owned test/diff evidence. It does not add
+LLM calls or imported-repository execution. Scope and verification status are
+recorded in [the B handoff](PHASE2-COMPUTER-B-HANDOFF.md); the historical inventory
+below is not a claim that A/C features have been reconstructed.
+
 This document answers one narrow question: **what is genuinely connected to an
 LLM or an external system, and what is a demonstration?** It is the canonical
 truth-label inventory for product copy, QA, and coding agents. Architecture and

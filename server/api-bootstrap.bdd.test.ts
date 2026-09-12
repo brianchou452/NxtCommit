@@ -19,12 +19,12 @@ test('bootstrap-reports-server-resolved-execution-state', async () => {
       assert.equal(body.currentUser.id, 'demo-contributor');
       assert.equal(body.currentUser.walletBalance, 10000);
       assert.deepEqual(body.personas.contributor, body.currentUser);
-      assert.deepEqual(body.execution, {
-        configured: configuredMode, resolved: null,
-        error: 'Execution is unavailable: no runner module is registered.',
-        llmValidated: false, langfuseEnabled: false,
-        isolation: { kind: 'process', osIsolated: false, detail: 'No per-run OS isolation is installed.' },
-      });
+      assert.equal(body.execution.configured, configuredMode);
+      assert.equal(body.execution.resolved, ['auto', 'demo'].includes(configuredMode) ? 'demo' : null);
+      assert.equal(body.execution.llmValidated, false);
+      assert.equal(body.execution.langfuseEnabled, false);
+      assert.equal(body.execution.isolation.osIsolated, false);
+      if (['llm', 'codex'].includes(configuredMode)) assert.ok(body.execution.error);
       assert.equal(body.execution.gatewayHost, undefined);
       assert.equal(response.headers.get('cache-control'), 'no-store');
     } finally { await server.stop(); }

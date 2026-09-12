@@ -1,5 +1,11 @@
 # Security and trust boundaries
 
+> Reconstruction scope: Computer B implements a scripted bundled-fixture runner,
+> frozen Node verification, protected-file seals, bounded/redacted evidence and
+> transaction-fenced queue ownership. It does not implement the historical LLM/
+> Codex tool loops or per-run OS isolation described below. Docker is the browser
+> test environment, not a product sandbox guarantee. See [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
+
 [繁體中文](SECURITY.zh-TW.md)
 
 NxtCommit is an experimental prototype. Its controls are designed to make fixture demonstrations auditable; they are not sufficient for executing arbitrary third-party code in a shared or production environment.
