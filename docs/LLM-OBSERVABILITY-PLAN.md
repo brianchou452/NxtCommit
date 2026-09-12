@@ -1,5 +1,7 @@
 # Measured LLM expansion and Langfuse optimization plan
 
+> **Local resilience update (2026-09-12):** Local chaos-planner-v1 and experiment-review-v1 reuse the bounded Assistance client with bilingual validated output. Live mode sends only fixed catalog/aggregate evidence and prior advisory text, never raw application state. No external Langfuse export or semantic quality claim is made by this workflow; missing usage stays unknown. [Runbook](CHAOS-AGENTS.md).
+
 > **C reconstruction implementation:** `server/authoring/assistance.ts` supplies bounded bilingual advisory calls and labelled fallbacks. `observations.ts` exports allowlisted metadata through OTLP/HTTP JSON and local helpfulness via Scores API; it does not install the historical SDK/dashboard stack described below. Controlled transport tests establish payload containment, not external persistence or model quality. The source-controlled evaluation corpus defaults to dry-run; live evaluation requires `--live` and configuration. See [OTLP integration](https://langfuse.com/integrations/native/opentelemetry) and [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk).
 
 

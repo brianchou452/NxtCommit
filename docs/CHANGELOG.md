@@ -6,6 +6,12 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.12 — 2026-09-12 (local chaos and experiment agents)
+
+- Added bounded, repeatable fault experiments over real authoring/API modules, optional two-role model advice, regression history and remediation backlogs.
+- Fixed unconsumed error-response streams, blank bilingual model output acceptance, and GPT-5 completion parameter compatibility.
+- Local-only source candidate; no cloud promotion or change to mission execution authority.
+
 ## v0.7.11 — 2026-09-12 (Computer C Phase 2 source; functional E2E passed; visual approval pending)
 
 - Added capability-bound authoring, local mission persistence and review decisions, advisory model/fallback paths, bounded observations and operational endpoints.

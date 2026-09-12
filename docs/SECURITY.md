@@ -1,5 +1,7 @@
 # Security and trust boundaries
 
+> **Local resilience update (2026-09-12):** Local chaos faults use synthetic credentials, private transports and disposable in-memory databases. There is no public injection surface or arbitrary target. Models cannot execute commands, alter gates or source; periodic loops have cycle limits and a single-process lock. [Runbook](CHAOS-AGENTS.md).
+
 ## Computer C authoring and review boundary
 
 The C slice accepts public HTTPS GitHub identities only and reads at most five issue/PR records per request, then excludes PRs; an empty result means no issues observed in that bounded window. Responses, issue text and model output are size-bounded. Process-local analysis/draft tokens expire within 30 minutes, are capacity-bounded and are invalidated by reset. Client edits never replace server snapshots. Reset epochs reject in-flight authoring results. Review comments are redacted before persistence.

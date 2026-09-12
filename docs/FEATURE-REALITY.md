@@ -1,5 +1,7 @@
 # Feature reality matrix
 
+> **Local resilience update (2026-09-12):** Local resilience CLI adds controlled fault experiments over real modules and optional real model hypotheses/interpretation. It does not enable mission runners or automatic repair; inspect each report’s provenance. [Runbook](CHAOS-AGENTS.md).
+
 > **Computer C / Phase 2 source update:** Authoring, local review and operations are now implemented on `dev/computer-c`; see [the handoff](PHASE2-C.md) for tested boundaries and outstanding visual approval (12 Docker journeys passed). Default review evidence is authored demo data. Model/trace adapters are tested against controlled transports; no live model or external Langfuse success is claimed. The B execution runner and A community slice remain absent from this checkout.
 
 

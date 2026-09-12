@@ -1,5 +1,7 @@
 # NxtCommit
 
+For local Chaos Agent / Experiment Agent runs and iteration evidence, see [the agent runbook](docs/CHAOS-AGENTS.md).
+
 [繁體中文](docs/README.zh-TW.md)
 
 This checkout is the Computer A / Phase 1 shared foundation. Both frontend and

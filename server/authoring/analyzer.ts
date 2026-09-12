@@ -27,7 +27,11 @@ export function redactEvidence(value: unknown, depth = 0): unknown {
 const bounded = (value: unknown, max = 4000): string => typeof value === 'string' ? redactText(value.slice(0, max)) : '';
 
 export async function boundedJson(response: Response, limit = 128_000): Promise<unknown> {
-  if (!response.ok || !response.body) throw new Error('remote_unavailable');
+  if (!response.ok) {
+    await response.body?.cancel();
+    throw new Error('remote_unavailable');
+  }
+  if (!response.body) throw new Error('remote_unavailable');
   const reader = response.body.getReader(); let length = 0; const chunks: Uint8Array[] = [];
   try {
     while (true) {

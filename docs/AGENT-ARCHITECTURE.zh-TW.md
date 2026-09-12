@@ -1,5 +1,7 @@
 # Agent 架構與 multi-agent 現況
 
+> **Local resilience update (2026-09-12):** 另有本機穩定度流程協調 Chaos Agent 假設 → 固定目錄執行 → 實驗 Agent 解讀，以報告交接。這是循序建議流程，不是任務 topology 或自主寫碼叢集；下方歷史任務架構需分開閱讀。 [Runbook](CHAOS-AGENTS.zh-TW.md).
+
 [English](AGENT-ARCHITECTURE.md)
 
 ## 簡短答案

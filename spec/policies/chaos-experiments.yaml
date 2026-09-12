@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.chaos-experiments
+title: Local chaos and experiment authority
+scope: [domain.model-assistance, domain.provenance]
+rules:
+  - { id: isolated-faults, requirement: Faults affect only controlled transports and disposable application databases; no arbitrary target URL or public injection API., enforcement: server }
+  - { id: full-catalog, requirement: Every cycle runs every versioned scenario with bounded repetitions; model advice cannot omit cases., enforcement: server }
+  - { id: no-model-authority, requirement: Model hypotheses and interpretation are advisory; only observed deterministic checks decide pass or blocked and promotion remains false., enforcement: server }
+  - { id: bounded-loop, requirement: Cycles and intervals are bounded and overlapping runs are refused; failures persist and cause a nonzero exit., enforcement: server }
+  - { id: provenance, requirement: Controlled fault results are distinct from real model advisory provenance and cannot establish production readiness., enforcement: server }
+  - { id: regression-evidence, requirement: Record each terminal check and compare only compatible catalogs and repetition counts; failures produce a remediation backlog., enforcement: server }

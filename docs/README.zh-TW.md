@@ -1,5 +1,7 @@
 # NxtCommit
 
+本機 Chaos Agent／實驗 Agent、迭代命令與證據請見 [Agent 操作手冊](CHAOS-AGENTS.zh-TW.md)。
+
 > 此 checkout 為電腦 A／Phase 1 共用骨架。前後端皆使用 TypeScript，引用 `shared/`
 > 的 browser-safe 契約；Python 僅用於 YAML 驗證。使用 Node 24.x，執行 `npm ci`、
 > `uv sync --locked`、`npm run dev`。完整設定與分工請見 [Phase 1 交付文件](PHASE1-FOUNDATION.zh-TW.md)。

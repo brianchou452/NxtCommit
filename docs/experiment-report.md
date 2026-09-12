@@ -444,3 +444,14 @@ blocked until each feature has at least 50 blinded human annotations, no P0
 safety/grounding regression, declared confidence bounds, acceptable p95 latency
 and token budget, and a stored Langfuse dataset-run ID. Record future decisions
 below with commit, prompt version, model, run ID, score summary and owner.
+
+
+## Local resilience loop — 2026-09-12
+
+Branch `codex/chaos-experiment-agents`, based on Computer C `ec95912`; source candidate v0.7.12.
+
+The first 17-case controlled run (`773d6664-040d-4e18-ae63-ba3c6f121035`) failed 3 checks: 429/503 response-body release and whitespace-only advice. After fixes, the same seed/repetition run (`e1d119b7-cfac-4848-ace4-c5d67667bab2`) passed 17/17, with those three cases recovered and no regression. These discovery runs used a dirty development tree, not an immutable release.
+
+The first live advisory attempt fell back because the configured GPT-5 mini rejected the old completion parameter. After compatible parameter handling and concise role prompts, run `3344cd5d-6e7a-48fb-9aca-d3d7144fbdd2` passed 34/34 controlled checks and both advisory roles reported `generator: openai`, model `gpt-5-mini`. This establishes accepted provider-backed advice, not semantic quality or production stability. Prior partial/fallback runs are retained. Reports reside in ignored `var/chaos-agents/`; final CLI reports also include source hash and commit/dirty identity.
+
+Verification: `npm run check` (69 passed, 0 failed, 54 existing TODOs), specification lint (126 specs; no errors/missing tests), four Python linter tests and `npm run check-version` (0.7.12). No browser behavior changed; existing visual approval and B execution integration remain pending. See [runbook](CHAOS-AGENTS.md) for runtime and evidence boundaries.

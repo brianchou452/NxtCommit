@@ -1,5 +1,7 @@
 # Agent architecture and multi-agent status
 
+> **Local resilience update (2026-09-12):** A separate local resilience workflow now coordinates Chaos Agent hypotheses → fixed-catalog execution → Experiment Agent interpretation through a report handoff. This is a sequential advisory workflow, not the mission topology or an autonomous coding fleet. The historical mission description below remains separate. [Runbook](CHAOS-AGENTS.md).
+
 [繁體中文](AGENT-ARCHITECTURE.zh-TW.md)
 
 ## Short answer

@@ -1,5 +1,7 @@
 # Development
 
+> **Local resilience update (2026-09-12):** For the new Node 24 local chaos/experiment workflow, commands, local deployment and stop behavior, see the local agents runbook. [Runbook](CHAOS-AGENTS.md).
+
 > Phase 1 reconstruction uses Node 24.x and the [foundation workflow](PHASE1-FOUNDATION.md). All runner modes remain refused; the older full-application commands below require later-phase modules.
 
 [繁體中文](DEVELOPMENT.zh-TW.md)

@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.12 — 2026-09-12（本機 Chaos 與實驗 Agent）
+
+- 新增對真實 authoring／API 模組的有界可重複故障實驗、選用雙角色模型建議、回歸歷史與修復待辦。
+- 修正錯誤回應串流未釋放、空白雙語輸出被接受，以及 GPT-5 completion 參數不相容問題。
+- 僅本機原始碼候選，未發布雲端或改變任務執行權限。
+
 ## v0.7.11 — 2026-09-12（電腦 C Phase 2 原始碼；功能 E2E 通過；視覺待核准）
 
 - 新增 capability-bound authoring、本機任務持久化與檢視決策、模型建議／備援、有限範圍的 observability 及 operations endpoints。
