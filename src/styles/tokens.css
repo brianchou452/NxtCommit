@@ -1,7 +1,7 @@
 /* design-system.nxtcommit: foundation values, not a page/approved shell recreation. */
 :root {
   --font-body: 'DM Sans', 'Noto Sans TC', 'PingFang TC', system-ui, sans-serif;
-  --font-metadata: ui-monospace, monospace;
+  --font-metadata: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --canvas: #fbfbfa;
   --surface: #fff;
   --ink: #101110;
@@ -13,6 +13,8 @@
   --development: #0b9d81;
   --verification: #277fa6;
   --adoption: #c26b45;
+  --line: #e2e4df;
+  --shadow-card: 0 12px 36px rgb(23 21 47 / 5%);
   --space: 4px;
   --section-desktop: 7rem;
   --radius-pill: 999px;

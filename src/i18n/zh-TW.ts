@@ -106,6 +106,10 @@ export const zhTW = {
   assurance_json: "開啟可機器讀取的證據",
   assurance_model: "真實模型回應",
   assurance_fallback: "靜態備援",
+  art_words: '文字', art_diagram: '圖表', art_scan: '掃描 PDF', art_search: '搜尋',
+  art_phone: '手機', art_desktop: '桌面', art_pixels: '像素', art_text: '文字',
+  art_laptop: '筆電', art_speech: '語音', art_subtitles: '字幕', art_photos: '照片',
+  art_library: '圖庫', art_prompt: '提示', art_response: '回應', art_code: '程式碼', art_change: '變更',
   demo_protected: '共享展示已受保護。開始導覽會保留現有進度。',
 
   gh_title: "GitHub 原始碼工作區",

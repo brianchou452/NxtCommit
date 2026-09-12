@@ -1,4 +1,7 @@
 export const missionEn = {
+  mission_concept: 'Project concept: source, project, improvement', mission_concept_input: 'SOURCE', mission_concept_output: 'IMPROVEMENT',
+  mission_document_input: 'PDF DOCUMENT', mission_document_output: 'READ / SEARCH',
+  mission_delivery: 'Follow the work, from funding to delivery', mission_development: 'Development', mission_verification: 'Verification', mission_adoption: 'Adoption', mission_evidence: 'Change evidence', mission_community: 'A shared commitment',
   mission_campaign: 'Campaign', mission_project: 'Open source project', mission_funding: 'Funding progress',
   mission_pledged: 'pledged', mission_goal: 'goal', mission_backers: 'Backers', mission_credits: 'compute credits',
   mission_what: 'What this project does', mission_why: 'Why this matters', mission_benefits: 'Who benefits', mission_approach: 'The bounded development plan',
@@ -37,6 +40,9 @@ export const missionEn = {
   mission_pending: 'Pending', mission_supported: 'Supported', mission_unsupported: 'Unsupported',
 } as const;
 export const missionZhTW: { [K in keyof typeof missionEn]: string } = {
+  mission_concept: '專案概念：來源、專案、改善', mission_concept_input: '輸入來源', mission_concept_output: '預期改善',
+  mission_document_input: 'PDF 文件', mission_document_output: '閱讀／搜尋',
+  mission_delivery: '從算力投入，一步步走向交付。', mission_development: '開發', mission_verification: '驗證', mission_adoption: '採用', mission_evidence: '變更證據', mission_community: '讓每一份支持，一起推進。',
   mission_campaign: '任務募資', mission_project: '開源專案', mission_funding: '募資進度',
   mission_pledged: '已承諾', mission_goal: '目標', mission_backers: '支持者', mission_credits: '算力點數',
   mission_what: '這個專案做什麼', mission_why: '為什麼重要', mission_benefits: '誰會受益', mission_approach: '有明確邊界的開發計畫',

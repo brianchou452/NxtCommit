@@ -1,9 +1,16 @@
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--font-body); }
+body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--font-body); line-height: 1.6; }
+h1, h2, h3 { font-weight: 700; line-height: 1.15; letter-spacing: -.035em; overflow-wrap: anywhere; }
+p { line-height: 1.65; }
+a { color: var(--brand-violet); }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
 button, select, input, textarea { font: inherit; }
 button, select { min-height: 44px; }
 :focus-visible { outline: 2px solid var(--brand-violet); outline-offset: 3px; }
 main { padding: var(--gutter); }
+main, section, article, aside { min-width: 0; }
+input, textarea, select { max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
