@@ -53,3 +53,12 @@ test.todo("component.verification-dossier / dossier-separates-suite-and-criteria
  * Then Deterministic evidence remains first and only local lifecycle actions occur.
  */
 test.todo("page.review / review-keeps-deterministic-evidence-primary — Phase 2 owner implementation pending");
+
+/**
+ * Spec: api.run-evidence-explanation
+ * Scenario: explanation-never-rewrites-evidence
+ * Given A run has a stored artifact.
+ * When Explanation is requested.
+ * Then Bounded prose and provenance are returned while source evidence remains authoritative.
+ */
+test.todo("api.run-evidence-explanation / explanation-never-rewrites-evidence — Phase 2 owner implementation pending");

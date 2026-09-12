@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { GuidedDemo } from './components/GuidedDemo.js';
+import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteErrorBoundary, MissionCommunityPage } from './pages/HomePages.js';
 import { FoundationPage } from './pages/FoundationPage.js';
 import { ApplicationShell } from './components/ApplicationShell.js';
 
@@ -16,16 +18,16 @@ function RouteFocus() {
 }
 /** A owns this registry. Phase 2 owners replace their placeholders. */
 export function AppRouter() {
-  return <BrowserRouter><ApplicationShell><RouteFocus /><Routes>
-    <Route path="/" element={<FoundationPage />} />
-    <Route path="/marketplace" element={<FoundationPage />} />
+  return <BrowserRouter><ApplicationShell><RouteFocus /><RouteErrorBoundary><Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/marketplace" element={<MarketplacePage />} />
     <Route path="/new" element={<FoundationPage />} />
-    <Route path="/missions/:id" element={<FoundationPage />} />
+    <Route path="/missions/:id" element={<MissionCommunityPage />} />
     <Route path="/missions/:id/run" element={<FoundationPage />} />
     <Route path="/missions/:id/review" element={<FoundationPage />} />
-    <Route path="/contributors/:id" element={<FoundationPage />} />
-    <Route path="/demo" element={<FoundationPage />} />
+    <Route path="/contributors/:id" element={<ProfilePage />} />
+    <Route path="/demo" element={<DemoPage />} />
     <Route path="/concepts/:concept/*" element={<FoundationPage />} />
-    <Route path="*" element={<FoundationPage missing />} />
-  </Routes></ApplicationShell></BrowserRouter>;
+    <Route path="*" element={<RecoveryPage />} />
+  </Routes></RouteErrorBoundary><GuidedDemo /></ApplicationShell></BrowserRouter>;
 }

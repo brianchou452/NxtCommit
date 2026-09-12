@@ -1,3 +1,4 @@
+import { homeMigration } from './home.js';
 import type { Migration } from './database.js';
 
 /** Computer A owns ordering. B/C supply migration modules for integration. */
@@ -12,4 +13,4 @@ export const migrations: readonly Migration[] = [{
     );
     CREATE UNIQUE INDEX single_current_persona ON local_personas(current) WHERE current = 1;`);
   },
-}];
+}, homeMigration];

@@ -10,5 +10,8 @@ export const homeRoutes: RouteModule = context => {
     await context.reset();
     response.json({ ok: true });
   });
+  router.get('/api/impact', (_request, response) => response.json(context.home.impact()));
+  router.get('/api/marketplace', (_request, response) => response.json(context.home.marketplace()));
+  router.get('/api/stream', (_request, response) => context.events.connect(response));
   return router;
 };

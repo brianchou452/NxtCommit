@@ -7,3 +7,4 @@ export function resolveLocale(preference: string | null, browserLanguage: string
   if (preference === 'en' || preference === 'zh-TW') return preference;
   return browserLanguage.toLowerCase().startsWith('zh') ? 'zh-TW' : 'en';
 }
+export { localize } from '../../shared/types.js';

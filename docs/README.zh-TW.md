@@ -1,10 +1,13 @@
 # NxtCommit
 
-> 此 checkout 為電腦 A／Phase 1 共用骨架。前後端皆使用 TypeScript，引用 `shared/`
-> 的 browser-safe 契約；Python 僅用於 YAML 驗證。使用 Node 24.x，執行 `npm ci`、
-> `uv sync --locked`、`npm run dev`。完整設定與分工請見 [Phase 1 交付文件](PHASE1-FOUNDATION.zh-TW.md)。
-> 產品路由目前為雙語 shell 內的 placeholder，尚無 runner、model call 或完整產品流程。
-> 原 approved golden 保留，其差異已記錄；以下產品說明為匯入背景。
+> 此 checkout 包含 Phase 1 骨架及電腦 A／Phase 2 Home/community。前後端使用
+> TypeScript 與 `shared/` browser-safe 契約；Python 僅用於 YAML 驗證。
+> 使用 Node 24.x，執行 `npm ci`、`uv sync --locked`、`npm run dev`。
+> Home、Marketplace、profile、留言、類別投票、reset 與導覽啟動／恢復已有雙語實作。
+> `npm run test:e2e` 執行 Docker 互動驗證；B/C 的 execution／authoring 尚未整合，
+> 沒有 runner 或 model call。Approved PNG 保留，未宣稱完整 Phase 2 verified。
+> 分工、證據與未完成門檻見 [Phase 2 交付文件](PHASE2-COMPUTER-A.zh-TW.md)，
+> 舊 checkpoint 見 [Phase 1 文件](PHASE1-FOUNDATION.zh-TW.md)。以下產品說明是匯入歷史背景。
 
 把閒置的 AI 運算額度，轉成可審查的開源進展。
 

@@ -1,4 +1,6 @@
 import express from 'express';
+import { HomeStore, seedHome, clearHome } from './persistence/home.js';
+import { GlobalStream } from './services/global-stream.js';
 import type { ErrorRequestHandler } from 'express';
 import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
@@ -24,23 +26,31 @@ export function createApplication(options: AppOptions = {}) {
   try {
     store.migrate(migrations);
     if (!store.db.prepare('SELECT 1 FROM local_personas WHERE current = 1').get()) store.transaction(seedFoundation);
+    if (!store.db.prepare('SELECT 1 FROM home_projects LIMIT 1').get()) store.transaction(seedHome);
   } catch (error) { store.close(); throw error; }
   const reset = createResetHarness(store, [{
     id: 'foundation-persona', quiesce: async () => {},
     clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
-  }, ...options.resetParticipants ?? []]);
+  }, { id: 'home-community', quiesce: async () => {}, clear: clearHome, seed: seedHome }, ...options.resetParticipants ?? []]);
+  const home = new HomeStore(store);
+  const events = new GlobalStream();
   const context: ServiceContext = {
-    store, execution,
+    store, execution, home, events,
     bootstrap: () => {
-      const currentUser = readCurrentPersona(store.db);
+      const persona = readCurrentPersona(store.db);
+      const currentUser = { ...persona, totalPledged: home.profile(persona.id)!.totalPledged };
       return { currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
     },
-    reset: () => reset.reset(),
+    reset: async () => { await reset.reset(); events.publish('mission_update', home.campaigns()[0]); },
   };
   const app = express();
   app.disable('x-powered-by');
   app.use(express.json({ limit: '32kb' }));
   app.use((_request, response, next) => { response.setHeader('Cache-Control', 'no-store'); next(); });
+  app.use((request, response, next) => {
+    if (reset.pending && !['GET', 'HEAD', 'OPTIONS'].includes(request.method) && request.path !== '/api/demo/reset') { response.status(503).json({ error: 'Demo reset is in progress.', code: 'reset_in_progress' }); return; }
+    next();
+  });
   registerRoutes(app, context, options.modules ?? routeModules);
   app.use('/api', (_request, response) => response.status(404).json({ error: 'Route is not implemented.', code: 'not_found' }));
   if (options.staticDirectory) {
@@ -63,5 +73,5 @@ export function createApplication(options: AppOptions = {}) {
     }
   };
   app.use(errors);
-  return { app, context, close: () => store.close() };
+  return { app, context, close: () => { events.close(); store.close(); } };
 }

@@ -6,6 +6,16 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.11 — 2026-09-12 (local Computer A / Phase 2)
+
+- Added SQLite-backed Home/community snapshots, demo graph reset, SSE invalidation,
+  persisted redacted comments, category vote locking and local contributor receipts.
+- Added Home, Marketplace, profile, guided launch/recovery and route recovery with
+  bilingual controls and Docker interactive coverage. B/C workflows remain separate.
+- Removed the logo background rectangle after the first 13 interactive journeys
+  passed, as requested. Existing approved visual PNGs are preserved; full Phase 2
+  verification still requires visual approval and the missing maintainer target.
+
 ## v0.7.10 — 2026-09-12 (local Phase 1 source checkpoint)
 
 - Established TypeScript frontend/backend shared contracts, modular HTTP registration,
