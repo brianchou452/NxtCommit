@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.29 — 2026-09-12
+
+- 導覽列在兩種語言下統一使用 Agent Lab。僅調整名稱，沿用既有版面、互動與來源標示。
+
 ## v0.7.28 — 2026-09-12
 
 - 將匯入的 GitHub 議題內容以 GitHub Flavored Markdown 顯示，支援標題、強調、程式碼、工作清單與連結。因議題內容不受信任，原始 HTML 維持停用，且顯示的 URL 受協定白名單限制。
