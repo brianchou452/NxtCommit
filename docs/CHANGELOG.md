@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.29 — 2026-09-12
+
+- Use Agent Lab for the navigation label in both languages. Copy-only change; existing layout, interactions and provenance remain intact.
+
 ## v0.7.28 — 2026-09-12
 
 - Render imported GitHub issue bodies as GitHub Flavored Markdown, including headings, emphasis, code, task lists and links. Raw HTML remains disabled and rendered URLs are protocol-bounded because issue content is untrusted.

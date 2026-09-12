@@ -58,7 +58,7 @@ export const zhTW = {
   lab_usage_note: "用量是本輪回報值；呼叫次數不代表修改次數。",
 
 
-  assurance_nav: "代理實驗室",
+  assurance_nav: "Agent Lab",
   assurance_eyebrow: "先有證據，再談信任",
   assurance_title: "每個結論，都有證據可追溯。",
   assurance_intro: "查驗每輪的規劃、安全邊界、故障測試結果與下一個實驗。",
