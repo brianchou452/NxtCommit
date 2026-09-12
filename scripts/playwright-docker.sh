@@ -11,14 +11,21 @@ done
 image=nxtcommit-foundation-e2e:0.1.0
 docker build --load -f e2e/Dockerfile -t "$image" .
 arguments=("$@")
-if [[ ${#arguments[@]} -eq 0 ]]; then arguments=(--project=foundation); fi
+if [[ ${#arguments[@]} -eq 0 ]]; then arguments=(--project=foundation --project=product); fi
 report_directory=foundation
 for argument in "${arguments[@]}"; do
   case "$argument" in
     --project=visual) report_directory=visual ;;
     --project=product) report_directory=product ;;
+    --project=mission) report_directory=mission ;;
+    --project=mission-visual) report_directory=mission-visual ;;
+
+    --project=computer-c) report_directory=computer-c ;;
+    --project=computer-c-visual) report_directory=computer-c-visual ;;
   esac
 done
+if [[ " ${arguments[*]} " == *" --project=foundation "* && " ${arguments[*]} " == *" --project=product "* ]]; then report_directory=interactive; fi
+if [[ " ${arguments[*]} " == *" --project=visual "* && " ${arguments[*]} " == *" --project=mission-visual "* && " ${arguments[*]} " == *" --project=computer-c-visual "* ]]; then report_directory=visual-all; fi
 mkdir -p "test-results/docker/$report_directory"
 command=(./node_modules/.bin/playwright test "${arguments[@]}")
 if [[ "${E2E_CHECK_APPLICATION:-0}" == 1 ]]; then

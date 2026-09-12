@@ -1,8 +1,9 @@
 # Feature reality matrix
 
-> **Current scope, 2026-09-12:** main has a deployed Phase 1 foundation container and verified local/cloud Responses calls; it is no longer only an infrastructure Worker. A/B/C and local experiments still require branch integration. Use the [branch inventory](BRANCHES.md), [Cloudflare runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md). The CommonCommit/GitLab/Argo material below remains historical reference, not this repository's current state.
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)
+
+> **Integrated source, 2026-09-12:** main combines Phase 3 A/B/C (`08bead6`) with the Cloudflare delivery baseline (`7d9fbba`) at version `0.7.17`. Local authoring, funding, accounting, comments, SSE and local decisions share one mission authority. Two bundled fixtures use scripted patches with measured engine tests/diffs. Seed review remains demo; imported repositories never execute. Existing cloud egress and Responses permissions are unchanged: product advice uses labelled fallbacks in the container and GitHub import requires the local server network path. Live product assistance and visual approval are not established. The previous Responses probe and serving revision are documented in [checkpoints](cicd/CHECKPOINTS.md); source merging does not establish a new deployment. See [integration evidence](PHASE3-INTEGRATION.md). The historical inventory below does not describe this reconstruction in full.
 
 This document answers one narrow question: **what is genuinely connected to an
 LLM or an external system, and what is a demonstration?** It is the canonical

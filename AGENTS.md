@@ -29,9 +29,9 @@ boundary is visible to everyone.
 - Public GitHub import is read-only metadata analysis. It does not clone or run
   the imported repository. Use `https://github.com/PrimeIntellect-ai/prime-agent`
   as the public integration probe; do not substitute a private repository.
-- Main's foundation currently refuses mission execution, even with
-  `EXECUTION_MODE=demo`. Product branches must preserve fixture-only execution
-  boundaries when integrated; no arbitrary imported repository execution.
+- Main integrates A/B/C with scripted execution for the two bundled fixtures.
+  Preserve fixture-only execution and engine-owned evidence; imported repositories
+  remain metadata-only and never execute.
 - The bounded Responses probe has measured local/cloud provider usage. Product
   authoring and runner integration are separate branch responsibilities. Never
   infer their readiness from that probe or from a configured key.
@@ -68,7 +68,7 @@ boundary is visible to everyone.
   基礎設施綠燈不代表產品已就緒。
 - GitHub 匯入只讀 metadata，不 clone、不執行。公開整合測試固定使用
   `PrimeIntellect-ai/prime-agent`，不可拿 private repo 代替。
-- main foundation 目前拒絕任務執行，即使配置 demo 也不代表 runner 已接通。
+- main 已整合 A／B／C，僅兩個內附 fixture 可使用腳本執行，保留 engine 證據與邊界。
   Responses probe 已驗證本機／雲端 usage；產品文案與執行仍須依分支驗證。
   fixture-only 邊界與 demo 標籤必須保留，不可從畫面推論能力。
 - 不得宣稱系統會登入 GitHub、建立真正 PR、合併、發布、收款；不得把 demo 運算點數當成 provider token。Responses probe 已回報真實 usage，但不代表任務 runner 已整合。

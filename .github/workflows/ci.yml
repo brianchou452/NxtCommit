@@ -67,13 +67,13 @@ jobs:
         if: always()
         run: |
           echo '### Application foundation' >> "$GITHUB_STEP_SUMMARY"
-          echo 'TypeScript checks, server tests, production build and Docker foundation journeys. TODO cases remain unimplemented; visual equality and Phase 2 features are not certified.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'TypeScript checks, server tests, production build and all integrated Docker journeys. Approved visual comparison is a separate gate and remains pending review.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: application-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             artifacts/
-            test-results/docker/foundation/
+            test-results/docker/interactive/
           retention-days: 30
           if-no-files-found: warn

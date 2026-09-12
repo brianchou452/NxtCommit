@@ -1,7 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { FoundationPage } from './pages/FoundationPage.js';
+import { GuidedDemo } from './components/GuidedDemo.js';
+import { HomePage, MarketplacePage, ProfilePage, DemoPage, RecoveryPage, RouteErrorBoundary } from './pages/HomePages.js';
 import { ApplicationShell } from './components/ApplicationShell.js';
+import { MissionDetailPage } from './pages/MissionDetailPage.js';
+import { ExecutionRoomPage } from './pages/ExecutionRoomPage.js';
+import { NewMission } from './pages/NewMission.js';
+import { Review } from './pages/Review.js';
+import { DesignConcepts } from './pages/DesignConcepts.js';
 
 function RouteFocus() {
   const { pathname } = useLocation();
@@ -14,18 +20,17 @@ function RouteFocus() {
   }, [pathname]);
   return null;
 }
-/** A owns this registry. Phase 2 owners replace their placeholders. */
+/** A owns the integrated route registry for the three vertical slices. */
 export function AppRouter() {
-  return <BrowserRouter><ApplicationShell><RouteFocus /><Routes>
-    <Route path="/" element={<FoundationPage />} />
-    <Route path="/marketplace" element={<FoundationPage />} />
-    <Route path="/new" element={<FoundationPage />} />
-    <Route path="/missions/:id" element={<FoundationPage />} />
-    <Route path="/missions/:id/run" element={<FoundationPage />} />
-    <Route path="/missions/:id/review" element={<FoundationPage />} />
-    <Route path="/contributors/:id" element={<FoundationPage />} />
-    <Route path="/demo" element={<FoundationPage />} />
-    <Route path="/concepts/:concept/*" element={<FoundationPage />} />
-    <Route path="*" element={<FoundationPage missing />} />
-  </Routes></ApplicationShell></BrowserRouter>;
+  return <BrowserRouter><RouteFocus /><Routes><Route path="/concepts/:concept/*" element={<DesignConcepts />} /><Route path="*" element={<ApplicationShell><RouteErrorBoundary><Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/marketplace" element={<MarketplacePage />} />
+    <Route path="/new" element={<NewMission />} />
+    <Route path="/missions/:id" element={<MissionDetailPage />} />
+    <Route path="/missions/:id/run" element={<ExecutionRoomPage />} />
+    <Route path="/missions/:id/review" element={<Review />} />
+    <Route path="/contributors/:id" element={<ProfilePage />} />
+    <Route path="/demo" element={<DemoPage />} />
+    <Route path="*" element={<RecoveryPage />} />
+  </Routes></RouteErrorBoundary><GuidedDemo /></ApplicationShell>} /></Routes></BrowserRouter>;
 }

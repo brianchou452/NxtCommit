@@ -1,8 +1,31 @@
 # 安全性與信任邊界
 
+> **Phase 3 整合：** Authoring capability 只可選擇已納入版控的 duration fixture，B 保留 retry fixture。兩者皆使用固定驗證設定、既有測試／Git seal、有界子程序與 engine-owned diff。未知 fixture ID 與 GitHub metadata 不能取得執行權限。C 透過 B repository／reviewability 介面操作，只能對目前 run 記錄決策；重試回饋是遮罩後儲存的 maintainer evidence，不是模型指令。Docker Chromium 測試不代表產品具備 per-run OS isolation。
+
+> 重建範圍：電腦 B 實作 scripted bundled-fixture runner、固定 Node verification、
+> protected-file seals、有界且遮罩的 evidence，以及 transaction 內的 queue ownership
+> fence。下方歷史 LLM／Codex tool loop 與 per-run OS isolation 並未實作。
+> Docker 用於 browser tests，不代表產品具備 sandbox 保證。見 [B 交接](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+
+## 電腦 C authoring 與 review 邊界
+
+C 切片僅接受公開 HTTPS GitHub identity，每次最多讀取五筆 issue／PR 資料再排除 PR；空結果表示該有限視窗未觀察到 issue。Response、issue text 與模型輸出都有大小上限。Process-local analysis／draft token 最多 30 分鐘到期，具容量限制並由 reset 失效；client edits 不會取代 server snapshot。Reset epoch 拒絕進行中的舊 authoring 結果，review comment 在儲存前先遮罩秘密。
+
+Fresh review 需要 B-owned evidence、量測過的 integrity port 與 deterministic gate 驗證；預設 demo reader 使用獨立標示的 authored-seed 例外，不能證明 fresh engine verification。Provider perspective 是唯讀 UI 示範，不是身分驗證或存取控制。Model instruction 與輸出檢查可減少無依據文案，但不證明語意 grounding；模型無法修改估算、證據或 lifecycle 決策。匯入專案仍不可執行。
+
+
 [English](SECURITY.md)
 
 NxtCommit 是實驗性原型。其控制措施旨在讓 fixture 示範可供稽核；這些措施不足以在共享或正式環境中執行任意第三方程式碼。
+
+## 目前重建：社群輸入
+
+電腦 A／Phase 2 的 wall 先套用有限範圍的明文秘密 pattern redaction，才寫入資料庫；
+伺服器指定本機 author、role、timestamp，寫入前限制 280 個 Unicode code points，
+瀏覽器文字由 React escape。MVP vote 由 SQLite 限制每個本機 persona／category 一筆，
+兩者均不驗證使用者身分。Reset 會先 drain participants，並拒絕競爭 mutation。
+詳見[目前切片交付文件](PHASE2-COMPUTER-A.zh-TW.md)；下方 runner controls 是
+此重建尚未提供之模組的歷史背景。
 
 ## 威脅模型
 

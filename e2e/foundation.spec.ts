@@ -2,34 +2,34 @@ import { test, expect } from '@playwright/test';
 
 test('foundation locale persists through navigation and reload; route focus is recoverable', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Shared foundation' })).toBeVisible();
-  await page.getByRole('combobox').selectOption('zh-TW');
+  await expect(page.locator('#hero h1')).toBeVisible();
+  await page.getByLabel('Language', { exact: true }).selectOption('zh-TW');
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-TW');
-  await expect(page.getByRole('heading', { name: '共用基礎骨架' })).toBeVisible();
+  await expect(page.locator('#hero h1')).toBeVisible();
   await page.getByRole('link', { name: 'New Mission' }).click();
   await expect(page).toHaveURL(/\/new$/);
   await expect(page.locator('main')).toBeFocused();
   await page.reload();
   await expect(page.getByRole('combobox')).toHaveValue('zh-TW');
   await page.goto('/unknown-foundation-route');
-  await expect(page.getByRole('heading', { name: '找不到頁面' })).toBeVisible();
-  await page.getByRole('link', { name: 'Discover' }).click();
+  await expect(page.getByRole('heading', { name: '找不到這個頁面。' })).toBeVisible();
+  await page.getByRole('link', { name: 'Discover', exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByRole('heading', { name: '共用基礎骨架' })).toBeVisible();
+  await expect(page.locator('#hero h1')).toBeVisible();
 });
 
 test('declared deep links load the foundation router, not a server 404', async ({ page }) => {
-  for (const route of ['/marketplace', '/new', '/missions/example', '/missions/example/run', '/missions/example/review', '/contributors/example', '/demo', '/concepts/example/overview']) {
+  for (const route of ['/new', '/missions/example/run', '/missions/example/review', '/concepts/example/overview']) {
     await page.goto(route);
-    await expect(page.getByRole('heading', { name: 'Shared foundation' })).toBeVisible();
-    await expect(page.getByText('This route is a Phase 1 placeholder. Product workflows are not implemented yet.')).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('body')).not.toContainText('This route is a Phase 1 placeholder.');
   }
 });
 
 // Spec: component.application-shell; Scenario: shell-preserves-local-demo-and-locale-boundaries.
-test('shell exposes refusal, supports local profile navigation and UI reset', async ({ page }) => {
+test('shell exposes demo mode, supports local profile navigation and UI reset', async ({ page }) => {
   await page.goto('/demo');
-  await expect(page.getByText('Execution unavailable', { exact: true })).toBeVisible();
+  await expect(page.getByText('Demo runner', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('10,000');
   await expect(page.getByText('Local demo identities and compute credits. No authentication, payments or upstream publication.')).toBeVisible();
   await page.getByRole('link', { name: 'My Commitment' }).click();
@@ -37,7 +37,7 @@ test('shell exposes refusal, supports local profile navigation and UI reset', as
   const resetResponse = page.waitForResponse(response => response.url().endsWith('/api/demo/reset') && response.request().method() === 'POST');
   await page.getByRole('button', { name: 'Reset demo data' }).click();
   expect((await resetResponse).status()).toBe(200);
-  await expect(page.getByRole('status')).toHaveText('Demo data reset.');
+  await expect(page.getByRole('status').filter({ hasText: 'Demo data reset.' })).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await page.reload();
   await page.keyboard.press('Tab');
@@ -62,7 +62,7 @@ test('server-owned bootstrap and reset failures recover through visible controls
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('7');
   await page.getByRole('button', { name: 'Reset demo data' }).click();
   await expect(page.getByRole('button', { name: 'Resetting…' })).toBeDisabled();
-  await expect(page.getByRole('status')).toHaveText('Demo data reset.');
+  await expect(page.getByRole('status').filter({ hasText: 'Demo data reset.' })).toBeVisible();
   await expect(page).toHaveURL('http://127.0.0.1:4178/');
   await expect(page.getByLabel('Compute credits', { exact: true })).toHaveText('10,000');
   await page.reload();

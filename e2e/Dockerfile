@@ -8,6 +8,7 @@ COPY tsconfig*.json vite.config.ts index.html ./
 COPY src ./src
 COPY shared ./shared
 COPY server ./server
+COPY fixtures ./fixtures
 COPY spec/assets ./spec/assets
 RUN npm run build
 # Browser tests and goldens do not invalidate application compilation.

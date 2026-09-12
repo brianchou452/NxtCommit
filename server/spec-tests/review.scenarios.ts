@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { reviewCases } from '../test-support/authoring.js';
 
 /**
  * Spec: api.run-review
@@ -7,7 +8,7 @@ import { test } from 'node:test';
  * When The local persona approves or requests changes.
  * Then The state changes locally, request_changes requires feedback and no upstream action occurs.
  */
-test.todo("api.run-review / review-keeps-human-boundary — Phase 2 owner implementation pending");
+test('api.run-review / review-keeps-human-boundary', reviewCases['review-keeps-human-boundary']!);
 
 /**
  * Spec: api.shadow-review
@@ -16,7 +17,7 @@ test.todo("api.run-review / review-keeps-human-boundary — Phase 2 owner implem
  * When Shadow review runs.
  * Then Findings record provenance and affectedGate remains false.
  */
-test.todo("api.shadow-review / shadow-review-has-no-authority — Phase 2 owner implementation pending");
+test('api.shadow-review / shadow-review-has-no-authority', reviewCases['shadow-review-has-no-authority']!);
 
 /**
  * Spec: component.diff-viewer
@@ -25,7 +26,7 @@ test.todo("api.shadow-review / shadow-review-has-no-authority — Phase 2 owner 
  * When Reviewer inspects files.
  * Then Persisted changes render without implying a pushed branch or GitHub PR.
  */
-test.todo("component.diff-viewer / diff-is-local-engine-artifact — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (diff-is-local-engine-artifact).
 
 /**
  * Spec: component.review-controls
@@ -34,7 +35,7 @@ test.todo("component.diff-viewer / diff-is-local-engine-artifact — Phase 2 own
  * When Controls render.
  * Then Decision remains unavailable until mission state authorizes it and request changes requires feedback.
  */
-test.todo("component.review-controls / controls-cannot-bypass-gate — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (controls-cannot-bypass-gate).
 
 /**
  * Spec: component.verification-dossier
@@ -43,7 +44,7 @@ test.todo("component.review-controls / controls-cannot-bypass-gate — Phase 2 o
  * When Dossier renders.
  * Then Suite success is not presented as proof for an unsupported criterion and unreadable stays unknown.
  */
-test.todo("component.verification-dossier / dossier-separates-suite-and-criteria — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (dossier-separates-suite-and-criteria).
 
 /**
  * Spec: page.review
@@ -52,4 +53,13 @@ test.todo("component.verification-dossier / dossier-separates-suite-and-criteria
  * When Human and optional AI review features are used.
  * Then Deterministic evidence remains first and only local lifecycle actions occur.
  */
-test.todo("page.review / review-keeps-deterministic-evidence-primary — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (review-keeps-deterministic-evidence-primary).
+
+/**
+ * Spec: api.run-evidence-explanation
+ * Scenario: explanation-never-rewrites-evidence
+ * Given A run has a stored artifact.
+ * When Explanation is requested.
+ * Then Bounded prose and provenance are returned while source evidence remains authoritative.
+ */
+ test('api.run-evidence-explanation / explanation-never-rewrites-evidence', reviewCases['explanation-never-rewrites-evidence']!);

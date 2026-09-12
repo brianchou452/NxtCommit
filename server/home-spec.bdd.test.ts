@@ -1,4 +1,3 @@
-import { test } from 'node:test';
 
 /**
  * Spec: api.demo-reset
@@ -7,7 +6,7 @@ import { test } from 'node:test';
  * When shell 請求 POST /api/demo/reset
  * Then server 重建 deterministic Home demo fixture 並只回傳 acknowledgement，不宣稱任何 external side effect
  */
-test.todo("api.demo-reset / reset-restores-home-demo-fixture-only — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.demo-reset / reset-restores-home-demo-fixture-only
 
 /**
  * Spec: api.global-stream
@@ -16,7 +15,7 @@ test.todo("api.demo-reset / reset-restores-home-demo-fixture-only — Phase 2 im
  * When 收到 mission_update 或 SSE 重新連線成功
  * Then consumer 重新取得所需 REST snapshot，而不是以遺失可能的 event 增量重建狀態
  */
-test.todo("api.global-stream / global-stream-revalidates-after-mission-update-and-reconnect — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.global-stream / global-stream-revalidates-after-mission-update-and-reconnect
 
 /**
  * Spec: api.impact
@@ -25,7 +24,7 @@ test.todo("api.global-stream / global-stream-revalidates-after-mission-update-an
  * When 首頁請求 GET /api/impact
  * Then stats 與 beacons 同時回傳，stats.dataMode 為 demo，且 aggregate 會隨資料變動
  */
-test.todo("api.impact / impact-snapshot-keeps-counts-and-map-provenance-together — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.impact / impact-snapshot-keeps-counts-and-map-provenance-together
 
 /**
  * Spec: api.marketplace
@@ -34,7 +33,7 @@ test.todo("api.impact / impact-snapshot-keeps-counts-and-map-provenance-together
  * When campaign browser 請求 GET /api/marketplace
  * Then 回應有 demo dataMode、aggregate 和有內容的 shelves，且每個 mission 可由 id 去重
  */
-test.todo("api.marketplace / marketplace-provides-deduplicable-shelves-and-provenance — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — api.marketplace / marketplace-provides-deduplicable-shelves-and-provenance
 
 /**
  * Spec: component.application-shell
@@ -52,7 +51,7 @@ test.todo("api.marketplace / marketplace-provides-deduplicable-shelves-and-prove
  * When marketplace snapshot ready
  * Then 它以三個 editorial category 顯示去重 campaign，不渲染第二個 h1，並在 mission update 後 refresh
  */
-test.todo("component.campaign-browser / embedded-browser-groups-deduplicated-campaigns-without-a-second-h1 — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.campaign-browser / embedded-browser-groups-deduplicated-campaigns-without-a-second-h1
 
 /**
  * Spec: component.campaign-card
@@ -61,7 +60,7 @@ test.todo("component.campaign-browser / embedded-browser-groups-deduplicated-cam
  * When featured 或 compact campaign card render
  * Then card 依序顯示 identity、status、title、benefit、funding 與 backers，unknown 不變成零，只有 fundable mission 邀請 commitment
  */
-test.todo("component.campaign-card / campaign-card-preserves-data-and-action-boundaries — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.campaign-card / campaign-card-preserves-data-and-action-boundaries
 
 /**
  * Spec: component.commitment-flow
@@ -70,7 +69,7 @@ test.todo("component.campaign-card / campaign-card-preserves-data-and-action-bou
  * When commitment flow render
  * Then 依序說明 discover、back、build、merge，且 merge 明確保留 maintainer 的 review decision
  */
-test.todo("component.commitment-flow / flow-explains-the-four-human-accountable-stages — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.commitment-flow / flow-explains-the-four-human-accountable-stages
 
 /**
  * Spec: component.donor-world-map
@@ -79,7 +78,7 @@ test.todo("component.commitment-flow / flow-explains-the-four-human-accountable-
  * When donor world map render
  * Then loading、error、empty 與 ready 都有明確狀態，ready 地圖保留 demo label 且不推論真實位置
  */
-test.todo("component.donor-world-map / map-renders-shared-demo-snapshot-with-honest-fallbacks — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.donor-world-map / map-renders-shared-demo-snapshot-with-honest-fallbacks
 
 /**
  * Spec: component.release-update
@@ -88,4 +87,6 @@ test.todo("component.donor-world-map / map-renders-shared-demo-snapshot-with-hon
  * When release update render
  * Then 有 released mission 才可連到 campaign，且完成紀錄始終標示為 local demo 而非 upstream release claim
  */
-test.todo("component.release-update / release-update-links-only-a-real-local-release-and-keeps-provenance — Phase 2 implementation pending");
+// Interactive contract: e2e/product.e2e.spec.ts — component.release-update / release-update-links-only-a-real-local-release-and-keeps-provenance
+
+import "./spec-tests/home-behavior.js";

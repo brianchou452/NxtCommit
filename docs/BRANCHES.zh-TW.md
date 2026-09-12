@@ -1,5 +1,7 @@
 # 分支與檔案盤點 — 2026-09-12
 
+> **整合後續：** `08bead6` 已合併 A／B／C，後續 main merge 納入 delivery tip `7d9fbba`。下方表格與 JSON 保留原始日期快照，不代表目前 branch tip。詳見 [Phase 3 證據](PHASE3-INTEGRATION.zh-TW.md)。
+
 [English](BRANCHES.md) · [協作指南](COLLABORATION.zh-TW.md)
 
 > 推送前更新：遠端 main 已前進到 `111df8b`，包含 `974ed8b` 的 CI 效能工作。本文件提交已接上該遠端歷史；下表與 JSON 保留較早 `e73f296` 盤點基準，因此 CI 分支現已整合。後續隊員未提交的 agents／Langfuse 工作不在此固定快照中，未被改動。

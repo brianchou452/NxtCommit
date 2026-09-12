@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { authoringCases } from '../test-support/authoring.js';
 
 /**
  * Spec: api.ai-feedback
@@ -7,7 +8,7 @@ import { test } from 'node:test';
  * When Helpful feedback is submitted.
  * Then Only the named score is attempted and actor remains visibly unauthenticated.
  */
-test.todo("api.ai-feedback / feedback-is-bounded — Phase 2 owner implementation pending");
+test('api.ai-feedback / feedback-is-bounded', authoringCases['feedback-is-bounded']!);
 
 /**
  * Spec: api.campaign-critique
@@ -16,7 +17,7 @@ test.todo("api.ai-feedback / feedback-is-bounded — Phase 2 owner implementatio
  * When Critique runs.
  * Then Advice is returned separately and the draft is not mutated or published.
  */
-test.todo("api.campaign-critique / critic-is-advisory — Phase 2 owner implementation pending");
+test('api.campaign-critique / critic-is-advisory', authoringCases['critic-is-advisory']!);
 
 /**
  * Spec: api.campaign-generation
@@ -25,7 +26,7 @@ test.todo("api.campaign-critique / critic-is-advisory — Phase 2 owner implemen
  * When Generation is requested.
  * Then The draft records its actual generator and invalid requested modes fail loudly.
  */
-test.todo("api.campaign-generation / campaign-mode-is-explicitly-labelled — Phase 2 owner implementation pending");
+test('api.campaign-generation / campaign-mode-is-explicitly-labelled', authoringCases['campaign-mode-is-explicitly-labelled']!);
 
 /**
  * Spec: api.issue-assistant
@@ -34,7 +35,7 @@ test.todo("api.campaign-generation / campaign-mode-is-explicitly-labelled — Ph
  * When Assistance is requested.
  * Then Suggestions remain bounded to that issue and carry generator evidence.
  */
-test.todo("api.issue-assistant / assistant-stays-issue-bound — Phase 2 owner implementation pending");
+test('api.issue-assistant / assistant-stays-issue-bound', authoringCases['assistant-stays-issue-bound']!);
 
 /**
  * Spec: api.llm-validation
@@ -43,7 +44,7 @@ test.todo("api.issue-assistant / assistant-stays-issue-bound — Phase 2 owner i
  * When Fresh validation runs.
  * Then Non-secret evidence is returned and execution mode is not promoted.
  */
-test.todo("api.llm-validation / validation-is-nonsecret-and-nonauthorizing — Phase 2 owner implementation pending");
+test('api.llm-validation / validation-is-nonsecret-and-nonauthorizing', authoringCases['validation-is-nonsecret-and-nonauthorizing']!);
 
 /**
  * Spec: api.mission-create
@@ -52,7 +53,7 @@ test.todo("api.llm-validation / validation-is-nonsecret-and-nonauthorizing — P
  * When Mission creation is requested repeatedly.
  * Then Client edits are ignored and the same bound mission is returned.
  */
-test.todo("api.mission-create / mission-creation-trusts-server-snapshots — Phase 2 owner implementation pending");
+test('api.mission-create / mission-creation-trusts-server-snapshots', authoringCases['mission-creation-trusts-server-snapshots']!);
 
 /**
  * Spec: api.project-explanation
@@ -61,7 +62,7 @@ test.todo("api.mission-create / mission-creation-trusts-server-snapshots — Pha
  * When Explanation is requested.
  * Then Real output or labelled demo fallback is returned without inventing missing measurements.
  */
-test.todo("api.project-explanation / project-explanation-route — Phase 2 owner implementation pending");
+test('api.project-explanation / project-explanation-route', authoringCases['project-explanation-route']!);
 
 /**
  * Spec: api.repository-analysis
@@ -70,7 +71,7 @@ test.todo("api.project-explanation / project-explanation-route — Phase 2 owner
  * When Analysis runs.
  * Then Only observed fields are present and a server capability binds later operations.
  */
-test.todo("api.repository-analysis / analysis-preserves-observation-boundary — Phase 2 owner implementation pending");
+test('api.repository-analysis / analysis-preserves-observation-boundary', authoringCases['analysis-preserves-observation-boundary']!);
 
 /**
  * Spec: component.campaign-authoring
@@ -79,7 +80,7 @@ test.todo("api.repository-analysis / analysis-preserves-observation-boundary —
  * When Draft and critique render.
  * Then Generator provenance is separate from deterministic estimate and publish remains local.
  */
-test.todo("component.campaign-authoring / authoring-separates-model-and-policy — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (authoring-separates-model-and-policy).
 
 /**
  * Spec: component.design-concept-shell
@@ -88,7 +89,7 @@ test.todo("component.campaign-authoring / authoring-separates-model-and-policy �
  * When They navigate, switch local language, or adjust mock backing controls
  * Then Only local exploration state changes and the demo disclosure remains present
  */
-test.todo("component.design-concept-shell / standalone-concept-shell-has-no-product-effects — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (standalone-concept-shell-has-no-product-effects).
 
 /**
  * Spec: component.repository-analyzer
@@ -97,7 +98,7 @@ test.todo("component.design-concept-shell / standalone-concept-shell-has-no-prod
  * When Analysis completes.
  * Then Coverage identifies metadata observations and UI makes no clone full-tree or execution claim.
  */
-test.todo("component.repository-analyzer / github-analysis-stays-metadata-only — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (github-analysis-stays-metadata-only).
 
 /**
  * Spec: page.design-concepts
@@ -106,7 +107,7 @@ test.todo("component.repository-analyzer / github-analysis-stays-metadata-only �
  * When Static mock interactions render.
  * Then No product API effect occurs and the exploration disclosure remains visible.
  */
-test.todo("page.design-concepts / concepts-remain-clearly-nonproduction — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (concepts-remain-clearly-nonproduction).
 
 /**
  * Spec: page.new-mission
@@ -115,4 +116,4 @@ test.todo("page.design-concepts / concepts-remain-clearly-nonproduction — Phas
  * When Each asynchronous step completes or fails.
  * Then The UI preserves server provenance and never treats client edits as trusted repository facts.
  */
-test.todo("page.new-mission / wizard-preserves-trusted-capabilities — Phase 2 owner implementation pending");
+// Browser outcome coverage: e2e/computer-c.e2e.spec.ts (wizard-preserves-trusted-capabilities).

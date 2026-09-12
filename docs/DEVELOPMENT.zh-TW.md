@@ -2,7 +2,8 @@
 
 [English](DEVELOPMENT.md) · [協作指南](COLLABORATION.zh-TW.md)
 
-本頁以 main `e73f296` 為基準。分支專屬指令以該分支的 package.json 和交接文件為準；舊版 CommonCommit 的 worker、seed、sandbox 指令不適用於此骨架。
+Main 已整合 Phase 3 A／B／C 與 Cloudflare delivery，source version 為 `0.7.17`。
+詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)；舊版 CommonCommit 的 worker、seed、sandbox 指令不適用於本次重建。
 
 ## 安裝與執行
 
@@ -26,12 +27,16 @@ npm start
 | `HOST` | `127.0.0.1` | API bind address |
 | `PORT` | `4177` | API port |
 | `VAR_DIR` | `var` | Local SQLite directory |
-| `EXECUTION_MODE` | `auto` | Foundation refuses execution until a runner is integrated |
-| `RUN_DISPATCH_MODE` | `inline` | Other modes fail startup |
+| `EXECUTION_MODE` | `auto` | Auto/demo 可執行內附腳本 fixture；llm/codex 拒絕 |
+| `RUN_DISPATCH_MODE` | `inline` | Queue 需要獨立 `server/mission-worker.ts` process |
 | `OPENAI_API_KEY` | unset | Server-only Responses credential |
 | `OPENAI_MODEL` | `gpt-5-mini` | Bounded Responses client |
 
 金鑰權限、換 key、Cloudflare 注入及驗證詳見 [OpenAI 操作文件](cicd/OPENAI.zh-TW.md)。設定 key 不等於產品所有 AI 功能都已接通。
+
+本機 authoring 可設定 Chat Completions；部署 entrypoint 的產品建議維持已標示的
+fallback，不重用僅供 Responses 的 credential。既有雲端 egress 僅允許 OpenAI，
+因此 GitHub metadata 匯入需使用本機 server；合併時不可默默擴張權限或 egress。
 
 ## 提交前驗證
 

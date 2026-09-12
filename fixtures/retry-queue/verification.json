@@ -1,0 +1,1 @@
+{"command":"node","args":["--test","--test-reporter=tap"],"source":"retry.mjs"}

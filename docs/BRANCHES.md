@@ -1,5 +1,7 @@
 # Branch and file inventory — 2026-09-12
 
+> **Integration follow-up:** `08bead6` combines A/B/C; the subsequent main merge incorporates delivery tip `7d9fbba`. The tables and JSON below remain the original dated inventory, not current branch tips. See [Phase 3 evidence](PHASE3-INTEGRATION.md).
+
 [繁體中文](BRANCHES.zh-TW.md) · [Collaboration](COLLABORATION.md)
 
 > Pre-push update: remote main advanced to `111df8b`, including the `974ed8b` CI performance work. This documentation delivery incorporates that remote history. The table and JSON retain the earlier `e73f296` inspection baseline; the CI branch is now integrated. Subsequent uncommitted teammate agents/Langfuse work is outside this pinned snapshot and was left untouched.

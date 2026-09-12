@@ -1,14 +1,11 @@
 # NxtCommit
 
-[English](../README.md) · [協作指南](COLLABORATION.zh-TW.md) · [分支盤點](BRANCHES.zh-TW.md)
+[English](../README.md) · [協作流程](COLLABORATION.zh-TW.md) · [分支盤點](BRANCHES.zh-TW.md)
 
-NxtCommit 探索如何將貢獻的 AI 運算轉成可審查的開源進展。目前由 A／B／C 與部署工作線分別重建；本機分支有功能，不代表已整合或已部署。
-
-文件基準為 2026-09-12 的 `e73f296`：main 包含 TypeScript 共用骨架、雙語 shell、SQLite 生命週期、Cloudflare 部署與有界 OpenAI Responses client。產品路由仍為 placeholder；A／B／C 產品實作另見分支盤點。最近記錄的線上版本為 `19ed079`；部署證據以 [checkpoints](cicd/CHECKPOINTS.zh-TW.md) 為準。
+Main 已整合 A／B／C 產品切片與既有 Cloudflare delivery。React/Vite 與 Node 24 /
+Express / SQLite 實作產品，Python 驗證 YAML。詳見 [Phase 3 證據](PHASE3-INTEGRATION.zh-TW.md)。
 
 ## 本機啟動
-
-使用 Node 24.x、npm 與 uv；Python 只負責 YAML 規格驗證。
 
 ```bash
 npm ci
@@ -16,20 +13,35 @@ uv sync --locked
 npm run dev
 ```
 
-前端：http://localhost:5173；API：http://127.0.0.1:4177。
-需要伺服器憑證時，僅在 `.env` 尚不存在時由 `.env.example` 建立。不可提交 `.env`，金鑰不可放入 `VITE_` 變數。檢查指令與 worktree 狀態隔離見[開發指南](DEVELOPMENT.zh-TW.md)。
+Web：http://localhost:5173。API：http://127.0.0.1:4177。開啟 `/demo` 進入
+maintainer 或 provider 導覽。Maintainer 可建立 duration fixture campaign、募資、
+執行真實 fixture tests，再審核已保存的 diff。Marketplace、profile、留言、投票、reset
+與 recovery 共用同一份狀態。
 
-## 文件入口
+任務推理使用腳本；tests、diff 與本機帳務是真實操作。GitHub 匯入只讀 metadata；
+選用建議保留 generator/fallback 標籤。沒有認證、付款、任意 repository 執行或上游
+發布。僅在不存在時建立本機 `.env`，key 必須留在 server。API 權限差異見
+[開發指南](DEVELOPMENT.zh-TW.md) 與 [OpenAI 操作](cicd/OPENAI.zh-TW.md)。
+
+`npm run test:e2e` 在固定 Docker Chromium 執行所有互動 journey。
+`npm run test:visual` 比較全部 40 張 approved references；尚未解決的差異仍屬失敗
+門檻。`bash scripts/phase4-gate.sh` 執行兩者。
+
+## 部署與協作
+
+Cloudflare 使用單一 basic container、ephemeral SQLite 與兩小時 idle sleep。
+Production image 包含兩個內附 fixtures 與計算 diff 所需 Git。保留既有限定 OpenAI
+的 egress：雲端產品建議使用已標示的 fallback，GitHub metadata 匯入需要本機 server
+的網路存取。Responses probe 不代表 Chat Completions 建議已驗證。
+
+強制 cutoff 維持 **2026-09-13 01:00 Asia/Taipei**，Workers Paid 保持 active。
+Push main 會觸發 CI 與部署，serving SHA 必須另行核對；source 整合不是部署收據。
 
 | 需求 | 文件 |
 | --- | --- |
-| 新成員加入、分工、整合與交接 | [協作指南](COLLABORATION.zh-TW.md) |
-| 每個分支有哪些功能 | [分支快照](BRANCHES.zh-TW.md) |
-| 現行指令與設定 | [開發指南](DEVELOPMENT.zh-TW.md) |
-| 共用骨架與契約 | [Phase 1](PHASE1-FOUNDATION.zh-TW.md) |
-| 部署、監測、回滾與定時關閉 | [Cloudflare runbook](cicd/RUNBOOK.zh-TW.md) |
-| OpenAI 串接、換 key 與花費告警 | [OpenAI runbook](cicd/OPENAI.zh-TW.md) |
-| 評審證據與操作紀錄 | [Checkpoints](cicd/CHECKPOINTS.zh-TW.md) |
-| 完整主題索引與歷史參考 | [文件地圖](COLLABORATION.zh-TW.md#文件地圖) |
-
-Cloudflare 採單一 basic container、暫存 SQLite，閒置兩小時休眠。指定截止時間為 **2026-09-13 01:00 台灣時間**。Workers Paid 保持 Active；關閉應用不會取消訂閱。
+| Ownership 與 merge 流程 | [協作](COLLABORATION.zh-TW.md) |
+| 歷史分支快照 | [分支](BRANCHES.zh-TW.md) |
+| 整合行為與驗證 | [Phase 3](PHASE3-INTEGRATION.zh-TW.md) |
+| Approved 截圖差異 | [視覺審核](PHASE3-VISUAL-REVIEW.zh-TW.md) |
+| 部署、監控、rollback 與 cutoff | [Cloudflare 操作](cicd/RUNBOOK.zh-TW.md) |
+| Serving revision 與維運證據 | [Checkpoints](cicd/CHECKPOINTS.zh-TW.md) |

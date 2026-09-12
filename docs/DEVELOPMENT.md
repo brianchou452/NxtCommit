@@ -2,9 +2,9 @@
 
 [繁體中文](DEVELOPMENT.zh-TW.md) · [Collaboration](COLLABORATION.md)
 
-Baseline: main `e73f296`. Branch-specific commands belong to that branch's
-package.json and handoff. Historical CommonCommit worker, seed and sandbox
-commands do not apply to this foundation.
+Main now integrates Phase 3 A/B/C with Cloudflare delivery at source version
+`0.7.17`. See [integration evidence](PHASE3-INTEGRATION.md). Historical
+CommonCommit worker, seed and sandbox commands do not apply to this reconstruction.
 
 ## Install and run
 
@@ -28,12 +28,18 @@ Web defaults to 5173 and API to 4177. The `/api` proxy in `vite.config.ts` is pi
 | `HOST` | `127.0.0.1` | API bind address |
 | `PORT` | `4177` | API port |
 | `VAR_DIR` | `var` | Local SQLite directory |
-| `EXECUTION_MODE` | `auto` | Foundation refuses execution until a runner is integrated |
-| `RUN_DISPATCH_MODE` | `inline` | Other modes fail startup |
+| `EXECUTION_MODE` | `auto` | Auto/demo allow bundled scripted fixtures; llm/codex refuse |
+| `RUN_DISPATCH_MODE` | `inline` | Queue requires a separate `server/mission-worker.ts` process |
 | `OPENAI_API_KEY` | unset | Server-only Responses credential |
 | `OPENAI_MODEL` | `gpt-5-mini` | Bounded Responses client |
 
 See the [OpenAI runbook](cicd/OPENAI.md) for permissions, rotation, Cloudflare injection and verification. Configuring a key does not connect every product AI feature.
+
+Local authoring configuration can call Chat Completions; the deployed entrypoint
+keeps product advice on labelled fallbacks instead of reusing a Responses-only
+credential. Existing OpenAI-only cloud egress also excludes GitHub metadata
+imports. Use the local server for that network path; do not silently broaden
+permissions or egress during a merge.
 
 ## Verification before handoff
 

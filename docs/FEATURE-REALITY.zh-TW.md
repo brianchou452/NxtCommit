@@ -1,8 +1,9 @@
 # 功能真實性矩陣
 
-> **2026-09-12 現況：** main 已部署 Phase 1 foundation container，並驗證本機與雲端 Responses 呼叫；不再只是 infrastructure Worker。A／B／C 與本機 experiments 尚須分支整合。以 [分支盤點](BRANCHES.zh-TW.md)、[Cloudflare 操作](cicd/RUNBOOK.zh-TW.md) 與 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準。以下 CommonCommit／GitLab／Argo 內容保留為歷史參考，不代表本 repo 現況。
 
 [English canonical](FEATURE-REALITY.md)
+
+> **整合原始碼，2026-09-12：** main 以 `0.7.17` 合併 Phase 3 A／B／C（`08bead6`）與 Cloudflare delivery 基準（`7d9fbba`）。本機建立、募資、帳務、留言、SSE 與本機決策共用單一 mission authority。兩個內附 fixture 使用腳本修改與 engine 實測 tests/diff；seed review 仍標示 demo，匯入 repository 不執行。保留既有雲端 egress 與 Responses 權限：container 的產品建議使用已標示 fallback，GitHub 匯入需要本機 server 網路。未宣稱 live 產品建議或視覺核准；先前 Responses probe 與 serving revision 以 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準，合併 source 不等於新部署。詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)；下方歷史清單不完整代表本次重建。
 
 本文件只回答一個問題：**哪些功能真的串接 LLM 或外部系統，哪些是 demo？**
 這是產品文案、QA 與 coding agent 判斷真實性標籤的 canonical 清單。架構與

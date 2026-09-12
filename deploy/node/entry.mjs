@@ -16,7 +16,7 @@ const server = createServer((request, response) => {
     if (!['GET', 'HEAD'].includes(request.method)) {
       response.writeHead(405, {Allow: 'GET, HEAD'}); response.end(); return;
     }
-    const body = {service: 'nxtcommit', stage: 'phase1-foundation', commit: process.env.COMMIT_SHA, runUrl: process.env.GITHUB_RUN_URL, startedAt, storage: 'ephemeral-sqlite', executionAvailable: false};
+    const body = {service: 'nxtcommit', stage: 'phase3-integrated', commit: process.env.COMMIT_SHA, runUrl: process.env.GITHUB_RUN_URL, startedAt, storage: 'ephemeral-sqlite', executionAvailable: application.context.execution.resolved === 'demo', executionScope: 'bundled-fixtures-only'};
     response.end(request.method === 'HEAD' ? undefined : JSON.stringify(body)); return;
   }
   application.app(request, response);

@@ -1,8 +1,33 @@
 # Security and trust boundaries
 
+> **Phase 3 integration:** Authoring capabilities select only the checked-in duration fixture; B retains its retry fixture. Both use fixed verification facts, existing-test/Git seals, bounded subprocesses and engine-owned diffs. Unknown fixture identifiers and GitHub metadata cannot select execution. C consumes the B repository/reviewability port and records decisions against the current run only; retry feedback is redacted persisted maintainer evidence, not a model instruction. Docker Chromium testing does not establish per-run OS isolation.
+
+> Reconstruction scope: Computer B implements a scripted bundled-fixture runner,
+> frozen Node verification, protected-file seals, bounded/redacted evidence and
+> transaction-fenced queue ownership. It does not implement the historical LLM/
+> Codex tool loops or per-run OS isolation described below. Docker is the browser
+> test environment, not a product sandbox guarantee. See [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
+
+## Computer C authoring and review boundary
+
+The C slice accepts public HTTPS GitHub identities only and reads at most five issue/PR records per request, then excludes PRs; an empty result means no issues observed in that bounded window. Responses, issue text and model output are size-bounded. Process-local analysis/draft tokens expire within 30 minutes, are capacity-bounded and are invalidated by reset. Client edits never replace server snapshots. Reset epochs reject in-flight authoring results. Review comments are redacted before persistence.
+
+Fresh review requires B-owned evidence plus a measured integrity port and deterministic gate validation; the default demo reader has a separately labelled authored-seed exception. It cannot establish fresh engine verification. Provider perspective is a read-only UI demonstration, not authentication or access control. Model instructions and output checks reduce unsupported prose but are not a proof of semantic grounding; model output cannot mutate estimates, evidence or lifecycle decisions. No imported repository is executable.
+
+
 [繁體中文](SECURITY.zh-TW.md)
 
 NxtCommit is an experimental prototype. Its controls are designed to make fixture demonstrations auditable; they are not sufficient for executing arbitrary third-party code in a shared or production environment.
+
+## Current reconstruction: community input
+
+The Computer A / Phase 2 implementation stores wall text only after bounded plaintext
+secret-pattern redaction. It assigns the local author, role and timestamp on the server
+and enforces a 280-code-point limit before insertion. Browser text nodes are escaped
+by React. MVP votes are unique per local persona/category in SQLite; neither surface
+authenticates people. Reset drains participants and rejects competing writes.
+See [the current slice handoff](PHASE2-COMPUTER-A.md); the runner controls below
+remain historical context for modules not present in this reconstruction.
 
 ## Threat model
 

@@ -1,6 +1,8 @@
 # GitHub → Cloudflare application delivery
 
-This deployment packages the repository's Phase 1 React/Vite frontend and Node 24 / Express / SQLite server. The user authorized Workers Paid and Cloudflare Containers. No runner or Phase 2 implementation is invented by the hosting adapter.
+> **Phase 3 merge (`0.7.17`):** The image now packages A/B/C, both bundled fixtures and Git; `/__deployment` reports `phase3-integrated` and `bundled-fixtures-only`. The original foundation deployment history remains in checkpoints. Product advice stays on labelled fallbacks; the Responses-only credential and OpenAI-only egress are preserved. Public GitHub metadata import requires local server network access. Cutoff, single-container capacity and ephemeral storage are unchanged.
+
+This deployment packages the integrated React/Vite frontend and Node 24 / Express / SQLite server. The user authorized Workers Paid and Cloudflare Containers. The adapter uses the product's bundled fixture engine; it never grants arbitrary repository execution.
 
 ## Runtime and size
 
@@ -10,7 +12,7 @@ This deployment packages the repository's Phase 1 React/Vite frontend and Node 2
 
 See [CI speed and measured demo capacity](PERFORMANCE.md). Main runs one reusable CI gate; application checks share one pinned Docker build and still execute every journey. Worker dry-run only bundles the Worker; deployment builds the production container.
 
-Main pushes run contracts/gateway checks, a Worker bundle dry-run, Node 24 typechecks/server tests/production build, version checks and Docker foundation browser journeys before deploying. Wrangler builds the production image during deployment and embeds the exact Git SHA and Actions run URL as image build arguments. `/__deployment` is answered by the running Node image, not the fronting Worker. Release smoke checks validate that receipt plus the homepage, bootstrap, liveness and SQLite readiness.
+Main pushes run contracts/gateway checks, a Worker bundle dry-run, Node 24 typechecks/server tests/production build, version checks and all integrated Docker browser journeys before deploying. Wrangler builds the production image during deployment and embeds the exact Git SHA and Actions run URL as image build arguments. `/__deployment` is answered by the running Node image, not the fronting Worker. Release smoke checks validate that receipt plus the homepage, bootstrap, liveness and SQLite readiness.
 
 The Worker and image are deployed together; cold provisioning can take several minutes. A 503 is a real unavailable container, never a healthy placeholder. GitHub `cloudflare-production` is serialized. CI Actions are SHA-pinned, credentials are not persisted in Git, and evidence artifacts retain 30 days.
 

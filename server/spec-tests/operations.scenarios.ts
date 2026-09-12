@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { operationsCases } from '../test-support/authoring.js';
 
 /**
  * Spec: api.health
@@ -7,7 +8,7 @@ import { test } from 'node:test';
  * When Health is requested.
  * Then It returns liveness and non-secret refusal context without failing the process probe.
  */
-test.todo("api.health / health-route-is-liveness-only — Phase 2 owner implementation pending");
+test('api.health / health-route-is-liveness-only', operationsCases['health-route-is-liveness-only']!);
 
 /**
  * Spec: api.metrics
@@ -16,7 +17,7 @@ test.todo("api.health / health-route-is-liveness-only — Phase 2 owner implemen
  * When Metrics are scraped.
  * Then Text exposition includes serving build identity and no secret or unbounded repository labels.
  */
-test.todo("api.metrics / metrics-route-exposes-bounded-observations — Phase 2 owner implementation pending");
+test('api.metrics / metrics-route-exposes-bounded-observations', operationsCases['metrics-route-exposes-bounded-observations']!);
 
 /**
  * Spec: api.readiness
@@ -25,4 +26,4 @@ test.todo("api.metrics / metrics-route-exposes-bounded-observations — Phase 2 
  * When Readiness is requested.
  * Then HTTP status follows serving dependencies while any execution refusal is reported without credentials.
  */
-test.todo("api.readiness / readiness-reflects-serving-dependencies — Phase 2 owner implementation pending");
+test('api.readiness / readiness-reflects-serving-dependencies', operationsCases['readiness-reflects-serving-dependencies']!);

@@ -82,7 +82,7 @@ jobs:
           echo "Commit: $COMMIT_SHA" >> "$GITHUB_STEP_SUMMARY"
           echo "Result: $RESULT" >> "$GITHUB_STEP_SUMMARY"
           echo 'URL: https://hackathon.ianjuan.com/__deployment' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Scope: Phase 1 foundation; ephemeral SQLite, no execution runner.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Scope: Integrated A/B/C product; ephemeral SQLite and scripted bundled-fixture execution. Live product LLM and visual approval are not established by rollout.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

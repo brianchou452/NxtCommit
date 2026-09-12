@@ -1,5 +1,7 @@
 # Agent architecture and multi-agent status
 
+> **Current reconstruction (Phase 3):** One scripted fixture engine performs each run. The web server and optional separate queue worker exchange persisted state through SQLite; they are deterministic processes, not collaborating model agents. C assistance is advisory and B owns engine evidence and lifecycle decisions. Historical LLM/Codex runners described below are not installed by this reconstruction. See [integration evidence](PHASE3-INTEGRATION.md).
+
 [繁體中文](AGENT-ARCHITECTURE.zh-TW.md)
 
 ## Short answer

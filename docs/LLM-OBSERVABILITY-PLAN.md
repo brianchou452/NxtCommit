@@ -1,5 +1,8 @@
 # Measured LLM expansion and Langfuse optimization plan
 
+> **C reconstruction implementation:** `server/authoring/assistance.ts` supplies bounded bilingual advisory calls and labelled fallbacks. `observations.ts` exports allowlisted metadata through OTLP/HTTP JSON and local helpfulness via Scores API; it does not install the historical SDK/dashboard stack described below. Controlled transport tests establish payload containment, not external persistence or model quality. The source-controlled evaluation corpus defaults to dry-run; live evaluation requires `--live` and configuration. See [OTLP integration](https://langfuse.com/integrations/native/opentelemetry) and [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk).
+
+
 [繁體中文](LLM-OBSERVABILITY-PLAN.zh-TW.md)
 
 > Status: Phases 0–2 implemented in source for v0.5.0. Phase 3 is in progress but

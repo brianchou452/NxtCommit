@@ -14,7 +14,7 @@ export async function startTestServer(options: AppOptions = {}) {
       const closed = new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
       server.closeAllConnections();
       await closed;
-      application.close();
+      await application.close();
     },
   };
 }

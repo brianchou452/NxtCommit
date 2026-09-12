@@ -6,6 +6,11 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.17 — 2026-09-12（整合 main）
+
+- 合併 Phase 3 A／B／C 產品與目前 Cloudflare delivery、CI 最佳化。Production image 納入兩個可執行 fixture 與 Git，deployment receipt 改為整合後 fixture-only 邊界。
+- 保留限定 egress、Responses key 邊界、ephemeral storage、監控與 cutoff；全部 40 張 approved 原圖及未解決差異均保留。
+
 ## v0.7.16 — 2026-09-12
 
 - 啟用限定 OpenAI 的 HTTPS interception 與 Node 憑證信任；部署驗證容許較長的 Cloudflare 容器配置時間。
@@ -25,6 +30,30 @@
 ## v0.7.12 — 2026-09-12（Cloudflare 容器接入）
 
 - 將 Phase 1 Node 後端與前端打包為非 root 容器；設定單一 basic 實例、閒置 2 小時休眠、資源紀錄與映像版本驗證。實際部署證據另記於 CI checkpoint。
+
+## v0.7.12 — 2026-09-12（本機 Phase 3 整合）
+
+- 依序整合 dev/computer-a、dev/computer-b 與 dev/computer-c。新建立的 duration fixture 使用同一個任務狀態來源，串接贊助、執行與本機審核。
+- 接上 Marketplace／profile 投影、留言、導覽目標、worker readiness 與 SSE；拒絕過期頁面回覆及舊 run 決策，匯入的 repository 仍不可執行。
+- 新增跨切片 HTTP／Docker journey 與所有 baseline 的驗證入口。保留 approved golden，不宣稱視覺核准或部署完成。詳見[整合證據](PHASE3-INTEGRATION.zh-TW.md)。
+
+## v0.7.11 — 2026-09-12（本機電腦 A / Phase 2）
+
+- 新增 SQLite Home/community 快照、示範資料重設、SSE 重新驗證、持久化遮罩留言、每類別投票鎖定與本機 contributor 收據。
+- 新增 Home、Marketplace、profile、導覽啟動／恢復與路由恢復，包含雙語控制及 Docker 互動測試。B/C 流程仍由各自切片提供。
+- 依要求，在首輪 13 個互動 journey 通過後移除 logo 背景矩形。保留既有 approved visual PNG；完整 Phase 2 驗證仍需視覺核准及缺少的 maintainer 控制項。
+
+- 新增 mission／funding／execution 垂直切片，包含本機 compute accounting、
+  僅限 fixture 的 demo execution、持久化 evidence 與 mission／execution 頁面。
+- 使用者已明確授權 `dev/computer-b` 的 B 中央接線；驗證與剩餘限制記錄於
+  [B 交接文件](PHASE2-COMPUTER-B-HANDOFF.zh-TW.md)。
+- 這是原始碼候選，不代表部署或 approved visual baseline 更新。
+
+## v0.7.11 — 2026-09-12（電腦 C Phase 2 原始碼；功能 E2E 通過；視覺待核准）
+
+- 新增 capability-bound authoring、本機任務持久化與檢視決策、模型建議／備援、有限範圍的 observability 及 operations endpoints。
+- 接上 New Mission、Review 與獨立設計概念頁，提供雙語文案及 Docker 互動 journey 定義。
+- 獨立 Colima Docker 已通過 8 條 C journeys 與 4 條 foundation 回歸；14 個視覺比較有差異並已產生候選圖。原 approved 圖片保持不變；未宣稱完整 Phase 2 驗證、新的任務執行、視覺核准或部署。見[電腦 C 交接](PHASE2-C.zh-TW.md)。
 
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 

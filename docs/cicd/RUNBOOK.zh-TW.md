@@ -1,6 +1,8 @@
 # GitHub → Cloudflare 產品部署
 
-本次打包 repo 的 Phase 1 React/Vite 前端與 Node 24／Express／SQLite 後端。使用者已授權 Workers Paid 與 Cloudflare Containers；部署不代表 runner 或 Phase 2 功能已完成。
+> **Phase 3 合併（`0.7.17`）：** Image 已納入 A／B／C、兩個內附 fixtures 與 Git；`/__deployment` 回報 `phase3-integrated` 與 `bundled-fixtures-only`。原 foundation 部署歷史保留於 checkpoints。產品建議維持已標示 fallback，保留 Responses credential 與僅限 OpenAI 的 egress；公開 GitHub metadata 匯入需本機 server 網路。Cutoff、單一 container 容量與 ephemeral storage 不變。
+
+本次打包整合後的 React/Vite 前端與 Node 24／Express／SQLite 後端。使用者已授權 Workers Paid 與 Cloudflare Containers；adapter 使用產品內附 fixture engine，不授予任意 repository 執行權。
 
 ## 執行環境與大小
 

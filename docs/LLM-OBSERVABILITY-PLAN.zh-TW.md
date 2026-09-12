@@ -1,5 +1,8 @@
 # 可量測的 LLM 擴充與 Langfuse 優化計畫
 
+> **C 重建實作：** `server/authoring/assistance.ts` 提供有限範圍雙語建議與明示備援。`observations.ts` 透過 OTLP／HTTP JSON 匯出 allowlist metadata，並以 Scores API 記錄本機 helpfulness；未安裝下文歷史 SDK／dashboard 系統。受控 transport 測試只證明 payload containment，不證明外部持久化或模型品質。Source-controlled evaluation corpus 預設 dry-run，live evaluation 需要 `--live` 與設定。參考 [OTLP 整合](https://langfuse.com/integrations/native/opentelemetry) 與 [Scores API](https://langfuse.com/docs/evaluation/evaluation-methods/scores-via-sdk)。
+
+
 [English canonical](LLM-OBSERVABILITY-PLAN.md)
 
 > 狀態：v0.5.0 原始碼已完成 Phase 0–2；Phase 3 正在進行，但 exit gate 明確尚未

@@ -6,6 +6,11 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.17 — 2026-09-12 (integrated main)
+
+- Merge Phase 3 A/B/C product work with current Cloudflare delivery and CI optimizations. Package both executable fixtures and Git in production; expose the integrated fixture-only deployment receipt.
+- Preserve scoped egress, Responses key boundaries, ephemeral storage, monitoring and cutoff. Retain all 40 approved visual references and their outstanding differences.
+
 ## v0.7.16 — 2026-09-12
 
 - Enable scoped HTTPS interception and Node trust for OpenAI egress; allow more time for Cloudflare container placement during deployment verification.
@@ -25,6 +30,34 @@ The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod
 ## v0.7.12 — 2026-09-12 (Cloudflare container integration)
 
 - Package the Phase 1 Node server and frontend in a non-root container; use one basic instance, 2-hour idle sleep, resource logs, and serving-image revision verification. Deployment verification is recorded separately in CI checkpoints.
+
+## v0.7.12 — 2026-09-12 (local Phase 3 integration)
+
+- Integrates dev/computer-a, dev/computer-b and dev/computer-c in order. Newly authored duration fixtures now use the same lifecycle authority as funding, execution and local review.
+- Connects Marketplace/profile projections, comments, guide targets, worker readiness and SSE. Rejects stale route responses and stale-run decisions; keeps imported repositories non-executable.
+- Adds cross-slice HTTP and Docker journeys plus an all-baseline verification gate. Approved golden images are preserved; this source integration does not claim visual approval or deployment. See [integration evidence](PHASE3-INTEGRATION.md).
+
+## v0.7.11 — 2026-09-12 (local Computer A / Phase 2)
+
+- Added SQLite-backed Home/community snapshots, demo graph reset, SSE invalidation,
+  persisted redacted comments, category vote locking and local contributor receipts.
+- Added Home, Marketplace, profile, guided launch/recovery and route recovery with
+  bilingual controls and Docker interactive coverage. B/C workflows remain separate.
+- Removed the logo background rectangle after the first 13 interactive journeys
+  passed, as requested. Existing approved visual PNGs are preserved; full Phase 2
+  verification still requires visual approval and the missing maintainer target.
+
+- Adds the mission/funding/execution vertical slice with local compute accounting,
+  fixture-only demo execution, persisted evidence and mission/execution pages.
+- Central B wiring was explicitly authorized for branch `dev/computer-b`.
+  Verification and remaining limits are recorded in [B's handoff](PHASE2-COMPUTER-B-HANDOFF.md).
+- This is a source candidate, not a deployment or an approved visual baseline update.
+
+## v0.7.11 — 2026-09-12 (Computer C Phase 2 source; functional E2E passed; visual approval pending)
+
+- Added capability-bound authoring, local mission persistence and review decisions, advisory model/fallback paths, bounded observations and operational endpoints.
+- Connected New Mission, Review and standalone design concepts with bilingual copy and interactive Docker journey definitions.
+- Independent Colima Docker passed all 8 C journeys and 4 foundation regressions; 14 visual comparisons differ and have captured review candidates. Original approved images remain unchanged; no full Phase 2 verification, fresh mission execution, visual approval or deployment is claimed. See [Computer C handoff](PHASE2-C.md).
 
 ## v0.7.10 — 2026-09-12 (local Phase 1 source checkpoint)
 

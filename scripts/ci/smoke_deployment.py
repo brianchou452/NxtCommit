@@ -21,8 +21,9 @@ for attempt in range(120):
             assert response.status == 200
             receipt = json.load(response)
         assert receipt["service"] == "nxtcommit"
-        assert receipt["stage"] == "phase1-foundation"
-        assert receipt["executionAvailable"] is False
+        assert receipt["stage"] == "phase3-integrated"
+        assert receipt["executionAvailable"] is True
+        assert receipt["executionScope"] == "bundled-fixtures-only"
         assert receipt["storage"] == "ephemeral-sqlite"
         for endpoint in ["/healthz", "/readyz", "/api/bootstrap", "/"]:
             with urllib.request.urlopen(probe_request(base + endpoint), timeout=30) as probe:
