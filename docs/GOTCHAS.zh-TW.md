@@ -751,3 +751,8 @@ identity 仍須分別取得證據。
 dictionaries，語系選擇應走 `t(...)`；changelog version 也只代表 source candidate，
 要等 test、不可變 image、promotion、Argo 與 serving identity 各自提供證據後，
 才能稱為已部署。
+
+
+## G59 — 自我更新驗證需要独立保留 image 與暫存快取
+
+首次候選已通過請求／server 檢查，但 Vite 嘗試寫入唯讀依賴。只給 config 快取有界 tmpfs，不開放原始碼／測試寫入。共用 E2E tag 後來被替換，舊 digest 消失；應保留獨立 verifier tag 並固定 digest。驗證基礎設施缺失必須讓候選失敗，不能套用。明確更新 verifier 時也撤銷待處理 epoch。見 [自我更新手冊](SELF-UPDATE.zh-TW.md)。

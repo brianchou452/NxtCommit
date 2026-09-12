@@ -1,5 +1,7 @@
 # 本機 Chaos Agent 與實驗 Agent
 
+可選的程式自我更新與 Demo 凍結是獨立流程，請見 [自我更新手冊](SELF-UPDATE.zh-TW.md)。
+
 [English](CHAOS-AGENTS.md)
 
 此分支在電腦 C 實作上新增由操作者啟動的穩定度迭代流程。

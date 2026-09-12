@@ -1,5 +1,7 @@
 # Local chaos and experiment agents
 
+For the separate optional code-writing lane and demo freeze, see [self-update](SELF-UPDATE.md).
+
 [繁體中文](CHAOS-AGENTS.zh-TW.md)
 
 This branch adds an operator-run resilience loop to the Computer C implementation.

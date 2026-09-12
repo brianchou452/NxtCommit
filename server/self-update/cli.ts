@@ -3,7 +3,7 @@ import { homedir } from 'node:os';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { redactText } from '../authoring/analyzer.js';
-import { UpdateControl } from './control.js';
+import { UpdateControl, atomicJson } from './control.js';
 import { initialize, iterate, smoke } from './runner.js';
 import { authoringConfiguration } from '../authoring/configuration.js';
 import { execFileSync } from 'node:child_process';
@@ -23,11 +23,18 @@ switch (command) {
   case 'demo-on': await control.change({ demoLocked: true }); console.log(JSON.stringify(status())); break;
   case 'demo-off': await control.change({ demoLocked: false }); console.log(JSON.stringify(status())); break;
   case 'status': console.log(JSON.stringify(status(), null, 2)); break;
+  case 'verifier':
   case 'init': {
     const docker = process.env.SELF_UPDATE_DOCKER ?? join(homedir(), '.docker/bin/docker');
     const context = process.env.SELF_UPDATE_DOCKER_CONTEXT ?? 'colima';
     const image = execFileSync(docker, ['--context', context, 'image', 'inspect', 'nxtcommit-foundation-e2e:0.1.0', '--format', '{{.Id}}'], { encoding: 'utf8', env: { PATH: process.env.PATH ?? '', HOME: process.env.HOME ?? '' } }).trim();
-    await initialize(control, { docker, context, image, applicationUrl: 'http://127.0.0.1:4188/' }); console.log(JSON.stringify(status())); break;
+    execFileSync(docker, ['--context', context, 'tag', image, 'nxtcommit-self-update-verifier:local'], { env: { PATH: process.env.PATH ?? '', HOME: process.env.HOME ?? '' } });
+    if (command === 'init') await initialize(control, { docker, context, image, applicationUrl: 'http://127.0.0.1:4188/' });
+    else {
+      await control.change({});
+      await control.locked(() => atomicJson(join(control.root, 'runtime.json'), { docker, context, image, applicationUrl: 'http://127.0.0.1:4188/' }));
+    }
+    console.log(JSON.stringify(status())); break;
   }
   case 'run':
   case 'watch': {
@@ -60,5 +67,5 @@ switch (command) {
     });
     console.log(JSON.stringify(status())); break;
   }
-  default: throw new Error('Usage: npm run agents:update -- init|status|on|off|demo-on|demo-off|run|watch [cycles]|rollback|goal <text>');
+  default: throw new Error('Usage: npm run agents:update -- init|status|on|off|demo-on|demo-off|run|watch [cycles]|rollback|goal <text>|verifier');
 }

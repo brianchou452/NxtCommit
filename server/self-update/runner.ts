@@ -59,7 +59,7 @@ export async function verifyCandidate(control: UpdateControl, source: string, ou
   for (const part of ['dist', 'dist-server', 'out']) mkdirSync(join(output, part), { recursive: true });
   // This link resolves only inside the pinned verification image, never to host dependencies.
   symlinkSync('/app/node_modules', join(source, 'node_modules'));
-  const args = ['--context', config.context, 'run', '--rm', '--name', name, '--init', '--network=none', '--read-only', '--cap-drop=ALL', '--security-opt=no-new-privileges', '--memory=2g', '--cpus=2', '--pids-limit=256', '--shm-size=512m', '--user', `${process.getuid?.() ?? 1000}:${process.getgid?.() ?? 1000}`, '--tmpfs', '/tmp:rw,nosuid,size=512m,mode=1777', '-e', 'HOME=/tmp', '-e', 'npm_config_cache=/tmp/npm-cache', '-e', 'VAR_DIR=/tmp/nxtcommit-state', '-e', 'E2E_OUTPUT_DIRECTORY=/out', '--workdir', '/source', '--mount', `type=bind,source=${source},target=/source,readonly`, '--mount', `type=bind,source=${join(output, 'dist')},target=/source/dist`, '--mount', `type=bind,source=${join(output, 'dist-server')},target=/source/dist-server`, '--mount', `type=bind,source=${join(output, 'out')},target=/out`, config.image, 'sh', '-c',
+  const args = ['--context', config.context, 'run', '--rm', '--name', name, '--init', '--network=none', '--read-only', '--cap-drop=ALL', '--security-opt=no-new-privileges', '--memory=2g', '--cpus=2', '--pids-limit=256', '--shm-size=512m', '--user', `${process.getuid?.() ?? 1000}:${process.getgid?.() ?? 1000}`, '--tmpfs', '/tmp:rw,nosuid,size=512m,mode=1777', '--tmpfs', '/app/node_modules/.vite-temp:rw,nosuid,size=32m,mode=1777', '-e', 'HOME=/tmp', '-e', 'npm_config_cache=/tmp/npm-cache', '-e', 'VAR_DIR=/tmp/nxtcommit-state', '-e', 'E2E_OUTPUT_DIRECTORY=/out', '--workdir', '/source', '--mount', `type=bind,source=${source},target=/source,readonly`, '--mount', `type=bind,source=${join(output, 'dist')},target=/source/dist`, '--mount', `type=bind,source=${join(output, 'dist-server')},target=/source/dist-server`, '--mount', `type=bind,source=${join(output, 'out')},target=/out`, config.image, 'sh', '-c',
     'npm run typecheck && npm test && node --import tsx server/self-update/quality-cli.ts && npm run build && ./node_modules/.bin/playwright test --project=foundation --project=computer-c'];
   const log: Buffer[] = []; let bytes = 0;
   try {
@@ -102,7 +102,7 @@ export async function iterate(control: UpdateControl, configuration: ModelConfig
   const abort = new AbortController();
   const poll = setInterval(() => { if (!control.allowed(settings.epoch)) abort.abort(); }, 100);
   const stop = () => abort.abort(); process.once('SIGINT', stop); process.once('SIGTERM', stop);
-  let status = 'failed';
+  let status = 'failed'; let failureReason: string | undefined;
   try {
     const baseSource = join(control.root, 'releases', base, 'source');
     const model = await propose(configuration, sources(baseSource), goal, abort.signal);
@@ -130,10 +130,15 @@ export async function iterate(control: UpdateControl, configuration: ModelConfig
         status = await control.promote(settings.epoch, base, id, () => smoke(control));
       }
     }
-  } catch { status = abort.signal.aborted ? 'cancelled' : 'failed'; }
+  } catch (error) {
+    status = abort.signal.aborted ? 'cancelled' : 'failed';
+    const message = error instanceof Error ? error.message : '';
+    const allowedReasons = ['invalid_proposal', 'invalid_edit', 'ambiguous_edit', 'unsafe_edit', 'imports_changed', 'secret_in_proposal', 'unsupported_update_provider', 'unsafe_model_input', 'incomplete_proposal', 'remote_unavailable', 'response_too_large', 'verification_failed', 'source_integrity_failed', 'release_retention_limit', 'cancelled', 'control_busy'];
+    failureReason = allowedReasons.includes(message) ? message : 'runtime_or_provider_error';
+  }
   finally {
     clearInterval(poll); process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop);
-    atomicJson(join(candidate, 'result.json'), { id, base, status, endedAt: new Date().toISOString() }); rmSync(runLock, { recursive: true });
+    atomicJson(join(candidate, 'result.json'), { id, base, status, ...(failureReason ? { failureReason } : {}), endedAt: new Date().toISOString() }); rmSync(runLock, { recursive: true });
   }
   return { id, base, status };
 }

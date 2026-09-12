@@ -50,7 +50,7 @@ tokens（含 reasoning），其他相容模型最多 3000。僅接受 OpenAI 官
    production build 及 12 個 foundation／Computer C Playwright journeys。
    不更新核准截圖。
 4. 固定 image digest；容器無網路、服務憑證或 Docker socket，原始碼／測試唯讀，
-   僅輸出與暫存可写。限制 2 CPU、2 GB RAM、256 PIDs、240 秒。沒有 host
+   僅輸出與暫存可写，另含獨立 32 MB Vite config 快取。限制 2 CPU、2 GB RAM、256 PIDs、240 秒。沒有 host
    執行備援；Docker executable/context 由操作者設定。
 5. 全通過且 epoch、目前 base 仍相同，才原子切換 `current`。保留舊雜湊 assets
    給已開啟頁面使用；API／後端 process 與資料庫固定不動。
@@ -74,7 +74,9 @@ SELF_UPDATE_ROOT=./var/self-update HOST=127.0.0.1 PORT=4188 \
   VAR_DIR=./var/chaos-local EXECUTION_MODE=demo npm start
 ```
 
-`init` 需要本機 `nxtcommit-foundation-e2e:0.1.0` image，並記錄不可變 ID。
+`init` 需要本機 `nxtcommit-foundation-e2e:0.1.0` image，並記錄不可變 ID，同時保留獨立 `nxtcommit-self-update-verifier:local` tag。
+若本機 image 被移除，可用 `npm run agents:update -- verifier` 明確更新固定 image，
+並撤銷待處理工作。
 預設 Docker 為 `~/.docker/bin/docker`、context `colima`；可用
 `SELF_UPDATE_DOCKER`、`SELF_UPDATE_DOCKER_CONTEXT` 覆寫。
 它複製乾淨的已追蹤原始碼與建置好的 dist，保持 off／Demo locked。
@@ -95,3 +97,14 @@ delivery worktree。
 候選品質 gate：`quality-cli.ts`。沒有新增產品頁或身分驗證宣稱。
 既有 B runner 缺失與 C 視覺核准不在此流程內；本機真實執行證據與受控單元
 測試分開記錄於部署紀錄。
+
+## 本機實測 — 2026-09-12
+
+候選 `8d63b714-cac6-485b-b328-c82a40e380b3` 由真實 `gpt-5-mini` 產生（回報
+2147 tokens），固定請求契約從 4/6 改善為 6/6，78 個 server tests 與 12 個
+Docker browser journeys 通過，終態為 `promoted`。Serving release header 與
+index HTML 都符合該版本。接著在真實執行中開啟 demo-on，候選
+`5363297d-8d9e-4b53-992e-3cb6f2ad7404` 進入 `cancelled`，serving pointer 不變；
+off 模式執行亦未建立新候選。最終為 off、Demo locked。報告在忽略的
+`var/self-update/`；先前 build-cache 與 image 遺失失敗均保留且未套用。
+Git 分支保留操作者 baseline；生成程式在目前 release 快照中，未偷偷合併 Git。
