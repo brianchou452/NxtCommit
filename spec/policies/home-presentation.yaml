@@ -8,5 +8,5 @@ rules:
   - { id: embedded-marketplace, requirement: campaign browser 在 embedded mode 隱藏 standalone marketplace intro 與 aggregate strip。, enforcement: client }
   - { id: no-animation-content-loss, requirement: 動畫不可讓內容停留在不可見狀態；沒有 viewport observer 時立即顯示內容。, enforcement: client }
   - { id: reduced-motion-keeps-state, requirement: reduced motion 可停用裝飾動畫，但不得移除資料、CTA 或 selected state。, enforcement: client }
-  - { id: shell-content-order, requirement: skip link、header、truth strip、main content、footer 依此順序出現；sticky chrome 不得遮住 page anchors。, enforcement: client }
+  - { id: shell-content-order, requirement: skip link、header、main content、footer 依此順序出現；sticky chrome 不得遮住 page anchors。, enforcement: client }
   - { id: card-content-order, requirement: campaign card 固定依 identity、status、title、benefit、funding、backers、CTA 的閱讀順序，featured 只能增加尺度與 plain-language context。, enforcement: test }

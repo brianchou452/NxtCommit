@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.18 — 2026-09-12
+
+- 移除導覽列下方常駐的示範／隔離提示區段，執行錯誤保留為獨立 alert；同步 shell 規格、雙語字典與瀏覽器回歸測試。
+
 ## v0.7.17 — 2026-09-12（整合 main）
 
 - 合併 Phase 3 A／B／C 產品與目前 Cloudflare delivery、CI 最佳化。Production image 納入兩個可執行 fixture 與 Git，deployment receipt 改為整合後 fixture-only 邊界。

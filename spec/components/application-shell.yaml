@@ -13,8 +13,8 @@ data_dependencies:
 states:
   - { name: bootstrap_loading, condition: bootstrap 尚未完成。, rendering: shell、主要導覽與 locale control 保持可用；persona、wallet 與 mode evidence 不顯示假資料。 }
   - { name: bootstrap_error, condition: bootstrap 請求失敗。, rendering: 在 header 下方顯示 alert 與原生 retry button，不顯示 persona 或推測 execution mode。 }
-  - { name: ready_resolved, condition: bootstrap ready 且 execution.resolved 有值。, rendering: 顯示 mode badge、server mode 說明、measured isolation、wallet 與 local persona avatar。 }
-  - { name: ready_refused, condition: bootstrap ready 且 execution.resolved 為 null。, rendering: 顯示拒絕狀態、server error 與 measured isolation；不可把 configured mode 當作可用 mode。 }
+  - { name: ready_resolved, condition: bootstrap ready 且 execution.resolved 有值。, rendering: 顯示 mode badge、wallet 與 local persona avatar；nav 下方不顯示常駐提示區段。 }
+  - { name: ready_refused, condition: bootstrap ready 且 execution.resolved 為 null。, rendering: 顯示拒絕狀態與獨立 server error alert；不可把 configured mode 當作可用 mode。 }
 interactions:
   - { trigger: 選擇 product logo 或 Discover。, result: 導航到根路徑。 }
   - { trigger: 選擇 New Mission、My Commitment 或 Demo。, result: 分別導航到 mission authoring、目前 local contributor profile 或 guided demo route。 }
@@ -49,24 +49,24 @@ content:
       disclaimer: 運算點數 ≈ AI 推理額度 — 並非貨幣
   dynamic_labels:
     - { name: wallet_balance, source: bootstrap.currentUser.walletBalance, fallback: '—' }
-    - { name: mode_description, source: bootstrap.execution.resolved and measured isolation, fallback: execution refused or unavailable }
+    - { name: mode_description, source: bootstrap.execution.resolved, fallback: execution refused or unavailable }
 visual_design:
   design_system_id: design-system.nxtcommit
   hierarchy:
     - Skip link is first in keyboard order and becomes visible on focus.
     - Sticky header presents product identity, primary routes, execution mode, locale, wallet, and local persona in that order.
-    - The truth strip sits directly below navigation so its provenance applies to the entire page.
+    - Page content follows navigation without a persistent demo or isolation notice; execution errors remain standalone alerts.
     - Footer repeats the build/data boundary and keeps reset secondary to page content.
-  layout: Desktop header uses one bounded horizontal row. Truth strip and footer span the viewport with content aligned to the page canvas.
+  layout: Desktop header uses one bounded horizontal row. Footer spans the viewport with content aligned to the page canvas.
   geometry: Header is approximately 72px on compact screens and 88px to 102px on larger screens; controls retain at least 44px touch targets and pill geometry. The product mark uses the canonical spec/assets/branding/nxtcommit-app-icon.svg asset; code generation must copy or import that committed SVG verbatim rather than redraw it.
-  colour_semantics: Resolved demo uses neutral/amber evidence styling, refusal/error uses danger, measured OS isolation uses verification green, absent isolation uses warning amber, and wallet remains neutral.
-  surface: Translucent sticky white header with blur and restrained borders; truth and error strips are flat full-width evidence bands.
+  colour_semantics: Resolved demo uses neutral/amber evidence styling, refusal/error uses danger, and wallet remains neutral.
+  surface: Translucent sticky white header with blur and restrained borders; execution errors use standalone alerts.
   typography: Product and active navigation use bold sans; wallet, mode and evidence metadata use compact mono or label styling.
   motion: Locale, navigation and focus transitions may be short; no shell state or evidence depends on animation.
   visual_anchors:
     - NxtCommit identity remains the leftmost persistent anchor.
     - Active Discover is a dark pill on Home.
-    - The demo/isolation truth strip remains visually attached to the header.
+    - No persistent notice band or empty spacer appears below the header.
     - Footer disclaimer and reset action close the page without a second primary CTA.
 scenarios:
   - id: shell-preserves-local-demo-and-locale-boundaries

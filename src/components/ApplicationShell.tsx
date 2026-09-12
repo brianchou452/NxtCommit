@@ -44,16 +44,7 @@ export function ApplicationShell({ children }: { children: ReactNode }) {
         </div>
       </div>
     </header>
-    <div className="truth-strip">
-      <div className="shell-container">
-        <p>{text.truth}</p>
-        {execution && <p className={execution.isolation.osIsolated ? 'isolated' : 'no-isolation'}>
-          {execution.isolation.osIsolated ? text.isolated : text.no_isolation}
-          {' — '}{execution.isolation.detail}
-        </p>}
-        {execution?.error && <p className="execution-refusal">{execution.error}</p>}
-      </div>
-    </div>
+    {execution?.error && <p className="shell-container execution-refusal" role="alert">{execution.error}</p>}
     {session.state.status === 'loading' && <p className="shell-container" role="status">{text.loading}</p>}
     {session.state.status === 'error' && <div className="shell-container" role="alert">
       <p>{text.bootstrap_error}</p><button onClick={() => void session.reload()}>{text.retry}</button>

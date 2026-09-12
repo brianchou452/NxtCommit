@@ -22,8 +22,6 @@ export const zhTW = {
   not_found: '找不到頁面', back_home: '返回 Discover',
   english: 'English', traditional_chinese: '繁體中文',
   wallet: '運算點數', demo_mode: '示範 runner', llm_mode: 'LLM runner', codex_mode: 'Codex runner',
-  no_isolation: '沒有 per-run OS isolation', isolated: 'Per-run OS isolation',
-  truth: '本機示範角色與運算點數；沒有身份驗證、付款或上游發布。',
   hero_headline_line_1: "Open source is built on commits.",
   hero_headline_line_2: "And every commit starts with a commitment.",
   hero_supporting_text: "從 Issue 到 Merge - 把閒置算力投進下一個 Release",

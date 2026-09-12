@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.18 — 2026-09-12
+
+- Remove the persistent demo/isolation notice below navigation. Keep execution errors as standalone alerts; update shell specs, locale dictionaries and browser regression coverage.
+
 ## v0.7.17 — 2026-09-12 (integrated main)
 
 - Merge Phase 3 A/B/C product work with current Cloudflare delivery and CI optimizations. Package both executable fixtures and Git in production; expose the integrated fixture-only deployment receipt.

@@ -12,10 +12,6 @@
 .locale-control select, .wallet { border: 1px solid #d4d7d0; border-radius: var(--radius-pill); background: var(--surface); padding: 12px 16px; color: var(--ink); }
 .wallet { font: 600 13px var(--font-metadata); white-space: nowrap; }
 .persona { display: grid; place-items: center; border-radius: 50%; width: 44px; height: 44px; color: white; background: var(--brand-violet); font-weight: 600; }
-.truth-strip { border-bottom: 1px solid #e2e3df; background: #f4f3ed; padding-block: 8px; font-size: 13px; }
-.truth-strip p { margin-block: 4px; }
-.no-isolation { color: #855000; }
-.isolated { color: #176544; }
 .shell-footer { border-top: 1px solid #dedfda; padding-block: 24px; color: var(--muted); font-size: 14px; }
 .shell-footer button, [role="alert"] button { border: 1px solid #babeb4; background: var(--surface); color: var(--ink); padding: 10px 18px; border-radius: var(--radius-pill); cursor: pointer; }
 button:disabled { opacity: .6; cursor: wait; }
