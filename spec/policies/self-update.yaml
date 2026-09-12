@@ -1,0 +1,12 @@
+spec_version: 1
+kind: policy
+id: policy.self-update
+title: Local self-update and demo freeze
+scope: [domain.model-assistance, domain.provenance]
+rules:
+  - { id: default-frozen, requirement: Self-update defaults off and demo-locked; enabling alone does not clear demo protection., enforcement: server }
+  - { id: revocable-epoch, requirement: Every toggle invalidates in-flight candidates; activation rechecks the epoch and base release atomically with control changes., enforcement: server }
+  - { id: fixed-scope, requirement: Only three allowlisted frontend request/session files may change; models cannot edit tests dependencies secrets backend or update controls., enforcement: server }
+  - { id: isolated-verification, requirement: Candidate code executes only in pinned resource-bounded networkless Docker with read-only source and no service credentials., enforcement: server }
+  - { id: release-gate, requirement: Typechecks tests frozen request contracts production build and browser journeys must pass before a static release is eligible., enforcement: server }
+  - { id: rollback, requirement: Failed post-switch smoke restores the prior static release and records a terminal result., enforcement: server }

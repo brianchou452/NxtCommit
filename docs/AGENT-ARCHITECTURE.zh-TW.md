@@ -1,5 +1,7 @@
 # Agent 架構與 multi-agent 現況
 
+> **Self-update lane (2026-09-12):** 另有操作者啟用的自我更新控制器：請模型提出有界前端修改、放入容器驗證，並選擇性切換本機靜態版本。其開關／Demo 鎖與建議型 chaos 迴圈及任務 runner 架構互相獨立。 [Runbook](SELF-UPDATE.zh-TW.md).
+
 > **Local resilience update (2026-09-12):** 另有本機穩定度流程協調 Chaos Agent 假設 → 固定目錄執行 → 實驗 Agent 解讀，以報告交接。這是循序建議流程，不是任務 topology 或自主寫碼叢集；下方歷史任務架構需分開閱讀。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 [English](AGENT-ARCHITECTURE.md)

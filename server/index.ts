@@ -12,7 +12,7 @@ if (process.env.RUN_DISPATCH_MODE && process.env.RUN_DISPATCH_MODE !== 'inline')
 const application = createApplication({
   databasePath: resolve(process.env.VAR_DIR ?? 'var', 'nxtcommit.sqlite'),
   configuredMode: process.env.EXECUTION_MODE ?? 'auto',
-  staticDirectory: resolve('dist'),
+  staticDirectory: process.env.SELF_UPDATE_ROOT ? resolve(process.env.SELF_UPDATE_ROOT, 'current/dist') : resolve('dist'),
   authoring: authoringConfiguration(process.env),
 });
 const server = application.app.listen(port, process.env.HOST ?? '127.0.0.1', () => {

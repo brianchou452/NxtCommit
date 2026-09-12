@@ -1,5 +1,7 @@
 # Security and trust boundaries
 
+> **Self-update lane (2026-09-12):** The separate self-update lane can now apply bounded model edits to three local frontend files only. Candidate execution occurs in a pinned Docker image without network, credentials or a Docker socket; source and tests are read-only. Demo/off epoch changes revoke pending activation. See the self-update runbook for residual risks. [Runbook](SELF-UPDATE.md).
+
 > **Local resilience update (2026-09-12):** Local chaos faults use synthetic credentials, private transports and disposable in-memory databases. There is no public injection surface or arbitrary target. Models cannot execute commands, alter gates or source; periodic loops have cycle limits and a single-process lock. [Runbook](CHAOS-AGENTS.md).
 
 ## Computer C authoring and review boundary

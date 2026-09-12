@@ -23,7 +23,8 @@
     "test:e2e": "bash scripts/playwright-docker.sh",
     "test:visual": "bash scripts/playwright-docker.sh --project=visual",
     "test:server": "node scripts/run-tests.mjs",
-    "agents:experiment": "node --import tsx server/resilience/cli.ts"
+    "agents:experiment": "node --import tsx server/resilience/cli.ts",
+    "agents:update": "node --import tsx server/self-update/cli.ts"
   },
   "dependencies": {
     "express": "5.2.1",

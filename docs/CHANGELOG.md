@@ -6,6 +6,12 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.13 — 2026-09-12 (switchable local self-update lane)
+
+- Added disabled-by-default, demo-locked model-authored frontend resilience updates in isolated candidates with frozen tests and Docker browser verification.
+- Added atomic local static-release promotion, stale-epoch cancellation, post-switch smoke rollback and an operator rollback command.
+- Automatic editing is limited to three frontend request/session files; backend, secrets, dependencies, tests and deployment policy remain protected.
+
 ## v0.7.12 — 2026-09-12 (local chaos and experiment agents)
 
 - Added bounded, repeatable fault experiments over real authoring/API modules, optional two-role model advice, regression history and remediation backlogs.

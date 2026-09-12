@@ -1,5 +1,7 @@
 # 安全性與信任邊界
 
+> **Self-update lane (2026-09-12):** 獨立自我更新流程可將有界模型修改套用至三個本機前端檔案。候選在固定 Docker image 中執行，無網路、憑證或 Docker socket，原始碼與測試唯讀。Demo／off 的 epoch 變更撤銷待套用版本；剩餘風險見操作手冊。 [Runbook](SELF-UPDATE.zh-TW.md).
+
 > **Local resilience update (2026-09-12):** 本機 chaos 使用合成憑證、私有 transport 與可拋棄記憶體資料庫；無公開注入介面或任意目標。模型不能執行命令、改 gate 或原始碼；週期迴圈具輪數上限與互斥鎖。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 ## 電腦 C authoring 與 review 邊界

@@ -1,5 +1,7 @@
 # 開發
 
+> **Self-update lane (2026-09-12):** 自我更新開關與 Demo 凍結請見自我更新操作手冊。 [Runbook](SELF-UPDATE.zh-TW.md).
+
 > **Local resilience update (2026-09-12):** Node 24 本機 Chaos／實驗流程、命令、本機部署及停止行為，請見 agent 操作手冊。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 > Phase 1 重建使用 Node 24.x 與[骨架開發流程](PHASE1-FOUNDATION.zh-TW.md)。所有 runner mode 仍拒絕執行，下方先前完整應用的指令需後續模組支援。

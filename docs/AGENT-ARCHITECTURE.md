@@ -1,5 +1,7 @@
 # Agent architecture and multi-agent status
 
+> **Self-update lane (2026-09-12):** A separate operator-enabled self-update controller now requests bounded frontend edits, verifies them in a container and optionally switches the local static release. Its enable/demo lock is independent of the advisory chaos loop and mission runner topology. [Runbook](SELF-UPDATE.md).
+
 > **Local resilience update (2026-09-12):** A separate local resilience workflow now coordinates Chaos Agent hypotheses → fixed-catalog execution → Experiment Agent interpretation through a report handoff. This is a sequential advisory workflow, not the mission topology or an autonomous coding fleet. The historical mission description below remains separate. [Runbook](CHAOS-AGENTS.md).
 
 [繁體中文](AGENT-ARCHITECTURE.zh-TW.md)

@@ -1,5 +1,7 @@
 # 功能真實性矩陣
 
+> **Self-update lane (2026-09-12):** 本機前端自我更新流程新增真實模型候選程式、容器驗證及選用的靜態版本套用。預設關閉並鎖定 Demo，不更新後端或修復任意產品功能。 [Runbook](SELF-UPDATE.zh-TW.md).
+
 > **Local resilience update (2026-09-12):** 本機穩定度 CLI 新增對真實模組的受控故障實驗，可選真實模型假設／解讀；不啟用任務 runner 或自動修復，須查看報告來源。 [Runbook](CHAOS-AGENTS.zh-TW.md).
 
 > **電腦 C／Phase 2 原始碼更新：** `dev/computer-c` 已實作 authoring、本機檢視及 operations；測試邊界與待完成視覺核准（12 條 Docker journey 通過）見[交接文件](PHASE2-C.zh-TW.md)。預設 review evidence 是人工編寫的示範資料。Model／trace adapter 以受控 transport 測試，未宣稱真實模型或外部 Langfuse 成功；此 checkout 仍未包含 B execution runner 與 A community 切片。
