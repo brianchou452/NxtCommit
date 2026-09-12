@@ -26,8 +26,8 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 
 | ID | 完成證據 | 狀態 |
 | --- | --- | --- |
-| CP-006 | 儲存帳戶 variable、發布分支與 GitHub CI run 連結 | 進行中 |
-| CP-007 | main 發布 run、Cloudflare version 與 HTTPS 版本一致收據 | 待執行 |
+| CP-006 | 儲存帳戶 variable、發布分支與 GitHub CI run 連結 | 完成；見下方 CP-006 |
+| CP-007 | main 發布 run、Cloudflare version 與 HTTPS 版本一致收據 | 等待憑證交接；見下方 CP-007 |
 | CP-008 | 真實框架/runtime 接入、產品測試與 readiness 證據 | 等待產品 source／技術棧 |
 | CP-009 | 回滾演練與恢復版本證據 | 未執行 |
 
@@ -36,3 +36,13 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 ## CP-006 — 雲端設定、CI 與同步文件衝突／2026-09-12
 
 已在 repo UI 儲存並確認 CLOUDFLARE_ACCOUNT_ID。透過 ianjuantw 發布 c2eacb9 分支。[Push CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668690840) 與 [PR CI](https://github.com/brianchou452/NxtCommit/actions/runs/34668726022) 均成功，已建立 [PR #1](https://github.com/brianchou452/NxtCommit/pull/1)。隊員同時推送 c21d4ed 歷史文件；兩份 add/add 衝突以保留隊員文件、將本次手冊移至 docs/cicd/RUNBOOK 解決。新增歷史範圍標示，未刪除事故紀錄。已讀新匯入文件；它們不代表產品 source 或本次部署已完成。
+
+## CP-007 — 首次 main 發布遭 Cloudflare 拒絕／2026-09-12 02:55 UTC
+
+更新分支的兩項 CI 均成功（[PR run](https://github.com/brianchou452/NxtCommit/actions/runs/34668873422)、[push run](https://github.com/brianchou452/NxtCommit/actions/runs/34668871294)）後，[PR #1](https://github.com/brianchou452/NxtCommit/pull/1) 合併為 c21dbf5d14d8ea6eeef6e86f54067a5bc9f50a06。
+
+[部署 run 34668938513](https://github.com/brianchou452/NxtCommit/actions/runs/34668938513) 通過 CI、憑證存在檢查與 account/zone/DNS/custom-domain preflight。Worker 上傳在 Workers Scripts API 遭拒，回傳 authentication error 10000。HTTPS 驗證正確跳過，失敗證據已上傳。不宣稱部署成功、取得 version ID、綁定網域或產品上線。
+
+已確認使用的 token 與使用者 Cloudflare 畫面顯示者一致。已準備專用 NxtCommit GitHub Actions token 摘要：只對所屬帳戶提供 Workers Scripts:Edit，只對 ianjuan.com 提供 Zone:Read 與 DNS:Read。官方 Worker 上傳與自訂網域 API 均要求 Workers Scripts Write。目前等待使用者按下建立；代理未產生新 token。這會授予部署權限，因此電腦操作工具的憑證交接規則要求使用者完成最後提交。建立後須更新 GitHub 既有 secret、重跑失敗部署，再驗證線上 SHA/run 收據。
+
+本機已 fast-forward 至合併後 main。此次僅補 checkpoint 的後續提交使用 [skip ci]，避免記錄權限錯誤時再產生相同失敗；沒有修改 runtime 或 workflow。
