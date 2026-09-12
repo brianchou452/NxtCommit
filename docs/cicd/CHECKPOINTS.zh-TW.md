@@ -54,3 +54,5 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 使用者要求部署新推送程式。確認 main d376137 使用 React/Vite、Express、Node 24 與同步 node:sqlite。Workers 的 node:sqlite 只有無功能 stub，不能直接執行此後端。在不重設資料庫介面的前提下，需要 Cloudflare Containers 或既有 Node 主機；已詢問使用者執行環境。Containers 的本機磁碟是暫存資料。
 
 Node 24.19.0 已依官方 SHA256 驗證；鎖定依賴安裝回報零弱點。本機型別檢查與正式 build 通過，server 測試為 14 通過、77 TODO、零失敗。本機 Docker 因公司組織登入政策拒絕 build。新增 GitHub hosted 產品 CI job，包含鎖定安裝、型別、server 測試、build、版本檢查與 Docker foundation 瀏覽器流程；尚待發布取得 run。執行環境接入前保留產品部署 guard。
+
+驗證補記：[GitHub CI 34669746467](https://github.com/brianchou452/NxtCommit/actions/runs/34669746467) 在 feb0a21 的 contracts-and-delivery 與 application-foundation 均通過，包含 Docker foundation 瀏覽器流程。本機正式啟動的 /、/healthz、/readyz、/api/bootstrap 均回傳 200，db=true、execution.resolved=null；/api/missions 依骨架現況回傳 404。這是本機與 CI 證據，並非公開部署完成。
