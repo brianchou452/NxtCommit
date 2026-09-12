@@ -20,7 +20,7 @@ function Header() {
       isActive ? "bg-ink text-bg1" : "text-mut hover:text-fund"
     }`;
   const mobileNavCls = ({ isActive }: { isActive: boolean }) =>
-    `${navBase} px-1 min-[360px]:px-2 ${
+    `${navBase} min-h-14 px-1 min-[360px]:px-2 ${
       isActive ? "bg-ink text-bg1" : "text-mut hover:text-fund"
     }`;
 
@@ -64,7 +64,7 @@ function Header() {
 
           <button
             onClick={() => setLocale(locale === "en" ? "zh-TW" : "en")}
-            className="inline-flex min-h-10 min-w-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border border-line2 bg-bg1 px-3 py-1.5 font-mono text-[11px] font-bold text-mut transition-colors hover:border-fund hover:text-fund lg:min-h-12 lg:px-4 lg:text-[13px] xl:min-h-14 xl:px-5 xl:text-[14px]"
+            className="inline-flex min-h-10 min-w-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border border-line2 bg-bg1 px-3 py-1.5 font-mono text-[14px] font-bold text-mut transition-colors hover:border-fund hover:text-fund lg:min-h-12 lg:px-4 lg:text-[14px] xl:min-h-14 xl:px-5 xl:text-[14px]"
             title={t("common.language")}
             aria-label={`${t("common.language")}: ${locale === "en" ? "中文" : "English"}`}
           >
@@ -102,23 +102,23 @@ function Header() {
         <NavLink to="/" end className={mobileNavCls}>
           <span className="flex min-w-0 max-w-full items-center justify-center gap-1 min-[360px]:gap-1.5">
             <LayoutGrid size={14} className="shrink-0" />
-            <span className="truncate">{t("nav.marketplace")}</span>
+            <span className="whitespace-normal text-center leading-snug">{t("nav.marketplace")}</span>
           </span>
         </NavLink>
         <NavLink to="/new" className={mobileNavCls}>
           <span className="flex min-w-0 max-w-full items-center justify-center gap-1 min-[360px]:gap-1.5">
             <Plus size={14} className="shrink-0" />
-            <span className="truncate">{t("nav.newMission")}</span>
+            <span className="whitespace-normal text-center leading-snug">{t("nav.newMission")}</span>
           </span>
         </NavLink>
         <NavLink to={`/contributors/${boot?.currentUser.id ?? "c_you"}`} className={mobileNavCls}>
           <span className="flex min-w-0 max-w-full items-center justify-center gap-1 min-[360px]:gap-1.5">
             <Award size={14} className="shrink-0" />
-            <span className="truncate">{t("nav.profile")}</span>
+            <span className="whitespace-normal text-center leading-snug">{t("nav.profile")}</span>
           </span>
         </NavLink>
         <NavLink to="/demo" className={mobileNavCls}>
-          <span className="flex min-w-0 max-w-full items-center justify-center gap-1"><PlayCircle size={14} className="shrink-0" /><span className="truncate">Demo</span></span>
+          <span className="flex min-w-0 max-w-full items-center justify-center gap-1"><PlayCircle size={14} className="shrink-0" /><span className="whitespace-normal text-center leading-snug">Demo</span></span>
         </NavLink>
         <NavLink to="/assurance" className={mobileNavCls}>Agent Lab</NavLink>
         <NavLink to="/github" className={mobileNavCls}>GitHub</NavLink>
@@ -144,7 +144,7 @@ function ModeStrip() {
   const descKey = `mode.${e.resolved ?? "refused"}.desc` as TKey;
   return (
     <div className={e.resolved ? "border-b border-line bg-bg1" : "border-b border-danger/30 bg-danger/10"}>
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-1.5 text-[11px] text-dim lg:py-2 lg:text-[13px] xl:max-w-[1792px] xl:px-6">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-1.5 text-[14px] text-dim lg:py-2 lg:text-[14px] xl:max-w-[1792px] xl:px-6">
         <span className={e.resolved ? undefined : "font-semibold text-danger"}>
           {t(descKey, { host: e.gatewayHost ?? "gateway" })}
           {e.model ? ` · ${e.model}` : ""}
@@ -213,7 +213,7 @@ function Toasts() {
                 🏆
               </span>
               <span>
-                <span className="block text-[11px] font-semibold uppercase tracking-wide text-fund">
+                <span className="block text-[14px] font-semibold uppercase tracking-wide text-fund">
                   {t("ach.unlocked")}
                 </span>
                 <span className="block text-sm font-bold">{lt(toast.achievement.def.name)}</span>

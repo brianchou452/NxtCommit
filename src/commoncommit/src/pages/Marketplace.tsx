@@ -143,7 +143,7 @@ export default function Marketplace({ embedded = false }: { embedded?: boolean }
               {t("mkt.hero.title")}
             </h1>
             <p className="mt-2.5 text-sm leading-relaxed text-mut sm:text-[15px]">{t("mkt.hero.sub")}</p>
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] text-dim">
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-[14px] text-dim">
               <span className="rounded-full border border-line2 px-2.5 py-1">
                 ⚡ {t("mkt.hero.pill.credits")}
               </span>
@@ -172,7 +172,7 @@ export default function Marketplace({ embedded = false }: { embedded?: boolean }
                   <dd className="font-mono text-[26px] font-bold leading-none" style={{ color }}>
                     {fmtCompact(value, locale)}
                   </dd>
-                  <dt className="mt-1.5 text-[11px] text-dim">{t(key as TKey)}</dt>
+                  <dt className="mt-1.5 text-[14px] text-dim">{t(key as TKey)}</dt>
                 </div>
               ))}
               </dl>
@@ -219,7 +219,7 @@ export default function Marketplace({ embedded = false }: { embedded?: boolean }
               <div>
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <h3 className="text-sm font-semibold">{t("mkt.category.more")}</h3>
-                  <span className="font-mono text-[10px] text-dim">+{section.missions.length - 5}</span>
+                  <span className="font-mono text-[14px] text-dim">+{section.missions.length - 5}</span>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   {section.missions.slice(5).map((mission) => <ProductCard key={`${section.key}-more-${mission.id}`} mission={mission} compact {...demoProps(mission.id)} />)}
@@ -240,7 +240,7 @@ export default function Marketplace({ embedded = false }: { embedded?: boolean }
                 >
                   {meta.icon}
                   {t(`section.${section.key}` as TKey)}
-                  <span className="rounded-full bg-bg3 px-2 py-0.5 font-mono text-[11px] font-semibold text-dim">
+                  <span className="rounded-full bg-bg3 px-2 py-0.5 font-mono text-[14px] font-semibold text-dim">
                     {section.missions.length}
                   </span>
                 </h2>

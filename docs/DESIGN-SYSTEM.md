@@ -37,7 +37,7 @@ If this document conflicts with the executable spec or contracts, **follow the e
 | Body sans | The same sans stack; `400–600` | Explanations, controls, descriptions, and long-form text. |
 | Metadata mono | `ui-monospace`, `SF Mono`, Menlo, Consolas, monospace; `600–800` | Provenance, metrics, kickers, statuses, pipelines, and technical metadata; often uppercase with expanded tracking. |
 
-Metadata and pipeline labels may use approximately `10–14px` mono depending on density. This is an information-hierarchy exception: **do not also shrink body copy, core states, or button text**. Keep readable content and controls clear according to context, contrast, line height, and target size; do not impose the outdated universal `16px` absolute minimum. Hero text, funding figures, and primary outcomes must stand clearly above surrounding metadata.
+Visible interface copy and pipeline labels use a minimum of `14px`; body text and standard controls use `16px` with comfortable line height. This user-requested readability revision supersedes the source’s compact typography. Preserve larger display headings and reflow layouts instead of shrinking text. Avatar initials and decorative icons are not body copy.
 
 ### Core colour tokens
 

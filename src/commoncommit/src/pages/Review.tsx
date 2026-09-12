@@ -104,12 +104,12 @@ function DiffFile({ file, defaultOpen }: { file: ArtifactFile; defaultOpen: bool
         )}
         <code className="min-w-0 flex-1 truncate font-mono text-xs text-ink">{file.path}</code>
         <span
-          className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold ${KIND_STYLES[file.kind]}`}
+          className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[14px] font-semibold ${KIND_STYLES[file.kind]}`}
         >
           {t(`file.kind.${file.kind}` as TKey)}
         </span>
-        <span className="shrink-0 font-mono text-[11px] text-verif">+{file.additions}</span>
-        <span className="shrink-0 font-mono text-[11px] text-danger">−{file.deletions}</span>
+        <span className="shrink-0 font-mono text-[14px] text-verif">+{file.additions}</span>
+        <span className="shrink-0 font-mono text-[14px] text-danger">−{file.deletions}</span>
       </button>
       {open && (
         <pre className="cc-event-in mb-2 max-h-96 overflow-auto rounded-lg border border-line bg-bg0 p-3 text-xs font-mono leading-relaxed">
@@ -322,10 +322,10 @@ export default function Review() {
       {/* breadcrumb */}
       <Link
         to={`/missions/${data.id}`}
-        className="inline-flex items-center gap-1.5 text-xs text-dim transition-colors hover:text-ink"
+        className="inline-flex max-w-full items-start gap-1.5 text-xs text-dim transition-colors hover:text-ink"
       >
         <ArrowLeft size={12} />
-        <span className="truncate">{lt(data.title)}</span>
+        <span className="min-w-0 break-words">{lt(data.title)}</span>
       </Link>
 
       {/* header */}
@@ -410,7 +410,7 @@ export default function Review() {
                 ].map(([value, label]) => (
                   <div key={label} className="rounded-xl border border-line bg-bg0/70 px-3 py-3">
                     <p className="font-mono text-xl font-bold text-ink">{typeof value === "number" ? fmtInt(value, locale) : value}</p>
-                    <p className="mt-1 text-[10px] leading-tight text-dim">{label}</p>
+                    <p className="mt-1 text-[14px] leading-tight text-dim">{label}</p>
                   </div>
                 ))}
               </div>
@@ -426,7 +426,7 @@ export default function Review() {
                       </p>
                       <SourceBadge source={experiment.source} verified={experiment.source === "engine"} />
                     </div>
-                    <code className="min-w-0 truncate rounded-lg bg-bg0 px-3 py-2 font-mono text-[11px] text-mut">$ {experiment.command}</code>
+                    <code className="min-w-0 truncate rounded-lg bg-bg0 px-3 py-2 font-mono text-[14px] text-mut">$ {experiment.command}</code>
                     <div className="text-right font-mono text-xs">
                       <span className="font-bold text-verif">{experiment.tests.pass}</span>
                       <span className="text-dim"> / {experiment.tests.total}</span>
@@ -481,7 +481,7 @@ export default function Review() {
                 title={t("rev.selfReview")}
                 right={
                   <span
-                    className={`rounded-full px-2 py-0.5 font-mono text-[11px] font-semibold ${
+                    className={`rounded-full px-2 py-0.5 font-mono text-[14px] font-semibold ${
                       artifact.review.verdict === "approve"
                         ? "bg-ok/10 text-ok"
                         : artifact.review.verdict === "reject"
@@ -533,16 +533,16 @@ export default function Review() {
               <div className="mt-4 border-t border-line pt-4">
                 <p className="text-sm leading-relaxed text-mut">{lt(explanation.summary)}</p>
                 <ul className="mt-3 space-y-1.5 text-xs text-dim">{explanation.verifiedFacts.map((fact, i) => <li key={i}>✓ {lt(fact)}</li>)}</ul>
-                <p className="mt-3 font-mono text-[10px] text-dim">{explanation.evidence.generator} · {explanation.evidence.promptKey}@{explanation.evidence.promptVersion} · {explanation.evidence.variant}</p>
+                <p className="mt-3 font-mono text-[14px] text-dim">{explanation.evidence.generator} · {explanation.evidence.promptKey}@{explanation.evidence.promptVersion} · {explanation.evidence.variant}</p>
                 {explanation.evidence.traceId && <div className="mt-3 flex items-center gap-2 text-xs text-dim"><span>{t("ai.feedback.question")}</span><button type="button" onClick={() => void scoreAiEvidence(explanation.evidence.traceId, "evidence-explanation", true)} aria-label={t("ai.feedback.yes")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsUp size={13} /></button><button type="button" onClick={() => void scoreAiEvidence(explanation.evidence.traceId, "evidence-explanation", false)} aria-label={t("ai.feedback.no")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsDown size={13} /></button></div>}
               </div>
             )}
             {shadow && (
               <div className="mt-4 border-t border-line pt-4">
-                <div className="flex items-center gap-2"><span className="rounded border border-dev/30 bg-dev/5 px-2 py-0.5 font-mono text-[10px] text-dev">SHADOW</span><span className="text-xs font-semibold text-mut">{shadow.verdict}</span></div>
+                <div className="flex items-center gap-2"><span className="rounded border border-dev/30 bg-dev/5 px-2 py-0.5 font-mono text-[14px] text-dev">SHADOW</span><span className="text-xs font-semibold text-mut">{shadow.verdict}</span></div>
                 <p className="mt-2 text-sm leading-relaxed text-mut">{lt(shadow.notes)}</p>
                 <p className="mt-3 text-xs italic text-dim">{t("rev.aiEvidence.noGate")}</p>
-                <p className="mt-2 font-mono text-[10px] text-dim">{shadow.evidence.generator} · {shadow.evidence.promptKey}@{shadow.evidence.promptVersion}</p>
+                <p className="mt-2 font-mono text-[14px] text-dim">{shadow.evidence.generator} · {shadow.evidence.promptKey}@{shadow.evidence.promptVersion}</p>
                 {shadow.evidence.traceId && <div className="mt-3 flex items-center gap-2 text-xs text-dim"><span>{t("ai.feedback.question")}</span><button type="button" onClick={() => void scoreAiEvidence(shadow.evidence.traceId, "shadow-review", true)} aria-label={t("ai.feedback.yes")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsUp size={13} /></button><button type="button" onClick={() => void scoreAiEvidence(shadow.evidence.traceId, "shadow-review", false)} aria-label={t("ai.feedback.no")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsDown size={13} /></button></div>}
               </div>
             )}
@@ -586,7 +586,7 @@ export default function Review() {
               title={t("rev.evidence")}
               right={
                 <span className="inline-flex items-center gap-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-dim">
+                  <span className="text-[14px] font-semibold uppercase tracking-wide text-dim">
                     {t("rev.evidence.final")}
                   </span>
                   <SourceBadge
@@ -637,7 +637,7 @@ export default function Review() {
                       $ {c.command}
                     </code>
                     <span
-                      className={`inline-flex shrink-0 items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold ${
+                      className={`inline-flex shrink-0 items-center gap-1 rounded border px-1.5 py-0.5 font-mono text-[14px] font-semibold ${
                         c.exitCode === 0
                           ? "border-verif/30 bg-verif/5 text-verif"
                           : "border-danger/30 bg-danger/5 text-danger"
@@ -660,7 +660,7 @@ export default function Review() {
                 <div key={e.id} className="flex items-center gap-3 text-xs">
                   <span className="w-16 shrink-0 font-mono text-dim">{timeAgo(e.ts, t)}</span>
                   <span
-                    className={`w-20 shrink-0 rounded border px-1.5 py-0.5 text-center text-[10px] font-semibold ${
+                    className={`w-20 shrink-0 rounded border px-1.5 py-0.5 text-center text-[14px] font-semibold ${
                       {
                         pledge: "border-fund/30 bg-fund/5 text-fund",
                         reserve: "border-dev/30 bg-dev/5 text-dev",

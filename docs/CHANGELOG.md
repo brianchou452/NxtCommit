@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.36 — 2026-09-12
+
+- Enlarge demo interface text to a 14px minimum with 16px body and standard controls. Reflow mobile navigation, role tabs and nine named delivery stages; improve muted text contrast and guide close targets. Add desktop/mobile readability checks and a complete mobile maintainer journey.
+
 ## v0.7.35 — 2026-09-12
 
 - Port the commoncommit presentation into NxtCommit: 10 pages, 19 components, 35 original animation definitions, nine-stage role demos and guided journeys. Preserve the shared catalog and ledger; add the original tempo fixture with measured failure/recovery and an idempotent local release after approval. Retain Agent Lab and GitHub workspaces. See COMMONCOMMIT-PARITY.md for scope and verification.

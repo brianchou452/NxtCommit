@@ -38,7 +38,7 @@ export default defineConfig({
     { name: 'github', testMatch: 'github.e2e.spec.ts' },
     { name: 'foundation', testMatch: 'parity-foundation.spec.ts' },
     { name: 'legacy-foundation', testMatch: 'foundation.spec.ts' },
-    { name: 'product', testMatch: ['parity.e2e.spec.ts', 'github.e2e.spec.ts', 'assurance.e2e.spec.ts'] },
+    { name: 'product', testMatch: ['parity.e2e.spec.ts', 'readability.e2e.spec.ts', 'github.e2e.spec.ts', 'assurance.e2e.spec.ts'] },
     { name: 'legacy-product', testMatch: /^(?!parity).*\.e2e\.spec\.ts$/ },
     { name: 'mission', testMatch: 'mission-execution.e2e.spec.ts' },
     { name: 'mission-visual', testMatch: 'mission-execution.visual.spec.ts' },

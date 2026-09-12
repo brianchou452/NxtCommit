@@ -260,7 +260,7 @@ export function LiveAgentFeed() {
                   ))}
                 </div>
                 {currentPhase !== "" && (
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-brand-text">
+                  <p className="mt-2 text-[14px] font-semibold uppercase tracking-wide text-brand-text">
                     {currentPhase}
                   </p>
                 )}
@@ -271,8 +271,8 @@ export function LiveAgentFeed() {
           {current.evidence.length > 0 && (
             <div className="mb-4 rounded-xl border border-line bg-bg0/55 p-3">
               <div className="mb-2 flex items-center justify-between gap-3">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-dim">{t("live.evidence")}</p>
-                <span className="font-mono text-[10px] text-dim">{current.evidence.length}</span>
+                <p className="text-[14px] font-bold uppercase tracking-wider text-dim">{t("live.evidence")}</p>
+                <span className="font-mono text-[14px] text-dim">{current.evidence.length}</span>
               </div>
               <ol className="space-y-2.5">
                 {current.evidence.map((evidence, index) => (
@@ -281,7 +281,7 @@ export function LiveAgentFeed() {
                     className="rounded-lg border border-line bg-bg1/70 p-2.5"
                   >
                     <div className="flex min-w-0 flex-wrap items-center gap-2">
-                      <span className="font-mono text-[10px] uppercase tracking-wide text-dim">
+                      <span className="font-mono text-[14px] uppercase tracking-wide text-dim">
                         {evidence.type.replaceAll("_", " ")}
                       </span>
                       <SourceBadge source={evidence.source} verified={evidence.verified} />
@@ -290,7 +290,7 @@ export function LiveAgentFeed() {
                       {lt(evidence.label)}
                     </p>
                     {evidence.detail && (
-                      <p className="mt-1 whitespace-pre-line break-words text-[11px] leading-relaxed text-mut">
+                      <p className="mt-1 whitespace-pre-line break-words text-[14px] leading-relaxed text-mut">
                         {lt(evidence.detail)}
                       </p>
                     )}
@@ -299,7 +299,7 @@ export function LiveAgentFeed() {
                         {evidence.files.map((file) => (
                           <li
                             key={`${evidence.at}-${file.path}`}
-                            className="rounded border border-dev/25 bg-dev/5 px-1.5 py-0.5 font-mono text-[10px] text-dev"
+                            className="rounded border border-dev/25 bg-dev/5 px-1.5 py-0.5 font-mono text-[14px] text-dev"
                           >
                             {file.kind === "add" ? "+" : file.kind === "delete" ? "−" : "±"} {file.path}
                           </li>
@@ -307,7 +307,7 @@ export function LiveAgentFeed() {
                       </ul>
                     )}
                     {evidence.tests && (
-                      <p className="mt-2 font-mono text-[11px] text-mut">
+                      <p className="mt-2 font-mono text-[14px] text-mut">
                         <span className="font-semibold text-verif">{evidence.tests.pass}✓</span>{" "}
                         <span className={evidence.tests.fail > 0 ? "font-semibold text-danger" : "text-dim"}>
                           {evidence.tests.fail}✗

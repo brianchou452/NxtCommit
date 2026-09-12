@@ -142,11 +142,11 @@ function Stepper({ step }: { step: Step }) {
 function GeneratorNote({ real }: { real: boolean }) {
   const { t } = useI18n();
   return real ? (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-dev/30 bg-dev/5 px-2.5 py-1 text-[11px] font-semibold text-dev">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-dev/30 bg-dev/5 px-2.5 py-1 text-[14px] font-semibold text-dev">
       <Sparkles size={12} /> {t("wiz.generate.real")}
     </span>
   ) : (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-warn/30 bg-warn/5 px-2.5 py-1 text-[11px] font-semibold text-warn">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-warn/30 bg-warn/5 px-2.5 py-1 text-[14px] font-semibold text-warn">
       <FlaskConical size={12} /> {t("wiz.generate.demo")}
     </span>
   );
@@ -538,15 +538,15 @@ export default function NewMission() {
               <div className="min-w-0">
                 <p className="font-mono text-lg font-bold text-ink">{analysis.name}</p>
                 <p className="mt-1 text-sm leading-relaxed text-mut">{analysis.description}</p>
-                <p className="mt-1.5 truncate font-mono text-[11px] text-dim">{analysis.repoUrl}</p>
+                <p className="mt-1.5 truncate font-mono text-[14px] text-dim">{analysis.repoUrl}</p>
               </div>
-              <div className="flex shrink-0 items-center gap-3">
+              <div className="flex min-w-0 max-w-full items-center gap-3">
                 {analysis.healthScore !== undefined && <HealthRing score={analysis.healthScore} size={52} />}
                 <div>
                   <p className="text-xs font-semibold text-mut">{t("wiz.analysis.health")}</p>
                   <ul className="mt-1 space-y-0.5">
                     {analysis.healthNotes.map((n, i) => (
-                      <li key={i} className="text-[11px] leading-snug text-dim">
+                      <li key={i} className="text-[14px] leading-snug text-dim">
                         · {lt(n)}
                       </li>
                     ))}
@@ -559,7 +559,7 @@ export default function NewMission() {
               {facts.map((f) => (
                 <div key={f.label}>
                   <p className="font-mono text-lg font-bold text-ink">{f.value}</p>
-                  <p className="mt-0.5 text-[11px] text-dim">{f.label}</p>
+                  <p className="mt-0.5 text-[14px] text-dim">{f.label}</p>
                 </div>
               ))}
             </div>
@@ -598,16 +598,16 @@ export default function NewMission() {
                         selected ? "border-fund bg-fund/5" : "border-line bg-bg1 hover:border-line2 hover:bg-bg2"
                       }`}
                     >
-                    <span className="flex items-start justify-between gap-3">
+                    <span className="flex flex-wrap items-start justify-between gap-3">
                       <span className="min-w-0">
                         <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                          <span className="font-mono text-[11px] text-dim">{issue.id}</span>
+                          <span className="font-mono text-[14px] text-dim">{issue.id}</span>
                           <span className="text-sm font-bold text-ink">{issue.title}</span>
                         </span>
                         {issue.labels.length > 0 && (
                           <span className="mt-1.5 flex flex-wrap gap-1.5">
                             {issue.labels.map((l) => (
-                              <span key={l} className="rounded bg-bg3 px-1.5 py-0.5 font-mono text-[10px] text-mut">
+                              <span key={l} className="rounded bg-bg3 px-1.5 py-0.5 font-mono text-[14px] text-mut">
                                 {l}
                               </span>
                             ))}
@@ -615,7 +615,7 @@ export default function NewMission() {
                         )}
                       </span>
                       <span
-                        className={`inline-flex shrink-0 items-center gap-1 rounded border px-2 py-0.5 text-[10px] font-medium ${FEASIBILITY_STYLES[issue.feasibility.level]}`}
+                        className={`inline-flex shrink-0 items-center gap-1 rounded border px-2 py-0.5 text-[14px] font-medium ${FEASIBILITY_STYLES[issue.feasibility.level]}`}
                       >
                         {issue.feasibility.needsHuman && <AlertTriangle size={10} />}
                         {t(`wiz.feasibility.${issue.feasibility.level}` as TKey)}
@@ -629,19 +629,19 @@ export default function NewMission() {
                     {/* The score never appears without what it refers to. A bare
                         "79" is meaningless; "79% of issues that looked like this,
                         vs 65% of all issues" is a claim a reader can weigh. */}
-                    {Number.isFinite(issue.feasibility.calibration.bandPrecision) && <span className="mt-1.5 block text-[10px] leading-relaxed text-dim">
+                    {Number.isFinite(issue.feasibility.calibration.bandPrecision) && <span className="mt-1.5 block text-[14px] leading-relaxed text-dim">
                       {t("wiz.feasibility.calib", {
                         band: `${Math.round(issue.feasibility.calibration.bandPrecision * 100)}%`,
                         base: `${Math.round(issue.feasibility.calibration.baseRate * 100)}%`,
                       })}
                     </span>}
                     {/* Always visible, not hidden in a tooltip. */}
-                    <span className="mt-1 block text-[10px] italic text-dim">
+                    <span className="mt-1 block text-[14px] italic text-dim">
                       {t("wiz.feasibility.heuristicNote")}
                     </span>
                     {issue.feasibility.signals.length > 0 && (
                       <span className="mt-2 block">
-                        <span className="mb-1 block text-[10px] text-dim">
+                        <span className="mb-1 block text-[14px] text-dim">
                           {t("wiz.feasibility.why")}
                         </span>
                         <span className="flex flex-wrap gap-1">
@@ -649,7 +649,7 @@ export default function NewMission() {
                             <span
                               key={sig.key}
                               title={sig.evidence}
-                              className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${
+                              className={`rounded px-1.5 py-0.5 font-mono text-[14px] ${
                                 sig.direction === "up"
                                   ? "bg-verif/10 text-verif"
                                   : "bg-danger/10 text-danger"
@@ -664,10 +664,10 @@ export default function NewMission() {
                     )}
                     {issue.feasibility.observations.length > 0 && (
                       <span className="mt-2 block">
-                        <span className="mb-1 block text-[10px] text-dim">
+                        <span className="mb-1 block text-[14px] text-dim">
                           {t("wiz.feasibility.alsoNoticed")}
                         </span>
-                        <span className="block text-[10px] leading-relaxed text-dim">
+                        <span className="block text-[14px] leading-relaxed text-dim">
                           {issue.feasibility.observations.map((o) => o.key.replace(/_/g, " ")).join(" · ")}
                         </span>
                       </span>
@@ -693,7 +693,7 @@ export default function NewMission() {
               </div>
               {assistant && (
                 <div className="mt-4 border-t border-line pt-4">
-                  <div className="flex flex-wrap gap-2 text-[10px] font-mono text-dim">
+                  <div className="flex flex-wrap gap-2 text-[14px] font-mono text-dim">
                     <span>{assistant.evidence.generator}</span><span>{assistant.evidence.promptKey}@{assistant.evidence.promptVersion}</span><span>{assistant.evidence.variant}</span>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-mut">{lt(assistant.triage.summary)}</p>
@@ -764,7 +764,7 @@ export default function NewMission() {
                 </div>
                 {critique && (
                   <div className="mt-4 border-t border-line pt-4">
-                    <div className="flex flex-wrap gap-2 text-[10px] font-mono text-dim"><span>{critique.evidence.generator}</span><span>{critique.evidence.promptKey}@{critique.evidence.promptVersion}</span><span>{critique.evidence.variant}</span></div>
+                    <div className="flex flex-wrap gap-2 text-[14px] font-mono text-dim"><span>{critique.evidence.generator}</span><span>{critique.evidence.promptKey}@{critique.evidence.promptVersion}</span><span>{critique.evidence.variant}</span></div>
                     <div className="mt-3 flex flex-wrap gap-2">{(["grounding", "actionability", "bilingualParity"] as const).map((key) => <span key={key} className={`rounded border px-2 py-1 text-xs ${critique[key] === "pass" ? "border-verif/30 text-verif" : "border-warn/30 text-warn"}`}>{key === "grounding" ? t("wiz.critic.grounding") : key === "actionability" ? t("wiz.critic.actionability") : t("wiz.critic.bilingualParity")} · {critique[key]}</span>)}</div>
                     {critique.findings.length > 0 && <ul className="mt-3 space-y-1 text-sm text-mut">{critique.findings.map((finding, i) => <li key={i}>· {lt(finding)}</li>)}</ul>}
                     {critique.evidence.traceId && <div className="mt-3 flex items-center gap-2 text-xs text-dim"><span>{t("ai.feedback.question")}</span><button type="button" onClick={() => void scoreAssistant(critique.evidence.traceId, "campaign-critic", true)} aria-label={t("ai.feedback.yes")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsUp size={13} /></button><button type="button" onClick={() => void scoreAssistant(critique.evidence.traceId, "campaign-critic", false)} aria-label={t("ai.feedback.no")} className="cursor-pointer rounded p-1 hover:bg-bg3"><ThumbsDown size={13} /></button></div>}
@@ -782,7 +782,7 @@ export default function NewMission() {
                         type="button"
                         onClick={() => setPreviewLocale(pl)}
                         aria-pressed={previewLocale === pl}
-                        className={`cursor-pointer rounded-md px-2.5 py-1 text-[11px] font-bold transition-colors ${
+                        className={`cursor-pointer rounded-md px-2.5 py-1 text-[14px] font-bold transition-colors ${
                           previewLocale === pl ? "bg-bg3 text-ink" : "text-dim hover:text-mut"
                         }`}
                       >
@@ -794,14 +794,14 @@ export default function NewMission() {
 
                 {draft.evidence && (
                   <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-line bg-bg2 px-3 py-2">
-                    <span className="text-[11px] font-semibold text-mut">{t("wiz.evidence")}</span>
-                    <span className="font-mono text-[11px] text-dim">
+                    <span className="text-[14px] font-semibold text-mut">{t("wiz.evidence")}</span>
+                    <span className="font-mono text-[14px] text-dim">
                       {t("wiz.evidence.model")} {draft.evidence.model}
                     </span>
-                    <span className="font-mono text-[11px] text-dim">
+                    <span className="font-mono text-[14px] text-dim">
                       {t("wiz.evidence.latency")} {fmtInt(draft.evidence.latencyMs, locale)}ms
                     </span>
-                    <span className="font-mono text-[11px] text-dim">
+                    <span className="font-mono text-[14px] text-dim">
                       {fmtInt(draft.evidence.inputTokens, locale)}+{fmtInt(draft.evidence.outputTokens, locale)}{" "}
                       {t("wiz.evidence.tokens")}
                     </span>
@@ -814,7 +814,7 @@ export default function NewMission() {
                 {draft.tags.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {draft.tags.map((tag) => (
-                      <span key={tag} className="rounded bg-bg3 px-2 py-0.5 font-mono text-[10px] text-mut">
+                      <span key={tag} className="rounded bg-bg3 px-2 py-0.5 font-mono text-[14px] text-mut">
                         {tag}
                       </span>
                     ))}
@@ -852,7 +852,7 @@ export default function NewMission() {
                     <div className="space-y-2.5">
                       {draft.milestones.map((m, i) => (
                         <div key={i} className="flex items-center gap-3">
-                          <span className="w-4 shrink-0 text-right font-mono text-[11px] text-dim">{i + 1}</span>
+                          <span className="w-4 shrink-0 text-right font-mono text-[14px] text-dim">{i + 1}</span>
                           <span className="min-w-0 flex-1 truncate text-sm text-ink">{plt(m.title)}</span>
                           <span className="h-1 w-16 shrink-0 overflow-hidden rounded-full bg-bg3">
                             <span
@@ -886,7 +886,7 @@ export default function NewMission() {
                     <h3 className="text-sm font-bold">{t("msn.goal")}</h3>
                     <Credits n={draft.computeGoal} className="text-lg font-bold text-ink" />
                   </div>
-                  <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-dim">
+                  <p className="mt-2 text-[14px] font-semibold uppercase tracking-wide text-dim">
                     {t("wiz.computeRationale")}
                   </p>
                   <p className="mt-1 text-sm leading-relaxed text-mut">{plt(draft.computeRationale)}</p>
@@ -895,11 +895,11 @@ export default function NewMission() {
                       <div className="flex flex-wrap items-end justify-between gap-3">
                         <div>
                           <p className="text-xs font-bold text-ink">{t("msn.estimate.title")}</p>
-                          <p className="mt-1 text-[11px] text-dim">
+                          <p className="mt-1 text-[14px] text-dim">
                             {t("msn.estimate.range")} · {fmtInt(draft.computeEstimate.range.low, locale)}–{fmtInt(draft.computeEstimate.range.high, locale)} credits
                           </p>
                         </div>
-                        <span className="rounded-full border border-line2 px-2.5 py-1 font-mono text-[10px] text-mut">
+                        <span className="rounded-full border border-line2 px-2.5 py-1 font-mono text-[14px] text-mut">
                           {draft.computeEstimate.confidence} {t("msn.estimate.confidence")}
                         </span>
                       </div>
@@ -907,11 +907,11 @@ export default function NewMission() {
                         {draft.computeEstimate.breakdown.map((item) => (
                           <div key={item.key} className="rounded-lg bg-bg2 px-3 py-2">
                             <p className="font-mono text-sm font-bold text-fund">{fmtInt(item.credits, locale)}</p>
-                            <p className="mt-0.5 text-[10px] leading-snug text-dim">{plt(item.basis)}</p>
+                            <p className="mt-0.5 text-[14px] leading-snug text-dim">{plt(item.basis)}</p>
                           </div>
                         ))}
                       </div>
-                      <p className="mt-3 text-[10px] text-dim">{t("msn.estimate.notBill")} · {draft.computeEstimate.method}</p>
+                      <p className="mt-3 text-[14px] text-dim">{t("msn.estimate.notBill")} · {draft.computeEstimate.method}</p>
                     </div>
                   )}
                 </div>

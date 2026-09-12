@@ -173,7 +173,7 @@ function PhaseRail({ events, running }: { events: ExecutionEvent[]; running: boo
               />
             )}
             <span
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors ${
+              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[14px] font-semibold transition-colors ${
                 isActive
                   ? "border-dev/50 bg-dev/10 text-dev"
                   : done
@@ -206,7 +206,7 @@ function EnvironmentCard({ events }: { events: ExecutionEvent[] }) {
   const provisioned = events.filter((e) => e.type === "provision");
   return (
     <Card className="p-4">
-      <p className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-dim">
+      <p className="mb-3 text-[14px] font-semibold uppercase tracking-wider text-dim">
         {t("run.environment")}
       </p>
       <dl className="space-y-2 text-xs">
@@ -222,13 +222,13 @@ function EnvironmentCard({ events }: { events: ExecutionEvent[] }) {
         </div>
         <div className="flex items-baseline justify-between gap-2">
           <dt className="shrink-0 text-dim">{t("run.env.source")}</dt>
-          <dd className="truncate text-right font-mono text-[10px] text-mut" title={String(p.testSource ?? "")}>
+          <dd className="truncate text-right font-mono text-[14px] text-mut" title={String(p.testSource ?? "")}>
             {String(p.testSource ?? "—")}
           </dd>
         </div>
         <div className="flex items-baseline justify-between gap-2">
           <dt className="text-dim">{t("run.env.install")}</dt>
-          <dd className="font-mono text-[11px] text-mut">
+          <dd className="font-mono text-[14px] text-mut">
             {p.needsInstall
               ? provisioned.length > 1
                 ? t("run.env.installDone")
@@ -238,7 +238,7 @@ function EnvironmentCard({ events }: { events: ExecutionEvent[] }) {
         </div>
       </dl>
       {envEvent.detail && (
-        <p className="mt-3 whitespace-pre-wrap border-t border-line pt-3 text-[11px] leading-relaxed text-dim">
+        <p className="mt-3 whitespace-pre-wrap border-t border-line pt-3 text-[14px] leading-relaxed text-dim">
           {lt(envEvent.detail)}
         </p>
       )}
@@ -252,7 +252,7 @@ function TestChips({ tests }: { tests: TestSummary }) {
   const { t } = useI18n();
   return (
     <div className="mt-2 space-y-1.5">
-      <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px]">
+      <div className="flex flex-wrap items-center gap-1.5 font-mono text-[14px]">
         <span className="rounded border border-verif/30 bg-verif/10 px-1.5 py-0.5 font-semibold text-verif">
           {tests.pass} {t("run.testsPass")}
         </span>
@@ -269,7 +269,7 @@ function TestChips({ tests }: { tests: TestSummary }) {
       {tests.failures && tests.failures.length > 0 && (
         <ul className="space-y-0.5">
           {tests.failures.map((f) => (
-            <li key={f.name} className="text-[11px] leading-relaxed">
+            <li key={f.name} className="text-[14px] leading-relaxed">
               <span className="font-mono font-semibold text-danger">{f.name}</span>
               {f.message && <span className="text-dim"> — {f.message}</span>}
             </li>
@@ -286,7 +286,7 @@ function FileChips({ files }: { files: FileChange[] }) {
       {files.map((f) => (
         <span
           key={f.path}
-          className="inline-flex items-center gap-1.5 rounded border border-line bg-bg0 px-2 py-0.5 font-mono text-[11px] text-mut"
+          className="inline-flex items-center gap-1.5 rounded border border-line bg-bg0 px-2 py-0.5 font-mono text-[14px] text-mut"
         >
           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${FILE_KIND_DOT[f.kind]}`} />
           {f.path}
@@ -318,13 +318,13 @@ function EventRow({ event }: { event: ExecutionEvent }) {
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span className="font-mono text-[11px] text-dim">{clockTime(event.ts)}</span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-dim">
+          <span className="font-mono text-[14px] text-dim">{clockTime(event.ts)}</span>
+          <span className="text-[14px] font-semibold uppercase tracking-wider text-dim">
             {t(`event.${event.type}` as TKey)}
           </span>
           <SourceBadge source={event.source} verified={event.verified} />
           {event.computeDelta > 0 && (
-            <span className="ml-auto shrink-0 rounded border border-fund/30 bg-fund/10 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-fund">
+            <span className="ml-auto shrink-0 rounded border border-fund/30 bg-fund/10 px-1.5 py-0.5 font-mono text-[14px] font-semibold text-fund">
               +{fmtInt(event.computeDelta, locale)} ⚡
             </span>
           )}
@@ -344,7 +344,7 @@ function EventRow({ event }: { event: ExecutionEvent }) {
           <div className="mt-2">
             <button
               onClick={() => setShowOutput((v) => !v)}
-              className="inline-flex cursor-pointer items-center gap-1 text-[11px] font-semibold text-dim transition-colors hover:text-ink"
+              className="inline-flex cursor-pointer items-center gap-1 text-[14px] font-semibold text-dim transition-colors hover:text-ink"
             >
               {showOutput ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
               {showOutput ? t("run.hideOutput") : t("run.showOutput")}
@@ -358,7 +358,7 @@ function EventRow({ event }: { event: ExecutionEvent }) {
         )}
 
         {p?.llm && (
-          <p className="mt-1.5 font-mono text-[10px] text-dim">
+          <p className="mt-1.5 font-mono text-[14px] text-dim">
             {p.llm.model} · {fmtInt(p.llm.latencyMs, locale)}ms · {fmtInt(p.llm.inputTokens + p.llm.outputTokens, locale)}{" "}
             tokens
           </p>
@@ -373,7 +373,7 @@ function EventRow({ event }: { event: ExecutionEvent }) {
 function SideCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <Card className="p-4">
-      <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-dim">{title}</h3>
+      <h3 className="mb-3 text-[14px] font-semibold uppercase tracking-wider text-dim">{title}</h3>
       {children}
     </Card>
   );
@@ -690,7 +690,7 @@ export default function ExecutionRoom() {
         <StatusPill status={mission.status} pulse={running} />
         {run && <ModeBadge mode={run.mode} detailed />}
         {running && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/50 bg-danger/10 px-2.5 py-0.5 text-[11px] font-bold tracking-widest text-danger">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/50 bg-danger/10 px-2.5 py-0.5 text-[14px] font-bold tracking-widest text-danger">
             <span className="cc-pulse inline-block h-1.5 w-1.5 rounded-full bg-danger" />
             {t("run.live")}
           </span>
@@ -703,7 +703,7 @@ export default function ExecutionRoom() {
               </span>
             )}
             <span
-              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${RUN_STATUS_CHIP[run.status]}`}
+              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-[14px] font-semibold uppercase tracking-wide ${RUN_STATUS_CHIP[run.status]}`}
             >
               {t(`run.status.${run.status}` as TKey)}
             </span>
@@ -763,7 +763,7 @@ export default function ExecutionRoom() {
             <StatusPill status={mission.status} pulse={running} />
             {run.currentActivity && (
               <div className="mt-3">
-                <p className="text-[11px] text-dim">{t("run.activity")}</p>
+                <p className="text-[14px] text-dim">{t("run.activity")}</p>
                 <p className="mt-1 flex items-start gap-2 text-sm leading-relaxed text-ink">
                   {running && <span className="cc-pulse mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-dev" />}
                   <span>{lt(run.currentActivity)}</span>
@@ -821,7 +821,7 @@ export default function ExecutionRoom() {
               </p>
               <div className="mt-3 space-y-1.5 border-t border-line pt-3">
                 {testResults.map((event, index) => (
-                  <div key={event.id} className="flex items-center justify-between gap-2 text-[11px]">
+                  <div key={event.id} className="flex items-center justify-between gap-2 text-[14px]">
                     <span className="text-dim">{index === 0 ? t("rev.dossier.baseline") : t("rev.dossier.attempt", { count: event.payload?.attempt ?? index })}</span>
                     <span className="font-mono"><b className="text-verif">{event.payload?.tests?.pass ?? 0}</b><span className="text-dim">/{event.payload?.tests?.total ?? 0}</span>{(event.payload?.tests?.fail ?? 0) > 0 && <b className="ml-2 text-danger">{event.payload?.tests?.fail}✗</b>}</span>
                   </div>
@@ -835,18 +835,18 @@ export default function ExecutionRoom() {
               <div className="flex items-end gap-5">
                 <div>
                   <p className="font-mono text-2xl font-bold text-verif">{latestTests.pass}</p>
-                  <p className="text-[11px] text-dim">{t("run.testsPass")}</p>
+                  <p className="text-[14px] text-dim">{t("run.testsPass")}</p>
                 </div>
                 <div>
                   <p className={`font-mono text-2xl font-bold ${latestTests.fail > 0 ? "text-danger" : "text-mut"}`}>
                     {latestTests.fail}
                   </p>
-                  <p className="text-[11px] text-dim">{t("run.testsFail")}</p>
+                  <p className="text-[14px] text-dim">{t("run.testsFail")}</p>
                 </div>
                 <p className="ml-auto font-mono text-xs text-dim">{fmtDurMs(latestTests.durationMs)}</p>
               </div>
               {baselineTests && testResults.length > 1 && (
-                <div className="mt-3 space-y-1 border-t border-line pt-2.5 font-mono text-[11px]">
+                <div className="mt-3 space-y-1 border-t border-line pt-2.5 font-mono text-[14px]">
                   <div className="flex items-baseline justify-between">
                     <span className="text-dim">{t("rev.evidence.baseline")}</span>
                     <span>
@@ -870,7 +870,7 @@ export default function ExecutionRoom() {
             <SideCard title={t("run.files")}>
               <ul className="space-y-1.5">
                 {filesTouched.map((f) => (
-                  <li key={f.path} className="flex items-center gap-2 font-mono text-[11px] text-mut">
+                  <li key={f.path} className="flex items-center gap-2 font-mono text-[14px] text-mut">
                     <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${FILE_KIND_DOT[f.kind]}`} />
                     <span className="truncate">{f.path}</span>
                   </li>

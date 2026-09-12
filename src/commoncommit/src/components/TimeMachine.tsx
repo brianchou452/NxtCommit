@@ -161,7 +161,7 @@ export function TimeMachine({
               }`}
             >
               <span
-                className={`flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide ${
+                className={`flex items-center gap-1 text-[14px] font-semibold uppercase tracking-wide ${
                   projection ? "text-warn" : current ? "text-brand-text" : "text-dim"
                 }`}
               >
@@ -169,7 +169,7 @@ export function TimeMachine({
                 {t(f.kind === "past" ? "tm.past" : f.kind === "present" ? "tm.present" : "tm.future")}
               </span>
               <span className="mt-0.5 block truncate text-xs font-semibold text-ink">{lt(f.label)}</span>
-              <span className="block truncate font-mono text-[10px] text-dim">{dateOf(f.at)}</span>
+              <span className="block truncate font-mono text-[14px] text-dim">{dateOf(f.at)}</span>
             </button>
           );
         })}
@@ -228,7 +228,7 @@ export function TimeMachine({
           SECURITY.md is explicit about and the UI must not quietly widen.
         */}
         {frame.releasedVersion && (
-          <p className="mt-2 text-[11px] leading-relaxed text-dim">{t("tm.versionLocal")}</p>
+          <p className="mt-2 text-[14px] leading-relaxed text-dim">{t("tm.versionLocal")}</p>
         )}
 
         <p className="mt-3 text-sm leading-relaxed text-mut">{lt(frame.note)}</p>

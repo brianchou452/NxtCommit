@@ -53,7 +53,7 @@ function ChainNode({ tone, children }: { tone?: Tone; children: ReactNode }) {
   const cls = tone ? TONE_STYLES[tone] : "border-dashed border-line2 text-dim";
   return (
     <span
-      className={`inline-flex max-w-full items-center gap-1 rounded-md border px-2 py-1 font-mono text-[11px] ${cls}`}
+      className={`inline-flex max-w-full items-center gap-1 rounded-md border px-2 py-1 font-mono text-[14px] ${cls}`}
     >
       {children}
     </span>
@@ -85,7 +85,7 @@ function ReceiptCard({
           className="group block min-h-11 rounded-lg px-1 py-1 transition-colors hover:bg-bg2"
         >
           <span className="block truncate text-sm font-bold text-ink transition-colors group-hover:text-fund">{r.projectName}</span>
-          <span className="mt-0.5 block truncate text-[11px] text-dim">{lt(r.missionTitle)}</span>
+          <span className="mt-0.5 block truncate text-[14px] text-dim">{lt(r.missionTitle)}</span>
         </Link>
       </div>
 
@@ -247,7 +247,7 @@ function ProfileView({ profile, reload }: { profile: ContributorProfile; reload:
       {/* hero */}
       <section>
         <div className="mb-3 flex items-center justify-between gap-3">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-dim">{t("prof.title")}</p>
+          <p className="text-[14px] font-semibold uppercase tracking-widest text-dim">{t("prof.title")}</p>
           <DataModeBadge mode={profile.dataMode} />
         </div>
         <Card className="p-6">
@@ -258,7 +258,7 @@ function ProfileView({ profile, reload }: { profile: ContributorProfile; reload:
                 <div className="flex flex-wrap items-center gap-2">
                   <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
                   {profile.isCurrentUser && (
-                    <span className="rounded-full border border-fund/40 bg-fund/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-fund">
+                    <span className="rounded-full border border-fund/40 bg-fund/10 px-2 py-0.5 text-[14px] font-semibold uppercase tracking-wide text-fund">
                       {t("nav.profile")}
                     </span>
                   )}
@@ -334,13 +334,13 @@ function ProfileView({ profile, reload }: { profile: ContributorProfile; reload:
                   >
                     {ACHIEVEMENT_ICONS[g.code]}
                   </span>
-                  <span className="font-mono text-[10px] text-dim">{timeAgo(g.latestAt, t)}</span>
+                  <span className="font-mono text-[14px] text-dim">{timeAgo(g.latestAt, t)}</span>
                 </div>
                 <div>
                   <p className="flex items-baseline gap-1.5 text-sm font-bold text-ink">
                     {lt(g.def.name)}
                     {g.count > 1 && (
-                      <span className="font-mono text-[11px] font-semibold text-fund">×{g.count}</span>
+                      <span className="font-mono text-[14px] font-semibold text-fund">×{g.count}</span>
                     )}
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-mut">{lt(g.def.description)}</p>
@@ -381,7 +381,7 @@ function ProfileView({ profile, reload }: { profile: ContributorProfile; reload:
                           className="group block min-h-11 rounded-lg px-1 py-1 transition-colors hover:bg-bg2"
                         >
                           <span className="block truncate font-semibold text-ink transition-colors group-hover:text-fund">{p.projectName}</span>
-                          <span className="mt-0.5 block truncate text-[11px] text-dim">{lt(p.missionTitle)}</span>
+                          <span className="mt-0.5 block truncate text-[14px] text-dim">{lt(p.missionTitle)}</span>
                         </Link>
                       </td>
                       <td className="px-4 py-3">

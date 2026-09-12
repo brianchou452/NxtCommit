@@ -27,8 +27,8 @@ export function MissionCard({ mission, featured }: { mission: MissionWithProject
       {/* project + status */}
       <div className="flex items-start justify-between gap-2">
         <span className="inline-flex min-w-0 items-center gap-1.5">
-          <span className="truncate font-mono text-[11px] text-dim">{p.name}</span>
-          <span className="shrink-0 font-mono text-[11px] text-dim">{mission.issueRef.id}</span>
+          <span className="truncate font-mono text-[14px] text-dim">{p.name}</span>
+          <span className="shrink-0 font-mono text-[14px] text-dim">{mission.issueRef.id}</span>
         </span>
         <StatusPill status={mission.status} />
       </div>
@@ -42,7 +42,7 @@ export function MissionCard({ mission, featured }: { mission: MissionWithProject
       </div>
 
       {/* project signals — one line, never wrapping */}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] text-dim">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[14px] text-dim">
 {/* An unmeasured signal is omitted, never rendered as 0 — a displayed zero
             is a measurement claim, and it was a false one for every imported repo. */}
         {p.weeklyDownloads !== undefined && (
@@ -71,7 +71,7 @@ export function MissionCard({ mission, featured }: { mission: MissionWithProject
             <div className="mb-1.5 flex items-baseline justify-between gap-2">
               <span className="inline-flex items-baseline gap-1.5">
                 <Credits n={mission.computePledged} compact className="text-sm font-bold text-ink" />
-                <span className="font-mono text-[11px] text-dim">
+                <span className="font-mono text-[14px] text-dim">
                   / <Credits n={mission.computeGoal} compact /> {t("mkt.card.goal")}
                 </span>
               </span>
@@ -90,7 +90,7 @@ export function MissionCard({ mission, featured }: { mission: MissionWithProject
 
         {/* maintainer + execution mode */}
         <div className="flex items-center justify-between gap-2 border-t border-line pt-2.5">
-          <span className="flex min-w-0 items-center gap-1.5 text-[11px] text-dim">
+          <span className="flex min-w-0 items-center gap-1.5 text-[14px] text-dim">
             <Avatar name={p.maintainer.name} color={p.maintainer.avatarColor} size={16} />
             <span className="truncate">{p.maintainer.handle}</span>
             {p.maintainer.verified && (

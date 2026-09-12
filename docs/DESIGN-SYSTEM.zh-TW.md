@@ -37,7 +37,7 @@
 | Body sans | 同一套 sans；`400–600` | 說明、控制項、描述與長文。 |
 | Metadata mono | `ui-monospace`, `SF Mono`, Menlo, Consolas, monospace；`600–800` | Provenance、metric、kicker、status、pipeline 與技術 metadata；常用 uppercase 及加寬 tracking。 |
 
-Metadata 與 pipeline label 可依密度使用約 `10–14px` 的 mono；這是資訊層級例外，**不得連帶縮小正文、核心狀態或按鈕文字**。可閱讀內容與 controls 依使用情境、對比、行高和 target size 維持清楚，不設過時的全域 `16px` 絕對限制。Hero、資金數字和主要 outcome 必須明顯高於周邊 metadata。
+可閱讀介面文字與 pipeline label 最小為 `14px`；正文與標準操作使用 `16px` 並保留舒適行高。這次使用者要求的可讀性修正取代來源的緊密小字規則。保留大標題層級，透過換行與版面重排容納文字。頭像縮寫與裝飾圖示不屬於正文。
 
 ### Core colour tokens
 

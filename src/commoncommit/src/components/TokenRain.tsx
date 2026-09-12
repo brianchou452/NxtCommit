@@ -249,7 +249,7 @@ export function TokenRain() {
               style={{ background: "linear-gradient(to right, transparent, var(--color-brand2))" }}
             />
             <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-brand2 shadow-[0_0_18px_6px_color-mix(in_srgb,var(--color-brand2)_55%,transparent)]" />
-            <span className="cc-glass ml-2 flex max-w-[min(70vw,20rem)] items-center gap-1.5 overflow-hidden rounded-full border-brand2/40 px-3 py-1.5 text-[11px] font-semibold text-ink shadow-2xl">
+            <span className="cc-glass ml-2 flex max-w-[min(70vw,20rem)] items-center gap-1.5 overflow-hidden rounded-full border-brand2/40 px-3 py-1.5 text-[14px] font-semibold text-ink shadow-2xl">
                 <Zap size={11} className="shrink-0 text-brand2" fill="currentColor" />
                 <span className="truncate">{streak.primary ? streak.detail : streak.sponsor}</span>
             </span>

@@ -85,18 +85,18 @@ export function BadgeShelf({
                    * card border and the "not earned yet" label say "locked"
                    * without making the badge's own name hard to read.
                    */
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-line2 bg-bg2 px-2 py-0.5 text-[10px] font-semibold text-dim">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-line2 bg-bg2 px-2 py-0.5 text-[14px] font-semibold text-dim">
                     <Lock size={10} aria-hidden />
                     {t(`ach.${code}` as TKey)}
                   </span>
                 )}
                 {award ? (
-                  <span className="font-mono text-[10px] text-dim">
+                  <span className="font-mono text-[14px] text-dim">
                     {t("badge.earnedOn")}{" "}
                     {fmtDate(award.earnedAt, locale)}
                   </span>
                 ) : (
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-dim">
+                  <span className="text-[14px] font-semibold uppercase tracking-wide text-dim">
                     {t("badge.locked")}
                   </span>
                 )}

@@ -124,7 +124,7 @@ export function DemoGuide() {
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-brand-text">
+            <p className="text-[14px] font-bold uppercase tracking-[0.16em] text-brand-text">
               {t(update.role === "maintainer" ? "demo.guide.maintainer.label" : "demo.guide.provider.label")} · {update.step}/{update.total}
             </p>
             <button
@@ -133,7 +133,7 @@ export function DemoGuide() {
                 clearDemoControl();
                 navigate(location.pathname, { replace: true });
               }}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-dim hover:bg-bg3 hover:text-ink"
+              className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-dim hover:bg-bg3 hover:text-ink"
               aria-label={t("demo.guide.stop")}
             >
               <X size={14} />
@@ -142,7 +142,7 @@ export function DemoGuide() {
           <p className="mt-1 text-sm font-bold text-ink">{update.title}</p>
           <p className="mt-1 text-xs leading-relaxed text-mut">{update.detail}</p>
           {update.anchorSelector && update.state !== "done" && (
-            <p className="mt-2 text-[11px] font-semibold text-fund">{t("demo.guide.clickHint")}</p>
+            <p className="mt-2 text-[14px] font-semibold text-fund">{t("demo.guide.clickHint")}</p>
           )}
         </div>
       </div>

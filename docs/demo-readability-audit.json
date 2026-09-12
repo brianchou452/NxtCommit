@@ -1,0 +1,86 @@
+{
+  "src/commoncommit/src/App.tsx": {
+    "smallUtilities": 5,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/components/DemoGuide.tsx": {
+    "smallUtilities": 2,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/ProjectImpactCard.tsx": {
+    "smallUtilities": 3,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/LiveAgentFeed.tsx": {
+    "smallUtilities": 7,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/CommentWall.tsx": {
+    "smallUtilities": 2,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/ImpactCounters.tsx": {
+    "smallUtilities": 5,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/components/BadgeShelf.tsx": {
+    "smallUtilities": 3,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/ProductCard.tsx": {
+    "smallUtilities": 10,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/MissionCard.tsx": {
+    "smallUtilities": 5,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/components/TimeMachine.tsx": {
+    "smallUtilities": 3,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/components/WorldMap.tsx": {
+    "smallUtilities": 2,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/components/TokenRain.tsx": {
+    "smallUtilities": 1,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/components/ui.tsx": {
+    "smallUtilities": 10,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/pages/Demo.tsx": {
+    "smallUtilities": 1,
+    "smallestPx": 11.0
+  },
+  "src/commoncommit/src/pages/ExecutionRoom.tsx": {
+    "smallUtilities": 22,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/pages/Review.tsx": {
+    "smallUtilities": 12,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/pages/Marketplace.tsx": {
+    "smallUtilities": 4,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/pages/Profile.tsx": {
+    "smallUtilities": 7,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/pages/NewMission.tsx": {
+    "smallUtilities": 28,
+    "smallestPx": 10.0
+  },
+  "src/commoncommit/src/styles.css": {
+    "smallFixedSizes": 111,
+    "smallestPx": 7.0
+  },
+  "src/styles/assurance.css": {
+    "smallFixedSizes": 16,
+    "smallestPx": 10.0
+  }
+}

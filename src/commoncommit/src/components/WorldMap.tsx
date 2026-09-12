@@ -311,8 +311,8 @@ export function WorldMap({ state, onRetry }: { state: ImpactSnapshotState; onRet
             aria-hidden
           >
             <p className="truncate text-xs font-bold text-ink">{activeLocation.city}</p>
-            <p className="truncate text-[11px] text-mut">{activeLocation.country} · {activeBeacon.handle}</p>
-            <p className="mt-0.5 font-mono text-[11px] text-fund">
+            <p className="truncate text-[14px] text-mut">{activeLocation.country} · {activeBeacon.handle}</p>
+            <p className="mt-0.5 font-mono text-[14px] text-fund">
               {fmtCompact(activeBeacon.tokens, locale)} {t("map.beacon.tokens")}
             </p>
           </div>

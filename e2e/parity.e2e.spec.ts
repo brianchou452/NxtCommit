@@ -1,3 +1,4 @@
+import {assertReadable} from './readability.js';
 import {test,expect} from '@playwright/test';
 test.beforeEach(async({page})=>{await page.request.post('/api/demo/reset');});
 for(const route of ['/', '/marketplace','/missions/catalog-mermaid','/missions/catalog-localsend','/missions/catalog-ky','/missions/catalog-marked','/contributors/demo-contributor','/new','/demo','/assurance','/github']){
@@ -39,12 +40,14 @@ test('mobile source layout and reduced motion keep navigation and campaign conte
  await page.screenshot({path:info.outputPath('mobile-source.png'),fullPage:true,animations:"disabled"});
 });
 
-test('maintainer guide completes original tempo fixture through actual retry, review and local release',async({page},info)=>{
+for(const width of [1440,390])test(`maintainer guide completes original tempo fixture through actual retry, review and local release ${width}`,async({page},info)=>{
+ await page.setViewportSize({width,height:900});
  test.setTimeout(180000);
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/new?demo=maintainer');
  for(const action of ['analyze','issue','generate','publish','open-mission']){
   await page.locator(`[data-demo-action="${action}"]:visible`).first().click();
+  await assertReadable(page);
  }
  await expect(page).toHaveURL(/missions\//);
  await page.locator('[data-demo-action="pledge"]:visible').first().click();
@@ -53,9 +56,11 @@ test('maintainer guide completes original tempo fixture through actual retry, re
  await expect(page.locator('[data-demo-action="review-artifact"]')).toBeVisible({timeout:15000});
  await expect(page.locator('body')).not.toContainText('NaNs');
  await expect(page.locator('body')).toContainText('2 of 2');
+ await assertReadable(page);
  await page.screenshot({path:info.outputPath('execution-source.png'),fullPage:true,animations:"disabled"});
  await page.locator('[data-demo-action="review-artifact"]').click();
  await expect(page.locator('body')).toContainText('20');
+ await assertReadable(page);
  await page.screenshot({path:info.outputPath('review-source.png'),fullPage:true,animations:"disabled"});
  await page.getByRole('textbox',{name:'Review comment',exact:true}).fill('Please cover malformed input and generous whitespace.');
  await page.getByRole('button',{name:'Request changes',exact:true}).click();

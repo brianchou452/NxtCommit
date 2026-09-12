@@ -373,7 +373,7 @@ export function ProductCard({
               {project.name}
             </Link>
           </h3>
-          <span className="mt-1.5 flex min-w-0 items-center gap-1.5 text-[11px] text-dim">
+          <span className="mt-1.5 flex min-w-0 items-center gap-1.5 text-[14px] text-dim">
             <Avatar name={project.maintainer.name} color={project.maintainer.avatarColor} size={16} />
             <span className="shrink-0">{t("product.creator")}</span>
             <span className="truncate font-mono">{project.maintainer.handle}</span>
@@ -401,7 +401,7 @@ export function ProductCard({
           away; the compact product explanation follows as supporting context. */}
       {shownImpact ? (
         <div className="rounded-xl border border-warn/30 bg-warn/5 p-3.5">
-          <h4 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-warn">
+          <h4 className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wide text-warn">
             <ShieldAlert size={14} aria-hidden />
             {t("product.withoutRepo")}
           </h4>
@@ -410,7 +410,7 @@ export function ProductCard({
           </p>
           {(shownImpact.dependents !== undefined || shownImpact.weeklyDownloads !== undefined) && (
             <div className="mt-3 border-t border-warn/15 pt-3">
-              <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-dim">
+              <p className="mb-2 text-[14px] font-semibold uppercase tracking-wide text-dim">
                 {t("product.estimatedImpact")}
               </p>
               <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-mut">
@@ -452,7 +452,7 @@ export function ProductCard({
       {/* what it does for you, in one sentence */}
       {shownPlain ? (
         <div className="space-y-2 rounded-lg border border-line bg-bg0/25 p-3">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-dim">
+          <p className="text-[14px] font-semibold uppercase tracking-wide text-dim">
             {t("product.whatItDoes")}
           </p>
           <div className="flex items-start gap-3">
@@ -466,7 +466,7 @@ export function ProductCard({
         <div className="space-y-2 rounded-lg border border-line bg-bg0/30 p-3">
           <p className="text-sm leading-relaxed text-mut">{lt(project.description)}</p>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="text-[10px] font-semibold text-dim">{t("plain.technical")}</span>
+            <span className="text-[14px] font-semibold text-dim">{t("plain.technical")}</span>
             <button
               type="button"
               onClick={() => setPlainRetry((value) => value + 1)}
@@ -493,7 +493,7 @@ export function ProductCard({
           answer "what is it?"; these campaign-owned fields answer the missing
           human question: "what changes if I help, for whom, and why now?" */}
       <div className="rounded-xl border border-fund/25 bg-fund/5 p-3.5">
-        <h4 className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-fund">
+        <h4 className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-wide text-fund">
           <HeartHandshake size={14} aria-hidden />
           {t("product.backingValue")}
         </h4>
@@ -517,10 +517,10 @@ export function ProductCard({
 
       {/* what it needs right now — the mission, in the product's own terms */}
       <div className="mt-auto rounded-xl border border-line bg-bg0/40 p-3">
-        <h4 className="text-[11px] font-semibold uppercase tracking-wide text-dim">
+        <h4 className="text-[14px] font-semibold uppercase tracking-wide text-dim">
           {t("product.needs")}
         </h4>
-        <p className="mt-1 line-clamp-2 text-[13px] font-semibold leading-snug text-ink">
+        <p className="mt-1 line-clamp-2 text-[14px] font-semibold leading-snug text-ink">
           {lt(mission.title)}
         </p>
 
@@ -529,7 +529,7 @@ export function ProductCard({
             <div className="cc-meter-fill h-full rounded-full" style={{ width: fmtPct(funded) }} />
           </div>
         )}
-        <div className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 text-[11px]">
+        <div className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1 text-[14px]">
           <span className="font-mono text-dim">
             <Credits n={mission.computePledged} compact className="font-semibold text-mut" />
             {mission.computeGoal > 0 && (
@@ -549,7 +549,7 @@ export function ProductCard({
 
       {/* the ask */}
       {project.figuresMode === "demo" && (
-        <p className="rounded-lg border border-warn/25 bg-warn/5 px-3 py-2 text-[11px] leading-relaxed text-dim">
+        <p className="rounded-lg border border-warn/25 bg-warn/5 px-3 py-2 text-[14px] leading-relaxed text-dim">
           {t("product.demoScenario")}
         </p>
       )}

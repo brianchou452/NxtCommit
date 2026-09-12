@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.36 — 2026-09-12
+
+- 將 Demo 介面文字提高至最小 14px，正文與標準操作採 16px。調整手機導覽、角色分頁與九階段名稱的換行，改善次要文字對比與導覽關閉按鈕。加入桌面／手機可讀性檢查及完整手機維護者流程。
+
 ## v0.7.35 — 2026-09-12
 
 - 將 commoncommit 的 10 個頁面、19 個元件、35 組原版動畫定義、九階段角色 Demo 與導覽移入 NxtCommit。保留共用專案資料與帳本；補上原版 tempo fixture、實際失敗／修正測試，以及核准後可重試且不重複建立的本機 Release。保留 Agent Lab 與 GitHub 工作區，範圍及驗證見 COMMONCOMMIT-PARITY.zh-TW.md。

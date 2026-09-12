@@ -129,7 +129,7 @@ export function ProjectImpactCard({
           that renders this component somewhere new.
         */}
         {hasScale && impact.dataMode === "demo" && (
-          <p className="mt-3 flex items-start gap-2 text-[11px] leading-relaxed text-warn">
+          <p className="mt-3 flex items-start gap-2 text-[14px] leading-relaxed text-warn">
             <DataModeBadge mode="demo" />
             <span>{t("impactcard.scaleDemo")}</span>
           </p>
@@ -163,7 +163,7 @@ export function ProjectImpactCard({
                   }`}
                 >
                   <span
-                    className={`inline-flex shrink-0 items-center gap-1 self-start rounded border px-1.5 py-0.5 text-[10px] font-semibold ${
+                    className={`inline-flex shrink-0 items-center gap-1 self-start rounded border px-1.5 py-0.5 text-[14px] font-semibold ${
                       measured
                         ? "border-verif/40 bg-verif/10 text-verif"
                         : "border-warn/40 bg-warn/5 text-warn"
@@ -178,7 +178,7 @@ export function ProjectImpactCard({
             })}
           </ul>
 
-          <p className="mt-4 border-t border-line pt-3 text-[11px] leading-relaxed text-dim">
+          <p className="mt-4 border-t border-line pt-3 text-[14px] leading-relaxed text-dim">
             {t("impactcard.basisNote")}
           </p>
         </div>

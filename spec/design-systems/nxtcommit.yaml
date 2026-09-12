@@ -13,10 +13,10 @@ foundations:
       value: DM Sans, Noto Sans TC, PingFang TC, system sans-serif; weight 600-700; compact tracking
       usage: Hero headlines, section titles, campaign titles, and major outcome statements.
     - name: body-sans
-      value: DM Sans, Noto Sans TC, PingFang TC, system sans-serif; weight 400-600
+      value: DM Sans, Noto Sans TC, PingFang TC, system sans-serif; weight 400-600; body and standard controls 16px
       usage: Explanations, controls, descriptions, and long-form interface copy.
     - name: metadata-mono
-      value: UI monospace stack; weight 600-800; often uppercase with expanded tracking
+      value: UI monospace stack; weight 600-800; minimum readable copy 14px; often uppercase with expanded tracking
       usage: Provenance, metrics, category kickers, statuses, and technical metadata.
   colours:
     - name: canvas

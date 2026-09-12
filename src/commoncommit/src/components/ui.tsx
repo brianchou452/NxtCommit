@@ -99,7 +99,7 @@ export function StatusPill({ status, pulse }: { status: MissionStatus; pulse?: b
   const { t } = useI18n();
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide ${STATUS_COLORS[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-[14px] font-semibold uppercase tracking-wide ${STATUS_COLORS[status]}`}
     >
       {(status === "executing" || pulse) && <span className="cc-pulse inline-block h-1.5 w-1.5 rounded-full bg-current" />}
       {t(`status.${status}` as TKey)}
@@ -125,7 +125,7 @@ export function ModeBadge({ mode, detailed }: { mode: RunnerMode | null; detaile
   const key = mode ?? "refused";
   const style = mode ? cfg[mode] : { icon: <ShieldAlert size={12} />, cls: "text-danger border-danger/40 bg-danger/10" };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${style.cls}`} title={t(`mode.${key}.desc` as TKey)}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[14px] font-semibold ${style.cls}`} title={t(`mode.${key}.desc` as TKey)}>
       {style.icon}
       {t(`mode.${key}` as TKey)}
       {detailed && mode === "demo" && <span className="font-normal opacity-80">· {t("trust.scripted")}</span>}
@@ -138,7 +138,7 @@ export function SourceBadge({ source, verified }: { source: EventSource; verifie
   const { t } = useI18n();
   if (source === "engine") {
     return (
-      <span className={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[10px] font-semibold ${
+      <span className={`inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[14px] font-semibold ${
         verified ? "border-verif/30 bg-verif/10 text-verif" : "border-line2 bg-bg2 text-mut"
       }`}>
         <BadgeCheck size={10} /> {verified ? t("trust.verified") : t("trust.engineObservation")}
@@ -155,7 +155,7 @@ export function SourceBadge({ source, verified }: { source: EventSource; verifie
   const cfg = map[source];
   if (!cfg) return null;
   return (
-    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-semibold ${cfg.cls}`}>
+    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[14px] font-semibold ${cfg.cls}`}>
       {cfg.label}
     </span>
   );
@@ -165,7 +165,7 @@ export function DataModeBadge({ mode }: { mode: "live" | "demo" }) {
   const { t } = useI18n();
   return (
     <span
-      className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-semibold ${
+      className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[14px] font-semibold ${
         mode === "live" ? "border-verif/30 text-verif bg-verif/5" : "border-warn/30 text-warn bg-warn/5"
       }`}
     >
@@ -178,7 +178,7 @@ export function GeneratorBadge({ generator }: { generator: "openai" | "demo" }) 
   const { t } = useI18n();
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 text-[10px] font-semibold ${
+      className={`inline-flex items-center gap-1 rounded border px-2 py-0.5 text-[14px] font-semibold ${
         generator === "openai" ? "border-dev/30 text-dev bg-dev/5" : "border-warn/30 text-warn bg-warn/5"
       }`}
     >
@@ -227,7 +227,7 @@ export function FourDims({ progress, wide }: { progress: Mission["progress"]; wi
       {DIMS.map((d) => (
         <div key={d.key} className="min-w-0">
           <div className="mb-1.5 flex items-baseline justify-between gap-1">
-            <span className="truncate text-[11px] font-medium text-mut">{t(`dim.${d.key}` as TKey)}</span>
+            <span className="truncate text-[14px] font-medium text-mut">{t(`dim.${d.key}` as TKey)}</span>
             <span className="shrink-0 font-mono text-xs font-semibold" style={{ color: d.color }}>
               {fmtPct(progress[d.key])}
             </span>
@@ -282,7 +282,7 @@ export function RiskBadge({ level }: { level: RiskLevel }) {
     high: "text-danger border-danger/30 bg-danger/5",
   }[level];
   return (
-    <span className={`inline-flex items-center whitespace-nowrap rounded border px-2 py-0.5 text-[11px] font-semibold ${cls}`}>
+    <span className={`inline-flex items-center whitespace-nowrap rounded border px-2 py-0.5 text-[14px] font-semibold ${cls}`}>
       {t(`msn.risk.${level}` as TKey)}
     </span>
   );
@@ -353,7 +353,7 @@ export function HealthRing({ score, size = 40 }: { score: number; size?: number 
           strokeDashoffset={c * (1 - score / 100)}
         />
       </svg>
-      <span className="absolute font-mono text-[10px] font-bold" style={{ color }}>
+      <span className="absolute font-mono text-[14px] font-bold" style={{ color }}>
         {score}
       </span>
     </span>
@@ -510,7 +510,7 @@ export function AchievementBadge({
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full border font-semibold ${TIER_STYLES[tier]} ${
-        size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs"
+        size === "sm" ? "px-2 py-0.5 text-[14px]" : "px-3 py-1 text-xs"
       }`}
       title={t(`ach.${code}.desc` as TKey)}
     >

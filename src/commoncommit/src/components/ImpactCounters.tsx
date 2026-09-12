@@ -79,7 +79,7 @@ function Step({ label, icon: Icon, target, run }: { label: string; icon: typeof 
 
   return (
     <li className="cc-glass cc-lift flex-1 rounded-2xl px-5 py-4">
-      <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-mut">
+      <p className="flex items-center gap-2 text-[14px] font-semibold uppercase tracking-wide text-mut">
         <Icon size={14} className="shrink-0 text-brand2" aria-hidden />
         {label}
       </p>
@@ -175,7 +175,7 @@ export function ImpactCounters({ state, onRetry }: { state: ImpactSnapshotState;
         <h2 className="text-lg font-bold tracking-tight">{t("home.impact.title")}</h2>
         {stats && (
           <>
-            <span className="rounded-full border border-line2 px-2.5 py-0.5 text-[11px] font-semibold text-mut">
+            <span className="rounded-full border border-line2 px-2.5 py-0.5 text-[14px] font-semibold text-mut">
               {t(stats.windowLabel === "today" ? "home.impact.today" : "home.impact.allTime")}
             </span>
             <DataModeBadge mode={stats.dataMode} />
@@ -202,21 +202,21 @@ export function ImpactCounters({ state, onRetry }: { state: ImpactSnapshotState;
 
       {trend && (
         <div className="mt-4 flex items-center gap-3">
-          <span className="text-[11px] font-medium text-dim">{t("home.impact.trend")}</span>
+          <span className="text-[14px] font-medium text-dim">{t("home.impact.trend")}</span>
           <Sparkline points={trend} color="var(--color-brand2)" width={150} height={28} />
         </div>
       )}
 
       {stats && (
         <>
-        <p className="mt-3 max-w-2xl text-[12px] leading-relaxed text-dim">{t("home.impact.demoNote")}</p>
+        <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-dim">{t("home.impact.demoNote")}</p>
         {/*
           The headline figure is a UNIT CONVERSION of a real ledger total, not a
           token count anybody observed. `demoNote` above covers the seeded-data
           half; this covers the arithmetic half, because "1.4B tokens" printed as an
           exact integer implies a precision the ratio does not have.
         */}
-        <p className="mt-1 max-w-2xl text-[12px] leading-relaxed text-dim">{t("home.impact.tokensBasis")}</p>
+        <p className="mt-1 max-w-2xl text-[14px] leading-relaxed text-dim">{t("home.impact.tokensBasis")}</p>
         </>
       )}
     </div>

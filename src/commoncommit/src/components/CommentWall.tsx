@@ -151,13 +151,13 @@ export function CommentWall({ missionId }: { missionId: string }) {
                     somebody verified.
                   */}
                   <span
-                    className={`shrink-0 rounded border px-1.5 py-0.5 text-[10px] font-semibold ${
+                    className={`shrink-0 rounded border px-1.5 py-0.5 text-[14px] font-semibold ${
                       maintainer ? "border-adopt/40 text-adopt" : "border-line2 text-mut"
                     }`}
                   >
                     {t(maintainer ? "wall.roleMaintainer" : "wall.roleSponsor")}
                   </span>
-                  <span className="ml-auto shrink-0 font-mono text-[11px] text-dim">
+                  <span className="ml-auto shrink-0 font-mono text-[14px] text-dim">
                     {timeAgo(m.createdAt, t)}
                   </span>
                 </div>
