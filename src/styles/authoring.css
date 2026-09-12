@@ -15,3 +15,21 @@
 .gh-workspace pre { max-width: 100%; overflow: auto; padding: 1rem; white-space: pre-wrap; overflow-wrap: anywhere; background: #17152f; color: #f2f3ef; border-radius: .5rem; }
 .gh-workspace .c-card { margin-block: 1.5rem; }
 .gh-workspace details { margin-block: 1rem; }
+.c-review { max-width: calc(var(--content-width) - 48px); padding-inline: 0; }
+.c-wizard h1, .c-review h1 { font-size: clamp(32px, 3.4vw, 48px); letter-spacing: -.035em; }
+.c-card { border-color: var(--line); border-radius: 22px; box-shadow: var(--shadow-card); padding: 28px; }
+.c-card h2 { font-size: 24px; }
+.c-provenance, .c-measurements dd { font-family: var(--font-metadata); line-height: 1.6; }
+.c-card pre { font-family: var(--font-metadata); max-height: 480px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.c-review-grid { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 32px; }
+.c-decision { top: 128px; }
+.c-field input:not([type=range]), .c-field textarea { background: var(--surface); color: var(--ink); }
+.c-stepper span { display: grid; place-items: center; min-width: 36px; min-height: 36px; }
+@media (max-width: 1200px) { .c-decision { position: static; } }
+@media (max-width: 760px) {
+  .c-review-grid { grid-template-columns: 1fr; }
+  .c-wizard { padding-inline: 0; }
+  .c-card { padding: 20px; }
+  .c-stepper { flex-direction: column; gap: 12px; font-size: 14px; }
+  .c-stepper li { gap: 12px; }
+}

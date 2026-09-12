@@ -50,6 +50,10 @@ export const en = {
   assurance_json: "Open machine-readable evidence",
   assurance_model: "Real model response",
   assurance_fallback: "Static fallback",
+  art_words: 'Words', art_diagram: 'Diagram', art_scan: 'Scanned PDF', art_search: 'Search',
+  art_phone: 'Phone', art_desktop: 'Desktop', art_pixels: 'Pixels', art_text: 'Text',
+  art_laptop: 'Laptop', art_speech: 'Speech', art_subtitles: 'Subtitles', art_photos: 'Photos',
+  art_library: 'Library', art_prompt: 'Prompt', art_response: 'Response', art_code: 'Code', art_change: 'Change',
   demo_protected: 'Shared demo is protected. Starting a guide keeps existing progress.',
 
   gh_title: "GitHub source workspace",

@@ -16,7 +16,7 @@ import {
 } from "../../shared/home-domain.js";
 import type { Snapshot } from "../services/snapshots.js";
 import land from "../../spec/assets/world-map/world-land-110m.svg";
-import tokenStream from "../../spec/assets/home/nxtcommit-token-stream.png";
+import { CampaignArt, PipelineIcon } from "./CampaignArt.js";
 export function RequestState({
   snapshot,
 }: {
@@ -57,7 +57,7 @@ export function Hero({
   ] as const;
   return (
     <section id="hero" className="hero">
-      <div>
+      <div className="hero-copy">
         <p className="kicker">
           {text.product} · {text.demo_data}
         </p>
@@ -83,21 +83,21 @@ export function Hero({
         </dl>
       </div>
       <div className="pipeline">
-        <p className="kicker">
-          {text.hero_pipeline_title} · {text.hero_provenance_label}
-        </p>
+        <div className="pipeline-topline"><p className="kicker">⌁ {text.hero_pipeline_title}</p><span className="pipeline-live">{text.hero_provenance_label}</span></div>
         <h2>{text.hero_pipeline_subtitle}</h2>
-        <img src={tokenStream} alt="" className="token-stream" />
         <ol>
           {[text.hero_event_1, text.hero_event_2, text.hero_event_3].map(
-            (event, i) => (
-              <li key={event} className={active === i ? "highlight" : ""}>
-                {event}
-              </li>
-            ),
+            (event, i) => {
+              const [repo, action, context, time] = event.split(" | ");
+              return <li key={event} className={active === i ? "highlight" : ""}>
+                <span className={`pipeline-icon pipeline-icon-${i}`}><PipelineIcon kind={i} /></span>
+                <div className="pipeline-event"><strong>{repo}</strong><p>{action}</p><small>{context}</small></div>
+                <time>{time}</time>
+              </li>;
+            },
           )}
         </ol>
-        <p className="fine">{text.hero_provenance_note}</p>
+        <div className="pipeline-footer"><span>{text.hero_pipeline_listening}</span><p className="fine">{text.hero_provenance_note}</p></div>
       </div>
     </section>
   );
@@ -133,15 +133,16 @@ export function DonorMap({ snapshot }: { snapshot: Snapshot<ImpactSnapshot> }) {
         <RequestState snapshot={snapshot} />
         {data && (
           <>
-            <div className="map-controls">
-              <div>
+            <div className="map-pool-summary">
                 <p className="kicker">{text.donor_world_map_pool_title}</p>
                 <strong className="pool">
                   {new Intl.NumberFormat(locale).format(
                     beacons.reduce((n, b) => n + b.tokens, 0),
                   )}
                 </strong>
-              </div>
+              <div className="map-community-summary"><div className="map-avatars" aria-hidden="true">{beacons.slice(0, 5).map(b => <span key={b.contributorId}>{b.handle.slice(0, 1).toUpperCase()}</span>)}{beacons.length > 5 && <span>+{beacons.length - 5}</span>}</div><p>{text.donor_world_map_community_summary.replace("{backers}", String(beacons.length)).replace("{cities}", String(new Set(beacons.map(b => b.city + b.country)).size))}</p></div>
+            </div>
+            <div className="map-controls">
               <span className="badge">{text.demo_data}</span>
               <label>
                 {text.donor_world_map_explore}
@@ -162,16 +163,6 @@ export function DonorMap({ snapshot }: { snapshot: Snapshot<ImpactSnapshot> }) {
               <p>{text.donor_world_map_empty}</p>
             ) : (
               <>
-                <p>
-                  {text.donor_world_map_community_summary
-                    .replace("{backers}", String(beacons.length))
-                    .replace(
-                      "{cities}",
-                      String(
-                        new Set(beacons.map((b) => b.city + b.country)).size,
-                      ),
-                    )}
-                </p>
                 <div className="world-map">
                   <img className="land" src={land} alt="" />
                   <svg
@@ -273,10 +264,7 @@ export function CampaignCard({
       data-testid="campaign-card"
       data-mission-id={campaign.id}
     >
-      <div className={`art art-${campaign.project.slug}`} aria-hidden="true">
-        <span>◈</span>
-        <strong>{campaign.project.name}</strong>
-      </div>
+      <CampaignArt slug={campaign.project.slug} name={campaign.project.name} />
       <div className="campaign-body">
         <div className="card-identity">
           <span>
