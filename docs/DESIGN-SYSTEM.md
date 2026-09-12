@@ -1,233 +1,165 @@
-# NxtCommit 視覺系統
+# NxtCommit Design System
 
 > **Editorial crowdfunding × developer delivery system**
-> 用明亮、留白的敘事頁面講產品價值；在證據、資金與交付節點切換成帶有點陣訊號的技術介面。畫面要讓非工程師先理解「這次更新會改變什麼」，也讓工程師看見「它如何從 Issue 走到 Release」。
+>
+> Explain product value through bright narrative pages with generous whitespace; switch to technical interfaces with dotted signals for evidence, funding, and delivery milestones. Help non-engineers understand “what this update changes” first, while showing engineers “how it moves from Issue to Release.”
 
-本文件描述目前 NxtCommit 的目標視覺語言與元件規則。它是實作及設計 review 的共同檢查表；不取代產品需求或 GitHub 資料驗證規則。
+Synchronization baseline: **the website implementation, machine-readable spec, component/page/visual contracts, and approved goldens as of 2026-09-12**. This document is the English counterpart of the Traditional Chinese human-readable guide and design review checklist, not an executable spec.
 
-## 1. 設計原則
+## 1. Authoritative sources and conflict resolution
 
-1. **Release 是主角，repo 是提案者身份。**
-   Campaign 的主標必須是這次更新帶來的具體改變；repo 名稱、Issue 編號與技術分類提供可信度，而不是搶走故事。
-2. **明亮敘事，深色用於可驗證的系統狀態。**
-   一般段落使用白色、淡紫與薄荷光暈；GitHub Evidence、交付鏈路、社群算力匯流等「可信來源／即時狀態」使用深靛色面板。
-3. **每張 Campaign 都有自己的語意主圖。**
-   圖解必須說明 repo 對產品的意義，例如 Mermaid 是 `WORDS → DIAGRAM`，WhisperX 是「語音 → 自然字幕」。不可只更換 repo 名稱後重複同一張抽象格點卡。
-4. **動態要解釋關係，不只是裝飾。**
-   光點可以代表算力、資料或狀態；線條必須有明確起點和目標，例如 Backer → AI plan → Release，或從四方匯入同一個 Goal。
-5. **資料有來源，狀態有責任人。**
-   GitHub Evidence、Maintainer Commitment、Delivery Tracker 是產品可信度的一部分，不是次要資訊卡。
+Design decisions follow this authority order:
 
-## 2. 色彩語意
+1. [`spec/design-systems/nxtcommit.yaml`](../spec/design-systems/nxtcommit.yaml): design-system foundations and global invariants.
+2. Component, page, and visual contracts: each component and page's structure, states, interactions, and visual contracts.
+3. Approved goldens: approved rendering oracles used to determine whether desktop visual results satisfy the contracts.
+4. This document: guidance for understanding, designing, and reviewing; it does not override the sources above.
 
-### 基礎表面
+If this document conflicts with the executable spec or contracts, **follow the executable spec/contracts and update this document accordingly**. If a golden conflicts with its upstream contract, do not resolve that conflict using this document alone; clarify and update the canonical artifact first. `src/styles.css` is the current website implementation reference, not a substitute for the spec.
 
-| 角色 | 色彩 | 使用方式 |
+## 2. Design principles
+
+1. **Editorial clarity before decoration.** Each screen has one clear reading order; the concrete change delivered by a Release is the focus, while the repo, Issue, and technical category establish credible identity.
+2. **Bright narrative, dark focus.** Keep the canvas and readable content bright; verifiable system states such as GitHub Evidence, pipelines, and delivery milestones may use deep indigo panels.
+3. **Stable semantics across four dimensions.** Funding, development, verification, and adoption colours retain their meaning across pages and components; brand gradients cannot replace categorical colours.
+4. **Motion explains relationships.** Dots, lines, and number updates must convey the direction of data, compute, or state; information remains complete when static or under reduced motion.
+5. **Data has provenance; states have accountable owners.** Demo provenance, unknown measurements, GitHub Evidence, Maintainer Commitment, and Delivery Tracker must remain visible.
+
+## 3. Foundations
+
+### Typography
+
+| Role | Font stack / rules | Usage |
 | --- | --- | --- |
-| Paper | `#FBFBFA`／近白 | 頁面底、長篇敘事、留白。 |
-| Ink | `#101110` | 主要文字、主要 CTA、深色錨點。 |
-| Deep indigo | `#17152F` | 技術面板底色；不可用接近純黑。 |
-| Line | `#E2E4DF` 附近 | 輕量分隔、容器輪廓；不應用大量框線切碎畫面。 |
+| Display sans | `DM Sans`, `Noto Sans TC`, `PingFang TC`, system sans-serif; `600–700` | Hero, section titles, Campaign titles, and primary outcomes; compact tracking is allowed. |
+| Body sans | The same sans stack; `400–600` | Explanations, controls, descriptions, and long-form text. |
+| Metadata mono | `ui-monospace`, `SF Mono`, Menlo, Consolas, monospace; `600–800` | Provenance, metrics, kickers, statuses, pipelines, and technical metadata; often uppercase with expanded tracking. |
 
-### 訊號與狀態
+Metadata and pipeline labels may use approximately `10–14px` mono depending on density. This is an information-hierarchy exception: **do not also shrink body copy, core states, or button text**. Keep readable content and controls clear according to context, contrast, line height, and target size; do not impose the outdated universal `16px` absolute minimum. Hero text, funding figures, and primary outcomes must stand clearly above surrounding metadata.
 
-| 語意 | 色彩 | 用途 |
+### Core colour tokens
+
+| Token / role | Value | Usage |
 | --- | --- | --- |
-| Plan／Funding | `#6657FF` | 規劃、資金進度、可點擊的次級連結、里程碑。 |
-| Community／Live | `#28EBC7` | 贊助者、即時匯流、已投入算力、活躍節點。 |
-| Release／Delivery | `#FFC978` | Release、版本交付、最終產物。 |
-| Maintainer approved | `#117A55` | Owner 確認、Review 通過、完成狀態。 |
-| Warning | 暖黃／米色 | Demo provenance、逾期或需要留意的承諾；不把它做成危險錯誤。 |
+| Canvas / `bg` | `#fbfbfa` | Default page background; low-contrast violet/mint ambient gradients may be layered over it. |
+| Surface | `#ffffff` | Cards, readable panels, and controls. |
+| Ink | `#101110` | Primary text and highest-emphasis boundaries. |
+| Muted | `#676b65` | Supporting explanations; must remain readable on bright surfaces. |
+| Brand / funding | `#6657ff` | Product identity, primary actions, focus, and funding; context must be clear. |
+| Gradient mint | `#28ebc7` | Continuous decorative gradients, live accents, and positive movement; not a new category. |
+| Deep indigo | `#17152f` | High-contrast narrative, Evidence, and pipeline surfaces. |
+| Line | `#e2e4df` | Lightweight separators and container outlines; avoid fragmenting the screen with excessive borders. |
 
-### 背景規則
+### Four-dimensional semantic palette
 
-- 明亮區域可使用非常淡的紫、薄荷、天藍 radial glow；光暈要有足夠留白，不能變成彩色卡片牆。
-- 深色區域固定使用深靛 `#17152F` 作底，疊加薄荷與紫色微光、低對比點陣網格。
-- 點陣尺寸以 `18–23px` 節距為基準，透明度低；它是「系統正在流動」的空間，不是桌布。
-- 漸層只承擔情緒與空間深度，**不可**取代狀態色來表示分類或進度。
+This is the categorical progress palette used across the product and its pages. Any mark, track, legend, or status used across Campaigns or pages to identify a progress dimension uses its corresponding colour, not a brand gradient.
 
-## 3. 字體與資訊層級
-
-| 層級 | 字體／特徵 | 使用時機 |
+| Dimension | Colour | Meaning |
 | --- | --- | --- |
-| Display／故事主標 | `DM Sans`, `Noto Sans TC`, 粗、緊縮字距 | Hero、Campaign 標題、段落觀點。大標講人能感受的改變。 |
-| Section heading | 同一 sans，約 `32–64px`（響應式） | What、Why、Release、Commitment 等故事段。 |
-| Body | 同一 sans，至少 `16px` | 解釋情境、使用者效益、證據摘要。 |
-| System label | `ui-monospace`／SF Mono，uppercase、較大字距 | `FUNDING PROGRESS`、`GITHUB EVIDENCE`、階段名稱、資料來源。 |
-| System data | 等寬字或 DM Sans 數字 | token、百分比、Issue／PR、版本、時間。 |
+| Funding | `#6657ff` | Funding progress, funding stages, and related data. |
+| Development | `#0b9d81` | Development execution and agent/maintainer work progress. |
+| Verification | `#277fa6` | CI, review, verification, and evidence states. |
+| Adoption | `#c26b45` | Adoption, use, and impact after Release. |
 
-規則：小標可保留英文，中文正文自然書寫；`GitHub stars`、`Issue`、`PR`、`Release`、`Merge` 等可維持英文。內文和可讀狀態不可小於 `16px`；hero／資金數字要遠大於周邊系統標籤。
+Component-scoped exception: the homepage `release-update` component's existing four-stage **Funded / Plan / Maintainer decision / Release** accents are owned by `spec/components/release-update.yaml`. They represent only that component's linear delivery lifecycle, not a second product-wide categorical dimension palette. Outside `release-update`, or when building cross-Campaign or cross-page legends, use the Funding / Development / Verification / Adoption palette.
 
-## 4. 圖像、圖解與動態
+Functional states such as success, warning, and danger may use their own tokens, but cannot redefine the four dimensions. `#28ebc7` may serve as a continuous gradient or Community/live accent, but Community/live is still not a categorical progress dimension.
 
-### Campaign 專屬主圖
+### Surfaces, radii, and shadows
 
-每一張首頁 card 與其 Campaign hero 必須共享同一個「概念」，但 hero 是放大重製，不能把小卡直接拉大。
+- Standard cards use white surfaces, low-contrast borders, and soft neutral/violet shadows; approximately `22px` is the normal radius, within the canonical `18–24px` range.
+- Feature panels such as heroes, maps, Campaign features, and release narratives use `28–44px`; `34px` is common, and large widescreen features may reach `44px`.
+- Pill buttons, compact filters, statuses, and badges use `999px`.
+- Feature depth may use broad, pale violet-tinted shadows with subtle inset highlights; do not make every surface look modal, or use pure black or heavy glass effects.
+- Use glass only on surfaces that need spatial layering; preserve a readable fallback without `backdrop-filter`.
 
-主圖固定包含：
+### Spacing and layout
 
-- repo 名稱與技術分類，作身份而非大標；
-- 可一眼看懂的輸入 → 轉換 → 輸出關係；
-- 低對比點陣、少量亮點、清楚箭頭；
-- `Community backing → AI execution plan → next release` 的交付鏈，僅在需要解釋平台機制時出現。
+- The base spacing step is `4px`; use deliberate multiples for controls, cards, and inline spacing.
+- The default rhythm between major desktop sections is `7rem`; compact contexts may use corresponding smaller rhythms, without artificial blank height to prop up the layout.
+- Desktop narrative/application content usually stays within `1440–1480px`; give long-form text a narrower readable measure inside the larger composition.
+- Desktop gutters are at least `24px`. Full-width canvases may extend further, but text, focus, and primary actions must return to consistent content alignment.
+- Content determines column count; resizing changes structure and reading order rather than proportionally shrinking a desktop screen.
 
-範例：
+## 4. Images, diagrams, and motion
 
-```text
-Mermaid：WORDS → Mermaid engine → DIAGRAM
-WhisperX：raw speech → aligned words → natural subtitles
-PDF.js：scanned PDF → readable / searchable document
-```
-
-### 動態行為
-
-- mint 光點沿線移動、節點輕微呼吸、數字可平滑更新；速度應穩定、低頻，不能像廣告 banner。
-- 用 `prefers-reduced-motion` 關閉非必要動畫，保留靜態關係與資訊可讀性。
-- 不使用無意義的游標、飄浮卡片或斜向留言牆作為主要視覺。
-
-## 5. 元件語言
-
-### Eyebrow 與標籤
-
-- 微型等寬字、追蹤字距、黑底薄荷字或淺底紫字。
-- 用於指明段落角色，例如 `WHAT IT POWERS`、`GITHUB EVIDENCE`、`MAINTAINER COMMITMENT`。
-- tag 是資訊入口，不應堆滿所有技術分類。
-
-### 深色技術面板
-
-- 深靛底、細點陣、半透明內框、薄荷／紫／琥珀訊號。
-- 適用：GitHub source、社群算力匯流、交付節點、repo-specific diagram。
-- 圓角約 `18–25px`；可有低強度陰影和 blur，但不使用純黑或重厚玻璃感。
-
-### 明亮資訊面板
-
-- 白或淡色漸層、薄邊框、少量圓角與足夠 padding。
-- 適用：Funding Progress、資金影響預覽、故事正文、support stream。
-- 一段內容只選擇一個主要容器邏輯；不要連續堆疊多張同樣的卡片。
-
-### 資金進度條
-
-- 放在 Hero 主圖正下方，獨立成一段，而非塞進贊助操作卡。
-- 大數字先呈現 `pledged / goal COMPUTE`，其次是百分比、backer 數與截止時間。
-- 進度 rail 使用紫色 fill，mint 活動節點；里程碑必須寫清楚「什麼 token 解鎖什麼階段」。
-- 右側 sticky backing card 從故事內文才開始出現，手機改為非 sticky CTA。
-
-### GitHub Evidence
-
-- 深色 header 搭配 GitHub icon、來源數量與 provenance。
-- 真實 Issue／Discussion 引言卡清楚顯示編號、作者／日期、原文與白話解釋。
-- Evidence 必須導向 `AI 整理範圍 → Maintainer 確認 scope`，不能暗示 AI 自行決定 Roadmap。
-
-### Maintainer Commitment 與 Delivery Tracker
-
-- 兩者是「產品機制」，不是一般行銷卡片。
-- Commitment 用深色 header 加三項具體承諾：確認 scope、Review SLA、保留 Merge／Release 決定權。
-- Delivery Tracker 顯示同一 Campaign 的完整路徑：
+Each Campaign card and its hero share one repo-specific concept, but the hero is a recomposed, expanded narrative rather than an enlarged card. Diagrams should reveal input, transformation, and output at a glance; repo names and technical categories provide identity, not a substitute for the benefit proposition.
 
 ```text
-Issue selected → Scope confirmed → Funded → Agent branch → PR → CI
-→ Review → Merge → Release
+Mermaid: WORDS → Mermaid engine → DIAGRAM
+WhisperX: raw speech → aligned words → natural subtitles
+PDF.js: scanned PDF → readable / searchable document
 ```
 
-- 節點要有狀態色、GitHub 關聯資料、最後更新時間、下一步負責角色與 demo／真實資料標示。
+Enter transitions take approximately `350–700ms`. Ambient loops should be low-frequency and never disrupt reading; small signal pulses may take approximately `2.1–2.4s`, while larger background loops may use a slower rhythm. Motion may only support understanding, never become a prerequisite for discovering content, states, or actions; `prefers-reduced-motion` must remove loops/transforms and display the final visible state directly.
 
-### Community Support
+## 5. Components and narrative language
 
-- 社群不是電商評價牆。
-- 左側以來自四面八方的人名／算力匯流到 Goal 的 motion 表達「共同推進」；右側訊息直向排列，避免斜向堆疊。
-- 讓 Backer 可以附上一句支持，但主角是集體推進 Release 的可見效果。
+### Labels and technical panels
 
-## 6. 首頁架構
+- Eyebrows/system labels may use small mono, uppercase, and expanded tracking to identify `GITHUB EVIDENCE`, `FUNDING`, or a pipeline stage; do not pile up tags.
+- Dark panels use deep indigo, low-contrast dotted grids/inner borders, and restrained violet/mint light; categorical signals still use the four-dimensional palette.
+- Bright panels use white or very pale gradients, thin borders, and sufficient padding. Choose one primary container logic for adjacent content to avoid a card wall.
 
-首頁順序如下：
+### Evidence and delivery
+
+- GitHub Evidence clearly shows sources, counts, provenance, Issue/Discussion identifiers, and plain-language explanations.
+- The Evidence decision chain is `AI organizes the scope → Maintainer confirms the scope`; do not imply that AI decides the roadmap, merge, or release on the Maintainer's behalf.
+- Funding, Development, Verification, and Adoption use their dimension colours in trackers and show GitHub associations, the last update time, the next accountable role, and demo/real-data labels.
+- Community Support communicates collective progress toward Release, not an e-commerce review wall; messages remain scannable, and motion only indicates the direction of convergence.
+
+## 6. Homepage structure
+
+The current homepage section order is:
 
 ```text
-Hero：平台定位 + 即時社群算力／交付訊號
-→ 全球算力贊助分布
-→ 本月已交付的 Release 更新
-→ Campaign shelves
-→ 社群投票（頁面底部）
+hero → how → map → projects → mvp
 ```
 
-首頁 hero 的文案：
+- `hero`: platform promise, primary CTA, and live delivery signal.
+- `how`: explain the mechanism from support to delivery.
+- `map`: show global/community compute convergence.
+- `projects`: organize Campaigns/projects around outcomes people care about.
+- `mvp`: close with the actionable product workflow and current scope.
 
-```text
-用閒置算力，讓下一個 Release 發生。
-從 Issue 到 Merge，讓社群共同提供算力，把產品背後等待已久的需求推進下一個更新。
-```
+When adding, removing, or reordering homepage sections, update the page/visual contract first, then synchronize this section. Do not treat the old “global distribution → delivered Releases → shelves → community voting” list as current reality.
 
-英文版本：
+## 7. Desktop and mobile contracts
 
-```text
-Put your unused AI compute behind the next release.
-Discover the open source behind the products you use—and keep its next release moving.
-```
+The current YAML/approved-golden visual baseline contracts cover **desktop only**. Desktop review must check content width and gutters, first-screen reading order, primary actions, keyboard focus, the four-dimensional states, and content availability without hover/motion, using approved goldens as the result oracle.
 
-Campaign shelf 以「人為何會在乎」分層，技術分類只作篩選：
+Mobile responsive CSS is an additional implementation in the existing website: it changes multiple columns to one or fewer columns, removes sticky behaviour unsuitable for small screens, turns horizontal flows vertical, and adjusts gutters. It must still meet content, interaction, contrast, touch-target, and reduced-motion requirements. However, until mobile goldens/visual contracts exist, **do not claim that a mobile visual baseline is covered or accepted by goldens**.
 
-```text
-你每天已經在用的技術
-讓數位生活更自主
-開發者正在採用的下一波
-```
+## 8. Accessibility invariants
 
-每個 shelf 使用品類 banner 加一大四小（或可延展的規律格線），不要把第一張卡硬拉成過長的大卡。
+- Normal text and meaningful controls meet WCAG AA on every declared surface; low-contrast colours are decorative only.
+- Keyboard focus uses a clear `2px` violet outline separated from the control edge.
+- Actions support keyboard and touch with usable target sizes; information and actions do not depend only on hover, colour, or motion.
+- After reduced motion disables loops and transforms, every state, item, and reading order remains completely visible.
+- Visual polish does not hide demo provenance or unknown measurements.
 
-## 7. Campaign 敘事結構
+## 9. Design review checklist
 
-```text
-Hero：這次 Release 帶來的具體改變
-→ Funding Progress
-→ What it is
-→ Why it matters / What it powers
-→ If it disappears
-→ GitHub Evidence
-→ The next Release
-→ AI Development Plan
-→ What changes for people
-→ Maintainer Commitment
-→ GitHub Delivery Tracker
-→ Community Support / Messages
-→ We make it happen together
-```
+Perform the review in order and retain evidence such as screenshots, contract checks, or issue links:
 
-故事段落的寫作規則：
+- [ ] Check the relevant YAML, component/page/visual contracts, and approved goldens first; do not override the executable spec with this document.
+- [ ] Homepage desktop order is `hero → how → map → projects → mvp`, with no leftover old section order.
+- [ ] Canvas, surface, ink, muted, brand/funding, gradient mint, and deep indigo use the correct tokens.
+- [ ] Funding / Development / Verification / Adoption use only `#6657ff` / `#0b9d81` / `#277fa6` / `#c26b45`, with consistent meanings in legends and components on the same page.
+- [ ] Display/body use the DM Sans + Noto Sans TC stack; mono is limited to metadata/pipelines and does not shrink body or button text.
+- [ ] Standard cards are approximately `22px`, and feature panels are within `28–44px`; shadows create depth without making every card look modal.
+- [ ] Check desktop content width, gutters of at least `24px`, reading order, and consistent semantic gaps defined by the page contract; `7rem` is the design-system major-section default, while Home may use a tighter rhythm according to its contract.
+- [ ] Primary content, states, focus, and actions do not depend on hover or motion; keyboard operation and `prefers-reduced-motion` have been exercised.
+- [ ] Repo-specific main diagrams explain actual inputs/transformations/outputs rather than generic decoration with a renamed label.
+- [ ] GitHub Evidence, demo provenance, unknown measurements, Maintainer accountability, and next-step roles remain clear and visible.
+- [ ] Compare desktop results against approved goldens individually; differences have corresponding contract changes or are recorded as defects.
+- [ ] Check mobile reflow, touch, readability, and functionality; without mobile visual contracts/goldens, explicitly state “mobile visual baseline not covered” in the review outcome.
 
-- `What`：用一句白話解釋它在產品中做什麼。
-- `Why`：先談使用情境與被影響的人，再補 repo 規模或技術事實。
-- `If it disappears`：每個 repo 要有專屬後果，不能用泛用開源口號。
-- `Next Release`：清楚說明這次 funded 的具體變更與驗收方式。
-- `What changes for people`：說明 Issue 解掉後，人不必再做什麼、能多做什麼。
+## 10. Prohibited patterns
 
-## 8. 禁止事項
-
-- 不使用 GitHub dark theme 當整頁底色；深色只作為可信技術錨點。
-- 不做電商式評論牆、折扣感、商品購物卡或純銷售口吻。
-- 不把 AI 呈現成替 Maintainer 決定 scope／merge 的黑箱。
-- 不讓 Issue、repo 名稱、技術指標取代這次 Release 的價值主張。
-- 不把所有 Campaign 的 hero 做成相同圖案；資料不同時，圖解關係也必須不同。
-- 不以小字塞入關鍵資訊；放大狀態、數字、節點和現實情境。
-
-## 9. 實作對照
-
-| 項目 | 主要實作位置 |
-| --- | --- |
-| 全站 tokens、字體、動態、D campaign styles | `src/styles.css` |
-| 首頁 Hero 與即時訊號 | `src/components/Hero.tsx` |
-| Campaign card／專屬語意主圖 | `src/components/ProductCard.tsx` |
-| Campaign 敘事、Funding、Evidence、Commitment、Tracker、Community | `src/pages/MissionDetail.tsx` |
-| 雙角色 Demo | `src/components/DemoShowcase.tsx`、`src/pages/Demo.tsx` |
-| 共用 Campaign demo state | `src/state/AppContext.tsx` |
-| Campaign 資料、15 個 editorial shelves | `server/seed.ts` |
-| 中英文故事文案 | `src/i18n/zh-TW.ts`、`src/i18n/en.ts` |
-
-## 10. Review checklist
-
-- [ ] 這個區塊是否先讓非工程師理解「它改變什麼」？
-- [ ] repo-specific 主圖是否真的解釋該 repo，而非重用 generic 裝飾？
-- [ ] 深色是否只用在 source、system state 或需要聚焦的技術層？
-- [ ] 資金數字、交付階段、Maintainer 的責任是否一眼可讀？
-- [ ] Evidence 是否標明 GitHub 來源與 demo／真實資料狀態？
-- [ ] 動態是否表達資料或算力的方向？關閉動畫後是否仍讀得懂？
-- [ ] 手機版是否將橫向流程改為直向，而非縮小所有文字與節點？
-- [ ] 文案是否以 Release 的人類效益為標題，而非 README 式 repo 描述？
+- Do not use the GitHub dark theme as the whole-page background; deep indigo is reserved for credible technical anchors or high-contrast narrative panels.
+- Do not promote or copy `release-update`'s Funded / Plan / Maintainer decision / Release component-local stage accents into a product-wide palette; Community/live mint is not a categorical dimension either.
+- Do not replace the four-dimensional semantic palette with brand gradients, mint live accents, or functional state colours.
+- Do not let Issues, repo names, technical metrics, or an AI black box replace the human benefits of Release or the Maintainer's decision authority.
+- Do not use meaningless cursors, floating cards, diagonal comment walls, or purely decorative motion as the main visual.
+- Do not squeeze critical information into fixed small text, or claim visual acceptance for a viewport not covered by contracts/goldens.

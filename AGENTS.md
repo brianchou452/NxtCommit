@@ -18,6 +18,12 @@ boundary is visible to everyone.
 6. Read `docs/AGENT-ARCHITECTURE.md` before describing the system as single-agent,
    multi-agent, supervisor-led, worker-based, or autonomous.
 7. Check `git status` and preserve unrelated work.
+8. Before any frontend change (including remote development), read and follow
+   [the Design System](docs/DESIGN-SYSTEM.md), the applicable YAML/contracts, and
+   approved goldens. Follow the document's authority order and complete its design
+   review checklist with evidence in the PR/handoff. Read the
+   [repository applicability notes](docs/COLLABORATION.md#frontend-design-system)
+   before treating the imported source baseline as this checkout's verified state.
 
 ## Facts that must not drift
 
@@ -60,6 +66,8 @@ boundary is visible to everyone.
   questions. Historical GitLab/Argo results are not current deployment evidence.
 
 ## 給共同開發者與代理的繁中摘要
+
+- 所有前端修改（含遠端開發）都必須先讀並遵循[Design System](docs/DESIGN-SYSTEM.zh-TW.md)、對應 YAML／contracts 與 approved golden；依文件權威順序處理衝突，逐項完成 design review checklist，於 PR／交接附上證據。先讀[本 repo 適用說明](docs/COLLABORATION.zh-TW.md#frontend-design-system)，不可把匯入來源基準當成此 checkout 已驗證的現況。
 
 - 先讀 `docs/COLLABORATION.zh-TW.md`、`docs/BRANCHES.zh-TW.md` 與
   `docs/GITHUB-OPERATIONS.zh-TW.md`，再修改或描述系統。

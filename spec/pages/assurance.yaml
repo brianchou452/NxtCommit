@@ -15,6 +15,12 @@ page_owned_behaviour:
   - Poll sequentially and stop on unmount; no visitor mutation controls.
   - Animate only observed running stages and stop on disconnect or terminal state.
   - Keep model summaries distinct from private reasoning and deterministic outcomes.
-layout: { canvas: Light operational evidence surface., section_rhythm: Plain-language overview, role explanations, measured risk groups, then expandable evidence and history., desktop: Three summary cards, six stages, four risk categories, and a two-column evidence archive., relationships: [Selected cycle owns every displayed check.], visual_anchors: [Workflow rail and measured counts.] }
+layout:
+  canvas: Light operational evidence surface.
+  section_rhythm: Plain-language overview, role explanations, measured risk groups, then expandable evidence and history.
+  desktop: Three summary cards, six stages, four risk categories, and a two-column evidence archive.
+  relationships: [Selected cycle owns every displayed check.]
+  visual_anchors: [Workflow rail and measured counts.]
+
 scenarios:
   - { id: assurance-visible-terminal-checks, given: A real controlled cycle completes., when: The bilingual page refreshes., then: All six stages finish and exact measurements appear with no active pulse and mobile overflow., test_file: e2e/assurance.e2e.spec.ts }
