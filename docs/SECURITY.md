@@ -1,5 +1,12 @@
 # Security and trust boundaries
 
+## Computer C authoring and review boundary
+
+The C slice accepts public HTTPS GitHub identities only and reads at most five issue/PR records per request, then excludes PRs; an empty result means no issues observed in that bounded window. Responses, issue text and model output are size-bounded. Process-local analysis/draft tokens expire within 30 minutes, are capacity-bounded and are invalidated by reset. Client edits never replace server snapshots. Reset epochs reject in-flight authoring results. Review comments are redacted before persistence.
+
+Fresh review requires B-owned evidence plus a measured integrity port and deterministic gate validation; the default demo reader has a separately labelled authored-seed exception. It cannot establish fresh engine verification. Provider perspective is a read-only UI demonstration, not authentication or access control. Model instructions and output checks reduce unsupported prose but are not a proof of semantic grounding; model output cannot mutate estimates, evidence or lifecycle decisions. No imported repository is executable.
+
+
 [繁體中文](SECURITY.zh-TW.md)
 
 NxtCommit is an experimental prototype. Its controls are designed to make fixture demonstrations auditable; they are not sufficient for executing arbitrary third-party code in a shared or production environment.

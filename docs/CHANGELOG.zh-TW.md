@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.11 — 2026-09-12（電腦 C Phase 2 原始碼；功能 E2E 通過；視覺待核准）
+
+- 新增 capability-bound authoring、本機任務持久化與檢視決策、模型建議／備援、有限範圍的 observability 及 operations endpoints。
+- 接上 New Mission、Review 與獨立設計概念頁，提供雙語文案及 Docker 互動 journey 定義。
+- 獨立 Colima Docker 已通過 8 條 C journeys 與 4 條 foundation 回歸；14 個視覺比較有差異並已產生候選圖。原 approved 圖片保持不變；未宣稱完整 Phase 2 驗證、新的任務執行、視覺核准或部署。見[電腦 C 交接](PHASE2-C.zh-TW.md)。
+
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 
 - 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。

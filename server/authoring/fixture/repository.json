@@ -1,0 +1,11 @@
+{
+  "name": "duration-demo",
+  "description": "Bundled demonstration of a duration parser. This is authored fixture input.",
+  "language": "JavaScript",
+  "issues": [{
+    "id": "compound-duration",
+    "title": "Parse compound durations",
+    "body": "Support a duration containing multiple units, such as 1h 30m. Reject trailing garbage. Add tests for spaced and compact compound inputs and preserve existing single-unit behaviour.",
+    "labels": ["parser", "reliability"]
+  }]
+}

@@ -6,6 +6,12 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.11 — 2026-09-12 (Computer C Phase 2 source; functional E2E passed; visual approval pending)
+
+- Added capability-bound authoring, local mission persistence and review decisions, advisory model/fallback paths, bounded observations and operational endpoints.
+- Connected New Mission, Review and standalone design concepts with bilingual copy and interactive Docker journey definitions.
+- Independent Colima Docker passed all 8 C journeys and 4 foundation regressions; 14 visual comparisons differ and have captured review candidates. Original approved images remain unchanged; no full Phase 2 verification, fresh mission execution, visual approval or deployment is claimed. See [Computer C handoff](PHASE2-C.md).
+
 ## v0.7.10 — 2026-09-12 (local Phase 1 source checkpoint)
 
 - Established TypeScript frontend/backend shared contracts, modular HTTP registration,

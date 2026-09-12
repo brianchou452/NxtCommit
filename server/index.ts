@@ -1,6 +1,7 @@
 import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
 import { createApplication } from './app.js';
+import { authoringConfiguration } from './authoring/configuration.js';
 
 if (existsSync('.env')) process.loadEnvFile('.env');
 const port = Number(process.env.PORT ?? 4177);
@@ -12,9 +13,10 @@ const application = createApplication({
   databasePath: resolve(process.env.VAR_DIR ?? 'var', 'nxtcommit.sqlite'),
   configuredMode: process.env.EXECUTION_MODE ?? 'auto',
   staticDirectory: resolve('dist'),
+  authoring: authoringConfiguration(process.env),
 });
 const server = application.app.listen(port, process.env.HOST ?? '127.0.0.1', () => {
-  console.log(`NxtCommit foundation listening on port ${(server.address() as { port: number }).port}`);
+  console.log(`NxtCommit listening on port ${(server.address() as { port: number }).port}`);
 });
 let stopping = false;
 function shutdown() {

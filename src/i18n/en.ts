@@ -1,4 +1,6 @@
+import { authoringEn } from './authoring.js';
 export const en = {
+  ...authoringEn,
   product: 'NxtCommit', discover: 'Discover', new_mission: 'New Mission',
   profile: 'My Commitment', demo: 'Demo', skip: 'Skip to main content',
   reset: 'Reset demo data', reset_done: 'Demo data reset.',

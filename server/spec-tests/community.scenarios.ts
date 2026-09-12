@@ -34,7 +34,7 @@ test.todo("api.mvp-vote / one-local-vote-per-category — Phase 2 owner implemen
  * When Explanation is requested.
  * Then Bounded prose and provenance are returned while source evidence remains authoritative.
  */
-test.todo("api.run-evidence-explanation / explanation-never-rewrites-evidence — Phase 2 owner implementation pending");
+// Computer C implements this scenario in review.scenarios.ts.
 
 /**
  * Spec: api.wall-list

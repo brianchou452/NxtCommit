@@ -16,4 +16,4 @@ test.skip("page.guided-demo / guided-demo-resets-before-navigation — Phase 2 i
  * When The initial source step renders.
  * Then The page-owned heading and Analyze control are visibly rendered with non-zero opacity.
  */
-test.skip("page.new-mission / wizard-is-semantically-visible — Phase 2 implementation pending", async () => {});
+// Executable UI journey: computer-c.e2e.spec.ts / wizard-is-semantically-visible.

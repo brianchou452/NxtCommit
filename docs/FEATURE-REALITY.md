@@ -1,5 +1,8 @@
 # Feature reality matrix
 
+> **Computer C / Phase 2 source update:** Authoring, local review and operations are now implemented on `dev/computer-c`; see [the handoff](PHASE2-C.md) for tested boundaries and outstanding visual approval (12 Docker journeys passed). Default review evidence is authored demo data. Model/trace adapters are tested against controlled transports; no live model or external Langfuse success is claimed. The B execution runner and A community slice remain absent from this checkout.
+
+
 > **NxtCommit hackathon scope (2026-09-12):** This checkout now contains the [Computer A / Phase 1 shared foundation](PHASE1-FOUNDATION.md). The Cloudflare delivery remains infrastructure-only; its active [runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md) do not establish product deployment. The full CommonCommit feature inventory and GitLab/Argo results below are imported historical context, not proof those features are implemented or deployed here.
 
 [繁體中文](FEATURE-REALITY.zh-TW.md)

@@ -9,6 +9,8 @@ import { foundationCapability } from './services/context.js';
 import type { ServiceContext } from './services/context.js';
 import { registerRoutes, routeModules } from './routes/index.js';
 import type { RouteModule } from './routes/types.js';
+import { AuthoringServices } from './authoring/services.js';
+import type { AuthoringOptions } from './authoring/services.js';
 
 export interface AppOptions {
   databasePath?: string;
@@ -16,6 +18,8 @@ export interface AppOptions {
   staticDirectory?: string;
   modules?: readonly RouteModule[];
   resetParticipants?: readonly ResetParticipant[];
+  authoring?: AuthoringOptions;
+  operations?: ServiceContext['operations'];
 }
 
 export function createApplication(options: AppOptions = {}) {
@@ -25,17 +29,20 @@ export function createApplication(options: AppOptions = {}) {
     store.migrate(migrations);
     if (!store.db.prepare('SELECT 1 FROM local_personas WHERE current = 1').get()) store.transaction(seedFoundation);
   } catch (error) { store.close(); throw error; }
+  const authoring = new AuthoringServices(store, options.authoring);
   const reset = createResetHarness(store, [{
     id: 'foundation-persona', quiesce: async () => {},
     clear: db => { db.exec('DELETE FROM local_personas'); }, seed: seedFoundation,
+  }, { id: 'authoring-review', quiesce: async () => { authoring.beginReset(); },
+    clear: () => authoring.repository.clear(), seed: () => authoring.seed(),
   }, ...options.resetParticipants ?? []]);
   const context: ServiceContext = {
-    store, execution,
+    store, execution, authoring, evidence: authoring.evidence, ...(options.operations ? { operations: options.operations } : {}),
     bootstrap: () => {
       const currentUser = readCurrentPersona(store.db);
       return { currentUser, personas: { contributor: currentUser, maintainers: [] }, execution };
     },
-    reset: () => reset.reset(),
+    reset: () => reset.reset().finally(() => authoring.endReset()),
   };
   const app = express();
   app.disable('x-powered-by');
