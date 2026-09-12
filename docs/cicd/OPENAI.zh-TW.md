@@ -1,5 +1,7 @@
 # 本機與 Cloudflare 的 OpenAI 設定
 
+線上驗證詳見 [Cloudflare LLM／Langfuse 實測報告](LLM-LIVE-REPORT.zh-TW.md)，包含 trace 入庫查回與快取耗時。
+
 ## 產品接線更新 — 0.7.18
 
 正式入口現在載入與本機 Node 相同的 authoring 設定。官方 OpenAI 端點使用 Responses，符合既有受限金鑰；明確配置的相容 gateway 保留 Chat Completions。產品建議採嚴格雙語 JSON、12 秒逾時、最多 1,024 output tokens，gpt-5-mini 使用 minimal reasoning。Fixture 執行仍是 scripted demo；建議不能改變 deterministic evidence 或批准 run。

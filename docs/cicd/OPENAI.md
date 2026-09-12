@@ -1,5 +1,7 @@
 # OpenAI configuration in local and Cloudflare environments
 
+Live verification is recorded in [the Cloudflare LLM/Langfuse report](LLM-LIVE-REPORT.md), including persisted trace read-back and cache timing.
+
 ## Product connection update — 0.7.18
 
 The production entrypoint now loads the same authoring configuration as local Node. The official OpenAI endpoint uses Responses, matching the existing restricted key; explicitly configured compatible gateways retain Chat Completions. Product advice requests strict bilingual JSON, a 12-second deadline, a 1,024-output-token ceiling and minimal reasoning on gpt-5-mini. Fixture execution remains scripted demo; advice cannot change deterministic evidence or approve a run.
