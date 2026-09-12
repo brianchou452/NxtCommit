@@ -15,7 +15,7 @@ def probe_request(url):
     return urllib.request.Request(url, headers={"User-Agent": "NxtCommit-Deployment-Check/1.0 (+https://github.com/brianchou452/NxtCommit)"})
 
 error = "No response"
-for attempt in range(36):
+for attempt in range(120):
     try:
         with urllib.request.urlopen(probe_request(base + "/__deployment"), timeout=15) as response:
             assert response.status == 200
@@ -37,7 +37,7 @@ for attempt in range(36):
         break
     except (urllib.error.URLError, TimeoutError, AssertionError, ValueError, KeyError) as exc:
         error = str(exc)
-        if attempt < 35:
+        if attempt < 119:
             time.sleep(5)
 else:
     raise SystemExit("Deployment smoke check failed: " + error)

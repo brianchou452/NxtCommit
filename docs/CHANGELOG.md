@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.16 — 2026-09-12
+
+- Enable scoped HTTPS interception and Node trust for OpenAI egress; allow more time for Cloudflare container placement during deployment verification.
+
 ## v0.7.15 — 2026-09-12
 
 - Add an authenticated fixed-prompt OpenAI connection check in the actual Cloudflare container, limited to one provider call per process.

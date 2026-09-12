@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.16 — 2026-09-12
+
+- 啟用限定 OpenAI 的 HTTPS interception 與 Node 憑證信任；部署驗證容許較長的 Cloudflare 容器配置時間。
+
 ## v0.7.15 — 2026-09-12
 
 - 在實際 Cloudflare 容器新增需驗證身分的固定 prompt OpenAI 連線檢查，每個程序最多一次 provider 呼叫。
