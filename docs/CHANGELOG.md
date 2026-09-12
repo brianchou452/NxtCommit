@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.18
+
+- Wire production authoring to the shared Responses API, preserve restricted keys and demo execution, and export measured model duration/usage to Langfuse Cloud with bounded metadata only.
+
 ## v0.7.17 — 2026-09-12 (integrated main)
 
 - Merge Phase 3 A/B/C product work with current Cloudflare delivery and CI optimizations. Package both executable fixtures and Git in production; expose the integrated fixture-only deployment receipt.

@@ -4,6 +4,7 @@ import type { MissionStatus } from './execution.js';
 export interface AiEvidence {
   generator: 'openai' | 'demo' | 'static'; promptVersion: string;
   model?: string; latencyMs?: number; traceId?: string; fallbackReason?: string;
+  responseId?: string; usage?: { inputTokens: number; outputTokens: number; totalTokens: number } | null;
 }
 export interface ObservedIssue { id: string; title: string; body: string; url?: string; labels: string[]; feasibility: { executable: boolean; basis: string } }
 export interface RepoAnalysis {

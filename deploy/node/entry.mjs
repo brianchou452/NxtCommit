@@ -4,8 +4,9 @@ import {SHUTDOWN_AT, hasExpired} from './shutdown-policy.mjs';
 import { createServer } from 'node:http';
 import { resolve } from 'node:path';
 import { createApplication } from './dist-server/server/app.js';
+import { authoringConfiguration } from './dist-server/server/authoring/configuration.js';
 if (hasExpired()) process.exit(0);
-const application = createApplication({databasePath: resolve(process.env.VAR_DIR, 'nxtcommit.sqlite'), configuredMode: 'demo', staticDirectory: resolve('dist')});
+const application = createApplication({databasePath: resolve(process.env.VAR_DIR, 'nxtcommit.sqlite'), configuredMode: 'demo', staticDirectory: resolve('dist'), authoring: authoringConfiguration(process.env)});
 const startedAt = new Date().toISOString();
 const checkOpenAI = createOpenAICheck(createOpenAIResponse);
 const server = createServer((request, response) => {

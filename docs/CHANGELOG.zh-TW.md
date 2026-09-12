@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.18
+
+- 正式 authoring 接上共用 Responses API，保留受限金鑰與 demo 執行邊界，並向 Langfuse Cloud 匯出實測模型耗時與 usage，僅含受限 metadata。
+
 ## v0.7.17 — 2026-09-12（整合 main）
 
 - 合併 Phase 3 A／B／C 產品與目前 Cloudflare delivery、CI 最佳化。Production image 納入兩個可執行 fixture 與 Git，deployment receipt 改為整合後 fixture-only 邊界。

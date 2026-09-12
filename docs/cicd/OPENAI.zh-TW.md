@@ -1,5 +1,13 @@
 # 本機與 Cloudflare 的 OpenAI 設定
 
+## 產品接線更新 — 0.7.18
+
+正式入口現在載入與本機 Node 相同的 authoring 設定。官方 OpenAI 端點使用 Responses，符合既有受限金鑰；明確配置的相容 gateway 保留 Chat Completions。產品建議採嚴格雙語 JSON、12 秒逾時、最多 1,024 output tokens，gpt-5-mini 使用 minimal reasoning。Fixture 執行仍是 scripted demo；建議不能改變 deterministic evidence 或批准 run。
+
+成功的產品 evidence 包含 provider response ID、模型、耗時與實測 token usage。Langfuse 僅匯出 metadata，包含真實 span 起訖、模型、token、prompt version 與 release SHA；不匯出原始 prompt、repo 文字、輸出文案或秘密。匯出最多等待 1.5 秒，失敗不影響產品結果。備援 observation 為 span，不冒充模型 generation。
+
+Langfuse Cloud 設定：登入帳號、建立或選取 NxtCommit 專案，設定 GitHub secrets `LANGFUSE_PUBLIC_KEY`、`LANGFUSE_SECRET_KEY`，以及 EU／US／JP 端點變數 `LANGFUSE_BASE_URL`。部署 workflow 透過 stdin 同步至 Worker secrets，再部署。金鑰不可貼到聊天。Gateway 僅允許 OpenAI 與這些 Langfuse Cloud hosts；金鑰只在 runtime 注入。部署後須以產品 trace ID 查驗 Langfuse 入庫，不能只靠 `langfuseEnabled` 宣稱成功。Cloud 帳號有獨立資料保留與生命週期；應用截止不會刪除託管 traces 或關閉帳號。
+
 兩個 Node 環境共用 `server/services/openai.ts`，呼叫官方 Responses API；45 秒 timeout、不自動重試、最多 1,024 output tokens、`store:false`。成功結果帶真實 model、response ID、prompt version、延遲與實測 tokens；沒有 usage 就是 null。錯誤不洩漏 provider body 或 key。這不代表 execution runner 或 Phase 2 authoring routes 已完成。
 
 本機：在 root 已忽略的 `.env` 填入 `OPENAI_API_KEY`，可選填 `OPENAI_MODEL`（預設 `gpt-5-mini`）。執行 `node --import tsx scripts/check-openai.mjs` 做一次小額、會計費的真實 API 驗證，只輸出 provenance。

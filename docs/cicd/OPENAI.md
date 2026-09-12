@@ -1,5 +1,13 @@
 # OpenAI configuration in local and Cloudflare environments
 
+## Product connection update — 0.7.18
+
+The production entrypoint now loads the same authoring configuration as local Node. The official OpenAI endpoint uses Responses, matching the existing restricted key; explicitly configured compatible gateways retain Chat Completions. Product advice requests strict bilingual JSON, a 12-second deadline, a 1,024-output-token ceiling and minimal reasoning on gpt-5-mini. Fixture execution remains scripted demo; advice cannot change deterministic evidence or approve a run.
+
+Successful product evidence includes provider response ID, model, duration and actual token usage. Langfuse exports metadata only, with actual span start/end, model, token usage, prompt version and release SHA; raw prompts, repository text, output prose and secrets are excluded. Export waiting is bounded at 1.5 seconds and failure is nonfatal. Fallback observations are spans, not model generations.
+
+Langfuse Cloud setup: complete account login, create/select the NxtCommit project, then configure GitHub secrets `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY`, plus variable `LANGFUSE_BASE_URL` for the chosen EU/US/JP endpoint. The deploy workflow syncs these through stdin to Worker secrets before deploying. Never paste keys into chat. The gateway allows only OpenAI and these Langfuse Cloud hosts; model and trace credentials are forwarded at runtime only. Verify product evidence trace IDs through Langfuse after deployment; `langfuseEnabled` alone is not proof of ingestion. The Cloud account has its own retention and lifecycle; the application cutoff does not delete hosted traces or close that account.
+
 Both Node runtimes import `server/services/openai.ts`. It calls the official Responses API with a 45-second timeout, no automatic retries, at most 1,024 output tokens, and `store:false`. Successful output carries the real model, response ID, prompt version, latency and measured tokens; unavailable usage stays null. Provider error bodies and keys are not logged. This does not install an execution runner or complete Phase 2 authoring routes.
 
 Local: put `OPENAI_API_KEY` in the ignored root `.env`, and optionally set `OPENAI_MODEL` (default `gpt-5-mini`). Run `node --import tsx scripts/check-openai.mjs` once for a small, billable provider verification. The script prints provenance only.

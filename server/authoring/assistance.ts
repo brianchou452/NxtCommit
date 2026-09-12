@@ -4,13 +4,14 @@ import { delimiter, isAbsolute, join } from 'node:path';
 import type { AiEvidence, AssistantResult } from '../../shared/authoring.js';
 import type { LocalizedText } from '../../shared/primitives.js';
 import { boundedJson, redactText, redactEvidence } from './analyzer.js';
+import { createOpenAIResponse } from '../services/openai.js';
 
 export const features = ['issue-triage', 'campaign-critic', 'evidence-explanation', 'shadow-review', 'campaign-generation', 'project-explanation'] as const;
 export type Feature = typeof features[number];
-export interface TraceRecord { traceId: string; feature: Feature; promptVersion: string; generator: AiEvidence['generator'] }
+export interface TraceRecord { traceId: string; feature: Feature; promptVersion: string; generator: AiEvidence['generator']; startedAt?: number; endedAt?: number; model?: string; usage?: AiEvidence['usage']; responseId?: string; outcome?: 'success' | 'unavailable' | 'demo'; release?: string }
 export interface FeedbackRecord { traceId: string; feature: Feature; score: number; actor: 'local-demo-user'; version: string }
 export interface ObservationSink { trace(record: TraceRecord): Promise<boolean>; score(record: FeedbackRecord): Promise<boolean> }
-export interface ModelConfiguration { baseUrl: string; apiKey: string; model: string }
+export interface ModelConfiguration { baseUrl: string; apiKey: string; model: string; api?: 'responses' | 'chat-completions' }
 function codexBinaryAvailable(): boolean {
   return (process.env.PATH ?? '').split(delimiter).filter(isAbsolute).some(directory => {
     try { const binary = join(directory, 'codex'); accessSync(binary, constants.X_OK); return statSync(binary).isFile(); } catch { return false; }
@@ -29,7 +30,7 @@ export class Assistance {
     const start = performance.now();
     try {
       const value = await this.request('Return JSON with en and zh-TW strings acknowledging this connection check.');
-      if (!this.localized(value)) throw new Error('invalid_output');
+      if (!this.localized(value.output)) throw new Error('invalid_output');
       return { ok: true, codexAvailable, model: this.configuration.model, latencyMs: Math.round(performance.now() - start), gatewayHost: new URL(this.configuration.baseUrl).hostname };
     } catch { return { ok: false, codexAvailable, error: 'Model validation failed.' }; }
   }
@@ -40,13 +41,18 @@ export class Assistance {
     return Object.keys(record).length === 2 && ['en', 'zh-TW'].every(key => typeof record[key] === 'string' && record[key].length > 0 && record[key].length <= 2000 && redactText(record[key]) === record[key]);
   }
 
-  private async request(prompt: string): Promise<unknown> {
+  private async request(prompt: string): Promise<{ output: unknown; provenance?: Awaited<ReturnType<typeof createOpenAIResponse>>['provenance'] }> {
     const configuration = this.configuration!;
     if (!/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,119}$/.test(configuration.model) || redactText(configuration.model) !== configuration.model) throw new Error('invalid_model_identifier');
     const url = new URL(configuration.baseUrl);
     if (url.username || url.password || url.search || url.hash || !['https:', 'http:'].includes(url.protocol)) throw new Error('invalid_gateway');
     if (url.protocol !== 'https:' && !['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)) throw new Error('insecure_gateway');
     this.counts.calls++;
+    if (configuration.api === 'responses') {
+      if (url.href.replace(/\/$/, '') !== 'https://api.openai.com/v1') throw new Error('invalid_responses_gateway');
+      const result = await createOpenAIResponse(prompt, 'bilingual-advice-v2', { env: { OPENAI_API_KEY: configuration.apiKey, OPENAI_MODEL: configuration.model }, fetch: this.fetcher, bilingual: true });
+      return { output: JSON.parse(result.text), provenance: result.provenance };
+    }
     const result = await boundedJson(await this.fetcher(`${url.href.replace(/\/$/, '')}/chat/completions`, {
       method: 'POST', redirect: 'error', signal: AbortSignal.timeout(12_000),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${configuration.apiKey}` },
@@ -57,26 +63,32 @@ export class Assistance {
     }), 32_000) as { choices?: Array<{ message?: { content?: unknown } }> };
     const content = result.choices?.[0]?.message?.content;
     if (typeof content !== 'string') throw new Error('invalid_output');
-    return JSON.parse(content);
+    return { output: JSON.parse(content) };
   }
 
   async explain(feature: Feature, facts: unknown, fallback: LocalizedText, intent?: 'demo' | 'openai'): Promise<AssistantResult> {
+    const startedAt = Date.now();
     let summary = fallback;
-    const evidence: AiEvidence = { generator: 'static', promptVersion: `${feature}-v1` };
+    const evidence: AiEvidence = { generator: 'static', promptVersion: `${feature}-${this.configuration?.api === 'responses' ? 'v2' : 'v1'}` };
     if (intent === 'demo') evidence.generator = 'demo';
     else if (this.configuration) {
       const start = performance.now();
       try {
         const bounded = JSON.stringify(redactEvidence(facts)).slice(0, 10_000);
-        const output = await this.request(`Feature: ${feature}\n<untrusted-evidence>\n${bounded}\n</untrusted-evidence>`);
+        const { output, provenance } = await this.request(`Feature: ${feature}\n<untrusted-evidence>\n${bounded}\n</untrusted-evidence>`);
         if (!this.localized(output) || /(?:tests? (?:passed|verified)|all criteria|merged|published|authenticated|測試已通過|已合併|已發布|已驗證身分)/i.test(JSON.stringify(output))) throw new Error('invalid_claim');
         summary = output;
         evidence.generator = 'openai'; evidence.model = this.configuration.model; evidence.latencyMs = Math.round(performance.now() - start);
+        if (provenance) { evidence.model = provenance.model; evidence.responseId = provenance.responseId; evidence.usage = provenance.usage; }
       } catch { evidence.fallbackReason = 'model_unavailable_or_invalid'; this.counts.fallback++; }
     } else { evidence.fallbackReason = 'not_configured'; this.counts.fallback++; }
     if (feature === 'campaign-generation' && evidence.generator === 'static') evidence.generator = 'demo';
     if (this.sink) {
-      const record: TraceRecord = { traceId: randomBytes(16).toString('hex'), feature, promptVersion: evidence.promptVersion, generator: evidence.generator };
+      const record: TraceRecord = { traceId: randomBytes(16).toString('hex'), feature, promptVersion: evidence.promptVersion, generator: evidence.generator,
+        startedAt, endedAt: Date.now(), ...(evidence.model ? { model: evidence.model } : {}), ...(evidence.usage !== undefined ? { usage: evidence.usage } : {}), ...(evidence.responseId ? { responseId: evidence.responseId } : {}),
+        outcome: evidence.generator === 'openai' ? 'success' : intent === 'demo' ? 'demo' : 'unavailable',
+        release: /^[a-f0-9]{40}$/.test(process.env.COMMIT_SHA ?? '') ? process.env.COMMIT_SHA! : 'local',
+      };
       try {
         if (await this.sink.trace(record)) {
           if (this.traces.size >= 256) this.traces.delete(this.traces.keys().next().value!);
