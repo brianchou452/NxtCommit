@@ -120,3 +120,9 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 線上追加：[deployment 34676387844](https://github.com/brianchou452/NxtCommit/actions/runs/34676387844) 的兩個 CI job 與部署皆通過。HTTPS receipt 為 `47c564d03cc5d58f97ccdd59fd0c63ced9d294f2`、stage `phase3-integrated`。Readiness：db／worker 健康、`llmConfigured: true`、`langfuseEnabled: false`、execution demo。不宣稱外部 Langfuse 已收到資料。
 
 雲端產品驗證：gpt-5-mini-2025-08-07 文案 392 個回報 tokens／3,411 ms、議題建議 423 tokens／3,118 ms。重複文案生成沿用相同 response ID 並回傳 `cached: true`。公開重設 403，公開備份 404。操作員備份下載至 ignored `artifacts/demo-backups/verified-0.7.19.sqlite`：192,512 bytes、0600、SQLite integrity `ok`，包含四個 B-owned missions。線上驗證未重設共享資料。安全 provenance JSON 與本機效能證據位於 ignored `artifacts/product-delivery/`；私密資料庫不提交 Git。
+
+## CP020 — 截止關閉（台灣 2026-09-13）
+
+檢查時 GitHub 沒有排程關閉執行紀錄，因此手動觸發 [34708011431](https://github.com/brianchou452/NxtCommit/actions/runs/34708011431)。台灣 01:22:06 成功刪除唯一符合名稱的 `nxtcommit-delivery-nxtcommitcontainer`，ID `a03eb9ab-e1c7-4f5b-a61d-585856b9e28d`，重新列出結果為零。HTTPS `/__deployment` 回傳 410 與展示已結束訊息；截止判斷發生在容器路由之前。不可宣稱容器恰於 01:00 刪除。
+
+已停用 GitHub monitor workflow，且沒有進行中的 run。原始碼移除 monitor／shutdown 排程（保留手動操作），並清空設定的 Worker assurance cron。擴充截止保護的 shutdown workflow，以 API 移除線上 Worker 排程並核對空清單，不重新部署容器；後續執行證據另行追加。刻意保留 Workers Paid 訂閱，未操作取消或降級。關閉證據由 GitHub artifact 保留 90 天。

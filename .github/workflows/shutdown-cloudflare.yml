@@ -1,7 +1,5 @@
 name: Shut down hackathon containers
 on:
-  schedule:
-    - cron: '0,5,15 17 12 9 *'
   workflow_dispatch:
 permissions:
   contents: read
