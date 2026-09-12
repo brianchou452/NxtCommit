@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.33 — 2026-09-12
+
+- Import all 25 commoncommit repository projects and fundraising missions into the existing catalog, including bilingual scope, risks and clearly labelled demo history. Preserve current records with an additive migration, keep pledge accounting authoritative, exclude historical consumption from new pledges and handle closed stream subscribers safely.
+
 ## v0.7.32 — 2026-09-12
 
 - Apply the NxtCommit design system across secondary pages with clearer typography, light narrative surfaces, indigo evidence panels and semantic funding colours. Preserve Discover, the latest My Commitment layout, existing product behaviour and visible provenance. Deployment and live-provider verification remain separate.

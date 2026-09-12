@@ -20,13 +20,20 @@ export function enrichContributor(
   allPledges: PledgeRecord[],
   readMission?: ProfileMissionReader,
 ): ContributorProfile {
-  const recordedReleases = profile.receipts.filter(r => r.status === 'released');
-  const legacyMissionId = recordedReleases.length === 1 ? recordedReleases[0]!.missionId : undefined;
+  const recordedReleases = profile.receipts.filter(
+    (r) => r.status === "released",
+  );
+  const legacyMissionId =
+    recordedReleases.length === 1 ? recordedReleases[0]!.missionId : undefined;
   const achievements: ContributorProfile["achievements"] =
     profile.achievements.map((a) => ({
       ...a,
       code: a.code === "ship" ? "ship_it" : a.code,
-      ...(!a.missionId && (a.code === 'ship' || a.code === 'ship_it') && legacyMissionId ? {missionId: legacyMissionId} : {}),
+      ...(!a.missionId &&
+      (a.code === "ship" || a.code === "ship_it") &&
+      legacyMissionId
+        ? { missionId: legacyMissionId }
+        : {}),
     }));
   const award = (
     code: CommitmentBadgeCode,
@@ -99,14 +106,33 @@ export function enrichContributor(
       projectName: campaign.project.name,
       missionTitle: campaign.title,
     };
-    if (detail?.catalog?.releaseVersion) enriched.releaseVersion=detail.catalog.releaseVersion;
-    if (detail?.catalog?.releasedAt) enriched.releasedAt=detail.catalog.releasedAt;
-    if (detail?.catalog?.adoption) enriched.adoption=detail.catalog.adoption;
+    if (detail?.catalog?.releaseVersion)
+      enriched.releaseVersion = detail.catalog.releaseVersion;
+    if (detail?.catalog?.releasedAt)
+      enriched.releasedAt = detail.catalog.releasedAt;
+    if (detail?.catalog?.adoption) enriched.adoption = detail.catalog.adoption;
     if (detail) {
-      const consumed = allocateCredits(
-        detail.computeConsumed,
-        pledges.map((p) => ({ key: p.id, weight: p.amount })),
+      const consumption = detail.ledger.filter(
+        (entry) => entry.type === "consume",
       );
+      const consumed = new Map<string, number>();
+      for (const entry of consumption) {
+        // A new backer must never inherit consumption recorded before their pledge.
+        const eligible = pledges.filter(
+          (p) => Date.parse(p.createdAt) <= Date.parse(entry.createdAt),
+        );
+        for (const [id, amount] of allocateCredits(
+          entry.amount,
+          eligible.map((p) => ({ key: p.id, weight: p.amount })),
+        ))
+          consumed.set(id, (consumed.get(id) ?? 0) + amount);
+      }
+      if (!consumption.length)
+        for (const [id, amount] of allocateCredits(
+          detail.computeConsumed,
+          pledges.map((p) => ({ key: p.id, weight: p.amount })),
+        ))
+          consumed.set(id, amount);
       enriched.consumedShare = pledges
         .filter((p) => p.contributorId === profile.id)
         .reduce((sum, p) => sum + (consumed.get(p.id) ?? 0), 0);

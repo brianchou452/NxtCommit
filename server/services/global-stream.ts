@@ -17,14 +17,25 @@ export class GlobalStream {
       15000,
     );
     timer.unref();
-    response.on("close", () => {
+    const cleanup = () => {
       clearInterval(timer);
       this.clients.delete(response);
-    });
+    };
+    response.once("close", cleanup);
+    response.once("error", cleanup);
   }
   private send(response: Response, name: string, payload: unknown) {
-    if (!response.write(`event: ${name}\ndata: ${JSON.stringify(payload)}\n\n`))
+    if (response.writableEnded || response.destroyed) {
+      this.clients.delete(response);
+      return;
+    }
+    if (
+      !response.write(`event: ${name}\ndata: ${JSON.stringify(payload)}\n\n`)
+    ) {
+      // Disconnect slow subscribers immediately; close is delivered asynchronously.
+      this.clients.delete(response);
       response.end();
+    }
   }
   publish(
     name:

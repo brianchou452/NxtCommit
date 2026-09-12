@@ -48,6 +48,7 @@ interface SourceProject {
 }
 const data = raw as unknown as {
   revision: string;
+  capturedAt: string;
   projects: SourceProject[];
   missions: SourceMission[];
   contributors: Contributor[];
@@ -213,6 +214,20 @@ export function installCatalog(adapter: PersistenceAdapter): void {
             : {}),
         });
       }
+      const recordedConsumption = data.ledger
+        .filter(
+          (entry) =>
+            entry.missionId === original.id && entry.type === "consume",
+        )
+        .reduce((sum, entry) => sum + entry.amount, 0);
+      if (original.computeConsumed > recordedConsumption)
+        store.put("ledger", `${id}-authored-consumption`, id, {
+          id: `${id}-authored-consumption`,
+          missionId: id,
+          type: "consume",
+          amount: original.computeConsumed - recordedConsumption,
+          createdAt: data.capturedAt,
+        });
       // Establish Home FKs before source wall rows. Live projection refresh owns updates.
       db.prepare("INSERT INTO home_projects(id,snapshot) VALUES (?,?)").run(
         projectId,

@@ -7,7 +7,7 @@ import { startTestServer } from "./test-support/http.js";
 import { request } from "./test-support/authoring.js";
 import { catalogMissionIds } from "./persistence/catalog.js";
 import type { MissionDetail } from "../shared/mission.js";
-import type { MarketplaceSnapshot } from "../shared/home.js";
+import type { ContributorProfile, MarketplaceSnapshot } from "../shared/home.js";
 
 test("full source catalog exposes 25 real repo links and bilingual fundraisers without duplicate legacy cards", async () => {
   const server = await startTestServer();
@@ -44,6 +44,12 @@ test("full source catalog exposes 25 real repo links and bilingual fundraisers w
         mission.computePledged,
         mission.ledger
           .filter((l) => l.type === "pledge")
+          .reduce((sum, l) => sum + l.amount, 0),
+      );
+      assert.equal(
+        mission.computeConsumed,
+        mission.ledger
+          .filter((l) => l.type === "consume")
           .reduce((sum, l) => sum + l.amount, 0),
       );
       assert.equal(mission.latestRun, undefined);
@@ -140,6 +146,12 @@ test("catalog upgrade, pledge, retry, restart and reset retain one ledger author
       server.context.home.profile("demo-contributor")!.totalPledged,
       1505,
     );
+    await request(server.url, "/api/missions/catalog-globset/pledge", {
+      amount: 10,
+    });
+    const profile = await request<ContributorProfile>(server.url, "/api/contributors/demo-contributor");
+    const receipt = profile.receipts.find((r) => r.missionId === "catalog-globset");
+    assert.equal(receipt?.consumedShare, 0);
     await request(server.url, "/api/demo/reset", {});
     assert.equal(
       (

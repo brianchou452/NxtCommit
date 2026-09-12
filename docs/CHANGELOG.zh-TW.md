@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.33 — 2026-09-12
+
+- 將 commoncommit 全部 25 個 repo 專案與募資任務加入既有目錄，包含雙語內容、風險及明確標示的示範歷史。追加匯入並保留現有紀錄、維持統一贊助帳本、新贊助不承擔歷史消耗，修正即時更新對已關閉連線的處理。
+
 ## v0.7.32 — 2026-09-12
 
 - 將 NxtCommit Design System 套用至其他分頁，統一清楚的字體層級、明亮敘事表面、深靛證據面板與資助語意色。保留 Discover、最新版 My Commitment 佈局、既有產品行為與可見來源標籤。部署與線上 provider 驗證另行確認。

@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 test("Imported catalog connects discovery, bilingual scope, real repo, pledge and persistent commitment", async ({
   page,
 }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.request.post("/api/demo/reset");
   await page.goto("/");
   const cards = page.locator('[data-mission-id="catalog-mermaid"]');
@@ -25,7 +26,7 @@ test("Imported catalog connects discovery, bilingual scope, real repo, pledge an
     .click();
   await page.getByRole("spinbutton").fill("10");
   await page
-    .getByRole("button", { name: "Confirm pledge", exact: true })
+    .getByRole("button", { name: "Commit credits", exact: true })
     .click();
   await expect(page.getByTestId("mission-actions")).toContainText("4320");
   await page.getByRole("link", { name: "My Commitment", exact: true }).click();
@@ -36,7 +37,10 @@ test("Imported catalog connects discovery, bilingual scope, real repo, pledge an
   await expect(page.getByTestId("catalog-content")).toContainText(
     "Authored activity history",
   );
-  await page.getByText("Authored activity history", { exact: false }).click();
+  const history = page.getByText("Authored activity history", { exact: false });
+  await history.focus();
+  await page.keyboard.press("Enter");
+  await expect(history.locator("..")).toHaveAttribute("open", "");
   await expect(page.getByTestId("catalog-content")).toContainText(
     "Repository analyzed",
   );
