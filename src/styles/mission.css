@@ -118,3 +118,66 @@
 
 .catalog-content dl { display: flex; flex-wrap: wrap; gap: 24px; }
 .catalog-content dd { margin: 4px 0 0; font-weight: 700; }
+/* NxtCommit delivery surfaces: narrative on paper, inspectable systems in indigo. */
+.mission-page .mission-impact-note,
+.mission-page .mission-delivery-metrics > div,
+.mission-page .mission-action-card > .mission-kicker {
+  background-color: var(--deep-indigo);
+  background-image: radial-gradient(circle at 100% 0, #28ebc713, transparent 65%), radial-gradient(#ffffff16 1px, transparent 1px);
+  background-size: auto, 20px 20px;
+  color: #edf0ff;
+}
+.mission-page .mission-action-card { border-color: var(--line); border-bottom-color: var(--funding); border-radius: 24px; padding: 28px; }
+.mission-page .mission-action-card > .mission-kicker { margin: -28px -28px 8px; padding: 20px 28px; border-radius: 23px 23px 0 0; color: var(--gradient-mint); }
+.mission-page .mission-action-card > p { font-size: 16px; line-height: 1.7; }
+.mission-page .mission-feature { border-radius: 34px 34px 0 0; }
+.mission-page .mission-feature > p { font-size: 18px; }
+.mission-page .mission-feature-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mission-page .mission-feature-facts strong { font-size: 16px; overflow-wrap: anywhere; }
+.mission-page .mission-funding { border-radius: 0 0 34px 34px; }
+.mission-page .mission-funding-numbers { flex-wrap: wrap; }
+.mission-page .mission-funding-numbers strong { font-size: clamp(36px, 4.5vw, 64px); }
+.mission-page .mission-funding p:last-child { font-size: 16px; }
+.mission-page .mission-story-section > .mission-kicker { font-size: 12px; color: var(--brand-violet); }
+.mission-page .mission-story-copy { font-size: 18px; }
+.mission-page .mission-section-nav { gap: 12px 24px; font-size: 16px; }
+.mission-page .mission-section-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+.mission-page .mission-delivery-metrics > div { border-radius: 20px; font: 12px/1.6 var(--font-metadata); }
+.mission-page .mission-delivery-track { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 28px; border-radius: 24px; gap: 24px; }
+.mission-page .mission-delivery-track > div { font: 13px/1.6 var(--font-metadata); overflow-wrap: anywhere; }
+.execution-page { padding-block: 32px 80px; background: radial-gradient(ellipse at 85% 0, #6657ff09, transparent 38%); }
+.execution-page .execution-heading { gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.execution-page .execution-heading h1 { flex-basis: 100%; font-size: clamp(36px, 4.2vw, 56px); margin-bottom: 0; }
+.execution-page .execution-actions { margin-block: 28px; }
+.execution-page .execution-columns { grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr); gap: 32px; }
+.execution-page .execution-timeline { border-color: var(--line); border-radius: 24px; box-shadow: var(--shadow-card); }
+.execution-page .execution-timeline > header { padding: 24px; background: radial-gradient(#ffffff16 1px, transparent 1px), var(--deep-indigo); background-size: 20px 20px; }
+.execution-page .execution-timeline h2 { font-size: 20px; }
+.execution-page .execution-timeline h3 { font-size: 18px; }
+.execution-page .execution-timeline p,
+.execution-page .execution-facts p { font-size: 16px; line-height: 1.7; }
+.execution-page .execution-facts { padding-top: 0; gap: 24px; }
+.execution-page .execution-facts h2 { font: 600 12px/1.6 var(--font-metadata); letter-spacing: .08em; }
+.execution-page .mission-card { border-color: var(--line); border-radius: 24px; box-shadow: var(--shadow-card); }
+.execution-page .execution-phase { font-size: 16px; flex-wrap: wrap; }
+.execution-page details summary { min-height: 44px; font-size: 14px; overflow-wrap: anywhere; }
+:where(.mission-page, .execution-page) :is(a, button, summary):focus-visible { outline: 2px solid var(--brand-violet); outline-offset: 4px; }
+@media (max-width: 900px) {
+  .execution-page .execution-columns { grid-template-columns: 1fr; }
+  .mission-page .mission-delivery-track { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .mission-page .mission-feature-facts,
+  .mission-page .mission-delivery-metrics,
+  .mission-page .mission-delivery-track { grid-template-columns: 1fr; }
+  .mission-page .mission-feature h2 { font-size: 28px; }
+  .mission-page .mission-concept { flex-direction: column; gap: 16px; }
+  .mission-page .mission-concept-arrow { transform: rotate(90deg); }
+  .mission-page .mission-concept-label { font-size: 12px; }
+  .mission-page .mission-action-card { padding: 24px; }
+  .mission-page .mission-action-card > .mission-kicker { margin: -24px -24px 8px; }
+  .execution-page .execution-timeline > header { flex-wrap: wrap; gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .execution-page .execution-pulse { animation: none; }
+}
