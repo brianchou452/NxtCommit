@@ -33,6 +33,14 @@ v3 使用各功能專用的精簡雙語提示，保留有效 JSON 並優先保�
 
 從已 build 的應用根目錄執行 `scripts/ci/probe_llm_quality.mjs`，透過環境變數提供 `OPENAI_API_KEY`，固定進行 12 次付費呼叫。輸出僅含人工情境的回答及量測來源，不含憑證。原始結果保留於忽略版控的 artifacts：`llm-quality-before.jsonl`、`llm-quality-after-pinned.jsonl`、`llm-quality-agents.jsonl`；未採用的初版另存 `llm-quality-after.jsonl`。
 
-Cloudflare 版本、端到端測試及 Langfuse 回讀結果於部署驗證後補在下方。
+## 正式站驗證
+
+[GitHub 部署 34678108394](https://github.com/brianchou452/NxtCommit/actions/runs/34678108394) 全部 CI／部署檢查通過。HTTPS `/__deployment` 確認提供 `ad026e1d6b5370763887cb207346cab6ba1b46ee`（原始碼版本 0.7.23）。CI Assurance 探針另外要求四種真實 provider 建議角色及 38 項受控檢查通過。
+
+六種產品功能皆回傳 OpenAI v3 證據，沒有備援。全新 HTTP 回應介於 2,365–3,291 ms（平均 2,910 ms），模型請求平均 2,065 ms。兩次重複議題請求為 751／511 ms，標示 cached=true、沒有額外模型延遲，且保留相同 response ID 與 trace ID。六次獨立呼叫合計 4,067 個量測 token；快取上的 usage 描述原始回答，不能重複加總。
+
+Langfuse 六筆 GENERATION 均已回讀，模型、usage、正值耗時與部署版本一致。Fixture 任務在 3,533 ms 產生全新 engine 證據，5 通過／0 失敗，維持 needs_review。隨後八次 readiness 皆 HTTP 200，LLM 與 Langfuse 啟用；這是有限次 smoke 檢查，不是負載容量或 uptime 保證。
+
+Metadata artifacts：`llm-product-v3.json`、`langfuse-product-verified.json`、`llm-v3-readiness.json`。[Langfuse 專案](https://us.cloud.langfuse.com/project/cmtxyhuhu068yad0cclmultr7/traces)。
 
 本機驗證：162 項程式測試、42 項 Docker 瀏覽器 E2E 通過。測試新增可指定 E2E_IMAGE，避免不同工作目錄覆蓋共用 image 標籤。另修正 Assurance GET 探針的 User-Agent；實測預設 Python UA 回 403，應用程式 UA 回 200。
