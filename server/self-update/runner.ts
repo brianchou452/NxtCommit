@@ -89,7 +89,7 @@ export async function smoke(control: UpdateControl): Promise<boolean> {
   for (const path of ['readyz', '']) {
     const response = await fetch(url + path, { redirect: 'error', signal: AbortSignal.timeout(3000) });
     const body = await response.text();
-    if (!response.ok || (path === '' && !body.includes('<div id="root">'))) return false;
+    if (!response.ok || (path === '' && (response.headers.get('x-nxtcommit-static-release') !== control.active() || body !== readFileSync(join(control.root, 'current/dist/index.html'), 'utf8')))) return false;
   }
   return true;
 }

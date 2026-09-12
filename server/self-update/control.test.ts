@@ -80,3 +80,14 @@ test('proposal rejects ambiguous edits, remote URLs, secrets, blank replacements
   for (const after of ['', ' ', 'fetch("https://example.com")', 'sk-SYNTHETIC_NOT_A_REAL_SECRET_000000', 'eval("x")', '1;\nimport x from "somewhere";']) assert.throws(() => validateProposal(proposal(editableFiles[0], '1', after), sources));
   const duplicate = proposal(editableFiles[0]); duplicate.edits.push(duplicate.edits[0]!); assert.throws(() => validateProposal(duplicate, sources));
 });
+test('deployment smoke rejects a healthy app that is not serving the selected release', async () => {
+  const { createServer } = await import('node:http'); const { once } = await import('node:events');
+  const { smoke } = await import('./runner.js');
+  const s = setup(); let header = 'wrong-release';
+  const server = createServer((request, response) => { response.setHeader('X-NxtCommit-Static-Release', header); response.end(request.url === '/readyz' ? '{"status":"ok"}' : s.base); });
+  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  const port = (server.address() as { port: number }).port;
+  writeFileSync(join(s.root, 'runtime.json'), JSON.stringify({ docker: '/unused/docker', context: 'controlled', image: 'sha256:' + '0'.repeat(64), applicationUrl: `http://127.0.0.1:${port}/` }));
+  try { assert.equal(await smoke(s.control), false); header = s.base; assert.equal(await smoke(s.control), true); }
+  finally { server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); s.close(); }
+});
