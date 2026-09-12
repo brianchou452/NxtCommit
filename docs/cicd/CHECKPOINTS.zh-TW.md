@@ -94,3 +94,7 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 ## CP-015 — 本機與雲端 OpenAI 均驗證成功 / 2026-09-12 04:43 UTC
 
 19ed0793e6f5466eaa36aed707af590cdc409a72 的 [CI 34673517417](https://github.com/brianchou452/NxtCommit/actions/runs/34673517417) 與[部署 34673517601](https://github.com/brianchou452/NxtCommit/actions/runs/34673517601) 全部通過。線上容器經身分驗證的 OpenAI 檢查成功，模型 gpt-5-mini-2025-08-07，2677 ms，input 11 + output 63 = total 74 tokens，fallback=false。加上先前本機 75 tokens 成功紀錄，兩個 runtime 已使用同一 key 取得真正 provider 呼叫證據。未授權雲端探測回傳 404；重複授權探測回傳相同 response ID，確認沒有第二次 provider 呼叫。金鑰與 prompt 不進公開前端或 checkpoint。API 存取已接通，產品文案／runner 實作仍屬隊友的應用程式工作。
+
+## CP-016 — OpenAI 額度用量告警 / 2026-09-12
+
+使用者要求 API 額度快用完時通知。Personal Organization 月用量參考值由 US$120 改為 US$100，強制上限維持 OFF。已儲存並重新載入確認 provider 原生 Email 告警：80%（US$80）、90%（US$90）、95%（US$95），明確寄至 ianjuantw@gmail.com；原本 100% owner 告警保留。重新載入後門檻與收件人均存在。此監測涵蓋組織整個日曆月用量，包括本機與 Cloudflare 呼叫；不是即時精確的 promotion 餘額告警，也不會停止 API。Dashboard 目前四捨五入顯示 US$0.00，不表示完全沒有用量。實際寄信須等跨越門檻，未為測試告警而刻意消耗額度。
