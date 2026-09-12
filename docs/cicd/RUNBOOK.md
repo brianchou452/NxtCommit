@@ -4,7 +4,7 @@ This deployment packages the repository's Phase 1 React/Vite frontend and Node 2
 
 ## Runtime and size
 
-`nxtcommit-delivery` forwards requests to one named `NxtCommitContainer` at `hackathon.ianjuan.com`. The `basic` size provides 1/4 vCPU, 1 GiB memory and 4 GB ephemeral disk; `max_instances=1` prevents unbounded scaling and separate SQLite copies. It runs as a non-root user, with outbound Internet disabled. Idle sleep is 2 hours. Monitoring every 30 minutes normally keeps the demonstration warm; delayed checks can allow sleep. Restart/redeploy/sleep can erase demo SQLite data. This is not durable application storage.
+`nxtcommit-delivery` forwards requests to one named `NxtCommitContainer` at `hackathon.ianjuan.com`. The `basic` size provides 1/4 vCPU, 1 GiB memory and 4 GB ephemeral disk; `max_instances=1` prevents unbounded scaling and separate SQLite copies. It runs as a non-root user, with outbound Internet disabled. Idle sleep is 2 hours. Monitoring reads lifecycle metadata without starting the container or resetting idle time. Restart/redeploy/sleep can erase demo SQLite data. This is not durable application storage.
 
 ## Release and verification
 
@@ -18,9 +18,9 @@ GitHub secret `CLOUDFLARE_API_TOKEN` and variable `CLOUDFLARE_ACCOUNT_ID` refer 
 
 ## Usage monitoring
 
-`Monitor NxtCommit availability and usage` runs twice hourly. It checks HTTP/SQLite readiness and queries Cloudflare workload and usage analytics for the last 24 hours. It records resource data and a gross container estimate, excluding allowances, Workers/DO/log charges, base fee and tax; this is not an invoice. Current analytics scope is all containers in the owning account and is labelled accordingly. Missing analytics is an alert, never zero usage. Alerts: HTTP failure, memory above 80% of basic capacity, CPU p95 above 80%, disk above 80%, or gross container usage above USD 2/day. Failures are visible in Actions; the Codex follow-up reports meaningful changes. No automatic resize, paid upgrade, restart or rollback occurs from these read-only checks.
+`Monitor NxtCommit availability and usage` runs twice hourly. It checks gateway and container lifecycle state without application requests and queries Cloudflare workload and usage analytics for the last 24 hours. It records resource data and a gross container estimate, excluding allowances, Workers/DO/log charges, base fee and tax; this is not an invoice. Current analytics scope is all containers in the owning account and is labelled accordingly. Missing analytics is an alert, never zero usage. Alerts: HTTP failure, memory above 80% of basic capacity, CPU p95 above 80%, disk above 80%, or gross container usage above USD 2/day. Failures are visible in Actions; the Codex follow-up reports meaningful changes. No automatic resize, paid upgrade, restart or rollback occurs from these read-only checks.
 
-Workers Paid starts at USD 5/month plus usage. Limits cap capacity, not the total bill. Half-hourly probes deliberately keep the demonstration warm. After the hackathon disable the monitor schedule or increase its interval to allow idle sleep. Compare estimated usage with the Cloudflare Billing dashboard. Only increase size after measured saturation; don't add replicas while using a local SQLite database.
+Workers Paid starts at USD 5/month plus usage. Limits cap capacity, not the total bill. Deployment probes check HTTP/SQLite readiness; periodic monitoring preserves idle sleep. Compare estimated usage with the Cloudflare Billing dashboard. Only increase size after measured saturation; don't add replicas while using a local SQLite database.
 
 ## Recovery
 
@@ -30,4 +30,4 @@ Retry transient cold starts; inspect resource logs before resizing. Redeployment
 
 ## Mandatory cutoff
 
-At 2026-09-13 01:00 Asia/Taipei (2026-09-12 17:00 UTC), the gateway returns 410 and the Node process exits. Monitor and deployment scripts refuse to wake or deploy containers after cutoff. Scheduled deletion attempts at 17:00, 17:05 and 17:15 UTC target only this named container app. GitHub schedules can be delayed; runtime cutoff is independent. Codex verifies deletion and plan renewal cancellation. Future shutdown is not claimed as completed.
+At 2026-09-13 01:00 Asia/Taipei (2026-09-12 17:00 UTC), the gateway returns 410 and the Node process exits. Monitor and deployment scripts refuse to wake or deploy containers after cutoff. Scheduled deletion attempts at 17:00, 17:05 and 17:15 UTC target only this named container app. GitHub schedules can be delayed; runtime cutoff is independent. Codex verifies deletion. Per the latest explicit user instruction, Workers Paid remains Active and renews on October 12, 2026; application shutdown does not cancel its monthly fee. Future shutdown is not claimed as completed.

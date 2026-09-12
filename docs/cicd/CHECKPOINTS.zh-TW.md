@@ -72,3 +72,5 @@ CP-011 build 修正：GitHub CI 34670771366 找出 production Docker build 未�
 0d4b9a1 的 CI 34670900558 通過。部署 run 34670900648 建立並推送 image sha256:ff6d414aabebc6355e01c7d8201940f5f23febf8d0d2d1525743c2c329baaca7、建立 application a03eb9ab-e1c7-4f5b-a61d-585856b9e28d 並綁定 hackathon.ianjuan.com；Worker version 為 df9cf4a8-4cc9-4909-a357-821c612624d6。但 smoke gate 收到 HTTP 403；之後本機 HTTPS 探測收到 HTTP 500，指出缺少 ContainerProxy 匯出，已補上 SDK 匯出。公開服務成功啟動仍待驗證。
 
 使用者明確要求撤銷取消續訂；Cloudflare Billing 已顯示 Workers Paid Active，2026/10/12 續訂。截止自動化已改為保留此訂閱。台灣時間 9/13 01:00 關閉作品仍有效，停止的是容器用量，並非訂閱月費。本機正式啟動入口的五個 endpoint 都通過；100 次請求、20 並行的 bootstrap 探測測得 p95 2.02 ms、RSS 77.59 MiB。這些是本機結果，不是 Cloudflare 容量證據。
+
+CP-012 追加 / 04:15 UTC：補上 proxy 匯出後成功啟動，HTTPS /__deployment 回傳 200，版本精確符合 022bf985585be9a4996d625907149851cf5ec4a9 與 run 34672260466。Python 預設 User-Agent 另被 Cloudflare 以 1010/403 拒絕；使用明確的 NxtCommit 服務 User-Agent 後回傳 200，沒有修改防火牆規則，已納入部署驗證。每 30 分鐘的應用程式探測會阻止閒置兩小時休眠，因此改為只讀 Container getState RPC。定時監測驗證 gateway／生命週期與 analytics，資料庫 readiness 仍於部署時檢查。

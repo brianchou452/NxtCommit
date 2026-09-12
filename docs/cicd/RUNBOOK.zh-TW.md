@@ -4,7 +4,7 @@
 
 ## 執行環境與大小
 
-`nxtcommit-delivery` 將 `hackathon.ianjuan.com` 請求轉送到同一個命名 `NxtCommitContainer`。`basic` 提供 ¼ vCPU、1 GiB RAM、4 GB 暫存磁碟；`max_instances=1` 防止無限制擴容與多份 SQLite 分歧。非 root 執行、禁止容器對外網路。閒置 2 小時休眠，每 30 分鐘監測通常會保持展示環境運作；排程延誤仍可能休眠。休眠、重啟或部署可能清除 SQLite 展示資料，並非持久化產品儲存。
+`nxtcommit-delivery` 將 `hackathon.ianjuan.com` 請求轉送到同一個命名 `NxtCommitContainer`。`basic` 提供 ¼ vCPU、1 GiB RAM、4 GB 暫存磁碟；`max_instances=1` 防止無限制擴容與多份 SQLite 分歧。非 root 執行、禁止容器對外網路。閒置 2 小時休眠，定時監測只讀生命週期狀態，不會啟動容器或重設閒置計時。休眠、重啟或部署可能清除 SQLite 展示資料，並非持久化產品儲存。
 
 ## 發布與驗證
 
@@ -18,9 +18,9 @@ GitHub secret `CLOUDFLARE_API_TOKEN` 與 variable `CLOUDFLARE_ACCOUNT_ID` 指向
 
 ## 用量監測
 
-`Monitor NxtCommit availability and usage` 每小時兩次檢查 HTTP／SQLite，查詢 Cloudflare 最近 24 小時資源與用量，保存資料及容器毛額估算。估算不含免費額度扣抵、Workers／DO／logs、基本費與稅，並非帳單。Analytics 範圍明確標為該帳戶所有容器。沒有資料視為告警，不當作零用量。告警條件：HTTP 失敗、RAM 超過 basic 容量 80%、CPU p95 超過 80%、磁碟超過 80%、容器毛額超過 US$2／日。Actions 顯示失敗，Codex 後續監測回報有意義的變化。這些唯讀檢查不會自動擴容、升級、重啟或回滾。
+`Monitor NxtCommit availability and usage` 每小時兩次檢查 gateway 與容器生命週期，不請求應用程式，查詢 Cloudflare 最近 24 小時資源與用量，保存資料及容器毛額估算。估算不含免費額度扣抵、Workers／DO／logs、基本費與稅，並非帳單。Analytics 範圍明確標為該帳戶所有容器。沒有資料視為告警，不當作零用量。告警條件：HTTP 失敗、RAM 超過 basic 容量 80%、CPU p95 超過 80%、磁碟超過 80%、容器毛額超過 US$2／日。Actions 顯示失敗，Codex 後續監測回報有意義的變化。這些唯讀檢查不會自動擴容、升級、重啟或回滾。
 
-Workers Paid 為 US$5／月加用量。實例上限限制資源，並非帳單硬上限。半小時檢查會刻意保持展示環境運作；黑客松後應停用此排程或拉長間隔，讓容器閒置休眠。帳單請對照 Cloudflare Billing。只在實測資源飽和後升級大小，使用本機 SQLite 時不要加多副本。
+Workers Paid 為 US$5／月加用量。實例上限限制資源，並非帳單硬上限。HTTP／SQLite 在部署時驗證，定時監測保留閒置休眠。帳單請對照 Cloudflare Billing。只在實測資源飽和後升級大小，使用本機 SQLite 時不要加多副本。
 
 ## 復原
 
@@ -30,4 +30,4 @@ Workers Paid 為 US$5／月加用量。實例上限限制資源，並非帳單�
 
 ## 強制截止
 
-台灣時間 2026-09-13 01:00（UTC 2026-09-12 17:00）gateway 回傳 410、Node 程序退出。監測與部署在截止後拒絕喚醒或重新發布。UTC 17:00、17:05、17:15 排程刪除僅限本次命名容器。GitHub 排程可能延誤，runtime 截止獨立運作。Codex 後續確認刪除與取消續訂；目前不宣稱未來關閉已完成。
+台灣時間 2026-09-13 01:00（UTC 2026-09-12 17:00）gateway 回傳 410、Node 程序退出。監測與部署在截止後拒絕喚醒或重新發布。UTC 17:00、17:05、17:15 排程刪除僅限本次命名容器。GitHub 排程可能延誤，runtime 截止獨立運作。Codex 後續確認刪除；依使用者最新明確指示，Workers Paid 保持 Active 並於 2026/10/12 續訂，關閉作品不會取消月費；目前不宣稱未來關閉已完成。

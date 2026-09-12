@@ -13,16 +13,16 @@ if dt.datetime.now(dt.timezone.utc) >= dt.datetime(2026, 9, 12, 17, tzinfo=dt.ti
 out = Path('artifacts'); out.mkdir(exist_ok=True)
 result = {'checkedAt': dt.datetime.now(dt.timezone.utc).isoformat(), 'alerts': []}
 base = 'https://hackathon.ianjuan.com'
-for path in ['/', '/healthz', '/readyz', '/__deployment']:
-    start = time.monotonic()
-    try:
-        with urllib.request.urlopen(base + path, timeout=60) as response:
-            body = response.read()
-            if path == '/readyz' and json.loads(body).get('db') is not True:
-                raise ValueError('Database not ready')
-            result[path] = {'status': response.status, 'seconds': round(time.monotonic()-start, 3)}
-    except Exception as error:
-        result['alerts'].append(path + ': ' + type(error).__name__)
+# State RPC reads Durable Object metadata without starting the container or resetting idle time.
+try:
+    request = urllib.request.Request(base + '/__container-status', headers={'User-Agent': 'NxtCommit-Monitor/1.0 (+https://github.com/brianchou452/NxtCommit)'})
+    with urllib.request.urlopen(request, timeout=30) as response: state = json.load(response)
+    result['containerState'] = state
+    if state['status'] not in ['running', 'healthy', 'stopped', 'stopping']:
+        result['alerts'].append('Container state requires attention: '+state['status'])
+    result['availabilityScope'] = 'Gateway and lifecycle state only; application HTTP checks run at deployment to preserve idle sleep'
+except Exception as error:
+    result['alerts'].append('Container status unavailable: '+type(error).__name__)
 
 now = dt.datetime.now(dt.timezone.utc)
 query = '''query($account: String, $start: Time, $end: Time) {

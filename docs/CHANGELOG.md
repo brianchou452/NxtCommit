@@ -6,6 +6,10 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.14 — 2026-09-12
+
+- Identify deployment probes with a service User-Agent and monitor container lifecycle without resetting its two-hour idle timer.
+
 ## v0.7.13 — 2026-09-12
 
 - Export the Containers SDK outbound proxy required to start the deployed container.
