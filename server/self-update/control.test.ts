@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { once } from 'node:events';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -81,7 +82,7 @@ test('proposal rejects ambiguous edits, remote URLs, secrets, blank replacements
   const duplicate = proposal(editableFiles[0]); duplicate.edits.push(duplicate.edits[0]!); assert.throws(() => validateProposal(duplicate, sources));
 });
 test('deployment smoke rejects a healthy app that is not serving the selected release', async () => {
-  const { createServer } = await import('node:http'); const { once } = await import('node:events');
+  const { createServer } = await import('node:http');
   const { smoke } = await import('./runner.js');
   const s = setup(); let header = 'wrong-release';
   const server = createServer((request, response) => { response.setHeader('X-NxtCommit-Static-Release', header); response.end(request.url === '/readyz' ? '{"status":"ok"}' : s.base); });
