@@ -20,7 +20,6 @@ import {
 import { CommentWall, CommunityVotes } from "../components/Community.js";
 import { DemoLauncher } from "../components/GuidedDemo.js";
 import "../styles/home.css";
-import { WorkflowStory } from '../components/WorkflowStory.js';
 export function HomePage() {
   const impact = useSnapshot<ImpactSnapshot>("/api/impact", true),
     market = useSnapshot<MarketplaceSnapshot>("/api/marketplace", true);
@@ -49,7 +48,6 @@ export function HomePage() {
   return (
     <main className="home-content" id="main-content" tabIndex={-1} ref={ref}>
       <Hero impact={impact.data} market={market.data} />
-      <WorkflowStory />
       <CommitmentFlow />
       <DonorMap snapshot={impact} />
       <CampaignBrowser embedded snapshot={market} />

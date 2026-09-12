@@ -28,13 +28,6 @@ composition:
     visual_role: Opening editorial promise and primary orientation surface.
     width: Full viewport width with content aligned to the design-system desktop canvas.
     relationship_to_previous: First content section below persistent navigation and the demo truth banner.
-  - id: workflow
-    kind: page_unique
-    purpose: Explain task correction and maintainer-confirmed repo workflow evolution as a labelled interactive concept.
-    data: Authored example only; no PR ingestion or permanent policy mutation.
-    visual_role: Two loops, nine selectable causal stages and a sourced scoped versioned rule card.
-    width: Full bounded panel.
-    relationship_to_previous: Immediately after the hero; explicit confirmation connects to the next issue.
   - id: how
     kind: component
     spec_id: component.commitment-flow

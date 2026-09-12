@@ -66,7 +66,7 @@ export function Hero({
           <span>{text.hero_headline_line_2}</span>
         </h1>
         <p>{text.hero_supporting_text}</p>
-        <a className="button primary" href="#workflow">
+        <a className="button primary" href="#projects">
           {text.hero_primary_cta} →
         </a>
         <dl className="signals">

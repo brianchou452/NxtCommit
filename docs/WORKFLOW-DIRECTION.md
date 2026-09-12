@@ -1,5 +1,7 @@
 # Review-informed repo workflows
 
+> Historical record: the homepage concept section was removed at user request in v0.7.26. The implementation and verification below describe v0.7.25.
+
 The homepage now presents two separate loops: correction of the current task,
 and evolution of a repo-specific workflow. Its nine-step interactive concept
 connects workflow, RCA/impact, acceptance, code, tests, review, correction,

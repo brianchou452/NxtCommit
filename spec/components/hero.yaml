@@ -25,7 +25,7 @@ states:
     rendering: impact snapshot 仍可顯示；僅 marketplace 專屬數字維持 em dash，沒有 error modal。
 interactions:
   - trigger: 選擇主要 CTA。
-    result: 使用頁內錨點移至 workflow 互動示例。
+    result: 使用頁內錨點移至 campaign browser section。
   - trigger: 元件保持可見超過 4.2 秒。
     result: 將三筆 illustrated workflow 中的 highlighted event 輪替到下一筆；不聲稱事件是 GitHub live data。
 content:
@@ -34,7 +34,7 @@ content:
       headline_line_1: "Your repo. Your quality bar."
       headline_line_2: "A workflow agents can follow."
       supporting_text: "Turn maintainer requirements into repo-specific development workflows that agents follow and tests verify."
-      primary_cta: "Explore the workflow"
+      primary_cta: "Explore Campaigns"
       provenance_label: "Illustrated concept"
       provenance_note: "Permanent rules need maintainer confirmation. This is not a live review or execution feed."
       pipeline_title: "From feedback to future acceptance"
@@ -47,7 +47,7 @@ content:
       headline_line_1: "把維護者的品質要求，"
       headline_line_2: "轉成可遵守、可驗證的開發流程。"
       supporting_text: "以儲存庫專屬流程驅動代理開發：測試驗收本次修改，審查回饋累積後續規則。"
-      primary_cta: "看懂開發流程"
+      primary_cta: "探索募資提案"
       provenance_label: "流程示意"
       provenance_note: "永久規則須經維護者確認；此處不是即時審查或執行紀錄。"
       pipeline_title: "從回饋到下一次驗收"
