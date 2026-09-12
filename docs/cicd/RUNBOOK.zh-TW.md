@@ -16,6 +16,15 @@ main 推送先跑 contracts／gateway、Worker bundle dry-run、Node 24 型別�
 
 Worker 與 image 一起發布，初次配置可能耗時數分鐘。503 代表容器不可用，不以佔位頁假裝成功。`cloudflare-production` 序列部署，Actions 固定 SHA，不保留 Git 憑證，證據 artifacts 保留 30 天。
 
+同一個 main CI gate 也會將完整 production 網站以 `linux/arm64` 發布至 GitHub Container Registry。CI 會在 QEMU 啟動不可變 commit image，驗證 deployment receipt 與 SQLite readiness 後才提升版本與 `arm64-latest` tags。此發布與 Cloudflare 部署互相獨立，使用 repository scoped `GITHUB_TOKEN`，不新增 registry 密碼。部署時優先使用不可變的 commit tag：
+
+```bash
+docker pull ghcr.io/brianchou452/nxtcommit:sha-<完整-git-sha>-arm64
+docker run --rm --init -p 8080:8080 ghcr.io/brianchou452/nxtcommit:sha-<完整-git-sha>-arm64
+```
+
+`0.7.33-arm64` 等版本 tag 是固定 release 參照；`arm64-latest` 會在每次 main 成功發布後移動。除非明確調整 GHCR visibility，package 初次建立時為 private；需要時以具 `read:packages` 權限的 token 登入。本機容器狀態仍為 ephemeral，provider 功能需要對應的 server-side 環境設定。
+
 ## 憑證
 
 GitHub secret `CLOUDFLARE_API_TOKEN` 與 variable `CLOUDFLARE_ACCOUNT_ID` 指向 ianjuan.com 所屬帳戶。專用 token 需帳戶 Workers Scripts Edit、Containers Edit、Account Analytics Read；僅 ianjuan.com 的 Zone Read、DNS Read、Workers Routes Read。即使用自訂網域，Wrangler 衝突檢查仍需最後一項。秘密不可進 source 或證據；貼過聊天的 token 應直接透過 provider 與 GitHub secret UI 輪替。

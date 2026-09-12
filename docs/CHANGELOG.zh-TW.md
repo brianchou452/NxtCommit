@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.33 — 2026-09-12
+
+- 既有 main CI gate 通過後，將完整 production 網站發布為含 provenance 與 SBOM 的 `linux/arm64` image 至 GitHub Container Registry。先於 QEMU 驗證 deployment receipt 與 SQLite readiness，再提升版本與 `arm64-latest` tags；Cloudflare 部署維持獨立 job。
+
 ## v0.7.32 — 2026-09-12
 
 - 將 NxtCommit Design System 套用至其他分頁，統一清楚的字體層級、明亮敘事表面、深靛證據面板與資助語意色。保留 Discover、最新版 My Commitment 佈局、既有產品行為與可見來源標籤。部署與線上 provider 驗證另行確認。
