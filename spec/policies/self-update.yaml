@@ -10,3 +10,5 @@ rules:
   - { id: isolated-verification, requirement: Candidate code executes only in pinned resource-bounded networkless Docker with read-only source and no service credentials., enforcement: server }
   - { id: release-gate, requirement: Typechecks tests frozen request contracts production build and browser journeys must pass before a static release is eligible., enforcement: server }
   - { id: rollback, requirement: Failed post-switch smoke restores the prior static release and records a terminal result., enforcement: server }
+  - { id: checkpoint-epoch, requirement: Resume requires identical controller environment goal and epoch; completed activation cannot replay and monitoring cannot grant permission., enforcement: server }
+  - { id: trace-containment, requirement: Agent traces export only allowlisted metadata and measured usage; raw goals source edits credentials and provider errors stay out of telemetry., enforcement: server }

@@ -636,3 +636,7 @@ promotion, Argo, and serving identity supply their own evidence.
 ## G59 — Self-update verification needs its own retained image and temporary cache
 
 The first local self-update candidate passed request/server checks but Vite attempted to write under read-only dependencies. Give only its config cache a bounded tmpfs, not write access to source/tests. A shared E2E tag was later replaced and its old digest disappeared; retain a dedicated verifier tag and pin its digest. Missing verifier infrastructure must fail the candidate without activating it. Refreshing the verifier explicitly revokes pending update epochs. See [self-update](SELF-UPDATE.md).
+
+## G60 — Langfuse ingestion acceptance is not a readback check
+
+Langfuse v4 accepts OTLP spans but removed the legacy `/api/public/traces` read API. An HTTP 404 there does not establish ingestion loss. Query Observations API v2 by trace ID and a bounded time range; request `model,usage` fields explicitly because they are omitted by default. The local real two-role probe returned all eight observations and measured provider usage. Pin monitoring images and keep unknown usage absent. See [agent operations](AGENT-OPERATIONS.md).

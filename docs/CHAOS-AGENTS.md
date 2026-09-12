@@ -1,5 +1,7 @@
 # Local chaos and experiment agents
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
 For the separate optional code-writing lane and demo freeze, see [self-update](SELF-UPDATE.md).
 
 [繁體中文](CHAOS-AGENTS.zh-TW.md)

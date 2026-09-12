@@ -1,5 +1,7 @@
 # Deployment and operations
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
 [繁體中文](DEPLOYMENT.zh-TW.md)
 
 This is the runbook for the supplied non-production Kubernetes configuration. The checked-in `Makefile`, Kustomize overlay, and `deploy/` templates contain environment-specific values. Review them before using this repository in another project or cluster; do not copy internal topology into public documentation.

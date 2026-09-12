@@ -1,5 +1,7 @@
 # 可開關的本機自我更新 Agent
 
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
 [English](SELF-UPDATE.md)
 
 操作者可啟用模型真正修改程式的「前端穩定度」更新流程。預設為 **關閉＋Demo
@@ -74,7 +76,7 @@ SELF_UPDATE_ROOT=./var/self-update HOST=127.0.0.1 PORT=4188 \
   VAR_DIR=./var/chaos-local EXECUTION_MODE=demo npm start
 ```
 
-`init` 需要本機 `nxtcommit-foundation-e2e:0.1.0` image，並記錄不可變 ID，同時保留獨立 `nxtcommit-self-update-verifier:local` tag。
+`init` 需要本機 `nxtcommit-agent-verifier:local` image，並記錄不可變 ID，同時保留獨立 `nxtcommit-self-update-verifier:local` tag。
 若本機 image 被移除，可用 `npm run agents:update -- verifier` 明確更新固定 image，
 並撤銷待處理工作。
 預設 Docker 為 `~/.docker/bin/docker`、context `colima`；可用

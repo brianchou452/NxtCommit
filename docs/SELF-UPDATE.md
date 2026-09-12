@@ -1,5 +1,7 @@
 # Switchable local self-update agent
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
 [繁體中文](SELF-UPDATE.zh-TW.md)
 
 The local operator can enable real model-authored **frontend resilience** updates.
@@ -86,7 +88,7 @@ SELF_UPDATE_ROOT=./var/self-update HOST=127.0.0.1 PORT=4188 \
   VAR_DIR=./var/chaos-local EXECUTION_MODE=demo npm start
 ```
 
-`init` requires the locally available `nxtcommit-foundation-e2e:0.1.0` image and
+`init` requires the locally available `nxtcommit-agent-verifier:local` image and
 records its immutable ID and retains a dedicated `nxtcommit-self-update-verifier:local` tag. If a local image was removed, `npm run agents:update -- verifier` explicitly refreshes the pinned verifier and revokes pending work. Default Docker path is `~/.docker/bin/docker`, context
 `colima`; override with `SELF_UPDATE_DOCKER` and `SELF_UPDATE_DOCKER_CONTEXT`.
 It copies the clean checked-in source and built `dist`, and starts off/demo-locked.

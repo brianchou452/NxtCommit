@@ -6,6 +6,12 @@ This file records released, user-visible, architectural, and security-relevant c
 
 The deployment version is kept in sync with `Makefile` and `k8s/overlays/nonprod/kustomization.yaml`. Released entries are newest first.
 
+## v0.7.14 — 2026-09-12 (persistent agent workflows and local monitoring)
+
+- Added LangGraph stages and SQLite checkpoints, guarded self-update resume, proposal reuse and activation replay protection.
+- Added a digest-pinned, loopback-only Langfuse 4 stack and metadata-only OTLP stage/generation traces with measured usage.
+- Preserved the update switch, demo lock, immutable verification gates and existing static release.
+
 ## v0.7.13 — 2026-09-12 (switchable local self-update lane)
 
 - Added disabled-by-default, demo-locked model-authored frontend resilience updates in isolated candidates with frozen tests and Docker browser verification.

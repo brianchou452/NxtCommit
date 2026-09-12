@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, writeFile
 import { resolve, relative } from 'node:path';
 import { setTimeout } from 'node:timers/promises';
 import { execFileSync } from 'node:child_process';
+import { loadAgentMonitoring } from '../agents/telemetry.js';
 import { ExperimentAgent } from './experiment.js';
 import type { ExperimentReport } from './experiment.js';
 import { Assistance } from '../authoring/assistance.js';
@@ -23,6 +24,7 @@ if (!Number.isInteger(cycles) || cycles < 1 || cycles > 100 || !Number.isFinite(
 const seed = value('--seed', 42); const repetitions = value('--repetitions', 2);
 if (!Number.isSafeInteger(seed) || seed < 0 || seed > 0xffffffff || !Number.isInteger(repetitions) || repetitions < 1 || repetitions > 10) throw new Error('Invalid seed/repetition bounds');
 if (args.includes('--live') && existsSync('.env')) process.loadEnvFile('.env');
+loadAgentMonitoring();
 const live = args.includes('--live');
 const configuration = live ? authoringConfiguration(process.env) : {};
 if (live && !configuration.model) throw new Error('Live advice requires OPENAI_API_KEY and OPENAI_MODEL');
@@ -40,7 +42,7 @@ try {
   for (let cycle = 0; cycle < cycles && !abort.signal.aborted; cycle++) {
     const previous = readdirSync(directory).filter(file => /^\d+-[a-f0-9-]+\.json$/.test(file)).sort().at(-1);
     const baseline = previous ? JSON.parse(readFileSync(resolve(directory, previous), 'utf8')) as ExperimentReport : undefined;
-    const report = await new ExperimentAgent().run({ seed, repetitions, ...(baseline ? { baseline } : {}), ...(live ? { assistance: new Assistance(configuration.model) } : {}) });
+    const report = await new ExperimentAgent().run({ runtime:{directory:resolve(directory,'runs'),identity:identity.sourceHash}, seed, repetitions, ...(baseline ? { baseline } : {}), ...(live ? { assistance: new Assistance(configuration.model) } : {}) });
     if (identity.sourceHash !== sourceHash()) throw new Error('Source changed during the loop; restart to load the new modules');
     const path = resolve(directory, `${Date.now()}-${report.id}.json`);
     writeFileSync(`${path}.tmp`, JSON.stringify({ ...report, identity }, null, 2), { mode: 0o600 }); renameSync(`${path}.tmp`, path);

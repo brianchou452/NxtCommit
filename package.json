@@ -24,9 +24,12 @@
     "test:visual": "bash scripts/playwright-docker.sh --project=visual",
     "test:server": "node scripts/run-tests.mjs",
     "agents:experiment": "node --import tsx server/resilience/cli.ts",
-    "agents:update": "node --import tsx server/self-update/cli.ts"
+    "agents:update": "node --import tsx server/self-update/cli.ts",
+    "agents:monitor": "node scripts/langfuse-local.mjs"
   },
   "dependencies": {
+    "@langchain/langgraph": "1.4.15",
+    "@langchain/langgraph-checkpoint-sqlite": "1.0.4",
     "express": "5.2.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",

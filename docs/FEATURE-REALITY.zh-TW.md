@@ -1,5 +1,7 @@
 # 功能真實性矩陣
 
+> **2026-09-12 LangGraph / Langfuse 更新：** 本機 agents 已使用持久化階段流程與 metadata-only 監控；續跑、防重播、操作指令及限制請見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。既有 Demo 鎖與網站版本維持獨立。
+
 > **Self-update lane (2026-09-12):** 本機前端自我更新流程新增真實模型候選程式、容器驗證及選用的靜態版本套用。預設關閉並鎖定 Demo，不更新後端或修復任意產品功能。 [Runbook](SELF-UPDATE.zh-TW.md).
 
 > **Local resilience update (2026-09-12):** 本機穩定度 CLI 新增對真實模組的受控故障實驗，可選真實模型假設／解讀；不啟用任務 runner 或自動修復，須查看報告來源。 [Runbook](CHAOS-AGENTS.zh-TW.md).

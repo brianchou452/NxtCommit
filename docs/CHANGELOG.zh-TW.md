@@ -6,6 +6,12 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.14 — 2026-09-12（持久化 agent 流程與本機監控）
+
+- 新增 LangGraph 階段與 SQLite checkpoint，支援受控續跑、候選提案重用及啟用重播防護。
+- 新增 digest 固定、僅本機可連線的 Langfuse 4，以及只含 metadata、實測用量的 OTLP 階段與模型追蹤。
+- 保留更新開關、Demo 鎖、固定驗證關卡及既有靜態版本。
+
 ## v0.7.13 — 2026-09-12（可開關的本機自我更新流程）
 
 - 新增預設關閉、Demo 鎖定的模型前端穩定度更新；候選透過固定測試與 Docker 瀏覽器驗證。

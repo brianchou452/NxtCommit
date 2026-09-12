@@ -3,6 +3,7 @@ import type { MissionStatus } from './execution.js';
 
 export interface AiEvidence {
   generator: 'openai' | 'demo' | 'static'; promptVersion: string;
+  usage?: { inputTokens: number; outputTokens: number; totalTokens: number };
   model?: string; latencyMs?: number; traceId?: string; fallbackReason?: string;
 }
 export interface ObservedIssue { id: string; title: string; body: string; url?: string; labels: string[]; feasibility: { executable: boolean; basis: string } }

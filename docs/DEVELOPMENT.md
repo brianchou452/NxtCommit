@@ -1,5 +1,7 @@
 # Development
 
+> **2026-09-12 LangGraph / Langfuse update:** Local agents now use persistent stage workflows and metadata-only monitoring. See [agent operations](AGENT-OPERATIONS.md) for recovery, replay protection, commands and limits. Demo controls and the serving static release remain independent.
+
 > **Self-update lane (2026-09-12):** For the optional self-update toggle and demo freeze, see the self-update runbook. [Runbook](SELF-UPDATE.md).
 
 > **Local resilience update (2026-09-12):** For the new Node 24 local chaos/experiment workflow, commands, local deployment and stop behavior, see the local agents runbook. [Runbook](CHAOS-AGENTS.md).

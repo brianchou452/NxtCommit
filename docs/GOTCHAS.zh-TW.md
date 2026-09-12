@@ -756,3 +756,7 @@ dictionaries，語系選擇應走 `t(...)`；changelog version 也只代表 sour
 ## G59 — 自我更新驗證需要独立保留 image 與暫存快取
 
 首次候選已通過請求／server 檢查，但 Vite 嘗試寫入唯讀依賴。只給 config 快取有界 tmpfs，不開放原始碼／測試寫入。共用 E2E tag 後來被替換，舊 digest 消失；應保留獨立 verifier tag 並固定 digest。驗證基礎設施缺失必須讓候選失敗，不能套用。明確更新 verifier 時也撤銷待處理 epoch。見 [自我更新手冊](SELF-UPDATE.zh-TW.md)。
+
+## G60 — Langfuse 接受 ingestion 不等於已查驗入庫
+
+Langfuse v4 接受 OTLP spans，但已移除舊 `/api/public/traces` 讀取 API；此端點回傳 404 不代表資料遺失。應透過 Observations API v2，以 trace ID 與有限時間範圍查詢；明確要求 `model,usage` 欄位，因為預設不回傳。本機真實雙角色探針已查回八筆觀察與供應商用量。固定監控映像，未知用量維持缺省。詳見 [Agent 操作手冊](AGENT-OPERATIONS.zh-TW.md)。

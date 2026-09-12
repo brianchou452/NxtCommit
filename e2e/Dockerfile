@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/playwright:v1.56.1-noble
 COPY --from=node-runtime /usr/local/bin/node /usr/local/bin/node
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci --ignore-scripts && npm rebuild better-sqlite3 --ignore-scripts=false
 COPY . .
 RUN npm run build
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
