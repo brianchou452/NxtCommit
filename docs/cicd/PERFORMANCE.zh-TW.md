@@ -1,6 +1,8 @@
 # CI 速度與展示容量 — 2026-09-12
 
-main 原本同時執行獨立 CI 與部署內相同 reusable CI。改為 main 只保留部署前一份必要 CI；PR、codex、手動檢查仍保留。瀏覽器映像使用 SHA tag、Buildx 本機載入與 GitHub layer cache；cache 匯出失敗不阻擋建置，命中 cache 仍執行測試。Dockerfile 僅複製建置輸入，編譯後才加入瀏覽器測試。本機 wrapper 預設仍建置；CI 明確指定剛建好的映像。
+main 原本同時執行獨立 CI 與部署內相同 reusable CI。改為 main 只保留部署前一份必要 CI；PR、codex、手動檢查仍保留。應用程式在固定 Node 24／Playwright Docker 映像內只建置一次，再於同一映像執行 typecheck、server tests、版本檢查與瀏覽器 journeys，移除重複的 host dependency install 與 build。Dockerfile 僅複製建置輸入，編譯後才加入瀏覽器測試。Worker dry-run 加入 `--containers-rollout=none`，驗證與 bundle Worker 時不再額外建置正式容器；正式部署仍建置 production image 並驗證 HTTPS 版本與 readiness。
+
+GitHub layer-cache 實驗 run 34674498977 在 image build／export 花費數分鐘，已取消；最終移除這套快取機制，避免增加比賽短流程的負擔。
 
 基準 deployment run 34673517601：application CI 68 秒（browser step 41 秒）、contracts CI 41 秒、deployment job 92 秒；獨立 CI 另重複兩個 jobs。優化後遠端耗時待實測記錄。
 

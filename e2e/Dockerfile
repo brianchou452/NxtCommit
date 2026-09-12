@@ -18,3 +18,9 @@ ENV npm_config_cache=/tmp/npm-cache
 ENV VAR_DIR=/tmp/nxtcommit-state
 ENV E2E_OUTPUT_DIRECTORY=/out
 CMD ["./node_modules/.bin/playwright", "test", "--project=foundation"]
+
+# Full CI checks run in this same pinned Node/browser environment.
+COPY scripts ./scripts
+COPY Makefile pyproject.toml ./
+COPY docs/CHANGELOG.md docs/CHANGELOG.zh-TW.md ./docs/
+COPY k8s/overlays/nonprod/kustomization.yaml ./k8s/overlays/nonprod/kustomization.yaml

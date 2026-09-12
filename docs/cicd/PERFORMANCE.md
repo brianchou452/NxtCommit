@@ -1,6 +1,8 @@
 # CI speed and demo capacity — 2026-09-12
 
-Main previously ran standalone CI and the same reusable CI inside deployment. Keep one required reusable CI on main; PR/codex/manual checks remain. Browser images use a SHA-tagged, locally loaded Buildx image and GitHub layer cache. Cache export is best effort; cache hits do not skip tests. Dockerfile copies only build inputs and adds browser tests after compilation. Local wrapper builds by default; CI supplies its just-built image.
+Main previously ran standalone CI and the same reusable CI inside deployment. Keep one required reusable CI on main; PR/codex/manual checks remain. Build the application once in the pinned Node 24 / Playwright Docker image, then run typechecks, server tests, version checks and browser journeys in that same image. Remove the duplicate host dependency install and build. Dockerfile copies only build inputs and adds browser tests after compilation. Worker dry-run uses `--containers-rollout=none` to bundle/validate the Worker without building the production container again; actual deployment still builds its production image and verifies HTTPS identity/readiness.
+
+An experimental GitHub layer-cache run (34674498977) spent several minutes in image build/export and was cancelled. That extra cache machinery was removed rather than imposed on short hackathon builds.
 
 Baseline deployment run 34673517601: application CI 68 seconds (browser step 41 seconds), contracts CI 41 seconds, deployment job 92 seconds. Standalone CI duplicated another pair of jobs. Optimized remote timings are pending measurement.
 
