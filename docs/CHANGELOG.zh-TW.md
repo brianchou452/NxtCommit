@@ -6,6 +6,10 @@
 
 部署版本會與 `Makefile` 及 `k8s/overlays/nonprod/kustomization.yaml` 保持同步。已發布項目由新至舊排列。
 
+## v0.7.11 — 2026-09-12（Cloudflare 容器接入）
+
+- 將 Phase 1 Node 後端與前端打包為非 root 容器；設定單一 basic 實例、閒置 2 小時休眠、資源紀錄與映像版本驗證。實際部署證據另記於 CI checkpoint。
+
 ## v0.7.10 — 2026-09-12（本機 Phase 1 原始碼 checkpoint）
 
 - 建立前後端共用 TypeScript 契約、模組化 HTTP 註冊、SQLite migration／transaction／reset 基礎、雙語 shell 與 Docker 瀏覽器工具。

@@ -1,61 +1,33 @@
-# GitHub → Cloudflare 部署維運
+# GitHub → Cloudflare 產品部署
 
-> 整合更新：目前原始碼已加入 [Phase 1 TypeScript 骨架](../PHASE1-FOUNDATION.zh-TW.md)，尚未接入 Worker。既有 product-source guard 會拒絕部署，完成 runtime 整合前不可移除。空的 nonprod kustomization 僅記錄繼承版本，未設定 GitLab 或 Argo CD。
+本次打包 repo 的 Phase 1 React/Vite 前端與 Node 24／Express／SQLite 後端。使用者已授權 Workers Paid 與 Cloudflare Containers；部署不代表 runner 或 Phase 2 功能已完成。
 
-## 目前範圍
+## 執行環境與大小
 
-初始 repo 只有規格，沒有產品應用程式。本流程部署明確標示用途的基礎設施 Worker：`/__deployment` 回報正在服務的 commit 與 GitHub run URL；`/` 回應 503，未實作的產品健康檢查與 API 回應 404。這次發布不能證明產品頁面、資料庫、runner 或 LLM 已就緒。
+`nxtcommit-delivery` 將 `hackathon.ianjuan.com` 請求轉送到同一個命名 `NxtCommitContainer`。`basic` 提供 ¼ vCPU、1 GiB RAM、4 GB 暫存磁碟；`max_instances=1` 防止無限制擴容與多份 SQLite 分歧。非 root 執行、禁止容器對外網路。閒置 2 小時休眠，每 30 分鐘監測通常會保持展示環境運作；排程延誤仍可能休眠。休眠、重啟或部署可能清除 SQLite 展示資料，並非持久化產品儲存。
 
-使用者要求 Cloudflare，取代繼承文件中的 GitLab／Argo CD 設計。那些系統及版本檔並不存在於本 repo。初次盤點時，root SKILL.md、FEATURE-REALITY 與 SECURITY 文件也不存在；未從其他 repo 套用規則。
+## 發布與驗證
 
-## 流程
+main 推送先跑 contracts／gateway、Docker image dry-run build、Node 24 型別／server 測試／build、版本檢查與 Docker foundation 瀏覽器流程，成功後才部署。Wrangler 將 Git SHA 與 Actions run URL 編入 image；`/__deployment` 由實際 Node 映像回覆，非前置 Worker。Smoke 同時驗證收據、首頁、bootstrap、liveness 與 SQLite readiness。
 
-1. PR 與 push 執行 `CI`：驗證 125 份 contract schema、列出缺少的產品測試檔、測試部署 Worker 行為，並執行不含憑證的 Wrangler dry-run。
-2. main 的 push 或 main 上的手動觸發執行 `Deploy Cloudflare infrastructure`，先呼叫相同 CI，再確認子網域可用或屬於本 Worker 才發布。
-3. 固定 Node、Wrangler 版本，使用 npm lockfile，GitHub Actions 固定 commit。CI 僅有 `contents: read`，不保留 checkout 的 Git 憑證。
-4. 部署步驟取得 token；preflight 也使用同一 token 讀取帳戶、zone、DNS 與 custom domain。正式發布序列執行，PR 不執行發布。
-5. HTTPS 驗證必須同時符合 commit SHA 與 run URL。日誌、contract 結果與部署收據作為 Actions artifacts 保留 30 天；評審長期證據請另行下載保存。
+Worker 與 image 一起發布，初次配置可能耗時數分鐘。503 代表容器不可用，不以佔位頁假裝成功。`cloudflare-production` 序列部署，Actions 固定 SHA，不保留 Git 憑證，證據 artifacts 保留 30 天。
 
-CI 成功只涵蓋規格與基礎設施。root package.json、src、server 或 apps 出現時，deploy job 會刻意停止，要求團隊先接入真實 build/runtime，避免產品加入後仍默默發布佔位 Worker。
+## 憑證
 
-## 設定
+GitHub secret `CLOUDFLARE_API_TOKEN` 與 variable `CLOUDFLARE_ACCOUNT_ID` 指向 ianjuan.com 所屬帳戶。專用 token 需帳戶 Workers Scripts Edit、Containers Edit、Account Analytics Read；僅 ianjuan.com 的 Zone Read、DNS Read、Workers Routes Read。即使用自訂網域，Wrangler 衝突檢查仍需最後一項。秘密不可進 source 或證據；貼過聊天的 token 應直接透過 provider 與 GitHub secret UI 輪替。
 
-- GitHub repo：`brianchou452/NxtCommit`。
-- 正式分支：`main`；實作分支：`codex/cloudflare-cicd`。
-- Actions secret：`CLOUDFLARE_API_TOKEN`。
-- Actions variable：`CLOUDFLARE_ACCOUNT_ID`，使用 ianjuan.com 所屬帳戶。
-- Environment：`cloudflare-production`。未宣稱已設定審核保護，也未改動 branch protection。
-- Worker：`nxtcommit-delivery`。
-- 子網域：`hackathon.ianjuan.com`；不修改根網域。
-- Token 需要 Worker 部署、自訂網域所需權限，以及 preflight 的帳戶、zone、DNS 讀取權限。不足時應失敗，不能繞過 preflight。
+## 用量監測
 
-Token 值不可保存到 repo、artifacts 或截圖。使用者提供的 token 在辨識 repo 前已出現在對話，依 repo 憑證政策應輪替並更新 Actions secret；此次設定已獲授權使用原 token，但未宣稱完成輪替。
+`Monitor NxtCommit availability and usage` 每小時兩次檢查 HTTP／SQLite，查詢 Cloudflare 最近 24 小時資源與用量，保存資料及容器毛額估算。估算不含免費額度扣抵、Workers／DO／logs、基本費與稅，並非帳單。Analytics 範圍明確標為該帳戶所有容器。沒有資料視為告警，不當作零用量。告警條件：HTTP 失敗、RAM 超過 basic 容量 80%、CPU p95 超過 80%、磁碟超過 80%、容器毛額超過 US$2／日。Actions 顯示失敗，Codex 後續監測回報有意義的變化。這些唯讀檢查不會自動擴容、升級、重啟或回滾。
 
-## 本機驗證
+Workers Paid 為 US$5／月加用量。實例上限限制資源，並非帳單硬上限。半小時檢查會刻意保持展示環境運作；黑客松後應停用此排程或拉長間隔，讓容器閒置休眠。帳單請對照 Cloudflare Billing。只在實測資源飽和後升級大小，使用本機 SQLite 時不要加多副本。
 
-```sh
-python -m pip install -r scripts/ci/requirements.txt
-python scripts/ci/validate_specs.py
-npm ci --prefix deploy/cloudflare
-npm test --prefix deploy/cloudflare
-npm run build --prefix deploy/cloudflare
-git diff --check
-```
+## 復原
 
-CI 使用 Node 22.23.2。不可用 `npm --if-present` 掩蓋缺少的產品檢查。Spec 引用但尚未建立的 scenario 測試檔會列入報告，不會算成已執行測試。
+冷啟動暫時失敗可重試，調整大小前先看資源紀錄。重新部署可能重置資料。透過 Actions 重建與發布上一個已驗證 Git revision 的 image，再核對線上 image SHA／run URL。僅回滾 Worker 不代表容器也回滾；目前不宣稱完成回滾演練。實際結果与歷史失敗見 CHECKPOINTS.zh-TW.md。
 
-## 接入產品
+[容器計價](https://developers.cloudflare.com/containers/platform/pricing/) · [用量指標](https://developers.cloudflare.com/analytics/graphql-api/tutorials/querying-container-metrics/)
 
-先向產品隊員確認框架、套件管理器與 runtime。現有 contract 提到本機 SQLite 與 process execution，不能假設與 Workers 相容；必須先確認執行環境和儲存設計，再修改 bootstrap guard。靜態網站部署不能實現那些 contract。
+## 強制截止
 
-接著以真實應用 adapter 取代 receipt Worker，新增固定相依版本的 install/typecheck/test/build、執行必要的 Docker browser journeys，並將 smoke check 改成產品健康、readiness 與服務版本驗證。部署證據與產品／LLM provenance 分開記錄，中英文與 checkpoint 一起更新。
-
-## 回滾
-
-先找到上次成功的 run，下載證據並取得 Cloudflare version ID。在環境中提供部署 token，於 deploy/cloudflare 執行 `npx wrangler deployments list`，再執行 `npx wrangler rollback <previous-version-id>`。使用該版本原始 commit 與原始 run URL 驗證 `/__deployment`。回滾不會遷移或還原資料庫。首次部署沒有上一版可還原；尚未實際演練與記錄前，不宣稱已驗證回滾。
-
-## 官方參考
-
-- [GitHub Actions 部署](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)
-- [自訂網域](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
-- [Wrangler 設定](https://developers.cloudflare.com/workers/wrangler/configuration/)
+台灣時間 2026-09-13 01:00（UTC 2026-09-12 17:00）gateway 回傳 410、Node 程序退出。監測與部署在截止後拒絕喚醒或重新發布。UTC 17:00、17:05、17:15 排程刪除僅限本次命名容器。GitHub 排程可能延誤，runtime 截止獨立運作。Codex 後續確認刪除與取消續訂；目前不宣稱未來關閉已完成。

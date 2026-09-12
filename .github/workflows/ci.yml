@@ -39,7 +39,7 @@ jobs:
         if: always()
         run: |
           echo '### CI scope' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Contract schemas and deployment infrastructure only. Product tests, UI journeys, and application readiness are not established by this job.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Contract schemas, gateway tests and container image build. Application foundation checks run in their separate job.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

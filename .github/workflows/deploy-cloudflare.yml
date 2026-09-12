@@ -1,4 +1,4 @@
-name: Deploy Cloudflare infrastructure
+name: Deploy NxtCommit application
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
     needs: ci
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     environment:
       name: cloudflare-production
       url: https://hackathon.ianjuan.com
@@ -27,12 +27,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Refuse to overwrite an unintegrated product with the bootstrap Worker
-        run: |
-          if [ -f package.json ] || [ -d src ] || [ -d server ] || [ -d apps ]; then
-            echo 'Product source detected. Integrate its build/runtime and product checks before replacing this infrastructure-only deployment.' >&2
-            exit 1
-          fi
+      - name: Refuse deployment after the hackathon deadline
+        run: python3 -c "import datetime as d; assert d.datetime.now(d.timezone.utc) < d.datetime(2026,9,12,17,tzinfo=d.timezone.utc), 'Hackathon closed; deployment refused'"
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22.23.2'
@@ -61,7 +57,15 @@ jobs:
         run: |
           mkdir -p ../../artifacts
           set -o pipefail
-          npm run deploy -- --var "COMMIT_SHA:$COMMIT_SHA" --var "GITHUB_RUN_URL:$RUN_URL" 2>&1 | tee ../../artifacts/cloudflare-deploy.log
+          python3 - <<'PYCONFIG'
+          import json, os
+          from pathlib import Path
+          p = Path('wrangler.json')
+          c = json.loads(p.read_text())
+          c['containers'][0]['image_vars'] = {'COMMIT_SHA': os.environ['COMMIT_SHA'], 'GITHUB_RUN_URL': os.environ['RUN_URL']}
+          p.write_text(json.dumps(c))
+          PYCONFIG
+          npm run deploy 2>&1 | tee ../../artifacts/cloudflare-deploy.log
       - name: Verify HTTPS and serving revision
         env:
           DEPLOYMENT_URL: https://hackathon.ianjuan.com
@@ -74,11 +78,11 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
           RESULT: ${{ job.status }}
         run: |
-          echo '### Cloudflare infrastructure checkpoint' >> "$GITHUB_STEP_SUMMARY"
+          echo '### NxtCommit application checkpoint' >> "$GITHUB_STEP_SUMMARY"
           echo "Commit: $COMMIT_SHA" >> "$GITHUB_STEP_SUMMARY"
           echo "Result: $RESULT" >> "$GITHUB_STEP_SUMMARY"
           echo 'URL: https://hackathon.ianjuan.com/__deployment' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Scope: infrastructure only; product application is not integrated.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Scope: Phase 1 foundation; ephemeral SQLite, no execution runner.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

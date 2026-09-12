@@ -1,0 +1,29 @@
+name: Shut down hackathon containers
+on:
+  schedule:
+    - cron: '0,5,15 17 12 9 *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cloudflare-nxtcommit-production
+  cancel-in-progress: false
+jobs:
+  shutdown:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Delete this deployment after the authorized cutoff
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: python3 scripts/ci/shutdown_cloudflare.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: shutdown-evidence-${{ github.run_id }}
+          path: artifacts/shutdown.json
+          retention-days: 90

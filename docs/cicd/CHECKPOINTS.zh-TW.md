@@ -56,3 +56,11 @@ CLI credential helper 沒有 GitHub 憑證。Connector 帳號 ian-juan_tmemu 為
 Node 24.19.0 已依官方 SHA256 驗證；鎖定依賴安裝回報零弱點。本機型別檢查與正式 build 通過，server 測試為 14 通過、77 TODO、零失敗。本機 Docker 因公司組織登入政策拒絕 build。新增 GitHub hosted 產品 CI job，包含鎖定安裝、型別、server 測試、build、版本檢查與 Docker foundation 瀏覽器流程；尚待發布取得 run。執行環境接入前保留產品部署 guard。
 
 驗證補記：[GitHub CI 34669746467](https://github.com/brianchou452/NxtCommit/actions/runs/34669746467) 在 feb0a21 的 contracts-and-delivery 與 application-foundation 均通過，包含 Docker foundation 瀏覽器流程。本機正式啟動的 /、/healthz、/readyz、/api/bootstrap 均回傳 200，db=true、execution.resolved=null；/api/missions 依骨架現況回傳 404。這是本機與 CI 證據，並非公開部署完成。
+
+## CP-011 — 付費容器、監測與截止／2026-09-12 03:35 UTC
+
+使用者授權 Workers Paid 與資源監測。已啟用 US$5／月加用量方案，畫面確認 Paid 為 Current plan。設定非 root Node 24 image、單一 basic 容器（¼ vCPU、1 GiB RAM、4 GB 暫存磁碟）與同一 SQLite 實例。使用者後續指定閒置兩小時休眠、台灣時間 2026-09-13 01:00（UTC 2026-09-12 17:00）關閉。已新增入口截止、Node 定時退出、截止後刪除容器及重試 workflow，以及 Codex 一次性後續任務（automation ID nxtcommit）。取消續訂尚待確認。
+
+每半小時監測 HTTP／SQLite 與 Cloudflare 資源用量。費用為估算而非帳單，缺少數據不是零用量。截止後部署與探測停止。使用者提供另一顆專用 Cloudflare token，正存入 GitHub Secrets，不進 source。實際容器上線仍待驗證。
+
+已新增本機與雲端共用的伺服器端 OpenAI Responses client、安全錯誤、output／timeout 限制、provenance、環境範本及連線檢查腳本。本機型別與 build 通過，17 測試通過、77 TODO。活動短碼不是 API key，真實連線仍需有效 key。部署接入不代表 Phase 2 runner 或 authoring routes 已完成。
