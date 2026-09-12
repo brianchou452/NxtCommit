@@ -74,3 +74,13 @@ CP-011 build 修正：GitHub CI 34670771366 找出 production Docker build 未�
 使用者明確要求撤銷取消續訂；Cloudflare Billing 已顯示 Workers Paid Active，2026/10/12 續訂。截止自動化已改為保留此訂閱。台灣時間 9/13 01:00 關閉作品仍有效，停止的是容器用量，並非訂閱月費。本機正式啟動入口的五個 endpoint 都通過；100 次請求、20 並行的 bootstrap 探測測得 p95 2.02 ms、RSS 77.59 MiB。這些是本機結果，不是 Cloudflare 容量證據。
 
 CP-012 追加 / 04:15 UTC：補上 proxy 匯出後成功啟動，HTTPS /__deployment 回傳 200，版本精確符合 022bf985585be9a4996d625907149851cf5ec4a9 與 run 34672260466。Python 預設 User-Agent 另被 Cloudflare 以 1010/403 拒絕；使用明確的 NxtCommit 服務 User-Agent 後回傳 200，沒有修改防火牆規則，已納入部署驗證。每 30 分鐘的應用程式探測會阻止閒置兩小時休眠，因此改為只讀 Container getState RPC。定時監測驗證 gateway／生命週期與 analytics，資料庫 readiness 仍於部署時檢查。
+
+## CP-013 — 正式發布與線上監測驗證 / 2026-09-12 04:19 UTC
+
+https://hackathon.ianjuan.com 已提供版本 186fea4640545716698a88143c0219e1e9e9eb52。[CI 34672509416](https://github.com/brianchou452/NxtCommit/actions/runs/34672509416) 與[部署 34672509651](https://github.com/brianchou452/NxtCommit/actions/runs/34672509651) 全部通過，涵蓋容器建置、foundation 瀏覽器流程、公開首頁／bootstrap／health／SQLite 驗證。線上 Node /__deployment 收據精確符合此 SHA 與 deployment run。歷史失敗 run 保留為問題修復證據，不刪除或改標成功。
+
+[監測 34672602388](https://github.com/brianchou452/NxtCommit/actions/runs/34672602388) 通過且無告警。Cloudflare 回傳此應用尖峰記憶體 136835072 bytes（約 130.50 MiB）、CPU p95 0.27944（約 27.94%）；依目前實測負載維持 basic／1 GiB／最多 1 台。採樣時最近 24 小時已收錄的容器毛額估算為 US$0.0005，僅反映目前短暫執行，不含月費與其他產品費用，不是整天預測或帳單。定時生命週期 RPC 不會重設閒置時間。兩小時休眠設定已測試並部署，但尚未經過完整兩小時閒置觀察。
+
+Workers Paid 為 Active，依使用者最新要求保留續訂。Runtime 截止、受時間保護的刪除 workflow 與一次性 Codex 驗證仍設定於台灣時間 9/13 01:00；未來關閉尚未發生。OpenAI 本機／雲端共用設定與限制呼叫的 client 已提交，但尚無有效 API key，不宣稱 provider 呼叫成功或 AI 產品功能完成。隊友 dev/computer-c checkout 的未提交工作保持不動。
+
+Cloudflare Worker version: `213a4d22-7a4f-46cc-9e71-da680361ec60`; image digest: `sha256:7ddfb5661277cb7c3e8a03963922a49e4a789c75d47801801511a8afd3f2a977`.
