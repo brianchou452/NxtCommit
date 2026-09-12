@@ -116,3 +116,7 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 本機暖機 marketplace probe 對照 b27a764：200 次循序請求，SQLite changes 1,600 → 0；p50 2.481 → 1.761 ms，p95 2.741 → 2.206 ms。單機隔離 seed 資料，不是正式負載或雲端吞吐主張。重現：`node --import tsx scripts/probe-projection.mjs /path/to/baseline/server/app.ts`。
 
 本機產品真實呼叫：gpt-5-mini-2025-08-07 文案 380 個回報 tokens／4,358 ms，議題建議 405 tokens／3,013 ms；重複生成沿用相同 response ID。probe 未建立 mission 或重設。明確執行 `node --import tsx scripts/check-product-ai.mjs` 可重現；部署後加 cloud URL 才驗證雲端。確認 serving identity 與產品呼叫後才追加線上證據。
+
+線上追加：[deployment 34676387844](https://github.com/brianchou452/NxtCommit/actions/runs/34676387844) 的兩個 CI job 與部署皆通過。HTTPS receipt 為 `47c564d03cc5d58f97ccdd59fd0c63ced9d294f2`、stage `phase3-integrated`。Readiness：db／worker 健康、`llmConfigured: true`、`langfuseEnabled: false`、execution demo。不宣稱外部 Langfuse 已收到資料。
+
+雲端產品驗證：gpt-5-mini-2025-08-07 文案 392 個回報 tokens／3,411 ms、議題建議 423 tokens／3,118 ms。重複文案生成沿用相同 response ID 並回傳 `cached: true`。公開重設 403，公開備份 404。操作員備份下載至 ignored `artifacts/demo-backups/verified-0.7.19.sqlite`：192,512 bytes、0600、SQLite integrity `ok`，包含四個 B-owned missions。線上驗證未重設共享資料。安全 provenance JSON 與本機效能證據位於 ignored `artifacts/product-delivery/`；私密資料庫不提交 Git。
