@@ -1,4 +1,4 @@
-"""Opt-in live demo probe: up to seven billable advice calls and one fixture mission.
+"""Opt-in live demo probe: up to eight billable advice calls and one fixture mission.
 
 Does not reset shared state, approve a run, or execute imported code. Outputs
 only measured timing/provenance, never prompts, generated text or capabilities.
@@ -32,6 +32,8 @@ def call(path, body=None, label=None):
 def advice(path, body, key, label):
     result = call(path, body, label)[key]
     rows[-1]['evidence'] = result['evidence']
+    assert result['evidence']['generator'] == 'openai', f'{label} used fallback'
+    assert result['evidence'].get('traceId'), f'{label} missing persisted trace'
     print(json.dumps(rows[-1]), flush=True)
     return result
 
@@ -48,6 +50,7 @@ try:
     assert draft['generator'] == 'openai', 'Generation used labelled fallback'
     advice('/api/campaigns/critique', {'analysis': analysis, 'draft': draft}, 'critique', 'campaign-critic')
     mission = call('/api/missions', {'analysis': analysis, 'draft': draft}, 'mission-create')['mission']
+    advice(f"/api/projects/{mission['project']['id']}/explain", None, 'plain', 'project-explanation')
     begin = time.monotonic()
     call(f"/api/missions/{mission['id']}/pledge", {'amount': mission['computeGoal']}, 'demo-funding')
     for _ in range(40):

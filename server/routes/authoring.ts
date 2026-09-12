@@ -41,7 +41,7 @@ export const authoringRoutes: RouteModule = context => {
   });
   router.post('/api/campaigns/critique', async (request, response) => {
     const epoch = services.epoch(); const { analysis, campaign } = pair(request.body ?? {});
-    const critique = await assistance.explain('campaign-critic', { source: analysis.source, title: campaign.draft.title, criteria: campaign.draft.criteria }, bilingual('Check issue grounding, actionable criteria and bilingual parity. This advice does not change the draft or its estimate.', '請檢查議題依據、可執行的驗收條件及雙語一致性；建議不會修改草稿或估算。'));
+    const critique = await assistance.explain('campaign-critic', { source: analysis.source, issue: selectedIssue(analysis, campaign.draft.issueId), title: campaign.draft.title, criteria: campaign.draft.criteria }, bilingual('Check issue grounding, actionable criteria and bilingual parity. This advice does not change the draft or its estimate.', '請檢查議題依據、可執行的驗收條件及雙語一致性；建議不會修改草稿或估算。'));
     services.assertEpoch(epoch); response.json({ critique: { ...critique, checks: (['grounding', 'actionability', 'bilingual_parity'] as const).map(kind => ({ kind, status: 'needs_review', explanation: bilingual('This advisory does not certify the draft. Compare it with the selected issue and both languages.', '此建議不構成草稿認證，請對照所選議題與兩種語言。') })) } });
   });
   router.post('/api/missions', (request, response) => {

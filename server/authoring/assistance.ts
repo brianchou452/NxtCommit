@@ -3,7 +3,8 @@ import { accessSync, constants, statSync } from 'node:fs';
 import { delimiter, isAbsolute, join } from 'node:path';
 import type { AiEvidence, AssistantResult } from '../../shared/authoring.js';
 import type { LocalizedText } from '../../shared/primitives.js';
-import { boundedJson, redactText, redactEvidence } from './analyzer.js';
+import { boundedJson, redactText } from './analyzer.js';
+import { featurePrompt, validAdvice } from './prompts.js';
 import { createOpenAIResponse } from '../services/openai.js';
 
 export const features = [
@@ -66,6 +67,7 @@ function codexBinaryAvailable(): boolean {
 
 export class Assistance {
   private readonly traces = new Map<string, TraceRecord>();
+  private readonly responseTraces = new Map<string, Promise<string | undefined>>();
   readonly counts = {
     calls: 0,
     fallback: 0,
@@ -157,7 +159,7 @@ export class Assistance {
     usage?: NonNullable<AiEvidence['usage']>;
   }> {
     this.signal?.throwIfAborted();
-    const key = createHash('sha256').update(prompt).digest('hex');
+    const key = createHash('sha256').update(`advice-v3:${this.configuration?.model}:${prompt}`).digest('hex');
     const existing = this.requests.get(key);
     if (existing && existing.expires > Date.now()) {
       this.counts.cached++;
@@ -173,7 +175,7 @@ export class Assistance {
     }
     this.active++;
     this.windowCalls++;
-    const value = this.performRequest(prompt).finally(() => {
+    const value = this.performRequest(prompt).then(result => { if (!validAdvice(result.output)) throw new Error('invalid_output'); return result; }).finally(() => {
       this.active--;
     });
     if (this.requests.size >= 64) this.requests.delete(this.requests.keys().next().value!);
@@ -183,7 +185,8 @@ export class Assistance {
     void value.catch(() => {
       if (this.requests.get(key) === entry) entry.expires = Date.now() + 10000;
     });
-    return value;
+    // Register the original continuation before deduplicated callers resume.
+    return await value;
   }
 
   private async performRequest(
@@ -209,7 +212,7 @@ export class Assistance {
     if (configuration.api === 'responses') {
       if (url.href.replace(/\/$/, '') !== 'https://api.openai.com/v1')
         throw new Error('invalid_responses_gateway');
-      const result = await createOpenAIResponse(prompt, 'bilingual-advice-v2', {
+      const result = await createOpenAIResponse(prompt, 'bilingual-advice-v3', {
         env: { OPENAI_API_KEY: configuration.apiKey, OPENAI_MODEL: configuration.model },
         fetch: this.fetcher,
         bilingual: true,
@@ -289,23 +292,14 @@ export class Assistance {
     let cacheHit = false;
     const evidence: AiEvidence = {
       generator: 'static',
-      promptVersion: `${feature}-${this.configuration?.api === 'responses' ? 'v2' : 'v1'}`,
+      promptVersion: `${feature}-v3`,
     };
     if (intent === 'demo') evidence.generator = 'demo';
     else if (this.configuration) {
       const start = performance.now();
       try {
-        const bounded = JSON.stringify(redactEvidence(facts)).slice(0, 10_000);
-        const { output, provenance, cached, usage } = await this.request(
-          `Feature: ${feature}\n<untrusted-evidence>\n${bounded}\n</untrusted-evidence>`,
-        );
-        if (
-          !this.localized(output) ||
-          /(?:tests? (?:passed|verified)|all criteria|merged|published|authenticated|測試已通過|已合併|已發布|已驗證身分)/i.test(
-            JSON.stringify(output),
-          )
-        )
-          throw new Error('invalid_claim');
+        const { output, provenance, cached, usage } = await this.request(featurePrompt(feature, facts));
+        if (!validAdvice(output)) throw new Error('invalid_output');
         if (usage) evidence.usage = usage;
         summary = output;
         cacheHit = cached === true;
@@ -331,7 +325,10 @@ export class Assistance {
       this.counts.fallback++;
     }
     if (feature === 'campaign-generation' && evidence.generator === 'static') evidence.generator = 'demo';
-    if (this.sink && !cacheHit) {
+    const existingTrace = evidence.responseId ? this.responseTraces.get(evidence.responseId) : undefined;
+    if (existingTrace) {
+      const traceId = await existingTrace; if (traceId) evidence.traceId = traceId;
+    } else if (this.sink && !cacheHit) {
       const record: TraceRecord = {
         traceId: randomBytes(16).toString('hex'),
         feature,
@@ -345,16 +342,21 @@ export class Assistance {
         outcome: evidence.generator === 'openai' ? 'success' : intent === 'demo' ? 'demo' : 'unavailable',
         release: /^[a-f0-9]{40}$/.test(process.env.COMMIT_SHA ?? '') ? process.env.COMMIT_SHA! : 'local',
       };
-      try {
-        if (await this.sink.trace(record)) {
-          if (this.traces.size >= 256) this.traces.delete(this.traces.keys().next().value!);
-          this.traces.set(record.traceId, record);
-          evidence.traceId = record.traceId;
-          this.counts.exportSuccess++;
-        } else this.counts.exportFailure++;
-      } catch {
-        this.counts.exportFailure++;
+      const sink = this.sink;
+      const exporting = (async () => {
+        try {
+          if (await sink.trace(record)) {
+            if (this.traces.size >= 256) this.traces.delete(this.traces.keys().next().value!);
+            this.traces.set(record.traceId, record); this.counts.exportSuccess++; return record.traceId;
+          } else this.counts.exportFailure++;
+        } catch { this.counts.exportFailure++; }
+        return undefined;
+      })();
+      if (evidence.responseId) {
+        if (this.responseTraces.size >= 256) this.responseTraces.delete(this.responseTraces.keys().next().value!);
+        this.responseTraces.set(evidence.responseId, exporting);
       }
+      const traceId = await exporting; if (traceId) evidence.traceId = traceId;
     }
     return { summary, evidence, affectedGate: false };
   }

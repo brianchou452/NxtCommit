@@ -8,7 +8,7 @@ for argument in "$@"; do
     exit 2
   fi
 done
-image=nxtcommit-foundation-e2e:0.1.0
+image="${E2E_IMAGE:-nxtcommit-foundation-e2e:0.1.0}"
 docker build --load -f e2e/Dockerfile -t "$image" .
 arguments=("$@")
 if [[ ${#arguments[@]} -eq 0 ]]; then arguments=(--project=foundation --project=product); fi
