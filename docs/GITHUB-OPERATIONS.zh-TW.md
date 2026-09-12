@@ -1,6 +1,6 @@
 # GitHub 交付操作與事故紀錄
 
-> **NxtCommit 黑客松範圍（2026-09-12）：** 下文是匯入的 CommonCommit 歷史參考。目前本 repo 部署的是 Cloudflare 基礎設施 Worker；現行流程見 [Cloudflare 維運手冊](cicd/RUNBOOK.zh-TW.md)，實際證據見 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)。下文 GitLab／Argo 歷史結果不代表 NxtCommit 部署成功。
+> **2026-09-12 現況：** main 已部署 Phase 1 foundation container，並驗證本機與雲端 Responses 呼叫；不再只是 infrastructure Worker。A／B／C 與本機 experiments 尚須分支整合。以 [分支盤點](BRANCHES.zh-TW.md)、[Cloudflare 操作](cicd/RUNBOOK.zh-TW.md) 與 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準。以下 CommonCommit／GitLab／Argo 內容保留為歷史參考，不代表本 repo 現況。
 
 [English canonical](GITHUB-OPERATIONS.md)
 

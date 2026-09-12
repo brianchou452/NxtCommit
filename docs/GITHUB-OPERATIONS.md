@@ -1,6 +1,6 @@
 # GitHub delivery operations and incident record
 
-> **NxtCommit hackathon scope (2026-09-12):** The material below was imported as historical CommonCommit reference. This repo currently delivers an infrastructure-only Cloudflare Worker; its active runbook is [Cloudflare delivery](cicd/RUNBOOK.md) and its evidence is [checkpoints](cicd/CHECKPOINTS.md). The historical GitLab/Argo results below do not establish a NxtCommit deployment.
+> **Current scope, 2026-09-12:** main has a deployed Phase 1 foundation container and verified local/cloud Responses calls; it is no longer only an infrastructure Worker. A/B/C and local experiments still require branch integration. Use the [branch inventory](BRANCHES.md), [Cloudflare runbook](cicd/RUNBOOK.md) and [checkpoints](cicd/CHECKPOINTS.md). The CommonCommit/GitLab/Argo material below remains historical reference, not this repository's current state.
 
 [繁體中文](GITHUB-OPERATIONS.zh-TW.md)
 

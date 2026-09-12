@@ -102,3 +102,7 @@ User requested warning before API credit exhaustion. In Personal Organization, c
 ## CP-017 — Credential replacement handoff / 2026-09-12
 
 Documented key name, project, Responses-only permission, one-day expiry selection, separate credit/key lifecycles, local and Cloudflare replacement steps, restart and actual-call verification, old-key revocation, and the unchanged hosting cutoff in both OpenAI runbooks. Corrected stale alert text to reflect CP-016. Documentation only; no new key, provider call or deployment.
+
+## CP018 — Collaboration and local branch inventory (2026-09-12)
+
+Inspected seven local branch refs across two repositories (including two main refs), preserving teammate checkouts. Added bilingual collaboration/branch guides and a tracked-tree JSON inventory; rewrote README/development entrypoints and corrected infrastructure versus historical product scope. Recorded C/chaos Chat Completions versus main Responses permission differences, integration ownership and evidence requirements. Documentation only: no feature merge, product test rerun or deployment. Validation: local links in the new entrypoints, inventory object-tree consistency and git diff --check.

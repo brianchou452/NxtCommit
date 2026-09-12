@@ -102,3 +102,7 @@ CP-014 雲端修正：容器檢查已進入編譯後 client，但回傳不含敏
 ## CP-017 — 金鑰更換交接文件 / 2026-09-12
 
 雙語 OpenAI 手冊已記錄 key 名稱、專案、僅 Responses 權限、建立時選擇一天期限、額度與金鑰生命週期差異、本機／Cloudflare 更換步驟、重啟與真實呼叫驗證、舊 key 撤銷，以及不變的 hosting 截止。修正告警舊文案以符合 CP-016。本次僅文件，未建立新 key、呼叫 provider 或部署。
+
+## CP018 — 協作文件與本機分支盤點（2026-09-12）
+
+盤點兩份 repository 的七個本機 branch ref（含兩份 main），保留所有隊員 checkout。新增雙語協作／分支指南與 tracked tree JSON；重寫 README／開發入口，修正基礎設施與產品歷史混淆。記錄 C／chaos Chat Completions 與 main Responses 權限差異、整合責任與證據要求。本次只改文件，未合併功能、未重跑產品測試、未部署。驗證：新增入口的本機連結、清單 object tree 一致性與 git diff --check。

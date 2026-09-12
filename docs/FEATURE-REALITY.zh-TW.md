@@ -1,6 +1,6 @@
 # 功能真實性矩陣
 
-> **NxtCommit 黑客松範圍（2026-09-12）：** 此 checkout 現在包含[電腦 A／Phase 1 共用骨架](PHASE1-FOUNDATION.zh-TW.md)。Cloudflare 交付仍僅為基礎設施；現行[維運手冊](cicd/RUNBOOK.zh-TW.md)與 [checkpoints](cicd/CHECKPOINTS.zh-TW.md)不代表產品已部署。下方 CommonCommit 完整功能及 GitLab／Argo 結果是匯入歷史背景，不代表此處已實作或部署。
+> **2026-09-12 現況：** main 已部署 Phase 1 foundation container，並驗證本機與雲端 Responses 呼叫；不再只是 infrastructure Worker。A／B／C 與本機 experiments 尚須分支整合。以 [分支盤點](BRANCHES.zh-TW.md)、[Cloudflare 操作](cicd/RUNBOOK.zh-TW.md) 與 [checkpoint](cicd/CHECKPOINTS.zh-TW.md) 為準。以下 CommonCommit／GitLab／Argo 內容保留為歷史參考，不代表本 repo 現況。
 
 [English canonical](FEATURE-REALITY.md)
 
