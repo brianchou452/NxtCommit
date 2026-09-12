@@ -8,7 +8,9 @@
 
 ## 發布與驗證
 
-main 推送先跑 contracts／gateway、Docker image dry-run build、Node 24 型別／server 測試／build、版本檢查與 Docker foundation 瀏覽器流程，成功後才部署。Wrangler 將 Git SHA 與 Actions run URL 編入 image；`/__deployment` 由實際 Node 映像回覆，非前置 Worker。Smoke 同時驗證收據、首頁、bootstrap、liveness 與 SQLite readiness。
+見 [CI 速度與實測展示容量](PERFORMANCE.zh-TW.md)。Main 改為一份 reusable CI gate；application 檢查共用一次固定 Docker 建置，仍執行所有 journey。Worker dry-run 僅 bundle Worker，正式容器於部署時建置。
+
+main 推送先跑 contracts／gateway、Worker bundle dry-run、Node 24 型別／server 測試／build、版本檢查與 Docker foundation 瀏覽器流程，成功後才部署。Wrangler 在部署時建置正式映像，將 Git SHA 與 Actions run URL 編入 image；`/__deployment` 由實際 Node 映像回覆，非前置 Worker。Smoke 同時驗證收據、首頁、bootstrap、liveness 與 SQLite readiness。
 
 Worker 與 image 一起發布，初次配置可能耗時數分鐘。503 代表容器不可用，不以佔位頁假裝成功。`cloudflare-production` 序列部署，Actions 固定 SHA，不保留 Git 憑證，證據 artifacts 保留 30 天。
 

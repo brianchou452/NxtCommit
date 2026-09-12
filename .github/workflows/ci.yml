@@ -3,7 +3,8 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, 'codex/**']
+    # Main is checked exactly once by deploy-cloudflare's reusable CI job.
+    branches: ['codex/**']
   workflow_dispatch:
   workflow_call:
 
@@ -34,12 +35,12 @@ jobs:
       - name: Test deployment truth boundaries
         run: npm test --prefix deploy/cloudflare
       - name: Validate and bundle Worker without credentials
-        run: npm run build --prefix deploy/cloudflare
+        run: npm run build --prefix deploy/cloudflare -- --containers-rollout=none
       - name: Describe verification scope
         if: always()
         run: |
           echo '### CI scope' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Contract schemas, gateway tests and container image build. Application foundation checks run in their separate job.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Contract schemas and Worker bundle. The application is built and tested in Docker; production image construction remains required at deployment. Application foundation checks run in their separate job.' >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
@@ -55,20 +56,13 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '24.19.0'
-          cache: npm
-          cache-dependency-path: package-lock.json
-      - run: npm ci --ignore-scripts
-      - name: Typecheck, server tests and production build
+      - name: Build once, typecheck, test and run browser journeys in Docker
+        env:
+          E2E_CHECK_APPLICATION: '1'
         run: |
           mkdir -p artifacts
           set -o pipefail
-          npm run check 2>&1 | tee artifacts/application-check.log
-      - run: npm run check-version
-      - name: Foundation browser journeys in Docker
-        run: npm run test:e2e
+          bash scripts/playwright-docker.sh 2>&1 | tee artifacts/application-check.log
       - name: Record application verification scope
         if: always()
         run: |
